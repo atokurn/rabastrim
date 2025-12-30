@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback } from "react";
-import { Play, Pause, ChevronLeft, Loader2, Share2, Heart, MoreHorizontal, ChevronRight, MessageCircle } from "lucide-react";
+import { Play, Pause, ChevronLeft, Loader2, Share2, Heart, MoreHorizontal, ChevronRight, MessageCircle, Settings as SettingsIcon, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useVideoPlayer } from "@/hooks/use-video-player";
@@ -57,7 +57,10 @@ export function MobilePlayer({
     } = useVideoPlayer({ src, dramaId, provider, nextEpisode });
 
     const [isSheetOpen, setIsSheetOpen] = useState(false);
+    const [isSettingsOpen, setIsSettingsOpen] = useState(false);
     const [activeTab, setActiveTab] = useState<'details' | 'episodes'>('episodes');
+    const [showControls, setShowControls] = useState(true);
+    const controlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
     const formatTime = (time: number) => {
         if (!time || isNaN(time)) return "00:00";
@@ -70,6 +73,45 @@ export function MobilePlayer({
         router.push(`/watch/${dramaId}?ep=${epNum}&provider=${provider}`);
         setIsSheetOpen(false);
     };
+
+    // Auto-hide controls logic
+    const resetControls = useCallback(() => {
+        setShowControls(true);
+        if (controlsTimeoutRef.current) clearTimeout(controlsTimeoutRef.current);
+        if (isPlaying && !isSheetOpen && !isSettingsOpen) {
+            controlsTimeoutRef.current = setTimeout(() => setShowControls(false), 3000);
+        }
+    }, [isPlaying, isSheetOpen, isSettingsOpen]);
+
+    useEffect(() => {
+        resetControls();
+        const container = containerRef.current;
+        const handleInteraction = () => resetControls();
+
+        if (container) {
+            container.addEventListener('click', handleInteraction);
+            container.addEventListener('touchstart', handleInteraction);
+            container.addEventListener('mousemove', handleInteraction);
+        }
+        return () => {
+            if (container) {
+                container.removeEventListener('click', handleInteraction);
+                container.removeEventListener('touchstart', handleInteraction);
+                container.removeEventListener('mousemove', handleInteraction);
+            }
+            if (controlsTimeoutRef.current) clearTimeout(controlsTimeoutRef.current);
+        };
+    }, [resetControls]);
+
+    useEffect(() => {
+        if (isSheetOpen || isSettingsOpen) {
+            if (controlsTimeoutRef.current) clearTimeout(controlsTimeoutRef.current);
+            setShowControls(true);
+        } else {
+            resetControls();
+        }
+    }, [isSheetOpen, isSettingsOpen, resetControls]);
+
 
     // Derived formatting
     const progressPercent = duration ? (currentTime / duration) * 100 : 0;
@@ -97,22 +139,20 @@ export function MobilePlayer({
                 onWaiting={() => setIsLoading(true)}
                 onPlaying={() => setIsLoading(false)}
                 onEnded={() => {
-                    // Auto loop or next? Usually dramas go next.
                     if (nextEpisode) goToEpisode(nextEpisode.number);
                     else setIsPlaying(false);
                 }}
                 onClick={togglePlay}
             />
 
-            {/* Loading Spinner */}
             {isLoading && (
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
                     <Loader2 className="w-12 h-12 text-white/50 animate-spin" />
                 </div>
             )}
 
-            {/* Play/Pause Center Icon (Fades in briefly on toggle) */}
-            {!isPlaying && !isLoading && !isSheetOpen && (
+            {/* Play/Pause Center Icon */}
+            {!isPlaying && !isLoading && !isSheetOpen && !isSettingsOpen && (
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
                     <div className="w-16 h-16 bg-black/30 rounded-full flex items-center justify-center backdrop-blur-sm animate-in fade-in zoom-in duration-200">
                         <Play className="w-8 h-8 text-white fill-white ml-1" />
@@ -120,24 +160,29 @@ export function MobilePlayer({
                 </div>
             )}
 
-            {/* === 2. Overlays (Visible when Sheet is Closed) === */}
-            <div className={cn(
-                "absolute inset-0 pointer-events-none transition-opacity duration-300",
+            {/* === 2. Overlays (Visible based on showControls) === */}
+            <div className={cn("absolute inset-0 pointer-events-none transition-opacity duration-500",
                 isSheetOpen ? "opacity-0" : "opacity-100"
             )}>
 
-                {/* Top Bar */}
-                <div className="absolute top-0 left-0 right-0 p-4 pt-8 flex justify-between items-start bg-gradient-to-b from-black/60 to-transparent pointer-events-auto">
+                {/* Top Bar (Title & Back) - Hides automatically */}
+                <div className={cn(
+                    "absolute top-0 left-0 right-0 p-4 pt-8 flex justify-between items-start bg-gradient-to-b from-black/60 to-transparent pointer-events-auto transition-opacity duration-300",
+                    showControls ? "opacity-100" : "opacity-0"
+                )}>
                     <button onClick={() => router.back()} className="text-white hover:opacity-70">
-                        <ChevronLeft className="w-8 h-8" />
+                        <ChevronLeft className="w-8 h-8 shadow-sm" />
                     </button>
-                    <button className="text-white hover:opacity-70">
-                        <MoreHorizontal className="w-8 h-8" />
+                    <button onClick={() => setIsSettingsOpen(true)} className="text-white hover:opacity-70">
+                        <MoreHorizontal className="w-8 h-8 shadow-sm" />
                     </button>
                 </div>
 
-                {/* Right Sidebar Actions */}
-                <div className="absolute right-2 bottom-32 flex flex-col gap-6 items-center pointer-events-auto z-20">
+                {/* Right Sidebar Actions - Hides automatically */}
+                <div className={cn(
+                    "absolute right-2 bottom-32 flex flex-col gap-6 items-center pointer-events-auto z-20 transition-opacity duration-300",
+                    showControls ? "opacity-100" : "opacity-0"
+                )}>
                     <button className="flex flex-col items-center gap-1 group">
                         <div className="p-2 rounded-full bg-black/20 backdrop-blur-sm group-active:scale-90 transition-transform">
                             <Heart className="w-8 h-8 text-white stroke-[1.5px]" />
@@ -160,8 +205,11 @@ export function MobilePlayer({
                     </button>
                 </div>
 
-                {/* Bottom Left Info */}
-                <div className="absolute left-0 right-16 bottom-16 px-4 flex flex-col items-start gap-2 pointer-events-auto z-10 text-shadow-lg">
+                {/* Bottom Left Info - Hides automatically */}
+                <div className={cn(
+                    "absolute left-0 right-16 bottom-16 px-4 flex flex-col items-start gap-2 pointer-events-auto z-10 text-shadow-lg transition-opacity duration-300",
+                    showControls ? "opacity-100" : "opacity-0"
+                )}>
                     <h1 className="text-white font-bold text-lg leading-tight line-clamp-2">
                         <span className="mr-2 opacity-70">Ep.{currentEpisodeNumber}</span>
                         {title}
@@ -173,12 +221,14 @@ export function MobilePlayer({
                     )}
                 </div>
 
-                {/* Bottom Progress Bar */}
-                <div className="absolute bottom-12 left-0 right-0 h-1 bg-white/30 pointer-events-auto">
+                {/* Progress Bar - ALWAYS VISIBLE (requested) */}
+                <div className="absolute bottom-12 left-0 right-0 h-1 bg-white/30 pointer-events-auto z-20">
                     <div
-                        className="h-full bg-white relative"
+                        className="h-full bg-[#00cc55] relative"
                         style={{ width: `${progressPercent}%` }}
-                    />
+                    >
+                        <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-white rounded-full shadow" />
+                    </div>
                     <input
                         type="range"
                         min={0}
@@ -189,16 +239,19 @@ export function MobilePlayer({
                     />
                 </div>
 
-                {/* Bottom Episode Bar */}
+                {/* Bottom Episode Bar - ALWAYS VISIBLE (requested) */}
                 <button
                     onClick={() => { setIsSheetOpen(true); setActiveTab('episodes'); }}
-                    className="absolute bottom-0 left-0 right-0 h-12 bg-[#0f0f0f] flex items-center justify-between px-4 pointer-events-auto active:bg-gray-900 transition-colors z-20"
+                    className="absolute bottom-0 left-0 right-0 h-12 bg-[#000000] flex items-center justify-between px-4 pointer-events-auto active:bg-gray-900 transition-colors z-20"
                 >
                     <div className="flex items-center gap-2 text-white/90 text-sm font-medium">
                         <Play className="w-4 h-4 fill-white text-white" />
                         <span>Total {totalEpisodes} episode</span>
                     </div>
-                    <ChevronRight className="w-5 h-5 text-gray-400" />
+                    <div className="flex items-center gap-2 text-xs text-gray-400">
+                        <span>Pilih episode</span>
+                        <ChevronRight className="w-5 h-5" />
+                    </div>
                 </button>
             </div>
 
@@ -208,8 +261,8 @@ export function MobilePlayer({
                 isSheetOpen ? "translate-y-0" : "translate-y-full"
             )}>
                 {/* Drag Handle / Close */}
-                <div className="h-12 flex items-center justify-center shrink-0 cursor-pointer border-b border-white/10" onClick={() => setIsSheetOpen(false)}>
-                    <div className="w-10 h-1 bg-white/20 rounded-full" />
+                <div className="h-10 flex items-center justify-center shrink-0 cursor-pointer border-b border-white/5" onClick={() => setIsSheetOpen(false)}>
+                    <div className="w-12 h-1 bg-white/20 rounded-full" />
                 </div>
 
                 {/* Drama Header Info */}
@@ -273,6 +326,7 @@ export function MobilePlayer({
                                     >
                                         <span className={cn("z-10", i + 1 === currentEpisodeNumber && "scale-125 font-bold")}>{i + 1}</span>
                                         {i + 1 === currentEpisodeNumber && <div className="absolute bottom-1 w-1 h-1 bg-[#00cc55] rounded-full" />}
+                                        {i > 10 && <div className="absolute top-0 right-0 w-2 h-2 bg-[#b68d40] rounded-bl-full" />}
                                     </button>
                                 ))}
                             </div>
@@ -304,6 +358,78 @@ export function MobilePlayer({
                     )}
                 </div>
             </div>
+
+            {/* === 4. Settings Drawer === */}
+            <div className={cn(
+                "absolute inset-0 z-[60] bg-black/60 backdrop-blur-sm transition-opacity duration-300",
+                isSettingsOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+            )} onClick={() => setIsSettingsOpen(false)}>
+                <div
+                    className={cn(
+                        "absolute bottom-0 left-0 right-0 bg-[#121212] rounded-t-xl overflow-hidden transition-transform duration-300",
+                        isSettingsOpen ? "translate-y-0" : "translate-y-full"
+                    )}
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    <div className="space-y-1">
+                        <button className="w-full flex justify-between items-center p-4 border-b border-white/5 active:bg-white/5">
+                            <div className="flex items-center gap-3">
+                                <div className="p-1 border border-white rounded text-[10px] uppercase px-1.5">CC</div>
+                                <span className="text-white text-sm font-medium">Subtitle</span>
+                            </div>
+                            <div className="flex items-center gap-2 text-gray-400 text-xs">
+                                <span>Bahasa Indonesia</span>
+                                <ChevronRight className="w-4 h-4" />
+                            </div>
+                        </button>
+
+                        <button className="w-full flex justify-between items-center p-4 border-b border-white/5 active:bg-white/5">
+                            <div className="flex items-center gap-3">
+                                <span className="font-bold text-white text-xs px-1">🔊</span>
+                                <span className="text-white text-sm font-medium">Dubbing</span>
+                            </div>
+                            <div className="flex items-center gap-2 text-gray-400 text-xs">
+                                <span>Bahasa Mandarin</span>
+                                <ChevronRight className="w-4 h-4" />
+                            </div>
+                        </button>
+
+                        <button className="w-full flex justify-between items-center p-4 border-b border-white/5 active:bg-white/5">
+                            <div className="flex items-center gap-3">
+                                <div className="p-0.5 border border-white rounded text-[9px] font-bold px-1">HQ</div>
+                                <span className="text-white text-sm font-medium">Kualitas</span>
+                            </div>
+                            <div className="flex items-center gap-2 text-gray-400 text-xs">
+                                <span>4K</span>
+                                <ChevronRight className="w-4 h-4" />
+                            </div>
+                        </button>
+
+                        <button className="w-full flex justify-between items-center p-4 border-b border-white/5 active:bg-white/5" onClick={() => {
+                            const rates = [1.0, 1.25, 1.5, 2.0];
+                            const nextRate = rates[(rates.indexOf(playbackRate) + 1) % rates.length];
+                            changeSpeed(nextRate);
+                        }}>
+                            <div className="flex items-center gap-3">
+                                <Play className="w-4 h-4 text-white fill-white" />
+                                <span className="text-white text-sm font-medium">Kelipatan laju</span>
+                            </div>
+                            <div className="flex items-center gap-2 text-gray-400 text-xs">
+                                <span>{playbackRate.toFixed(1)}X</span>
+                                <ChevronRight className="w-4 h-4" />
+                            </div>
+                        </button>
+                    </div>
+
+                    <button
+                        className="w-full p-4 text-center text-white text-sm font-medium border-t border-white/10 active:bg-white/5"
+                        onClick={() => setIsSettingsOpen(false)}
+                    >
+                        Batal
+                    </button>
+                </div>
+            </div>
+
         </div>
     );
 }
