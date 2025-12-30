@@ -78,7 +78,8 @@ export function MobilePlayer({
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
     const [activeTab, setActiveTab] = useState<'details' | 'episodes'>('episodes');
-    const [showControls, setShowControls] = useState(true);
+    const [showControls, setShowControls] = useState(false);
+    const [hasInteracted, setHasInteracted] = useState(false);
     const controlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
     // Settings States
@@ -101,6 +102,9 @@ export function MobilePlayer({
     const videoTouchStartY = useRef<number>(0);
     const videoTouchStartX = useRef<number>(0);
 
+    // Transition Animation State
+    const [slideDirection, setSlideDirection] = useState<'up' | 'down' | null>(null);
+
     const formatTime = (time: number) => {
         if (!time || isNaN(time)) return "00:00";
         const minutes = Math.floor(time / 60);
@@ -116,17 +120,25 @@ export function MobilePlayer({
 
     // Auto-hide controls logic
     const resetControls = useCallback(() => {
+        // Don't show controls during episode transition or if user hasn't interacted
+        if (isChangingEpisode || !hasInteracted) {
+            setShowControls(false);
+            return;
+        }
         setShowControls(true);
         if (controlsTimeoutRef.current) clearTimeout(controlsTimeoutRef.current);
         if (isPlaying && !isSheetOpen && !isSettingsOpen) {
             controlsTimeoutRef.current = setTimeout(() => setShowControls(false), 3000);
         }
-    }, [isPlaying, isSheetOpen, isSettingsOpen]);
+    }, [isPlaying, isSheetOpen, isSettingsOpen, isChangingEpisode, hasInteracted]);
 
     useEffect(() => {
         resetControls();
         const container = containerRef.current;
-        const handleInteraction = () => resetControls();
+        const handleInteraction = () => {
+            setHasInteracted(true);
+            resetControls();
+        };
         if (container) {
             container.addEventListener('click', handleInteraction);
             container.addEventListener('touchstart', handleInteraction);
@@ -209,12 +221,20 @@ export function MobilePlayer({
 
         // Only vertical swipe if more vertical than horizontal
         if (Math.abs(deltaY) > Math.abs(deltaX) && Math.abs(deltaY) > threshold) {
-            if (deltaY < 0 && nextEpisode) {
+            if (deltaY < 0 && currentEpisodeNum < totalEpisodes) {
                 // SWIPE UP = Next Episode
-                changeEpisode(currentEpisodeNum + 1);
+                setSlideDirection('up');
+                setTimeout(() => {
+                    changeEpisode(currentEpisodeNum + 1);
+                    setTimeout(() => setSlideDirection(null), 400);
+                }, 50);
             } else if (deltaY > 0 && currentEpisodeNum > 1) {
                 // SWIPE DOWN = Previous Episode
-                changeEpisode(currentEpisodeNum - 1);
+                setSlideDirection('down');
+                setTimeout(() => {
+                    changeEpisode(currentEpisodeNum - 1);
+                    setTimeout(() => setSlideDirection(null), 400);
+                }, 50);
             }
         }
     };
@@ -231,7 +251,12 @@ export function MobilePlayer({
                 ref={videoRef}
                 src={src}
                 poster={poster}
-                className="absolute inset-0 w-full h-full object-contain bg-black"
+                className={cn(
+                    "absolute inset-0 w-full h-full object-contain bg-black transition-all duration-300 ease-out",
+                    slideDirection === 'up' && "opacity-0 -translate-y-20",
+                    slideDirection === 'down' && "opacity-0 translate-y-20",
+                    !slideDirection && "opacity-100 translate-y-0"
+                )}
                 autoPlay
                 playsInline
                 onPlay={() => setIsPlaying(true)}
@@ -245,7 +270,8 @@ export function MobilePlayer({
                 onWaiting={() => setIsLoading(true)}
                 onPlaying={() => setIsLoading(false)}
                 onEnded={() => {
-                    if (nextEpisode) goToEpisode(nextEpisode.number);
+                    setHasInteracted(false); // Reset interaction on episode end
+                    if (currentEpisodeNum < totalEpisodes) goToEpisode(currentEpisodeNum + 1);
                     else setIsPlaying(false);
                 }}
                 onClick={togglePlay}
@@ -274,7 +300,7 @@ export function MobilePlayer({
                     "absolute top-0 left-0 right-0 p-4 pt-8 flex justify-between items-start bg-gradient-to-b from-black/60 to-transparent pointer-events-auto transition-opacity duration-300",
                     showControls ? "opacity-100" : "opacity-0"
                 )}>
-                    <button onClick={() => router.back()} className="text-white hover:opacity-70">
+                    <button onClick={() => router.push('/')} className="text-white hover:opacity-70">
                         <ChevronLeft className="w-8 h-8 shadow-sm" />
                     </button>
                     <button onClick={() => setIsSettingsOpen(true)} className="text-white hover:opacity-70">

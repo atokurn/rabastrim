@@ -67,7 +67,8 @@ export function DesktopPlayer({
     });
 
     const [isFullscreen, setIsFullscreen] = useState(false);
-    const [showControls, setShowControls] = useState(true);
+    const [showControls, setShowControls] = useState(false);
+    const [hasInteracted, setHasInteracted] = useState(false);
 
     const formatTime = (time: number) => {
         if (!time || isNaN(time)) return "00:00";
@@ -91,10 +92,62 @@ export function DesktopPlayer({
         router.push(`/watch/${dramaId}?ep=${epNum}&provider=${provider}`);
     };
 
+    // Keyboard shortcuts
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            // Ignore if typing in an input
+            if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+
+            setHasInteracted(true);
+
+            switch (e.key.toLowerCase()) {
+                case ' ':
+                case 'k':
+                    e.preventDefault();
+                    togglePlay();
+                    break;
+                case 'arrowleft':
+                    e.preventDefault();
+                    if (videoRef.current) videoRef.current.currentTime -= 10;
+                    break;
+                case 'arrowright':
+                    e.preventDefault();
+                    if (videoRef.current) videoRef.current.currentTime += 10;
+                    break;
+                case 'arrowup':
+                    e.preventDefault();
+                    if (videoRef.current) videoRef.current.volume = Math.min(1, videoRef.current.volume + 0.1);
+                    break;
+                case 'arrowdown':
+                    e.preventDefault();
+                    if (videoRef.current) videoRef.current.volume = Math.max(0, videoRef.current.volume - 0.1);
+                    break;
+                case 'm':
+                    toggleMute();
+                    break;
+                case 'f':
+                    toggleFullscreen();
+                    break;
+                case 'n':
+                    if (currentEpisodeNumber < totalEpisodes) goToEpisode(currentEpisodeNumber + 1);
+                    break;
+                case 'p':
+                    if (currentEpisodeNumber > 1) goToEpisode(currentEpisodeNumber - 1);
+                    break;
+                case 'escape':
+                    if (document.fullscreenElement) document.exitFullscreen();
+                    break;
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [togglePlay, toggleMute, currentEpisodeNumber, totalEpisodes, dramaId, provider]);
+
     return (
         <div ref={containerRef}
             className="w-full h-full bg-black relative group overflow-hidden md:aspect-video rounded-lg"
-            onMouseEnter={() => setShowControls(true)}
+            onMouseEnter={() => { setHasInteracted(true); setShowControls(true); }}
             onMouseLeave={() => isPlaying && setShowControls(false)}
         >
             <video
@@ -118,8 +171,8 @@ export function DesktopPlayer({
                 onPlaying={() => setIsLoading(false)}
                 onEnded={() => {
                     setIsPlaying(false);
-                    setShowControls(true);
-                    if (nextEpisode) goToEpisode(nextEpisode.number);
+                    setHasInteracted(false); // Reset interaction on episode end
+                    if (currentEpisodeNumber < totalEpisodes) goToEpisode(currentEpisodeNumber + 1);
                 }}
             />
 
@@ -132,11 +185,11 @@ export function DesktopPlayer({
             {/* Controls Overlay */}
             <div className={cn(
                 "absolute inset-0 bg-black/40 flex flex-col justify-end transition-opacity duration-200",
-                showControls || !isPlaying ? "opacity-100 visible" : "opacity-0 invisible"
+                (showControls && !isLoading) || (hasInteracted && !isPlaying && !isLoading) ? "opacity-100 visible" : "opacity-0 invisible"
             )}>
                 {/* Top Bar (Title) */}
                 <div className="absolute top-0 left-0 right-0 p-4 bg-gradient-to-b from-black/80 to-transparent flex items-center gap-4">
-                    <button onClick={() => router.back()} className="text-white hover:bg-white/20 p-2 rounded-full">
+                    <button onClick={() => router.push('/')} className="text-white hover:bg-white/20 p-2 rounded-full">
                         <ChevronLeft className="w-6 h-6" />
                     </button>
                     <h1 className="text-white font-medium text-lg drop-shadow">{title}</h1>

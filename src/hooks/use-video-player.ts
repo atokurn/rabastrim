@@ -88,6 +88,12 @@ export function useVideoPlayer({
     const [currentSrc, setCurrentSrc] = useState(src);
     const [isChangingEpisode, setIsChangingEpisode] = useState(false);
 
+    // Sync episode state when props change (e.g., on initial load or page navigation)
+    useEffect(() => {
+        setCurrentEpisodeNum(currentEpisodeNumber);
+        setCurrentSrc(src);
+    }, [currentEpisodeNumber, src]);
+
     // ===== EPISODE BUFFER POOL =====
     const episodeBuffer = useRef<Map<number, string>>(new Map());
     const lastSaveTime = useRef<number>(0);
@@ -123,13 +129,19 @@ export function useVideoPlayer({
 
     // Preload adjacent episodes when current changes
     useEffect(() => {
-        if (nextEpisode) preloadEpisode(nextEpisode.number);
-        if (prevEpisode) preloadEpisode(prevEpisode.number);
+        // Preload Previous (-1)
+        if (currentEpisodeNum > 1) {
+            preloadEpisode(currentEpisodeNum - 1);
+        }
+        // Preload Next (+1)
+        if (currentEpisodeNum < totalEpisodes) {
+            preloadEpisode(currentEpisodeNum + 1);
+        }
         // Also preload +2 for smoother experience
         if (currentEpisodeNum + 2 <= totalEpisodes) {
             preloadEpisode(currentEpisodeNum + 2);
         }
-    }, [currentEpisodeNum, nextEpisode, prevEpisode, preloadEpisode, totalEpisodes]);
+    }, [currentEpisodeNum, totalEpisodes, preloadEpisode]);
 
     // ===== CHANGE EPISODE (Seamless) =====
     const changeEpisode = useCallback(async (episodeNum: number) => {
