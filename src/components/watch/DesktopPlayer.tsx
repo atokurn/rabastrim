@@ -16,6 +16,10 @@ interface DesktopPlayerProps {
     totalEpisodes: number;
     episodes: Array<{ id: string; number: number; videoUrl: string | null }>;
     nextEpisode?: { number: number };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    drama?: any;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    recommendations?: any[];
 }
 
 export function DesktopPlayer({

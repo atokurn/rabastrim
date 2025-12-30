@@ -5,7 +5,7 @@ import { useMediaQuery } from "@/hooks/use-media-query";
 import { MobilePlayer } from "./MobilePlayer";
 import { DesktopPlayer } from "./DesktopPlayer";
 
-interface VideoPlayerProps {
+export interface VideoPlayerProps {
     src: string;
     poster?: string;
     title: string;
@@ -15,6 +15,10 @@ interface VideoPlayerProps {
     totalEpisodes: number;
     episodes: Array<{ id: string; number: number; videoUrl: string | null }>;
     nextEpisode?: { number: number };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    drama?: any;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    recommendations?: any[];
 }
 
 export function VideoPlayer(props: VideoPlayerProps) {

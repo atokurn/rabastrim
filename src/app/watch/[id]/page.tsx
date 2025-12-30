@@ -240,6 +240,8 @@ export default async function WatchPage({ params, searchParams }: WatchPageProps
                 totalEpisodes={totalEps}
                 episodes={episodes}
                 nextEpisode={nextEpisode}
+                drama={drama}
+                recommendations={recommendations}
             />
 
             <div className="container mx-auto px-0 md:px-4 py-4 hidden lg:grid grid-cols-1 lg:grid-cols-3 gap-8">
