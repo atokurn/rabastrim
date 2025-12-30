@@ -56,11 +56,19 @@ export function MobilePlayer({
         changeSpeed
     } = useVideoPlayer({ src, dramaId, provider, nextEpisode });
 
+    // Drawer States
     const [isSheetOpen, setIsSheetOpen] = useState(false);
+    const [isSheetFull, setIsSheetFull] = useState(false); // New state for fullscreen drawer
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+
     const [activeTab, setActiveTab] = useState<'details' | 'episodes'>('episodes');
     const [showControls, setShowControls] = useState(true);
     const controlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+    // Touch Handling References
+    const touchStartY = useRef<number>(0);
+    const drawerRef = useRef<HTMLDivElement>(null);
+    const contentRef = useRef<HTMLDivElement>(null);
 
     const formatTime = (time: number) => {
         if (!time || isNaN(time)) return "00:00";
@@ -72,6 +80,7 @@ export function MobilePlayer({
     const goToEpisode = (epNum: number) => {
         router.push(`/watch/${dramaId}?ep=${epNum}&provider=${provider}`);
         setIsSheetOpen(false);
+        setIsSheetFull(false);
     };
 
     // Auto-hide controls logic
@@ -87,7 +96,6 @@ export function MobilePlayer({
         resetControls();
         const container = containerRef.current;
         const handleInteraction = () => resetControls();
-
         if (container) {
             container.addEventListener('click', handleInteraction);
             container.addEventListener('touchstart', handleInteraction);
@@ -103,23 +111,63 @@ export function MobilePlayer({
         };
     }, [resetControls]);
 
+    // Lock body scroll when drawer is open
     useEffect(() => {
-        if (isSheetOpen || isSettingsOpen) {
-            if (controlsTimeoutRef.current) clearTimeout(controlsTimeoutRef.current);
-            setShowControls(true);
+        if (isSheetOpen) {
+            document.body.style.overflow = 'hidden';
+            document.body.style.overscrollBehavior = 'none'; // Prevent pull-to-refresh on body
         } else {
-            resetControls();
+            document.body.style.overflow = '';
+            document.body.style.overscrollBehavior = '';
         }
-    }, [isSheetOpen, isSettingsOpen, resetControls]);
+        return () => {
+            document.body.style.overflow = '';
+            document.body.style.overscrollBehavior = '';
+        };
+    }, [isSheetOpen]);
 
 
-    // Derived formatting
+    const handleTouchStart = (e: React.TouchEvent) => {
+        touchStartY.current = e.touches[0].clientY;
+    };
+
+    const handleTouchMove = (e: React.TouchEvent) => {
+        // Optional: Implement real-time dragging physics here if needed
+        // For simplicity, we just use End to trigger state change
+    };
+
+    const handleTouchEnd = (e: React.TouchEvent) => {
+        const touchEndY = e.changedTouches[0].clientY;
+        const deltaY = touchEndY - touchStartY.current;
+        const threshold = 50; // pixels to trigger swipe
+
+        // Check if we are scrolling content or swiping the drawer
+        // If content is scrolled down (scrollTop > 0), we shouldn't trigger "Close" on swipe down immediately
+        // unless we are at the very top.
+        const isAtTop = contentRef.current ? contentRef.current.scrollTop <= 0 : true;
+
+        if (deltaY < -threshold) {
+            // SWIPE UP (Finger moves up)
+            if (!isSheetFull) {
+                setIsSheetFull(true);
+            }
+        } else if (deltaY > threshold) {
+            // SWIPE DOWN (Finger moves down)
+            if (isSheetFull && isAtTop) {
+                setIsSheetFull(false); // Go back to half
+            } else if (!isSheetFull && isAtTop) {
+                setIsSheetOpen(false); // Close completely
+            }
+        }
+    };
+
+
     const progressPercent = duration ? (currentTime / duration) * 100 : 0;
 
     return (
         <div ref={containerRef} className="fixed inset-0 z-50 bg-black overflow-hidden group font-sans">
 
-            {/* === 1. Fullscreen Video Layer === */}
+            {/* ... (Video and Overlays remain same) ... */}
             <video
                 ref={videoRef}
                 src={src}
@@ -151,7 +199,6 @@ export function MobilePlayer({
                 </div>
             )}
 
-            {/* Play/Pause Center Icon */}
             {!isPlaying && !isLoading && !isSheetOpen && !isSettingsOpen && (
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
                     <div className="w-16 h-16 bg-black/30 rounded-full flex items-center justify-center backdrop-blur-sm animate-in fade-in zoom-in duration-200">
@@ -160,12 +207,9 @@ export function MobilePlayer({
                 </div>
             )}
 
-            {/* === 2. Overlays (Visible based on showControls) === */}
             <div className={cn("absolute inset-0 pointer-events-none transition-opacity duration-500",
                 isSheetOpen ? "opacity-0" : "opacity-100"
             )}>
-
-                {/* Top Bar (Title & Back) - Hides automatically */}
                 <div className={cn(
                     "absolute top-0 left-0 right-0 p-4 pt-8 flex justify-between items-start bg-gradient-to-b from-black/60 to-transparent pointer-events-auto transition-opacity duration-300",
                     showControls ? "opacity-100" : "opacity-0"
@@ -178,25 +222,23 @@ export function MobilePlayer({
                     </button>
                 </div>
 
-                {/* Right Sidebar Actions - Hides automatically */}
                 <div className={cn(
                     "absolute right-2 bottom-32 flex flex-col gap-6 items-center pointer-events-auto z-20 transition-opacity duration-300",
                     showControls ? "opacity-100" : "opacity-0"
                 )}>
+                    {/* Sidebar buttons ... */}
                     <button className="flex flex-col items-center gap-1 group">
                         <div className="p-2 rounded-full bg-black/20 backdrop-blur-sm group-active:scale-90 transition-transform">
                             <Heart className="w-8 h-8 text-white stroke-[1.5px]" />
                         </div>
                         <span className="text-white text-xs font-medium text-shadow">118.3k</span>
                     </button>
-
                     <button className="flex flex-col items-center gap-1 group">
                         <div className="p-2 rounded-full bg-black/20 backdrop-blur-sm group-active:scale-90 transition-transform">
                             <MessageCircle className="w-8 h-8 text-white stroke-[1.5px]" />
                         </div>
                         <span className="text-white text-xs font-medium text-shadow">123</span>
                     </button>
-
                     <button className="flex flex-col items-center gap-1 group">
                         <div className="p-2 rounded-full bg-black/20 backdrop-blur-sm group-active:scale-90 transition-transform">
                             <Share2 className="w-8 h-8 text-white stroke-[1.5px]" />
@@ -205,7 +247,6 @@ export function MobilePlayer({
                     </button>
                 </div>
 
-                {/* Bottom Left Info - Hides automatically */}
                 <div className={cn(
                     "absolute left-0 right-16 bottom-16 px-4 flex flex-col items-start gap-2 pointer-events-auto z-10 text-shadow-lg transition-opacity duration-300",
                     showControls ? "opacity-100" : "opacity-0"
@@ -221,7 +262,6 @@ export function MobilePlayer({
                     )}
                 </div>
 
-                {/* Progress Bar - ALWAYS VISIBLE (requested) */}
                 <div className="absolute bottom-12 left-0 right-0 h-1 bg-white/30 pointer-events-auto z-20">
                     <div
                         className="h-full bg-[#00cc55] relative"
@@ -239,7 +279,6 @@ export function MobilePlayer({
                     />
                 </div>
 
-                {/* Bottom Episode Bar - ALWAYS VISIBLE (requested) */}
                 <button
                     onClick={() => { setIsSheetOpen(true); setActiveTab('episodes'); }}
                     className="absolute bottom-0 left-0 right-0 h-12 bg-[#000000] flex items-center justify-between px-4 pointer-events-auto active:bg-gray-900 transition-colors z-20"
@@ -256,77 +295,86 @@ export function MobilePlayer({
             </div>
 
             {/* === 3. Bottom Sheet (Drawer) === */}
-            <div className={cn(
-                "absolute inset-x-0 bottom-0 bg-[#121212] rounded-t-xl z-50 flex flex-col transition-transform duration-300 ease-out border-t border-white/5 shadow-2xl h-[70%]",
-                isSheetOpen ? "translate-y-0" : "translate-y-full"
-            )}>
-                {/* Drag Handle / Close */}
-                <div className="h-10 flex items-center justify-center shrink-0 cursor-pointer border-b border-white/5" onClick={() => setIsSheetOpen(false)}>
-                    <div className="w-12 h-1 bg-white/20 rounded-full" />
+            <div
+                ref={drawerRef}
+                className={cn(
+                    "absolute inset-x-0 bottom-0 bg-[#121212] z-50 flex flex-col transition-all duration-300 ease-out shadow-2xl overflow-hidden",
+                    isSheetOpen ? "translate-y-0" : "translate-y-full",
+                    isSheetFull ? "top-0 rounded-none" : "h-[70%] rounded-t-xl border-t border-white/5"
+                )}
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+            >
+                {/* Header in Drawer */}
+                {/* Only show Back Chevron if Fullscreen or for closing */}
+                <div className="h-10 flex items-center justify-between px-4 shrink-0 border-b border-white/5 relative">
+                    <button onClick={() => {
+                        if (isSheetFull) setIsSheetFull(false);
+                        else setIsSheetOpen(false);
+                    }} className="p-1 -ml-1 text-white/70">
+                        <ChevronLeft className="w-6 h-6 -rotate-90" /> {/* Down-like chevron */}
+                    </button>
+
+                    {/* Drag Handle (Only visible in compact mode) */}
+                    {!isSheetFull && (
+                        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-1 bg-white/20 rounded-full" />
+                    )}
                 </div>
 
                 {/* Drama Header Info */}
-                <div className="px-4 py-4 flex gap-4 shrink-0 bg-[#121212]">
-                    <div className="w-16 h-24 bg-gray-800 rounded-md overflow-hidden shrink-0 relative shadow-md">
+                <div className="px-4 py-3 flex gap-4 shrink-0 bg-[#121212]">
+                    <div className="w-12 h-16 bg-gray-800 rounded overflow-hidden shrink-0 relative shadow-md">
                         {drama?.cover && <Image src={drama.cover} alt={title} fill className="object-cover" />}
                     </div>
                     <div className="flex-1 min-w-0 flex flex-col justify-center">
-                        <h2 className="text-white font-bold text-base leading-tight line-clamp-2 mb-1">{title}</h2>
-                        <div className="text-xs text-gray-400 mb-3">Updated to {totalEpisodes} episodes</div>
-                        <div className="flex gap-2">
-                            <button className="px-4 py-1.5 bg-[#00cc55] text-white text-xs font-bold rounded-full">
-                                Putar
-                            </button>
-                            <button className="px-4 py-1.5 bg-white/10 text-white text-xs font-bold rounded-full">
-                                Favorit
-                            </button>
-                        </div>
+                        <h2 className="text-white font-bold text-sm leading-tight line-clamp-1 mb-1">{title}</h2>
+                        <div className="text-[10px] text-gray-400 mb-2">Full {totalEpisodes} Episode</div>
+                        <button className="self-start px-3 py-1 bg-white/10 text-white text-[10px] font-bold rounded-lg border border-white/10">
+                            Sudah ditambahkan
+                        </button>
                     </div>
                 </div>
 
                 {/* Tabs */}
-                <div className="flex border-b border-white/10 px-4 shrink-0 sticky top-0 bg-[#121212] z-10">
-                    <button
-                        onClick={() => setActiveTab('episodes')}
-                        className={cn("flex-1 py-3 text-sm font-bold relative transition-colors", activeTab === 'episodes' ? "text-[#00cc55]" : "text-gray-400")}
-                    >
-                        Pilih episode
-                        {activeTab === 'episodes' && <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-0.5 bg-[#00cc55] rounded-full" />}
-                    </button>
+                <div className="flex border-b border-white/10 px-4 shrink-0 bg-[#121212] z-10">
                     <button
                         onClick={() => setActiveTab('details')}
-                        className={cn("flex-1 py-3 text-sm font-bold relative transition-colors", activeTab === 'details' ? "text-[#00cc55]" : "text-gray-400")}
+                        className={cn("mr-6 py-3 text-sm font-bold relative transition-colors", activeTab === 'details' ? "text-white" : "text-gray-500")}
                     >
                         Sinopsis
-                        {activeTab === 'details' && <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-0.5 bg-[#00cc55] rounded-full" />}
+                        {activeTab === 'details' && <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-[#00cc55] rounded-full" />}
+                    </button>
+                    <button
+                        onClick={() => setActiveTab('episodes')}
+                        className={cn("mr-6 py-3 text-sm font-bold relative transition-colors", activeTab === 'episodes' ? "text-white" : "text-gray-500")}
+                    >
+                        Pilih episode
+                        {activeTab === 'episodes' && <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-[#00cc55] rounded-full" />}
                     </button>
                 </div>
 
                 {/* Tab Content */}
-                <div className="flex-1 overflow-y-auto p-4 custom-scrollbar bg-[#121212]">
+                <div
+                    ref={contentRef}
+                    className="flex-1 overflow-y-auto p-4 custom-scrollbar bg-[#121212] pb-20 overscroll-y-contain" // Added overscroll-y-contain
+                >
                     {activeTab === 'episodes' ? (
                         <div className="">
-                            {/* Episode Ranges (Mock) */}
-                            <div className="flex gap-4 text-xs font-medium text-gray-400 mb-4 sticky top-0 bg-[#121212] py-2 z-10">
-                                <button className="text-[#00cc55] bg-[#00cc55]/10 px-3 py-1 rounded-full">1-50</button>
-                                <button className="hover:text-white px-3 py-1">51-{totalEpisodes}</button>
-                            </div>
-
-                            <div className="grid grid-cols-7 gap-2">
+                            <div className="grid grid-cols-6 gap-3">
                                 {Array.from({ length: totalEpisodes }).map((_, i) => (
                                     <button
                                         key={i}
                                         onClick={() => goToEpisode(i + 1)}
                                         className={cn(
-                                            "aspect-square rounded flex flex-col items-center justify-center text-xs font-medium border transition-colors relative overflow-hidden",
+                                            "aspect-square rounded.md flex flex-col items-center justify-center text-sm font-medium border transition-colors relative overflow-hidden bg-[#1f2126]",
                                             i + 1 === currentEpisodeNumber
-                                                ? "text-[#00cc55]"
-                                                : "text-gray-400 hover:text-white"
+                                                ? "text-[#00cc55] border border-[#00cc55]/20 bg-[#00cc55]/5"
+                                                : "text-gray-400 border-transparent active:scale-95"
                                         )}
                                     >
-                                        <span className={cn("z-10", i + 1 === currentEpisodeNumber && "scale-125 font-bold")}>{i + 1}</span>
-                                        {i + 1 === currentEpisodeNumber && <div className="absolute bottom-1 w-1 h-1 bg-[#00cc55] rounded-full" />}
-                                        {i > 10 && <div className="absolute top-0 right-0 w-2 h-2 bg-[#b68d40] rounded-bl-full" />}
+                                        <span className={cn("z-10", i + 1 === currentEpisodeNumber && "font-bold")}>{i + 1}</span>
+                                        {i + 1 > 10 && <span className="absolute bottom-1 text-[8px] text-[#b68d40] uppercase">VIP</span>}
                                     </button>
                                 ))}
                             </div>
@@ -364,6 +412,7 @@ export function MobilePlayer({
                 "absolute inset-0 z-[60] bg-black/60 backdrop-blur-sm transition-opacity duration-300",
                 isSettingsOpen ? "opacity-100" : "opacity-0 pointer-events-none"
             )} onClick={() => setIsSettingsOpen(false)}>
+                {/* ... Same settings content ... */}
                 <div
                     className={cn(
                         "absolute bottom-0 left-0 right-0 bg-[#121212] rounded-t-xl overflow-hidden transition-transform duration-300",

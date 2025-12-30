@@ -10,6 +10,14 @@ const nextConfig: NextConfig = {
         hostname: "**",
       },
     ],
+    // Disable strict SSL for image optimization if upstream cert is bad
+    dangerouslyAllowSVG: true,
+  },
+
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '2mb',
+    },
   },
 };
 

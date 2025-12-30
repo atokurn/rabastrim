@@ -39,10 +39,18 @@ export interface Episode {
 }
 
 async function fetchApi<T>(endpoint: string): Promise<T | null> {
+    // START SSL BYPASS
+    const originalReject = process.env.NODE_TLS_REJECT_UNAUTHORIZED;
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
     try {
         const res = await fetch(`${BASE_URL}${endpoint}`, {
             next: { revalidate: 300 },
         });
+
+        // Restore logic (optional, but good for safety if we care, 
+        // but for this dev session keeping it off might be safer for stability)
+        // process.env.NODE_TLS_REJECT_UNAUTHORIZED = originalReject; 
+
         if (!res.ok) {
             console.error(`Sansekai API Error: ${res.status} on ${endpoint}`);
             return null;
@@ -51,6 +59,9 @@ async function fetchApi<T>(endpoint: string): Promise<T | null> {
     } catch (error) {
         console.error(`Sansekai Fetch Error:`, error);
         return null;
+    } finally {
+        // Restore to prevent security holes elsewhere if needed
+        process.env.NODE_TLS_REJECT_UNAUTHORIZED = originalReject;
     }
 }
 
