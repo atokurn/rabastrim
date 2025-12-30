@@ -1,0 +1,205 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { Play, Pause, ChevronLeft, Loader2, Volume2, VolumeX, Maximize, Minimize, Settings } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
+import { useVideoPlayer } from "@/hooks/use-video-player";
+
+interface DesktopPlayerProps {
+    src: string;
+    poster?: string;
+    title: string;
+    dramaId: string;
+    provider: string;
+    currentEpisodeNumber: number;
+    totalEpisodes: number;
+    episodes: Array<{ id: string; number: number; videoUrl: string | null }>;
+    nextEpisode?: { number: number };
+}
+
+export function DesktopPlayer({
+    src,
+    poster,
+    title,
+    dramaId,
+    provider,
+    currentEpisodeNumber,
+    totalEpisodes,
+    episodes,
+    nextEpisode,
+}: DesktopPlayerProps) {
+    const router = useRouter();
+    const {
+        videoRef,
+        containerRef,
+        isPlaying,
+        currentTime,
+        duration,
+        isMuted,
+        isLoading,
+        playbackRate,
+        togglePlay,
+        handleTimeUpdate,
+        handleSeek,
+        toggleMute,
+        setIsLoading,
+        setIsPlaying,
+        setDuration,
+        changeSpeed
+    } = useVideoPlayer({ src, dramaId, provider, nextEpisode });
+
+    const [isFullscreen, setIsFullscreen] = useState(false);
+    const [showControls, setShowControls] = useState(true);
+
+    const formatTime = (time: number) => {
+        if (!time || isNaN(time)) return "00:00";
+        const minutes = Math.floor(time / 60);
+        const seconds = Math.floor(time % 60);
+        return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    };
+
+    const toggleFullscreen = () => {
+        if (!containerRef.current) return;
+        if (!document.fullscreenElement) {
+            containerRef.current.requestFullscreen();
+            setIsFullscreen(true);
+        } else {
+            document.exitFullscreen();
+            setIsFullscreen(false);
+        }
+    };
+
+    const goToEpisode = (epNum: number) => {
+        router.push(`/watch/${dramaId}?ep=${epNum}&provider=${provider}`);
+    };
+
+    return (
+        <div ref={containerRef}
+            className="w-full h-full bg-black relative group overflow-hidden md:aspect-video rounded-lg"
+            onMouseEnter={() => setShowControls(true)}
+            onMouseLeave={() => isPlaying && setShowControls(false)}
+        >
+            <video
+                ref={videoRef}
+                src={src}
+                poster={poster}
+                className="w-full h-full object-contain"
+                autoPlay
+                onPlay={() => setIsPlaying(true)}
+                onPause={() => setIsPlaying(false)}
+                onTimeUpdate={handleTimeUpdate}
+                onLoadedMetadata={(e) => {
+                    setDuration(e.currentTarget.duration);
+                    setIsLoading(false);
+                    e.currentTarget.play().catch(() => {
+                        setIsPlaying(false);
+                        setIsLoading(false);
+                    });
+                }}
+                onWaiting={() => setIsLoading(true)}
+                onPlaying={() => setIsLoading(false)}
+                onEnded={() => {
+                    setIsPlaying(false);
+                    setShowControls(true);
+                    if (nextEpisode) goToEpisode(nextEpisode.number);
+                }}
+            />
+
+            {isLoading && (
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
+                    <Loader2 className="w-16 h-16 text-[#00cc55] animate-spin" />
+                </div>
+            )}
+
+            {/* Controls Overlay */}
+            <div className={cn(
+                "absolute inset-0 bg-black/40 flex flex-col justify-end transition-opacity duration-200",
+                showControls || !isPlaying ? "opacity-100 visible" : "opacity-0 invisible"
+            )}>
+                {/* Top Bar (Title) */}
+                <div className="absolute top-0 left-0 right-0 p-4 bg-gradient-to-b from-black/80 to-transparent flex items-center gap-4">
+                    <button onClick={() => router.back()} className="text-white hover:bg-white/20 p-2 rounded-full">
+                        <ChevronLeft className="w-6 h-6" />
+                    </button>
+                    <h1 className="text-white font-medium text-lg drop-shadow">{title}</h1>
+                </div>
+
+                {/* Center Play Button (Large) */}
+                {!isPlaying && (
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                        <div className="w-20 h-20 icon-scale bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm pointer-events-auto cursor-pointer hover:bg-[#00cc55]/80 transition-colors" onClick={togglePlay}>
+                            <Play className="w-10 h-10 text-white fill-white ml-2" />
+                        </div>
+                    </div>
+                )}
+
+                {/* Bottom Bar */}
+                <div className="p-4 bg-gradient-to-t from-black/80 to-transparent space-y-2">
+                    {/* Progress Bar */}
+                    <div className="flex items-center gap-3">
+                        <input
+                            type="range"
+                            min={0}
+                            max={duration || 0}
+                            value={currentTime}
+                            onChange={handleSeek}
+                            className="w-full h-1 bg-gray-600 rounded-lg cursor-pointer accent-[#00cc55] hover:h-2 transition-all"
+                        />
+                    </div>
+
+                    <div className="flex items-center justify-between mt-2">
+                        <div className="flex items-center gap-4">
+                            <button onClick={togglePlay} className="text-white hover:text-[#00cc55]">
+                                {isPlaying ? <Pause className="w-8 h-8 fill-white" /> : <Play className="w-8 h-8 fill-white" />}
+                            </button>
+
+                            <div className="flex items-center gap-2 group/vol">
+                                <button onClick={toggleMute} className="text-white hover:text-[#00cc55]">
+                                    {isMuted ? <VolumeX className="w-6 h-6" /> : <Volume2 className="w-6 h-6" />}
+                                </button>
+                                <div className="w-0 overflow-hidden group-hover/vol:w-24 transition-all duration-300">
+                                    <input
+                                        type="range" min="0" max="1" step="0.1"
+                                        onChange={(e) => {
+                                            if (videoRef.current) videoRef.current.volume = parseFloat(e.target.value);
+                                        }}
+                                        className="w-20 h-1 accent-white"
+                                    />
+                                </div>
+                            </div>
+
+                            <span className="text-white text-sm font-mono">
+                                {formatTime(currentTime)} / {formatTime(duration)}
+                            </span>
+                        </div>
+
+                        <div className="flex items-center gap-4">
+                            {/* Speed Selector */}
+                            <div className="relative group/speed">
+                                <button className="text-white text-sm font-bold bg-white/10 px-2 py-1 rounded hover:bg-[#00cc55] hover:text-black transition-colors">
+                                    {playbackRate}x
+                                </button>
+                                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover/speed:flex flex-col bg-[#1f2126] rounded-lg p-1 shadow-xl">
+                                    {[0.5, 1.0, 1.5, 2.0].map(rate => (
+                                        <button
+                                            key={rate}
+                                            onClick={() => changeSpeed(rate)}
+                                            className="px-3 py-1 text-sm text-gray-300 hover:text-white hover:bg-white/10 rounded"
+                                        >
+                                            {rate}x
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <button onClick={toggleFullscreen} className="text-white hover:text-[#00cc55]">
+                                {isFullscreen ? <Minimize className="w-6 h-6" /> : <Maximize className="w-6 h-6" />}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}

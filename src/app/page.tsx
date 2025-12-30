@@ -1,65 +1,153 @@
-import Image from "next/image";
+import { Hero } from "@/components/ui/Hero";
+import { Section } from "@/components/ui/Section";
+import { DramaBoxApi } from "@/lib/api/dramabox";
+import { SansekaiApi } from "@/lib/api/sansekai";
+import { getWatchHistory } from "@/lib/actions/history";
 
-export default function Home() {
+// Transform API data to Section item format
+interface SectionItem {
+  id: string;
+  title: string;
+  image: string;
+  badge?: string;
+  isVip?: boolean;
+  episodes?: string;
+  progress?: number;
+  provider?: string;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function transformDramaBox(drama: any, index?: number): SectionItem {
+  return {
+    id: drama.bookId || drama.book_id || String(index),
+    title: drama.bookName || drama.book_name || drama.title || "Untitled",
+    image: drama.coverWap || drama.cover || "",
+    badge: index !== undefined && index < 10 ? `TOP ${index + 1}` : undefined,
+    episodes: drama.chapterCount ? `${drama.chapterCount} Eps` : undefined,
+    provider: "dramabox",
+  };
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function transformNetShort(drama: any): SectionItem {
+  return {
+    id: drama.shortPlayId || drama.id || "",
+    title: drama.shortPlayName || drama.title || "Untitled",
+    image: drama.shortPlayCover || drama.coverUrl || drama.cover || "",
+    provider: "netshort",
+  };
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function transformMelolo(drama: any, index?: number): SectionItem {
+  // Melolo images are in .heic format which Chrome doesn't support
+  // Use wsrv.nl image proxy to convert to WebP
+  const rawImage = drama.thumb_url || drama.cover || "";
+  const image = rawImage && rawImage.includes(".heic")
+    ? `https://wsrv.nl/?url=${encodeURIComponent(rawImage)}&output=webp&q=85`
+    : rawImage;
+
+  return {
+    id: drama.book_id || drama.id || String(index),
+    title: drama.book_name || drama.title || "Untitled",
+    image,
+    badge: index !== undefined && index < 10 ? `TOP ${index + 1}` : undefined,
+    provider: "melolo",
+  };
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function transformAnime(drama: any): SectionItem {
+  return {
+    id: drama.url || drama.id || "",
+    title: drama.judul || drama.title || "Untitled",
+    image: drama.cover || "",
+    provider: "anime",
+  };
+}
+
+export default async function Home() {
+  // Fetch data from all providers in parallel
+  const [
+    dramaboxTrending,
+    dramaboxLatest,
+    netshortTheaters,
+    meloloTrending,
+    animeLatest,
+    history,
+  ] = await Promise.all([
+    DramaBoxApi.getTrending().catch(() => []),
+    DramaBoxApi.getLatest().catch(() => []),
+    SansekaiApi.netshort.getTheaters().catch(() => []),
+    SansekaiApi.melolo.getTrending().catch(() => []),
+    SansekaiApi.anime.getLatest().catch(() => []),
+    getWatchHistory(10).catch(() => []),
+  ]);
+
+  // Transform data
+  const dramaboxItems = dramaboxTrending.slice(0, 12).map((d, i) => transformDramaBox(d, i));
+  const dramaboxLatestItems = dramaboxLatest.slice(0, 12).map(d => transformDramaBox(d));
+  const netshortItems = netshortTheaters.slice(0, 12).map(d => transformNetShort(d));
+  const meloloItems = meloloTrending.slice(0, 12).map((d, i) => transformMelolo(d, i));
+  const animeItems = animeLatest.slice(0, 12).map(d => transformAnime(d));
+
+  // Transform watch history from database
+  const continueWatching: SectionItem[] = history.map(item => ({
+    id: item.dramaId,
+    title: item.dramaTitle || "Untitled",
+    image: item.dramaCover || "",
+    progress: item.progress || 0,
+    episodes: item.episodeNumber ? `Ep ${item.episodeNumber}` : undefined,
+  }));
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+    <div className="pb-20">
+      <Hero />
+
+      <div className="relative z-10 -mt-20 space-y-2">
+        {continueWatching.length > 0 && (
+          <Section
+            title="Lanjut Tonton"
+            variant="landscape"
+            items={continueWatching}
+          />
+        )}
+
+        {dramaboxItems.length > 0 && (
+          <Section
+            title="DramaBox - Trending"
+            items={dramaboxItems}
+          />
+        )}
+
+        {dramaboxLatestItems.length > 0 && (
+          <Section
+            title="DramaBox - Terbaru"
+            items={dramaboxLatestItems}
+          />
+        )}
+
+        {netshortItems.length > 0 && (
+          <Section
+            title="NetShort - Drama Viral"
+            items={netshortItems}
+          />
+        )}
+
+        {meloloItems.length > 0 && (
+          <Section
+            title="Melolo - Trending"
+            items={meloloItems}
+          />
+        )}
+
+        {animeItems.length > 0 && (
+          <Section
+            title="Anime - Terbaru"
+            items={animeItems}
+          />
+        )}
+      </div>
     </div>
   );
 }
