@@ -325,7 +325,7 @@ export function MobilePlayer({
                 {/* Drama Header Info */}
                 <div className="px-4 py-3 flex gap-4 shrink-0 bg-[#121212]">
                     <div className="w-12 h-16 bg-gray-800 rounded overflow-hidden shrink-0 relative shadow-md">
-                        {drama?.cover && <Image src={drama.cover} alt={title} fill className="object-cover" />}
+                        {drama?.cover && <img src={drama.cover} alt={title} className="absolute inset-0 w-full h-full object-cover" />}
                     </div>
                     <div className="flex-1 min-w-0 flex flex-col justify-center">
                         <h2 className="text-white font-bold text-sm leading-tight line-clamp-1 mb-1">{title}</h2>
@@ -394,7 +394,7 @@ export function MobilePlayer({
                                         {recommendations.map((rec: any) => (
                                             <Link key={rec.id} href={`/watch/${rec.id}?provider=${rec.provider}`} className="block group">
                                                 <div className="aspect-[3/4] rounded-lg overflow-hidden relative bg-gray-800 mb-2">
-                                                    {rec.image && <Image src={rec.image} alt={rec.title} fill className="object-cover" />}
+                                                    {rec.image && <img src={rec.image} alt={rec.title} className="absolute inset-0 w-full h-full object-cover" />}
                                                 </div>
                                                 <div className="text-xs text-white line-clamp-2">{rec.title}</div>
                                             </Link>
