@@ -34,6 +34,10 @@ export function DesktopPlayer({
     nextEpisode,
 }: DesktopPlayerProps) {
     const router = useRouter();
+
+    // Previous episode calculation
+    const prevEpisode = currentEpisodeNumber > 1 ? { number: currentEpisodeNumber - 1 } : undefined;
+
     const {
         videoRef,
         containerRef,
@@ -51,7 +55,16 @@ export function DesktopPlayer({
         setIsPlaying,
         setDuration,
         changeSpeed
-    } = useVideoPlayer({ src, dramaId, provider, nextEpisode });
+    } = useVideoPlayer({
+        src,
+        dramaId,
+        provider,
+        currentEpisodeNumber,
+        totalEpisodes,
+        title,
+        nextEpisode,
+        prevEpisode
+    });
 
     const [isFullscreen, setIsFullscreen] = useState(false);
     const [showControls, setShowControls] = useState(true);

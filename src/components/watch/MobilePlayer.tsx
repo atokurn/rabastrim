@@ -39,6 +39,10 @@ export function MobilePlayer({
     recommendations = []
 }: MobilePlayerProps) {
     const router = useRouter();
+
+    // Previous episode calculation
+    const prevEpisode = currentEpisodeNumber > 1 ? { number: currentEpisodeNumber - 1 } : undefined;
+
     const {
         videoRef,
         containerRef,
@@ -53,8 +57,20 @@ export function MobilePlayer({
         setIsLoading,
         setIsPlaying,
         setDuration,
-        changeSpeed
-    } = useVideoPlayer({ src, dramaId, provider, nextEpisode });
+        changeSpeed,
+        changeEpisode,
+        isChangingEpisode,
+        currentEpisodeNum,
+    } = useVideoPlayer({
+        src,
+        dramaId,
+        provider,
+        currentEpisodeNumber,
+        totalEpisodes,
+        title,
+        nextEpisode,
+        prevEpisode
+    });
 
     // Drawer States
     const [isSheetOpen, setIsSheetOpen] = useState(false);
@@ -65,10 +81,25 @@ export function MobilePlayer({
     const [showControls, setShowControls] = useState(true);
     const controlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-    // Touch Handling References
+    // Settings States
+    const subtitleOptions = ['Bahasa Indonesia', 'English', 'Bahasa Mandarin', 'Off'];
+    const dubbingOptions = ['Bahasa Mandarin', 'Bahasa Indonesia', 'English'];
+    const qualityOptions = ['4K', '1080P', '720P', '480P', '360P'];
+    const speedOptions = [0.75, 1.0, 1.25, 1.5, 2.0, 3.0];
+    const [subtitleIndex, setSubtitleIndex] = useState(0);
+    const [dubbingIndex, setDubbingIndex] = useState(0);
+    const [qualityIndex, setQualityIndex] = useState(0); // Default to 4K
+    const [speedIndex, setSpeedIndex] = useState(1); // Default to 1.0X
+    const [activeSettingDrawer, setActiveSettingDrawer] = useState<'subtitle' | 'dubbing' | 'quality' | 'speed' | null>(null);
+
+    // Touch Handling References (for drawer)
     const touchStartY = useRef<number>(0);
     const drawerRef = useRef<HTMLDivElement>(null);
     const contentRef = useRef<HTMLDivElement>(null);
+
+    // Video Swipe References (for episode navigation)
+    const videoTouchStartY = useRef<number>(0);
+    const videoTouchStartX = useRef<number>(0);
 
     const formatTime = (time: number) => {
         if (!time || isNaN(time)) return "00:00";
@@ -77,11 +108,11 @@ export function MobilePlayer({
         return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     };
 
-    const goToEpisode = (epNum: number) => {
-        router.push(`/watch/${dramaId}?ep=${epNum}&provider=${provider}`);
+    const goToEpisode = useCallback((epNum: number) => {
+        changeEpisode(epNum);
         setIsSheetOpen(false);
         setIsSheetFull(false);
-    };
+    }, [changeEpisode]);
 
     // Auto-hide controls logic
     const resetControls = useCallback(() => {
@@ -161,13 +192,41 @@ export function MobilePlayer({
         }
     };
 
+    // ===== VIDEO AREA SWIPE GESTURES =====
+    const handleVideoTouchStart = (e: React.TouchEvent) => {
+        // Don't trigger if drawer or settings is open
+        if (isSheetOpen || isSettingsOpen) return;
+        videoTouchStartY.current = e.touches[0].clientY;
+        videoTouchStartX.current = e.touches[0].clientX;
+    };
+
+    const handleVideoTouchEnd = (e: React.TouchEvent) => {
+        if (isSheetOpen || isSettingsOpen || isChangingEpisode) return;
+
+        const deltaY = e.changedTouches[0].clientY - videoTouchStartY.current;
+        const deltaX = e.changedTouches[0].clientX - videoTouchStartX.current;
+        const threshold = 100; // pixels
+
+        // Only vertical swipe if more vertical than horizontal
+        if (Math.abs(deltaY) > Math.abs(deltaX) && Math.abs(deltaY) > threshold) {
+            if (deltaY < 0 && nextEpisode) {
+                // SWIPE UP = Next Episode
+                changeEpisode(currentEpisodeNum + 1);
+            } else if (deltaY > 0 && currentEpisodeNum > 1) {
+                // SWIPE DOWN = Previous Episode
+                changeEpisode(currentEpisodeNum - 1);
+            }
+        }
+    };
+
+
 
     const progressPercent = duration ? (currentTime / duration) * 100 : 0;
 
     return (
         <div ref={containerRef} className="fixed inset-0 z-50 bg-black overflow-hidden group font-sans">
 
-            {/* ... (Video and Overlays remain same) ... */}
+            {/* Video Element with Swipe Gesture Support */}
             <video
                 ref={videoRef}
                 src={src}
@@ -175,7 +234,6 @@ export function MobilePlayer({
                 className="absolute inset-0 w-full h-full object-contain bg-black"
                 autoPlay
                 playsInline
-                loop
                 onPlay={() => setIsPlaying(true)}
                 onPause={() => setIsPlaying(false)}
                 onTimeUpdate={handleTimeUpdate}
@@ -191,6 +249,8 @@ export function MobilePlayer({
                     else setIsPlaying(false);
                 }}
                 onClick={togglePlay}
+                onTouchStart={handleVideoTouchStart}
+                onTouchEnd={handleVideoTouchEnd}
             />
 
             {isLoading && (
@@ -252,7 +312,7 @@ export function MobilePlayer({
                     showControls ? "opacity-100" : "opacity-0"
                 )}>
                     <h1 className="text-white font-bold text-lg leading-tight line-clamp-2">
-                        <span className="mr-2 opacity-70">Ep.{currentEpisodeNumber}</span>
+                        <span className="mr-2 opacity-70">Ep.{currentEpisodeNum}</span>
                         {title}
                     </h1>
                     {drama?.description && (
@@ -368,12 +428,12 @@ export function MobilePlayer({
                                         onClick={() => goToEpisode(i + 1)}
                                         className={cn(
                                             "aspect-square rounded.md flex flex-col items-center justify-center text-sm font-medium border transition-colors relative overflow-hidden bg-[#1f2126]",
-                                            i + 1 === currentEpisodeNumber
+                                            i + 1 === currentEpisodeNum
                                                 ? "text-[#00cc55] border border-[#00cc55]/20 bg-[#00cc55]/5"
                                                 : "text-gray-400 border-transparent active:scale-95"
                                         )}
                                     >
-                                        <span className={cn("z-10", i + 1 === currentEpisodeNumber && "font-bold")}>{i + 1}</span>
+                                        <span className={cn("z-10", i + 1 === currentEpisodeNum && "font-bold")}>{i + 1}</span>
                                         {i + 1 > 10 && <span className="absolute bottom-1 text-[8px] text-[#b68d40] uppercase">VIP</span>}
                                     </button>
                                 ))}
@@ -421,50 +481,46 @@ export function MobilePlayer({
                     onClick={(e) => e.stopPropagation()}
                 >
                     <div className="space-y-1">
-                        <button className="w-full flex justify-between items-center p-4 border-b border-white/5 active:bg-white/5">
+                        <button className="w-full flex justify-between items-center p-4 border-b border-white/5 active:bg-white/5" onClick={() => setActiveSettingDrawer('subtitle')}>
                             <div className="flex items-center gap-3">
                                 <div className="p-1 border border-white rounded text-[10px] uppercase px-1.5">CC</div>
                                 <span className="text-white text-sm font-medium">Subtitle</span>
                             </div>
                             <div className="flex items-center gap-2 text-gray-400 text-xs">
-                                <span>Bahasa Indonesia</span>
+                                <span>{subtitleOptions[subtitleIndex]}</span>
                                 <ChevronRight className="w-4 h-4" />
                             </div>
                         </button>
 
-                        <button className="w-full flex justify-between items-center p-4 border-b border-white/5 active:bg-white/5">
+                        <button className="w-full flex justify-between items-center p-4 border-b border-white/5 active:bg-white/5" onClick={() => setActiveSettingDrawer('dubbing')}>
                             <div className="flex items-center gap-3">
                                 <span className="font-bold text-white text-xs px-1">🔊</span>
                                 <span className="text-white text-sm font-medium">Dubbing</span>
                             </div>
                             <div className="flex items-center gap-2 text-gray-400 text-xs">
-                                <span>Bahasa Mandarin</span>
+                                <span>{dubbingOptions[dubbingIndex]}</span>
                                 <ChevronRight className="w-4 h-4" />
                             </div>
                         </button>
 
-                        <button className="w-full flex justify-between items-center p-4 border-b border-white/5 active:bg-white/5">
+                        <button className="w-full flex justify-between items-center p-4 border-b border-white/5 active:bg-white/5" onClick={() => setActiveSettingDrawer('quality')}>
                             <div className="flex items-center gap-3">
                                 <div className="p-0.5 border border-white rounded text-[9px] font-bold px-1">HQ</div>
                                 <span className="text-white text-sm font-medium">Kualitas</span>
                             </div>
                             <div className="flex items-center gap-2 text-gray-400 text-xs">
-                                <span>4K</span>
+                                <span>{qualityOptions[qualityIndex]}</span>
                                 <ChevronRight className="w-4 h-4" />
                             </div>
                         </button>
 
-                        <button className="w-full flex justify-between items-center p-4 border-b border-white/5 active:bg-white/5" onClick={() => {
-                            const rates = [1.0, 1.25, 1.5, 2.0];
-                            const nextRate = rates[(rates.indexOf(playbackRate) + 1) % rates.length];
-                            changeSpeed(nextRate);
-                        }}>
+                        <button className="w-full flex justify-between items-center p-4 border-b border-white/5 active:bg-white/5" onClick={() => setActiveSettingDrawer('speed')}>
                             <div className="flex items-center gap-3">
                                 <Play className="w-4 h-4 text-white fill-white" />
                                 <span className="text-white text-sm font-medium">Kelipatan laju</span>
                             </div>
                             <div className="flex items-center gap-2 text-gray-400 text-xs">
-                                <span>{playbackRate.toFixed(1)}X</span>
+                                <span>{speedOptions[speedIndex].toFixed(1)}X</span>
                                 <ChevronRight className="w-4 h-4" />
                             </div>
                         </button>
@@ -478,6 +534,83 @@ export function MobilePlayer({
                     </button>
                 </div>
             </div>
+
+            {/* === 5. Sub-Settings Drawers === */}
+            {activeSettingDrawer && (
+                <div
+                    className="absolute inset-0 z-[70] bg-black/80 backdrop-blur-sm transition-opacity duration-300"
+                    onClick={() => setActiveSettingDrawer(null)}
+                >
+                    <div
+                        className="absolute bottom-0 left-0 right-0 bg-[#121212] rounded-t-xl overflow-hidden max-h-[70%] flex flex-col"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        {/* Header */}
+                        <div className="flex items-center justify-between px-4 py-4 border-b border-white/10">
+                            <span className="text-white font-bold text-base">
+                                {activeSettingDrawer === 'subtitle' && 'Subtitle'}
+                                {activeSettingDrawer === 'dubbing' && 'Dubbing'}
+                                {activeSettingDrawer === 'quality' && 'Kualitas'}
+                                {activeSettingDrawer === 'speed' && 'Kelipatan laju'}
+                            </span>
+                            <button onClick={() => setActiveSettingDrawer(null)} className="text-white/70 p-1">
+                                <X className="w-6 h-6" />
+                            </button>
+                        </div>
+
+                        {/* Options List */}
+                        <div className="flex-1 overflow-y-auto py-2">
+                            {activeSettingDrawer === 'subtitle' && subtitleOptions.map((opt, idx) => (
+                                <button
+                                    key={opt}
+                                    onClick={() => { setSubtitleIndex(idx); setActiveSettingDrawer(null); }}
+                                    className="w-full flex justify-between items-center px-6 py-4 active:bg-white/5"
+                                >
+                                    <span className={cn("text-sm", idx === subtitleIndex ? "text-[#d4a84b] font-bold" : "text-white")}>{opt}</span>
+                                    {idx === subtitleIndex && <span className="text-[#00cc55] text-xl">✓</span>}
+                                </button>
+                            ))}
+
+                            {activeSettingDrawer === 'dubbing' && dubbingOptions.map((opt, idx) => (
+                                <button
+                                    key={opt}
+                                    onClick={() => { setDubbingIndex(idx); setActiveSettingDrawer(null); }}
+                                    className="w-full flex justify-between items-center px-6 py-4 active:bg-white/5"
+                                >
+                                    <span className={cn("text-sm", idx === dubbingIndex ? "text-[#d4a84b] font-bold" : "text-white")}>{opt}</span>
+                                    {idx === dubbingIndex && <span className="text-[#00cc55] text-xl">✓</span>}
+                                </button>
+                            ))}
+
+                            {activeSettingDrawer === 'quality' && qualityOptions.map((opt, idx) => (
+                                <button
+                                    key={opt}
+                                    onClick={() => { setQualityIndex(idx); setActiveSettingDrawer(null); }}
+                                    className="w-full flex justify-between items-center px-6 py-4 active:bg-white/5"
+                                >
+                                    <span className={cn("text-sm", idx === qualityIndex ? "text-[#d4a84b] font-bold" : "text-white")}>{opt}</span>
+                                    {idx === qualityIndex && <span className="text-[#00cc55] text-xl">✓</span>}
+                                </button>
+                            ))}
+
+                            {activeSettingDrawer === 'speed' && speedOptions.map((opt, idx) => (
+                                <button
+                                    key={opt}
+                                    onClick={() => {
+                                        setSpeedIndex(idx);
+                                        changeSpeed(opt);
+                                        setActiveSettingDrawer(null);
+                                    }}
+                                    className="w-full flex justify-between items-center px-6 py-4 active:bg-white/5"
+                                >
+                                    <span className={cn("text-sm", idx === speedIndex ? "text-[#d4a84b] font-bold" : "text-white")}>{opt.toFixed(2)}X</span>
+                                    {idx === speedIndex && <span className="text-[#00cc55] text-xl">✓</span>}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            )}
 
         </div>
     );
