@@ -52,7 +52,13 @@ export const cacheKeys = {
     continueWatching: (userId: string) => `continue:${userId}:${CACHE_VERSION}`,
     drama: (id: string, provider: string) => `drama:${provider}:${id}:${CACHE_VERSION}`,
     episode: (id: string, provider: string) => `episode:${provider}:${id}:${CACHE_VERSION}`,
-    search: (query: string) => `search:${query}:${CACHE_VERSION}`,
+    search: (query: string, params?: { limit?: number; page?: number; type?: string }) => {
+        const base = `search:${query.toLowerCase().trim()}`;
+        const suffix = params ? `:l${params.limit || 20}:p${params.page || 1}:t${params.type || 'all'}` : '';
+        return `${base}${suffix}:${CACHE_VERSION}`;
+    },
+    searchSuggestions: (query: string) => `suggestions:${query.toLowerCase().trim()}:${CACHE_VERSION}`,
+    searchPopular: () => `popular:${CACHE_VERSION}`,
     recommendation: (userId: string) => `recommend:${userId}:${CACHE_VERSION}`,
     trending: () => `trending:${CACHE_VERSION}`,
     latest: () => `latest:${CACHE_VERSION}`,

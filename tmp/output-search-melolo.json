@@ -1,0 +1,1627 @@
+{
+  "code": 0,
+  "data": {
+    "correct_query_info": {
+      "corrected": false,
+      "corrected_query": "",
+      "origin_query": "ceo",
+      "search_high_light": {
+        "high_light_position": [],
+        "rich_text": "",
+        "text": ""
+      }
+    },
+    "has_more": true,
+    "indeed_empty": false,
+    "intention_info": "[{\"IntentionType\":17,\"IntentionName\":\"I18nCategory\",\"EntityId\":\"754\",\"Name\":\"Ceo\"}]",
+    "next_offset": 10,
+    "query_types": [
+      17
+    ],
+    "query_word": "ceo",
+    "search_attach_info": "20251231182821CFE7D3D26DD8A4518805",
+    "search_data": [
+      {
+        "algo": 1,
+        "book_page_type": 0,
+        "books": [
+          {
+            "abstract": "Nadia, putri kandung Keluarga Pratama, diculik oleh Wulan, anak angkat keluarga itu. Untuk menguji siapa yang lebih mereka pedulikan, Wulan membakar gudang. Saat bahaya datang, orang tua dan kakak justru memilih menyelamatkan Wulan...",
+            "age_gate": "18",
+            "author": "lebukezhi",
+            "book_id": "7583329139273255941",
+            "book_name": "Balas Dendam Sang Putri Kandung",
+            "book_status": "1",
+            "book_type": "2",
+            "category_info": "[{\"ObjectId\":754,\"Dim\":10,\"Name\":\"Ceo\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Ceo\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"character\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740652500},{\"ObjectId\":746,\"Dim\":10,\"Name\":\"Kelahiran kembali\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Rebirth\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740652319},{\"ObjectId\":2,\"Dim\":10,\"Name\":\"Romansa\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/ae4e5a8c44d152662be62f7916567d69~tplv-noop.image\\\",\\\"large_icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/beb25ec9b9edae1b8b30c347a7848630~tplv-noop.image\\\",\\\"back_image\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/dc9166b1732abe67dbe1be188e33d7e3~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_Romance\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"genre\\\"}\",\"OpUser\":\"\",\"CreateTime\":1607000379},{\"ObjectId\":709,\"Dim\":10,\"Name\":\"Pertumbuhan Wanita\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":1,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Female_Growth\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"theme\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740155072},{\"ObjectId\":756,\"Dim\":10,\"Name\":\"Pemeran Utama Wanita Kuat\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Strong_Female_Lead\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"character\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740652536},{\"ObjectId\":721,\"Dim\":10,\"Name\":\"Serangan balik\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_counterattack\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740580028},{\"ObjectId\":725,\"Dim\":10,\"Name\":\"Keluarga\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Family\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740580467}]",
+            "category_v2_ids": "746,2,709,754,756,721,725",
+            "color_dominate": "#102030",
+            "comic_show_type": "0",
+            "copyright_info": "",
+            "cover_stat_infos": [
+              {
+                "stat_data_position": 3,
+                "stat_type": 6,
+                "stat_value": "35.5M"
+              }
+            ],
+            "create_time": "2025-12-13T13:10:04Z",
+            "creation_status": "0",
+            "gender": "0",
+            "genre": "203",
+            "in_bookshelf": "0",
+            "is_dubbed": "0",
+            "is_exclusive": "0",
+            "is_hot": "1",
+            "is_native": "0",
+            "is_new_book": "1",
+            "language": "id",
+            "last_chapter_first_pass_time": "1765635224",
+            "last_chapter_index": "89",
+            "last_publish_time": "1766289154",
+            "log_pb": {
+              "recommend_group_id": "7583329139273255941"
+            },
+            "media_id": "1761250520173382",
+            "novel_audit_mark_info": "{\"disclaimer\":{\"content_label\":[],\"fictional_warnings\":[],\"show_in_first\":false,\"special_disclaimers\":[],\"trigger_warning\":[\"Depiction of Acts of Serious Violence\",\"Violent Death, Accident or Mutilation\"]}}",
+            "novel_text_type": "0",
+            "platform": "7",
+            "read_count": "0",
+            "serial_count": "89",
+            "show_creation_status": "Selesai",
+            "show_creation_status_v2": "{\"detail_scene\":[\"Selesai\",\"Status\"],\"other_scene\":\"Selesai\"}",
+            "source": "乐不可吱",
+            "stat_infos": [
+              "Ceo, Kelahiran kembali"
+            ],
+            "sub_abstract": "",
+            "thumb_url": "https://p16-novel-sign-sg.fizzopic.org/novel-images-sg/30c614a1e52f32a829f3db59a9726649~tplv-836v1mcgsk-image-quality-resize:160:228.heic?rk3s=95ec04ee&x-expires=1768868081&x-signature=Qq%2FW%2FX3qWhDD7ZvU%2BWxJsQaUkv8%3D",
+            "total_price": "",
+            "tts_status": "0",
+            "type": "0",
+            "visibility_age_gate": "18",
+            "web_infos": "{\"stat_infos\":[\"Ceo, Kelahiran kembali\"]}",
+            "word_number": "0"
+          },
+          {
+            "abstract": "Putrinya Feni tanpa disangka meninggal saat bersekolah di sekolah elite. Karena orang itu membuatnya kehilangan putrinya, maka dia akan membuatnya kehilangan ayahnya dan segalanya, sejak itu perjalanan Feni menjadi pembantu sembari membalas dendam dimulai.",
+            "age_gate": "18",
+            "author": "fanqie",
+            "book_id": "7564822697847295029",
+            "book_name": "Lautan Dendam",
+            "book_status": "1",
+            "book_type": "2",
+            "category_info": "[{\"ObjectId\":754,\"Dim\":10,\"Name\":\"Ceo\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Ceo\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"character\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740652500},{\"ObjectId\":721,\"Dim\":10,\"Name\":\"Serangan balik\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_counterattack\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740580028},{\"ObjectId\":2,\"Dim\":10,\"Name\":\"Romansa\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/ae4e5a8c44d152662be62f7916567d69~tplv-noop.image\\\",\\\"large_icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/beb25ec9b9edae1b8b30c347a7848630~tplv-noop.image\\\",\\\"back_image\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/dc9166b1732abe67dbe1be188e33d7e3~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_Romance\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"genre\\\"}\",\"OpUser\":\"\",\"CreateTime\":1607000379},{\"ObjectId\":709,\"Dim\":10,\"Name\":\"Pertumbuhan Wanita\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":1,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Female_Growth\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"theme\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740155072},{\"ObjectId\":79,\"Dim\":10,\"Name\":\"Romansa Urban\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/fd374feb6fd90a7044f8224b84db3fd7~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_Modern_love\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"theme\\\"}\",\"OpUser\":\"\",\"CreateTime\":1640806585},{\"ObjectId\":749,\"Dim\":10,\"Name\":\"Pembalasan dendam\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Revenge\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740652387}]",
+            "category_v2_ids": "709,2,79,754,721,749",
+            "color_dominate": "#202028",
+            "comic_show_type": "0",
+            "copyright_info": "",
+            "cover_stat_infos": [
+              {
+                "stat_data_position": 3,
+                "stat_type": 6,
+                "stat_value": "3.5M"
+              }
+            ],
+            "create_time": "2025-10-24T16:15:38Z",
+            "creation_status": "0",
+            "gender": "0",
+            "genre": "203",
+            "in_bookshelf": "0",
+            "is_dubbed": "0",
+            "is_exclusive": "0",
+            "is_hot": "0",
+            "is_native": "0",
+            "is_new_book": "0",
+            "language": "id",
+            "last_chapter_first_pass_time": "1761325387",
+            "last_chapter_index": "67",
+            "last_publish_time": "1762518998",
+            "log_pb": {
+              "recommend_group_id": "7564822697847295029"
+            },
+            "media_id": "1761691552379918",
+            "novel_audit_mark_info": "{\"disclaimer\":{\"content_label\":[],\"fictional_warnings\":[],\"show_in_first\":false,\"special_disclaimers\":[],\"trigger_warning\":[\"Depiction of Acts of Serious Violence\",\"Violent Death, Accident or Mutilation\"]}}",
+            "novel_text_type": "0",
+            "platform": "7",
+            "read_count": "0",
+            "serial_count": "67",
+            "show_creation_status": "Selesai",
+            "show_creation_status_v2": "{\"detail_scene\":[\"Selesai\",\"Status\"],\"other_scene\":\"Selesai\"}",
+            "source": "番茄",
+            "stat_infos": [
+              "Ceo, Serangan balik"
+            ],
+            "sub_abstract": "",
+            "thumb_url": "https://p16-novel-sign-sg.fizzopic.org/novel-images-sg/566880c2dbb31640050f37e5bd48c76a~tplv-836v1mcgsk-image-quality-resize:160:228.heic?rk3s=95ec04ee&x-expires=1768868081&x-signature=JvYx424q%2BqMQHa3CY7apG2JpArk%3D",
+            "total_price": "",
+            "tts_status": "0",
+            "type": "0",
+            "visibility_age_gate": "18",
+            "web_infos": "{\"stat_infos\":[\"Ceo, Serangan balik\"]}",
+            "word_number": "0"
+          },
+          {
+            "abstract": "Setelah kehilangan suami, Sri Handayani berjuang membesarkan Rizky Pratama dan Putri Pratama, hingga sukses membangun Pratama Corp. Namun, pengorbanan membuatnya sakit. Putri mulai berambisi merebut perusahaan, memicu konflik dan kesalahpahaman dengan Rizky. Di tengah perebutan kekuasaan, kasih ibu tetap menjadi kekuatan utama.",
+            "age_gate": "18",
+            "author": "xiamenxingyi",
+            "book_id": "7562148732104346640",
+            "book_name": "Kasih Ibu yang Tak Terbatas",
+            "book_status": "1",
+            "book_type": "2",
+            "category_info": "[{\"ObjectId\":754,\"Dim\":10,\"Name\":\"Ceo\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Ceo\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"character\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740652500},{\"ObjectId\":721,\"Dim\":10,\"Name\":\"Serangan balik\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_counterattack\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740580028},{\"ObjectId\":761,\"Dim\":10,\"Name\":\"Drama Keluarga\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Family_Drama\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"theme\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740652677},{\"ObjectId\":725,\"Dim\":10,\"Name\":\"Keluarga\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Family\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740580467}]",
+            "category_v2_ids": "761,754,721,725",
+            "color_dominate": "#e0e8d8",
+            "comic_show_type": "0",
+            "copyright_info": "",
+            "cover_stat_infos": [
+              {
+                "stat_data_position": 3,
+                "stat_type": 6,
+                "stat_value": "95.1K"
+              }
+            ],
+            "create_time": "2025-10-17T11:19:17Z",
+            "creation_status": "0",
+            "gender": "0",
+            "genre": "203",
+            "in_bookshelf": "0",
+            "is_dubbed": "0",
+            "is_exclusive": "0",
+            "is_hot": "0",
+            "is_native": "0",
+            "is_new_book": "0",
+            "language": "id",
+            "last_chapter_first_pass_time": "1760954740",
+            "last_chapter_index": "60",
+            "last_publish_time": "1761319686",
+            "log_pb": {
+              "recommend_group_id": "7562148732104346640"
+            },
+            "media_id": "1781202573179926",
+            "novel_text_type": "0",
+            "platform": "7",
+            "read_count": "0",
+            "serial_count": "60",
+            "show_creation_status": "Selesai",
+            "show_creation_status_v2": "{\"detail_scene\":[\"Selesai\",\"Status\"],\"other_scene\":\"Selesai\"}",
+            "source": "厦门星漪",
+            "stat_infos": [
+              "Ceo, Serangan balik"
+            ],
+            "sub_abstract": "",
+            "thumb_url": "https://p16-novel-sign-sg.fizzopic.org/novel-images-sg/ab9c8c8e4414ada12f8db321478a3203~tplv-836v1mcgsk-image-quality-resize:160:228.heic?rk3s=95ec04ee&x-expires=1768868076&x-signature=B9Tk1fe2LlISgn3P7B2dqOD4PJo%3D",
+            "total_price": "",
+            "tts_status": "0",
+            "type": "0",
+            "visibility_age_gate": "18",
+            "web_infos": "{\"stat_infos\":[\"Ceo, Serangan balik\"]}",
+            "word_number": "0"
+          },
+          {
+            "abstract": "Kisah ini menceritakan tentang seorang ibu yang kehilangan suaminya di masa mudanya, hanya bisa hidup saling bergantung dengan putranya. Devi mengadopsi dan menghidupi tiga anak yatim piatu yang tidak memiliki rumah. Untuk membiayai pendidikan anaknya, dia tanpa lelah pergi ke bekerja di lokasi konstruksi. Keempat putranya juga sangat berbakti. Namun, setelah keempat putranya pergi ke kota untuk sekolah, satu per satu dari mereka hilang kabar, membuat Devi sedih.",
+            "age_gate": "18",
+            "author": "mangzhong",
+            "book_id": "7418927171487403009",
+            "book_name": "Tulusnya Cinta Ibu",
+            "book_status": "1",
+            "book_type": "2",
+            "category_info": "[{\"ObjectId\":754,\"Dim\":10,\"Name\":\"Ceo\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Ceo\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"character\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740652500},{\"ObjectId\":725,\"Dim\":10,\"Name\":\"Keluarga\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Family\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740580467},{\"ObjectId\":761,\"Dim\":10,\"Name\":\"Drama Keluarga\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Family_Drama\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"theme\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740652677},{\"ObjectId\":763,\"Dim\":10,\"Name\":\"Lainnya\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":1,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_others\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"theme\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1741205930},{\"ObjectId\":734,\"Dim\":10,\"Name\":\"Bukan siapa-siapa\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Nobody\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"character\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740581935}]",
+            "category_v2_ids": "761,763,754,734,725",
+            "color_dominate": "#402818",
+            "comic_show_type": "0",
+            "copyright_info": "",
+            "cover_stat_infos": [
+              {
+                "stat_data_position": 3,
+                "stat_type": 6,
+                "stat_value": "11.5M"
+              }
+            ],
+            "create_time": "2024-09-26T12:26:28Z",
+            "creation_status": "0",
+            "gender": "0",
+            "genre": "203",
+            "in_bookshelf": "0",
+            "is_dubbed": "0",
+            "is_exclusive": "0",
+            "is_hot": "1",
+            "is_native": "0",
+            "is_new_book": "0",
+            "language": "id",
+            "last_chapter_first_pass_time": "1727353720",
+            "last_chapter_index": "68",
+            "last_publish_time": "1727353731",
+            "log_pb": {
+              "recommend_group_id": "7418927171487403009"
+            },
+            "media_id": "2761691552379918",
+            "novel_audit_mark_info": "{}",
+            "novel_text_type": "0",
+            "platform": "7",
+            "read_count": "0",
+            "serial_count": "68",
+            "show_creation_status": "Selesai",
+            "show_creation_status_v2": "{\"detail_scene\":[\"Selesai\",\"Status\"],\"other_scene\":\"Selesai\"}",
+            "source": "芒种",
+            "stat_infos": [
+              "Ceo, Keluarga"
+            ],
+            "sub_abstract": "",
+            "thumb_url": "https://p16-novel-sign-sg.fizzopic.org/novel-images-sg/dba3eeda939f5230f8627113f85a8878~tplv-836v1mcgsk-image-quality-resize:160:228.heic?rk3s=95ec04ee&x-expires=1768868081&x-signature=09hKRB2W%2BQ20FjXi0lxulsOr9II%3D",
+            "total_price": "",
+            "tts_status": "0",
+            "type": "0",
+            "visibility_age_gate": "18",
+            "web_infos": "{\"stat_infos\":[\"Ceo, Keluarga\"]}",
+            "word_number": "2040"
+          },
+          {
+            "abstract": "Ketika berusia enam tahun, Mindy menyamar jadi anak laki-laki demi melindungi kakaknya. Dia sengaja mengikuti para penjahat dan dibawa pergi. Dia berharap suatu hari kakak dan ibunya bisa menemukannya. Setelah berlalu 15 tahun, sang kakak akhirnya menemukan jejak adiknya. Namun, keduanya tidak saling mengenali.",
+            "age_gate": "18",
+            "author": "wuli",
+            "book_id": "7571001495752018997",
+            "book_name": "Maafkan Aku, Adikku Tersayang",
+            "book_status": "1",
+            "book_type": "2",
+            "category_info": "[{\"ObjectId\":754,\"Dim\":10,\"Name\":\"Ceo\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Ceo\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"character\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740652500},{\"ObjectId\":725,\"Dim\":10,\"Name\":\"Keluarga\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Family\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740580467},{\"ObjectId\":2,\"Dim\":10,\"Name\":\"Romansa\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/ae4e5a8c44d152662be62f7916567d69~tplv-noop.image\\\",\\\"large_icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/beb25ec9b9edae1b8b30c347a7848630~tplv-noop.image\\\",\\\"back_image\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/dc9166b1732abe67dbe1be188e33d7e3~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_Romance\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"genre\\\"}\",\"OpUser\":\"\",\"CreateTime\":1607000379},{\"ObjectId\":761,\"Dim\":10,\"Name\":\"Drama Keluarga\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Family_Drama\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"theme\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740652677},{\"ObjectId\":715,\"Dim\":10,\"Name\":\"Swap Identitas\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_IdentitySwap\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740499386}]",
+            "category_v2_ids": "761,2,754,725,715",
+            "color_dominate": "#d0a088",
+            "comic_show_type": "0",
+            "copyright_info": "",
+            "cover_stat_infos": [
+              {
+                "stat_data_position": 3,
+                "stat_type": 6,
+                "stat_value": "1.6M"
+              }
+            ],
+            "create_time": "2025-11-10T07:52:31Z",
+            "creation_status": "0",
+            "gender": "0",
+            "genre": "203",
+            "in_bookshelf": "0",
+            "is_dubbed": "0",
+            "is_exclusive": "0",
+            "is_hot": "0",
+            "is_native": "0",
+            "is_new_book": "0",
+            "language": "id",
+            "last_chapter_first_pass_time": "1762762423",
+            "last_chapter_index": "76",
+            "last_publish_time": "1762859147",
+            "log_pb": {
+              "recommend_group_id": "7571001495752018997"
+            },
+            "media_id": "1761680416173381",
+            "novel_audit_mark_info": "{\"disclaimer\":{\"content_label\":[],\"fictional_warnings\":[],\"show_in_first\":true,\"special_disclaimers\":[],\"trigger_warning\":[\"Depiction of Acts of Serious Violence\",\"Minor Endangerment\"]}}",
+            "novel_text_type": "0",
+            "platform": "7",
+            "read_count": "0",
+            "serial_count": "76",
+            "show_creation_status": "Selesai",
+            "show_creation_status_v2": "{\"detail_scene\":[\"Selesai\",\"Status\"],\"other_scene\":\"Selesai\"}",
+            "source": "吾里",
+            "stat_infos": [
+              "Ceo, Keluarga"
+            ],
+            "sub_abstract": "",
+            "thumb_url": "https://p16-novel-sign-sg.fizzopic.org/novel-images-sg/e47e55eb00ddb9fedf2b26863f416b11~tplv-836v1mcgsk-image-quality-resize:160:228.heic?rk3s=95ec04ee&x-expires=1768868081&x-signature=GOslDb1fjibMW15p9ilMqmaM9uM%3D",
+            "total_price": "",
+            "tts_status": "0",
+            "type": "0",
+            "visibility_age_gate": "18",
+            "web_infos": "{\"stat_infos\":[\"Ceo, Keluarga\"]}",
+            "word_number": "0"
+          },
+          {
+            "abstract": "Putri tunggal keluarga Lucio, Wenda Lucio, mengalami amnesia dan tersesat. Dia ditemukan dan dibawa pulang oleh seorang pria brengsek bernama Hansen Cahyadi, kemudian melahirkan seorang putri yang diberi nama Sella. Di bawah bimbingan ibunya, Sella berhasil menghubungi paman keduanya, Satria Lucio. Keluarga Luico pun akhirnya menemukan Sella.Namun, istri dari anak kedua keluarga Lucio, Linda Ligara, bukanlah orang yang mudah dihadapi. Dia menculik Sella dan berencana menjualnya ke daerah pegunungan. Untungnya, ketiga paman Sella tiba tepat waktu dan berhasil menyelamatkannya. Ikuti kisah seru Sella dan Wenda di dalam drama ini.",
+            "age_gate": "18",
+            "author": "fanqie",
+            "book_id": "7434757895054429201",
+            "book_name": "Anak 7,5 Tahun Pembawa Berkah",
+            "book_status": "1",
+            "book_type": "2",
+            "category_info": "[{\"ObjectId\":754,\"Dim\":10,\"Name\":\"Ceo\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Ceo\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"character\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740652500},{\"ObjectId\":714,\"Dim\":10,\"Name\":\"Grup Favorit\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_GroupFavorite\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740499332},{\"ObjectId\":695,\"Dim\":10,\"Name\":\"Cinta yang manis\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":1,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_sweetlove\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"tone\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740083363},{\"ObjectId\":713,\"Dim\":10,\"Name\":\"Keluarga Fued\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_FamilyFued\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740498843},{\"ObjectId\":721,\"Dim\":10,\"Name\":\"Serangan balik\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_counterattack\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740580028},{\"ObjectId\":725,\"Dim\":10,\"Name\":\"Keluarga\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Family\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740580467}]",
+            "category_v2_ids": "695,714,713,721,725,754,743",
+            "color_dominate": "#101810",
+            "comic_show_type": "0",
+            "copyright_info": "",
+            "cover_stat_infos": [
+              {
+                "stat_data_position": 3,
+                "stat_type": 6,
+                "stat_value": "3.2M"
+              }
+            ],
+            "create_time": "2024-11-08T04:17:46Z",
+            "creation_status": "0",
+            "gender": "0",
+            "genre": "203",
+            "in_bookshelf": "0",
+            "is_dubbed": "0",
+            "is_exclusive": "0",
+            "is_hot": "0",
+            "is_native": "0",
+            "is_new_book": "0",
+            "language": "id",
+            "last_chapter_first_pass_time": "1731988386",
+            "last_chapter_index": "79",
+            "last_publish_time": "1732187255",
+            "log_pb": {
+              "recommend_group_id": "7434757895054429201"
+            },
+            "media_id": "1761691552379918",
+            "novel_audit_mark_info": "{\"disclaimer\":{\"content_label\":[],\"fictional_warnings\":[],\"show_in_first\":false,\"special_disclaimers\":[],\"trigger_warning\":[\"Minor Physical Abuse (Milder)\"]}}",
+            "novel_text_type": "0",
+            "platform": "7",
+            "read_count": "0",
+            "serial_count": "79",
+            "show_creation_status": "Selesai",
+            "show_creation_status_v2": "{\"detail_scene\":[\"Selesai\",\"Status\"],\"other_scene\":\"Selesai\"}",
+            "source": "番茄",
+            "stat_infos": [
+              "Ceo, Grup Favorit"
+            ],
+            "sub_abstract": "",
+            "thumb_url": "https://p16-novel-sign-sg.fizzopic.org/novel-images-sg/fa27d38ea87f76c97c2aad7dea03e7ee~tplv-836v1mcgsk-image-quality-resize:160:228.heic?rk3s=95ec04ee&x-expires=1768868081&x-signature=%2Ffb0Ev1nipH5KXoy6EXv6wSH84M%3D",
+            "total_price": "",
+            "tts_status": "0",
+            "type": "0",
+            "visibility_age_gate": "18",
+            "web_infos": "{\"stat_infos\":[\"Ceo, Grup Favorit\"]}",
+            "word_number": "2340"
+          },
+          {
+            "abstract": "Ardi Cahyo tidak punya keturunan, demi menjamin adanya pewaris Keluarga Cahyo, Ibu Ardi menyuruh protagonis membius seorang gadis polos. Gadis itu tidak sengaja hamil. Setelah Ibu Ardi tahu, dia langsung membawa gadis itu pulang, dan memperlakukan Nia Jaya dengan baik",
+            "age_gate": "18",
+            "author": "fanqie",
+            "book_id": "7425114673785080848",
+            "book_name": "Biarkan aku Mencintaimu",
+            "book_status": "1",
+            "book_type": "2",
+            "category_info": "[{\"ObjectId\":754,\"Dim\":10,\"Name\":\"Ceo\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Ceo\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"character\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740652500},{\"ObjectId\":36,\"Dim\":10,\"Name\":\"Time Travel\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/6a13b545772ef7b2d08d5f919336007c~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_Time_Travel\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"\",\"CreateTime\":1630500486},{\"ObjectId\":2,\"Dim\":10,\"Name\":\"Romansa\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/ae4e5a8c44d152662be62f7916567d69~tplv-noop.image\\\",\\\"large_icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/beb25ec9b9edae1b8b30c347a7848630~tplv-noop.image\\\",\\\"back_image\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/dc9166b1732abe67dbe1be188e33d7e3~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_Romance\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"genre\\\"}\",\"OpUser\":\"\",\"CreateTime\":1607000379},{\"ObjectId\":695,\"Dim\":10,\"Name\":\"Cinta yang manis\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":1,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_sweetlove\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"tone\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740083363},{\"ObjectId\":79,\"Dim\":10,\"Name\":\"Romansa Urban\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/fd374feb6fd90a7044f8224b84db3fd7~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_Modern_love\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"theme\\\"}\",\"OpUser\":\"\",\"CreateTime\":1640806585},{\"ObjectId\":725,\"Dim\":10,\"Name\":\"Keluarga\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Family\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740580467}]",
+            "category_v2_ids": "695,2,79,754,36,725",
+            "color_dominate": "#202820",
+            "comic_show_type": "0",
+            "copyright_info": "",
+            "cover_stat_infos": [
+              {
+                "stat_data_position": 3,
+                "stat_type": 6,
+                "stat_value": "4.5M"
+              }
+            ],
+            "create_time": "2024-10-13T04:37:09Z",
+            "creation_status": "0",
+            "gender": "0",
+            "genre": "203",
+            "in_bookshelf": "0",
+            "is_dubbed": "0",
+            "is_exclusive": "0",
+            "is_hot": "0",
+            "is_native": "0",
+            "is_new_book": "0",
+            "language": "id",
+            "last_chapter_first_pass_time": "1728794644",
+            "last_chapter_index": "80",
+            "last_publish_time": "1728794651",
+            "log_pb": {
+              "recommend_group_id": "7425114673785080848"
+            },
+            "media_id": "1761691552379918",
+            "novel_audit_mark_info": "{\"disclaimer\":{\"content_label\":[],\"fictional_warnings\":[],\"show_in_first\":false,\"special_disclaimers\":[],\"trigger_warning\":[\"Minor Physical Abuse (Milder)\"]}}",
+            "novel_text_type": "0",
+            "platform": "7",
+            "read_count": "0",
+            "serial_count": "80",
+            "show_creation_status": "Selesai",
+            "show_creation_status_v2": "{\"detail_scene\":[\"Selesai\",\"Status\"],\"other_scene\":\"Selesai\"}",
+            "source": "番茄",
+            "stat_infos": [
+              "Ceo, Time Travel"
+            ],
+            "sub_abstract": "",
+            "thumb_url": "https://p16-novel-sign-sg.fizzopic.org/novel-images-sg/3702894ee5c19a0426261006e4cefe3e~tplv-836v1mcgsk-image-quality-resize:160:228.heic?rk3s=95ec04ee&x-expires=1768868082&x-signature=4NQZBnn%2BUe1Fd%2ByklJ4NCUWCJkM%3D",
+            "total_price": "",
+            "tts_status": "0",
+            "type": "0",
+            "visibility_age_gate": "18",
+            "web_infos": "{\"stat_infos\":[\"Ceo, Time Travel\"]}",
+            "word_number": "2400"
+          },
+          {
+            "abstract": "Putri Bintang dari Kerajaan Arya meninggal di hari pernikahannya dan terbangun sebagai Lia Arya, istri yang tak dicintai suaminya.Kali ini, Lia memilih untuk berhenti mengejar Ardi Rendra dan justru menggugat cerai. Tapi perubahan sikapnya malah membuat Ardi penasaran dan tanpa sadar, jatuh cinta padanya.",
+            "age_gate": "18",
+            "author": "jingyue",
+            "book_id": "7576965882681773061",
+            "book_name": "Kehidupan Kedua sang Putri",
+            "book_status": "1",
+            "book_type": "2",
+            "category_info": "[{\"ObjectId\":754,\"Dim\":10,\"Name\":\"Ceo\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Ceo\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"character\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740652500},{\"ObjectId\":746,\"Dim\":10,\"Name\":\"Kelahiran kembali\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Rebirth\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740652319},{\"ObjectId\":2,\"Dim\":10,\"Name\":\"Romansa\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/ae4e5a8c44d152662be62f7916567d69~tplv-noop.image\\\",\\\"large_icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/beb25ec9b9edae1b8b30c347a7848630~tplv-noop.image\\\",\\\"back_image\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/dc9166b1732abe67dbe1be188e33d7e3~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_Romance\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"genre\\\"}\",\"OpUser\":\"\",\"CreateTime\":1607000379},{\"ObjectId\":79,\"Dim\":10,\"Name\":\"Romansa Urban\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/fd374feb6fd90a7044f8224b84db3fd7~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_Modern_love\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"theme\\\"}\",\"OpUser\":\"\",\"CreateTime\":1640806585},{\"ObjectId\":756,\"Dim\":10,\"Name\":\"Pemeran Utama Wanita Kuat\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Strong_Female_Lead\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"character\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740652536},{\"ObjectId\":721,\"Dim\":10,\"Name\":\"Serangan balik\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_counterattack\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740580028}]",
+            "category_v2_ids": "746,2,79,754,756,721",
+            "color_dominate": "#e8c0b0",
+            "comic_show_type": "0",
+            "copyright_info": "",
+            "cover_stat_infos": [
+              {
+                "stat_data_position": 3,
+                "stat_type": 6,
+                "stat_value": "5.2M"
+              }
+            ],
+            "create_time": "2025-11-26T09:37:23Z",
+            "creation_status": "0",
+            "gender": "0",
+            "genre": "203",
+            "in_bookshelf": "0",
+            "is_dubbed": "0",
+            "is_exclusive": "0",
+            "is_hot": "0",
+            "is_native": "0",
+            "is_new_book": "0",
+            "language": "id",
+            "last_chapter_first_pass_time": "1764150697",
+            "last_chapter_index": "77",
+            "last_publish_time": "1764317388",
+            "log_pb": {
+              "recommend_group_id": "7576965882681773061"
+            },
+            "media_id": "4761691552379918",
+            "novel_audit_mark_info": "{\"disclaimer\":{\"content_label\":[],\"fictional_warnings\":[],\"show_in_first\":false,\"special_disclaimers\":[],\"trigger_warning\":[\"Acceptable Depiction of Suicide\",\"Depiction of Acts of Serious Violence\"]}}",
+            "novel_text_type": "0",
+            "platform": "7",
+            "read_count": "0",
+            "serial_count": "77",
+            "show_creation_status": "Selesai",
+            "show_creation_status_v2": "{\"detail_scene\":[\"Selesai\",\"Status\"],\"other_scene\":\"Selesai\"}",
+            "source": "景阅",
+            "stat_infos": [
+              "Ceo, Kelahiran kembali"
+            ],
+            "sub_abstract": "",
+            "thumb_url": "https://p16-novel-sign-sg.fizzopic.org/novel-images-sg/f66e568228eb6663c8ab65d6aac1f73d~tplv-836v1mcgsk-image-quality-resize:160:228.heic?rk3s=95ec04ee&x-expires=1768868082&x-signature=mCUG6BXCSsyeAN6Gdx6DNUPnp%2FE%3D",
+            "total_price": "",
+            "tts_status": "0",
+            "type": "0",
+            "visibility_age_gate": "18",
+            "web_infos": "{\"stat_infos\":[\"Ceo, Kelahiran kembali\"]}",
+            "word_number": "0"
+          },
+          {
+            "abstract": "Sinta, putri konglomerat keluarga Jumadi, dijebak oleh anak angkat keluarganya, Sinta. Dia habiskan satu malam bersama Rico—yang malam itu merenggut kehormatannya.6 tahun kemudian, Sonya pun kembali dengan identitas baru sebagai diler kasino bernama Tina. Diam-diam, merancang rencana balas dendam dengan menggoda Rico dan menghancurkan Sinta.",
+            "age_gate": "18",
+            "author": "huace",
+            "book_id": "7512040433719970817",
+            "book_name": "Malam Indah yang Menjerat Hati",
+            "book_status": "1",
+            "book_type": "2",
+            "category_info": "[{\"ObjectId\":756,\"Dim\":10,\"Name\":\"Pemeran Utama Wanita Kuat\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Strong_Female_Lead\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"character\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740652536},{\"ObjectId\":25,\"Dim\":10,\"Name\":\"Cinta Satu Malam\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/bb37e584f54b9cc4a37a2e4683f9f218~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_One_Night_Stand\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"\",\"CreateTime\":1630500206},{\"ObjectId\":2,\"Dim\":10,\"Name\":\"Romansa\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/ae4e5a8c44d152662be62f7916567d69~tplv-noop.image\\\",\\\"large_icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/beb25ec9b9edae1b8b30c347a7848630~tplv-noop.image\\\",\\\"back_image\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/dc9166b1732abe67dbe1be188e33d7e3~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_Romance\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"genre\\\"}\",\"OpUser\":\"\",\"CreateTime\":1607000379},{\"ObjectId\":79,\"Dim\":10,\"Name\":\"Romansa Urban\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/fd374feb6fd90a7044f8224b84db3fd7~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_Modern_love\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"theme\\\"}\",\"OpUser\":\"\",\"CreateTime\":1640806585},{\"ObjectId\":754,\"Dim\":10,\"Name\":\"Ceo\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Ceo\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"character\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740652500},{\"ObjectId\":745,\"Dim\":10,\"Name\":\"Identitas Tersembunyi\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_HiddenIdentity\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740652305},{\"ObjectId\":721,\"Dim\":10,\"Name\":\"Serangan balik\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_counterattack\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740580028}]",
+            "category_v2_ids": "79,2,756,754,25,745,721",
+            "color_dominate": "#181818",
+            "comic_show_type": "0",
+            "copyright_info": "",
+            "cover_stat_infos": [
+              {
+                "stat_data_position": 3,
+                "stat_type": 6,
+                "stat_value": "10.8M"
+              }
+            ],
+            "create_time": "2025-06-04T10:33:29Z",
+            "creation_status": "0",
+            "gender": "0",
+            "genre": "203",
+            "in_bookshelf": "0",
+            "is_dubbed": "0",
+            "is_exclusive": "0",
+            "is_hot": "1",
+            "is_native": "0",
+            "is_new_book": "0",
+            "language": "id",
+            "last_chapter_first_pass_time": "1749550640",
+            "last_chapter_index": "60",
+            "last_publish_time": "1749550640",
+            "log_pb": {
+              "recommend_group_id": "7512040433719970817"
+            },
+            "media_id": "1761680508173381",
+            "novel_audit_mark_info": "{\"disclaimer\":{\"content_label\":[\"Restricted Behavior Standards\"],\"fictional_warnings\":[],\"show_in_first\":true,\"special_disclaimers\":[],\"trigger_warning\":[\"Depiction of Acts of Serious Violence\"]}}",
+            "novel_text_type": "0",
+            "platform": "7",
+            "read_count": "0",
+            "serial_count": "60",
+            "show_creation_status": "Selesai",
+            "show_creation_status_v2": "{\"detail_scene\":[\"Selesai\",\"Status\"],\"other_scene\":\"Selesai\"}",
+            "source": "华策",
+            "stat_infos": [
+              "Ceo, Pemeran Utama Wanita Kuat"
+            ],
+            "sub_abstract": "",
+            "thumb_url": "https://p16-novel-sign-sg.fizzopic.org/novel-images-sg/2d1ebff2c4a7c24110ec44d75c926d6d~tplv-836v1mcgsk-image-quality-resize:160:228.heic?rk3s=95ec04ee&x-expires=1768868081&x-signature=eh7kqz%2BuLhh5uRKutzsw3UhbQOU%3D",
+            "total_price": "",
+            "tts_status": "0",
+            "type": "0",
+            "visibility_age_gate": "18",
+            "web_infos": "{\"stat_infos\":[\"Ceo, Pemeran Utama Wanita Kuat\"]}",
+            "word_number": "1800"
+          },
+          {
+            "abstract": "Putri Cahaya dikenal sebagai Ratu Hati Kota Jaya, selalu memikat pria dengan pesonanya. Namun, saat ia mencoba menaklukkan Rizwan Pratama, justru dirinya yang terjebak dalam permainan cinta penuh tarik-ulur. Kisah mereka dipenuhi ketegangan dan godaan, membuat penonton penasaran ke mana arah hubungan mereka.",
+            "age_gate": "18",
+            "author": "fanqie",
+            "book_id": "7582542671437106229",
+            "book_name": "Mawar Liar Merayu Hati",
+            "book_status": "1",
+            "book_type": "2",
+            "category_info": "[{\"ObjectId\":754,\"Dim\":10,\"Name\":\"Ceo\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Ceo\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"character\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740652500},{\"ObjectId\":721,\"Dim\":10,\"Name\":\"Serangan balik\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_counterattack\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740580028},{\"ObjectId\":2,\"Dim\":10,\"Name\":\"Romansa\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/ae4e5a8c44d152662be62f7916567d69~tplv-noop.image\\\",\\\"large_icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/beb25ec9b9edae1b8b30c347a7848630~tplv-noop.image\\\",\\\"back_image\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/dc9166b1732abe67dbe1be188e33d7e3~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_Romance\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"genre\\\"}\",\"OpUser\":\"\",\"CreateTime\":1607000379},{\"ObjectId\":695,\"Dim\":10,\"Name\":\"Cinta yang manis\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":1,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_sweetlove\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"tone\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740083363},{\"ObjectId\":79,\"Dim\":10,\"Name\":\"Romansa Urban\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/fd374feb6fd90a7044f8224b84db3fd7~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_Modern_love\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"theme\\\"}\",\"OpUser\":\"\",\"CreateTime\":1640806585},{\"ObjectId\":756,\"Dim\":10,\"Name\":\"Pemeran Utama Wanita Kuat\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Strong_Female_Lead\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"character\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740652536},{\"ObjectId\":749,\"Dim\":10,\"Name\":\"Pembalasan dendam\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Revenge\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740652387}]",
+            "category_v2_ids": "695,2,79,754,756,721,749",
+            "color_dominate": "#301828",
+            "comic_show_type": "0",
+            "copyright_info": "",
+            "cover_stat_infos": [
+              {
+                "stat_data_position": 3,
+                "stat_type": 6,
+                "stat_value": "36.2M"
+              }
+            ],
+            "create_time": "2025-12-11T10:18:10Z",
+            "creation_status": "0",
+            "gender": "0",
+            "genre": "203",
+            "in_bookshelf": "0",
+            "is_dubbed": "0",
+            "is_exclusive": "0",
+            "is_hot": "1",
+            "is_native": "0",
+            "is_new_book": "1",
+            "language": "id",
+            "last_chapter_first_pass_time": "1765459607",
+            "last_chapter_index": "85",
+            "last_publish_time": "1765632157",
+            "log_pb": {
+              "recommend_group_id": "7582542671437106229"
+            },
+            "media_id": "1761691552379918",
+            "novel_audit_mark_info": "{\"disclaimer\":{\"content_label\":[\"Restricted Behavior Standards\"],\"fictional_warnings\":[],\"show_in_first\":false,\"special_disclaimers\":[],\"trigger_warning\":[\"Depiction of Acts of Serious Violence\"]}}",
+            "novel_text_type": "0",
+            "platform": "7",
+            "read_count": "0",
+            "serial_count": "85",
+            "show_creation_status": "Selesai",
+            "show_creation_status_v2": "{\"detail_scene\":[\"Selesai\",\"Status\"],\"other_scene\":\"Selesai\"}",
+            "source": "番茄",
+            "stat_infos": [
+              "Ceo, Serangan balik"
+            ],
+            "sub_abstract": "",
+            "thumb_url": "https://p16-novel-sign-sg.fizzopic.org/novel-images-sg/7a2f73db2f0814d2b7ae6803f4199752~tplv-836v1mcgsk-image-quality-resize:160:228.heic?rk3s=95ec04ee&x-expires=1768868082&x-signature=fa7hdv%2BfoupYs0SpUU%2FB6ydM4B4%3D",
+            "total_price": "",
+            "tts_status": "0",
+            "type": "0",
+            "visibility_age_gate": "18",
+            "web_infos": "{\"stat_infos\":[\"Ceo, Serangan balik\"]}",
+            "word_number": "0"
+          },
+          {
+            "abstract": "Setelah kehilangan putri kandung, Sri Wulandari mencurahkan kasih pada Putri Putra yang berkhianat dan mencoba membunuhnya. Dengan kesempatan kedua, Sri kembali ke masa lalu, membongkar kejahatan Putri Putra, menyerahkan warisan ke Maya Putra, dan memulai hidup baru bersama Andi Wijaya dan Maya, menemukan kebahagiaan sejati.",
+            "age_gate": "18",
+            "author": "lebukezhi",
+            "book_id": "7580622205910780981",
+            "book_name": "Aku Sandaran Putriku",
+            "book_status": "1",
+            "book_type": "2",
+            "category_info": "[{\"ObjectId\":754,\"Dim\":10,\"Name\":\"Ceo\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Ceo\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"character\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740652500},{\"ObjectId\":746,\"Dim\":10,\"Name\":\"Kelahiran kembali\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Rebirth\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740652319},{\"ObjectId\":2,\"Dim\":10,\"Name\":\"Romansa\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/ae4e5a8c44d152662be62f7916567d69~tplv-noop.image\\\",\\\"large_icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/beb25ec9b9edae1b8b30c347a7848630~tplv-noop.image\\\",\\\"back_image\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/dc9166b1732abe67dbe1be188e33d7e3~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_Romance\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"genre\\\"}\",\"OpUser\":\"\",\"CreateTime\":1607000379},{\"ObjectId\":761,\"Dim\":10,\"Name\":\"Drama Keluarga\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Family_Drama\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"theme\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740652677},{\"ObjectId\":756,\"Dim\":10,\"Name\":\"Pemeran Utama Wanita Kuat\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Strong_Female_Lead\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"character\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740652536},{\"ObjectId\":721,\"Dim\":10,\"Name\":\"Serangan balik\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_counterattack\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740580028},{\"ObjectId\":725,\"Dim\":10,\"Name\":\"Keluarga\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Family\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740580467},{\"ObjectId\":749,\"Dim\":10,\"Name\":\"Pembalasan dendam\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Revenge\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740652387}]",
+            "category_v2_ids": "746,2,761,754,756,721,725,749",
+            "color_dominate": "#382010",
+            "comic_show_type": "0",
+            "copyright_info": "",
+            "cover_stat_infos": [
+              {
+                "stat_data_position": 3,
+                "stat_type": 6,
+                "stat_value": "1.2M"
+              }
+            ],
+            "create_time": "2025-12-06T06:05:47Z",
+            "creation_status": "0",
+            "gender": "0",
+            "genre": "203",
+            "in_bookshelf": "0",
+            "is_dubbed": "0",
+            "is_exclusive": "0",
+            "is_hot": "0",
+            "is_native": "0",
+            "is_new_book": "1",
+            "language": "id",
+            "last_chapter_first_pass_time": "1765082628",
+            "last_chapter_index": "64",
+            "last_publish_time": "1765082628",
+            "log_pb": {
+              "recommend_group_id": "7580622205910780981"
+            },
+            "media_id": "1761250520173382",
+            "novel_audit_mark_info": "{\"disclaimer\":{\"content_label\":[],\"fictional_warnings\":[],\"show_in_first\":false,\"special_disclaimers\":[],\"trigger_warning\":[\"Depiction of Acts of Serious Violence\",\"Violent Death, Accident or Mutilation\"]}}",
+            "novel_text_type": "0",
+            "platform": "7",
+            "read_count": "0",
+            "serial_count": "64",
+            "show_creation_status": "Selesai",
+            "show_creation_status_v2": "{\"detail_scene\":[\"Selesai\",\"Status\"],\"other_scene\":\"Selesai\"}",
+            "source": "乐不可吱",
+            "stat_infos": [
+              "Ceo, Kelahiran kembali"
+            ],
+            "sub_abstract": "",
+            "thumb_url": "https://p16-novel-sign-sg.fizzopic.org/novel-images-sg/3b10b4b3b5f7e245fd48e420095dc919~tplv-836v1mcgsk-image-quality-resize:160:228.heic?rk3s=95ec04ee&x-expires=1768868082&x-signature=XRWba%2BxQ8czpUwGNGrlQhCMaOFY%3D",
+            "total_price": "",
+            "tts_status": "0",
+            "type": "0",
+            "visibility_age_gate": "18",
+            "web_infos": "{\"stat_infos\":[\"Ceo, Kelahiran kembali\"]}",
+            "word_number": "0"
+          },
+          {
+            "abstract": "Cindy Certia bersembunyo di bangsal pria koma yang bernama Tony Hartono. Tanpa disangka, Cindy mendapat kekuatan untuk membaca pikiran. Kedua orang tersebut membentuk aliasi dan menikah. Cindy memanfaakan kekuasaan keluarga Hartono untuk menghukum orang-orang yang menindasnya.",
+            "age_gate": "18",
+            "author": "fanqie",
+            "book_id": "7579806300054227973",
+            "book_name": "Suara Hati Suami Koma",
+            "book_status": "1",
+            "book_type": "2",
+            "category_info": "[{\"ObjectId\":756,\"Dim\":10,\"Name\":\"Pemeran Utama Wanita Kuat\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Strong_Female_Lead\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"character\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740652536},{\"ObjectId\":721,\"Dim\":10,\"Name\":\"Serangan balik\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_counterattack\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740580028},{\"ObjectId\":2,\"Dim\":10,\"Name\":\"Romansa\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/ae4e5a8c44d152662be62f7916567d69~tplv-noop.image\\\",\\\"large_icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/beb25ec9b9edae1b8b30c347a7848630~tplv-noop.image\\\",\\\"back_image\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/dc9166b1732abe67dbe1be188e33d7e3~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_Romance\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"genre\\\"}\",\"OpUser\":\"\",\"CreateTime\":1607000379},{\"ObjectId\":79,\"Dim\":10,\"Name\":\"Romansa Urban\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/fd374feb6fd90a7044f8224b84db3fd7~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_Modern_love\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"theme\\\"}\",\"OpUser\":\"\",\"CreateTime\":1640806585},{\"ObjectId\":754,\"Dim\":10,\"Name\":\"Ceo\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Ceo\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"character\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740652500},{\"ObjectId\":716,\"Dim\":10,\"Name\":\"Kekuatan super\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Superpower\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740499409}]",
+            "category_v2_ids": "756,2,79,754,721,716",
+            "color_dominate": "#281008",
+            "comic_show_type": "0",
+            "copyright_info": "",
+            "cover_stat_infos": [
+              {
+                "stat_data_position": 3,
+                "stat_type": 6,
+                "stat_value": "17.0M"
+              }
+            ],
+            "create_time": "2025-12-04T01:19:39Z",
+            "creation_status": "0",
+            "gender": "0",
+            "genre": "203",
+            "in_bookshelf": "0",
+            "is_dubbed": "0",
+            "is_exclusive": "0",
+            "is_hot": "0",
+            "is_native": "0",
+            "is_new_book": "0",
+            "language": "id",
+            "last_chapter_first_pass_time": "1764815938",
+            "last_chapter_index": "76",
+            "last_publish_time": "1764999816",
+            "log_pb": {
+              "recommend_group_id": "7579806300054227973"
+            },
+            "media_id": "1761691552379918",
+            "novel_audit_mark_info": "{\"disclaimer\":{\"content_label\":[\"Restricted Behavior Standards\"],\"fictional_warnings\":[],\"show_in_first\":false,\"special_disclaimers\":[],\"trigger_warning\":[\"Depiction of Acts of Serious Violence\"]}}",
+            "novel_text_type": "0",
+            "platform": "7",
+            "read_count": "0",
+            "serial_count": "76",
+            "show_creation_status": "Selesai",
+            "show_creation_status_v2": "{\"detail_scene\":[\"Selesai\",\"Status\"],\"other_scene\":\"Selesai\"}",
+            "source": "番茄",
+            "stat_infos": [
+              "Ceo, Pemeran Utama Wanita Kuat"
+            ],
+            "sub_abstract": "",
+            "thumb_url": "https://p16-novel-sign-sg.fizzopic.org/novel-images-sg/e6097725601dc1e23e58cf55b382bf5e~tplv-836v1mcgsk-image-quality-resize:160:228.heic?rk3s=95ec04ee&x-expires=1768868081&x-signature=OFdsWVjM3gqww6QtJj%2Bnrph8tMI%3D",
+            "total_price": "",
+            "tts_status": "0",
+            "type": "0",
+            "visibility_age_gate": "18",
+            "web_infos": "{\"stat_infos\":[\"Ceo, Pemeran Utama Wanita Kuat\"]}",
+            "word_number": "0"
+          }
+        ],
+        "category_group_id": "7477850046889724945",
+        "cell_style": 1,
+        "cell_type": 15,
+        "channel_id": 94349631114,
+        "cid": "754",
+        "has_more": true,
+        "id": "7482992636635119632",
+        "image_size_info": {
+          "h": 228,
+          "level": "S",
+          "w": 160
+        },
+        "name": "Ceo",
+        "next_offset": 12,
+        "operation_type": 1,
+        "show_category_setting": true,
+        "show_type": 306,
+        "url": "worldance645713://lynxview?surl=https%3A%2F%2Fapi.tmtreader.com%2Fworldance%2Flynx%2Ffeoffline%2Fdrama_lynx%2Fplaylet-list%2Ftemplate.js%3Fcell_id%3D7482992636635119632%26session_id%3D20251231182821CFE7D3D26DD8A4518805%26tab_scene%3D-1%26cid%3D754%26category_id%3D754%26stick_ids%3D7583329139273255941%2C7564822697847295029%2C7562148732104346640%2C7418927171487403009%2C7571001495752018997%2C7434757895054429201%2C7425114673785080848%2C7576965882681773061%2C7512040433719970817%2C7582542671437106229%2C7580622205910780981%2C7579806300054227973%26display_position%3D3&use_spark=1&hide_nav_bar=1&trans_status_bar=1&status_font_mode=light&loadingButHideByFront=1&use_forest=1&channel=drama_lynx&bundle=playlet-list/template.js",
+        "use_recommend": true
+      },
+      {
+        "books": [
+          {
+            "abstract": "Lely, putri konglomerat terkaya di Kota Uttar, menyembunyikan identitasnya dan bekerja sebagai pengantar makanan. Dia bertekad untuk hidup mandiri dan menghasilkan uang sendiri. Suatu hari, saat mengantarkan makanan, dia secara tidak sengaja menyelamatkan Rinto, seorang CEO yang tertimpa masalah. Pertemuan ini menjadi awal kisah cinta mereka yang penuh kebahagiaan dan kejutan.",
+            "age_gate": "18",
+            "author": "mangzhong",
+            "book_id": "7341229572660136961",
+            "book_name": "Pria Miskin yang Kutolong Ternyata CEO",
+            "book_status": "1",
+            "book_type": "2",
+            "category_info": "[{\"ObjectId\":754,\"Dim\":10,\"Name\":\"Ceo\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Ceo\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"character\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740652500},{\"ObjectId\":745,\"Dim\":10,\"Name\":\"Identitas Tersembunyi\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_HiddenIdentity\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740652305},{\"ObjectId\":2,\"Dim\":10,\"Name\":\"Romansa\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/ae4e5a8c44d152662be62f7916567d69~tplv-noop.image\\\",\\\"large_icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/beb25ec9b9edae1b8b30c347a7848630~tplv-noop.image\\\",\\\"back_image\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/dc9166b1732abe67dbe1be188e33d7e3~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_Romance\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"genre\\\"}\",\"OpUser\":\"\",\"CreateTime\":1607000379},{\"ObjectId\":79,\"Dim\":10,\"Name\":\"Romansa Urban\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/fd374feb6fd90a7044f8224b84db3fd7~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_Modern_love\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"theme\\\"}\",\"OpUser\":\"\",\"CreateTime\":1640806585},{\"ObjectId\":721,\"Dim\":10,\"Name\":\"Serangan balik\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_counterattack\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740580028}]",
+            "category_v2_ids": "745,2,79,754,721",
+            "color_dominate": "#402828",
+            "comic_show_type": "0",
+            "copyright_info": "",
+            "cover_stat_infos": [
+              {
+                "stat_data_position": 3,
+                "stat_type": 6,
+                "stat_value": "7.3M"
+              }
+            ],
+            "create_time": "2024-03-01T03:20:07Z",
+            "creation_status": "0",
+            "display_alias_name": "Marry A Secrect CEO",
+            "gender": "0",
+            "genre": "203",
+            "in_bookshelf": "0",
+            "is_dubbed": "0",
+            "is_exclusive": "0",
+            "is_hot": "0",
+            "is_native": "0",
+            "is_new_book": "0",
+            "language": "id",
+            "last_chapter_first_pass_time": "1709263378",
+            "last_chapter_index": "80",
+            "last_publish_time": "1709263378",
+            "log_pb": {
+              "recommend_group_id": "7341229572660136961"
+            },
+            "media_id": "2761691552379918",
+            "novel_audit_mark_info": "{\"disclaimer\":{\"content_label\":[],\"fictional_warnings\":[],\"show_in_first\":false,\"special_disclaimers\":[],\"trigger_warning\":[\"Violent Death, Accident or Mutilation\"]}}",
+            "novel_text_type": "0",
+            "platform": "7",
+            "read_count": "0",
+            "search_subtitle": "Aka: Marry A Secrect CEO",
+            "serial_count": "80",
+            "show_creation_status": "Selesai",
+            "show_creation_status_v2": "{\"detail_scene\":[\"Selesai\",\"Status\"],\"other_scene\":\"Selesai\"}",
+            "source": "mangzhong",
+            "stat_infos": [
+              "Ceo, Identitas Tersembunyi",
+              "Selesai"
+            ],
+            "sub_abstract": "",
+            "thumb_url": "https://p16-novel-sign-sg.fizzopic.org/novel-images-sg/6d0bae2d26de2a89917d00d0d8616d89~tplv-resize:570:810.heic?rk3s=95ec04ee&x-expires=1768868081&x-signature=B2RfMkKXG1SX9GzSxQPpIlKN9Z0%3D",
+            "total_price": "",
+            "tts_status": "0",
+            "type": "0",
+            "visibility_age_gate": "18",
+            "word_number": "2400"
+          }
+        ],
+        "cell_style": 1,
+        "channel_id": 94349630949,
+        "cid": "0",
+        "has_more": false,
+        "id": "7341229572660136961",
+        "name": "",
+        "next_offset": 0,
+        "operation_type": 0,
+        "recommend_reason": "short_play",
+        "search_high_light": {
+          "alias_title": {
+            "high_light_position": [
+              [
+                16,
+                3
+              ]
+            ],
+            "rich_text": "Marry A Secrect <em>CEO</em>",
+            "text": "Marry A Secrect CEO"
+          },
+          "search_subtitle": {
+            "high_light_position": [
+              [
+                21,
+                3
+              ]
+            ],
+            "rich_text": "Aka: Marry A Secrect <em>CEO</em>",
+            "text": "Aka: Marry A Secrect CEO"
+          },
+          "title": {
+            "high_light_position": [
+              [
+                35,
+                3
+              ]
+            ],
+            "rich_text": "Pria Miskin yang Kutolong Ternyata <em>CEO</em>",
+            "text": "Pria Miskin yang Kutolong Ternyata CEO"
+          }
+        },
+        "show_type": 310,
+        "use_recommend": false
+      },
+      {
+        "books": [
+          {
+            "abstract": "Setelah ibunya meninggal, Riana hidup bersama keluarga ayahnya. Tak tahan dengan sikap sang ayah, ia kabur dan mabuk untuk lari dari kenyataan. Malam itu, ia salah masuk kamar dan menjadi \"obat\" bagi Arju, pria yang alergi perempuan. Sejak itu, Riana tak pernah lepas dari pelukannya, selalu dimanjakan oleh kasih sayangnya.",
+            "age_gate": "18",
+            "author": "fanqie",
+            "book_id": "7502829009550445584",
+            "book_name": "CEO Jatuh Cinta saat Mabuk",
+            "book_status": "1",
+            "book_type": "2",
+            "category_info": "[{\"ObjectId\":754,\"Dim\":10,\"Name\":\"Ceo\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Ceo\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"character\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740652500},{\"ObjectId\":721,\"Dim\":10,\"Name\":\"Serangan balik\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_counterattack\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740580028},{\"ObjectId\":79,\"Dim\":10,\"Name\":\"Romansa Urban\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/fd374feb6fd90a7044f8224b84db3fd7~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_Modern_love\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"theme\\\"}\",\"OpUser\":\"\",\"CreateTime\":1640806585}]",
+            "category_v2_ids": "79,754,721",
+            "color_dominate": "#381010",
+            "comic_show_type": "0",
+            "copyright_info": "",
+            "cover_stat_infos": [
+              {
+                "stat_data_position": 3,
+                "stat_type": 6,
+                "stat_value": "2.2M"
+              }
+            ],
+            "create_time": "2025-05-10T14:48:27Z",
+            "creation_status": "0",
+            "gender": "0",
+            "genre": "203",
+            "in_bookshelf": "0",
+            "is_dubbed": "0",
+            "is_exclusive": "1",
+            "is_hot": "0",
+            "is_native": "0",
+            "is_new_book": "0",
+            "language": "id",
+            "last_chapter_first_pass_time": "1746957815",
+            "last_chapter_index": "111",
+            "last_publish_time": "1747712097",
+            "log_pb": {
+              "recommend_group_id": "7502829009550445584"
+            },
+            "media_id": "1761691552379918",
+            "novel_audit_mark_info": "{\"disclaimer\":{\"content_label\":[],\"fictional_warnings\":[],\"show_in_first\":false,\"special_disclaimers\":[],\"trigger_warning\":[\"Non-Consensual Sexual Act Involving Adult (Disclaimer)\"]}}",
+            "novel_text_type": "0",
+            "platform": "7",
+            "read_count": "0",
+            "serial_count": "111",
+            "show_creation_status": "Selesai",
+            "show_creation_status_v2": "{\"detail_scene\":[\"Selesai\",\"Status\"],\"other_scene\":\"Selesai\"}",
+            "source": "番茄",
+            "stat_infos": [
+              "Ceo, Serangan balik",
+              "Selesai"
+            ],
+            "sub_abstract": "",
+            "thumb_url": "https://p16-novel-sign-sg.fizzopic.org/novel-images-sg/87997ab08c8112dadef860e606130f44~tplv-resize:570:810.heic?rk3s=95ec04ee&x-expires=1768868081&x-signature=QGYm1T0clkZlPzy6tINQgw25qyg%3D",
+            "total_price": "",
+            "tts_status": "0",
+            "type": "0",
+            "visibility_age_gate": "18",
+            "word_number": "3330"
+          }
+        ],
+        "cell_style": 1,
+        "channel_id": 94349630949,
+        "cid": "0",
+        "has_more": false,
+        "id": "7502829009550445584",
+        "name": "",
+        "next_offset": 0,
+        "operation_type": 0,
+        "recommend_reason": "short_play",
+        "search_high_light": {
+          "title": {
+            "high_light_position": [
+              [
+                0,
+                3
+              ]
+            ],
+            "rich_text": "<em>CEO</em> Jatuh Cinta saat Mabuk",
+            "text": "CEO Jatuh Cinta saat Mabuk"
+          }
+        },
+        "show_type": 310,
+        "use_recommend": false
+      },
+      {
+        "books": [
+          {
+            "abstract": "Quinn bekerja di sebuah klub dan melewati malam panas dengan Joker sampai hamil. Di rumah sakit, dia bertemu dengan Penny, teman kuliahnya dulu. Setelah Penny tahu Quinn hamil anak Joker, dia meminjam cincin Quinn untuk berpura-pura menjadi dirinya. Setelah melewati berbagai rintangan, Joker akhirnya mengetahui identitas Quinn dan bersatu dengannya.",
+            "age_gate": "18",
+            "author": "fanqie",
+            "book_id": "7462231549878995984",
+            "book_name": "Hamil Anak CEO",
+            "book_status": "1",
+            "book_type": "2",
+            "category_info": "[{\"ObjectId\":754,\"Dim\":10,\"Name\":\"Ceo\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Ceo\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"character\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740652500},{\"ObjectId\":25,\"Dim\":10,\"Name\":\"Cinta Satu Malam\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/bb37e584f54b9cc4a37a2e4683f9f218~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_One_Night_Stand\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"\",\"CreateTime\":1630500206},{\"ObjectId\":2,\"Dim\":10,\"Name\":\"Romansa\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/ae4e5a8c44d152662be62f7916567d69~tplv-noop.image\\\",\\\"large_icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/beb25ec9b9edae1b8b30c347a7848630~tplv-noop.image\\\",\\\"back_image\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/dc9166b1732abe67dbe1be188e33d7e3~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_Romance\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"genre\\\"}\",\"OpUser\":\"\",\"CreateTime\":1607000379},{\"ObjectId\":695,\"Dim\":10,\"Name\":\"Cinta yang manis\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":1,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_sweetlove\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"tone\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740083363},{\"ObjectId\":79,\"Dim\":10,\"Name\":\"Romansa Urban\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/fd374feb6fd90a7044f8224b84db3fd7~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_Modern_love\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"theme\\\"}\",\"OpUser\":\"\",\"CreateTime\":1640806585},{\"ObjectId\":717,\"Dim\":10,\"Name\":\"Drama Kantor\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_OfficeDrama\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740499429}]",
+            "category_v2_ids": "695,2,79,754,25,38,717",
+            "color_dominate": "#301810",
+            "comic_show_type": "0",
+            "copyright_info": "",
+            "cover_stat_infos": [
+              {
+                "stat_data_position": 3,
+                "stat_type": 6,
+                "stat_value": "15.8M"
+              }
+            ],
+            "create_time": "2025-01-21T05:09:35Z",
+            "creation_status": "0",
+            "gender": "0",
+            "genre": "203",
+            "in_bookshelf": "0",
+            "is_dubbed": "0",
+            "is_exclusive": "0",
+            "is_hot": "1",
+            "is_native": "0",
+            "is_new_book": "0",
+            "language": "id",
+            "last_chapter_first_pass_time": "1737436349",
+            "last_chapter_index": "87",
+            "last_publish_time": "1737436352",
+            "log_pb": {
+              "recommend_group_id": "7462231549878995984"
+            },
+            "media_id": "1761691552379918",
+            "novel_audit_mark_info": "{\"disclaimer\":{\"content_label\":[],\"fictional_warnings\":[],\"show_in_first\":false,\"special_disclaimers\":[],\"trigger_warning\":[\"Depiction of Acts of Serious Violence\",\"Non-Consensual Sexual Act Involving Adult (Disclaimer)\"]}}",
+            "novel_text_type": "0",
+            "platform": "7",
+            "read_count": "0",
+            "serial_count": "87",
+            "show_creation_status": "Selesai",
+            "show_creation_status_v2": "{\"detail_scene\":[\"Selesai\",\"Status\"],\"other_scene\":\"Selesai\"}",
+            "source": "番茄",
+            "stat_infos": [
+              "Ceo, Cinta Satu Malam",
+              "Selesai"
+            ],
+            "sub_abstract": "",
+            "thumb_url": "https://p16-novel-sign-sg.fizzopic.org/novel-images-sg/53e90470ad557eed2ad11340e47d4f9a~tplv-resize:570:810.heic?rk3s=95ec04ee&x-expires=1768868082&x-signature=7fxHHJTsOj3dFdLno8k6TceUgTU%3D",
+            "total_price": "",
+            "tts_status": "0",
+            "type": "0",
+            "visibility_age_gate": "18",
+            "word_number": "2610"
+          }
+        ],
+        "cell_style": 1,
+        "channel_id": 94349630949,
+        "cid": "0",
+        "has_more": false,
+        "id": "7462231549878995984",
+        "name": "",
+        "next_offset": 0,
+        "operation_type": 0,
+        "recommend_reason": "short_play",
+        "search_high_light": {
+          "title": {
+            "high_light_position": [
+              [
+                11,
+                3
+              ]
+            ],
+            "rich_text": "Hamil Anak <em>CEO</em>",
+            "text": "Hamil Anak CEO"
+          }
+        },
+        "show_type": 310,
+        "use_recommend": false
+      },
+      {
+        "books": [
+          {
+            "abstract": "Yugo Citradi, yang bekerja sebagai kurir, terjebak dalam dilema ketika tunangannya, Meta Wiras, meminta maskawin yang sangat tinggi. Karena tidak punya uang untuk memenuhinya, ia meminta bantuan Qadra Caraka, teman lamanya. Sayangnya, permintaannya ditolak dengan kasar. Sepulangnya ke rumah, ia malah mendapati Meta berselingkuh. Merasa sangat kecewa dan marah, ia pun pergi meninggalkan rumah. Namun, takdir membawanya ke jalan yang berbeda setelah kematian sang ayah. Ia diminta orang kepercayaan ayahnya untuk menjadi pewaris Grup Citradi. Sejak saat itulah, perjalanan balas dendam seorang Yugo Citradi pun dimulai.",
+            "age_gate": "18",
+            "author": "fanqie",
+            "book_id": "7429908324318972944",
+            "book_name": "Dari Ojol Jadi CEO",
+            "book_status": "1",
+            "book_type": "2",
+            "category_info": "[{\"ObjectId\":734,\"Dim\":10,\"Name\":\"Bukan siapa-siapa\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Nobody\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"character\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740581935},{\"ObjectId\":34,\"Dim\":10,\"Name\":\"Harem\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/f7d4785b37f339c693dc80b1a1092f14~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_Harem\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"\",\"CreateTime\":1630500457},{\"ObjectId\":702,\"Dim\":10,\"Name\":\"Kehidupan perkotaan\",\"ExternalDesc\":\"\",\"Gender\":1,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":1,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Urban_life\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"theme\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740154711},{\"ObjectId\":749,\"Dim\":10,\"Name\":\"Pembalasan dendam\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Revenge\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740652387},{\"ObjectId\":721,\"Dim\":10,\"Name\":\"Serangan balik\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_counterattack\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740580028},{\"ObjectId\":700,\"Dim\":10,\"Name\":\"Tycoon\",\"ExternalDesc\":\"\",\"Gender\":1,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Tycoon\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"character\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740154595}]",
+            "category_v2_ids": "34,702,749,721,734,700",
+            "color_dominate": "#202020",
+            "comic_show_type": "0",
+            "copyright_info": "",
+            "cover_stat_infos": [
+              {
+                "stat_data_position": 3,
+                "stat_type": 6,
+                "stat_value": "958.0K"
+              }
+            ],
+            "create_time": "2024-10-26T02:38:58Z",
+            "creation_status": "0",
+            "gender": "1",
+            "genre": "203",
+            "in_bookshelf": "0",
+            "is_dubbed": "0",
+            "is_exclusive": "0",
+            "is_hot": "0",
+            "is_native": "0",
+            "is_new_book": "0",
+            "language": "id",
+            "last_chapter_first_pass_time": "1737082017",
+            "last_chapter_index": "80",
+            "last_publish_time": "1737082017",
+            "log_pb": {
+              "recommend_group_id": "7429908324318972944"
+            },
+            "media_id": "1761691552379918",
+            "novel_audit_mark_info": "{\"disclaimer\":{\"content_label\":[],\"fictional_warnings\":[],\"show_in_first\":false,\"special_disclaimers\":[],\"trigger_warning\":[\"Depiction of Acts of Serious Violence\"]}}",
+            "novel_text_type": "0",
+            "platform": "7",
+            "read_count": "0",
+            "serial_count": "80",
+            "show_creation_status": "Selesai",
+            "show_creation_status_v2": "{\"detail_scene\":[\"Selesai\",\"Status\"],\"other_scene\":\"Selesai\"}",
+            "source": "番茄",
+            "stat_infos": [
+              "Bukan siapa-siapa, Harem",
+              "Selesai"
+            ],
+            "sub_abstract": "",
+            "thumb_url": "https://p16-novel-sign-sg.fizzopic.org/novel-images-sg/25d39b6ee743eec7dd69d88f0c2c8922~tplv-resize:570:810.heic?rk3s=95ec04ee&x-expires=1768868081&x-signature=%2FXbtcxxqeiOO8zbyIVTytj%2F%2FZqs%3D",
+            "total_price": "",
+            "tts_status": "0",
+            "type": "0",
+            "visibility_age_gate": "18",
+            "word_number": "2400"
+          }
+        ],
+        "cell_style": 1,
+        "channel_id": 94349630949,
+        "cid": "0",
+        "has_more": false,
+        "id": "7429908324318972944",
+        "name": "",
+        "next_offset": 0,
+        "operation_type": 0,
+        "recommend_reason": "short_play",
+        "search_high_light": {
+          "title": {
+            "high_light_position": [
+              [
+                15,
+                3
+              ]
+            ],
+            "rich_text": "Dari Ojol Jadi <em>CEO</em>",
+            "text": "Dari Ojol Jadi CEO"
+          }
+        },
+        "show_type": 310,
+        "use_recommend": false
+      },
+      {
+        "books": [
+          {
+            "abstract": "Gea memutuskan untuk membesarkan anaknya sendiri. Namun, anaknya menderita leukemia dan butuh donor sumsum tulang. Apakah Gea harus memohon bantuan padanya?",
+            "age_gate": "18",
+            "author": "kujiang&huasheng",
+            "book_id": "7491088279597485057",
+            "book_name": "Istri Kesayangan CEO",
+            "book_status": "1",
+            "book_type": "2",
+            "category_info": "[{\"ObjectId\":754,\"Dim\":10,\"Name\":\"Ceo\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Ceo\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"character\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740652500},{\"ObjectId\":697,\"Dim\":10,\"Name\":\"Bayi Lucu\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":1,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_CuteBabies\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740083647},{\"ObjectId\":2,\"Dim\":10,\"Name\":\"Romansa\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/ae4e5a8c44d152662be62f7916567d69~tplv-noop.image\\\",\\\"large_icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/beb25ec9b9edae1b8b30c347a7848630~tplv-noop.image\\\",\\\"back_image\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/dc9166b1732abe67dbe1be188e33d7e3~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_Romance\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"genre\\\"}\",\"OpUser\":\"\",\"CreateTime\":1607000379},{\"ObjectId\":694,\"Dim\":10,\"Name\":\"Cinta yang pahit\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_bitterlove\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"tone\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740072952},{\"ObjectId\":79,\"Dim\":10,\"Name\":\"Romansa Urban\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/fd374feb6fd90a7044f8224b84db3fd7~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_Modern_love\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"theme\\\"}\",\"OpUser\":\"\",\"CreateTime\":1640806585},{\"ObjectId\":698,\"Dim\":10,\"Name\":\"Cinta yang sulit didapat\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_HardwinLove\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740083940}]",
+            "category_v2_ids": "2,79,754,697,698,694",
+            "color_dominate": "#b8b8a0",
+            "comic_show_type": "0",
+            "copyright_info": "",
+            "cover_stat_infos": [
+              {
+                "stat_data_position": 3,
+                "stat_type": 6,
+                "stat_value": "16.7M"
+              }
+            ],
+            "create_time": "2025-04-08T23:28:26Z",
+            "creation_status": "0",
+            "display_alias_name": "Doted on by Mr. Cookson",
+            "gender": "0",
+            "genre": "203",
+            "in_bookshelf": "0",
+            "is_dubbed": "0",
+            "is_exclusive": "0",
+            "is_hot": "1",
+            "is_native": "0",
+            "is_new_book": "0",
+            "language": "id",
+            "last_chapter_first_pass_time": "1744339747",
+            "last_chapter_index": "100",
+            "last_publish_time": "1745398211",
+            "log_pb": {
+              "recommend_group_id": "7491088279597485057"
+            },
+            "media_id": "2697730828762028",
+            "novel_audit_mark_info": "{\"disclaimer\":{\"content_label\":[],\"fictional_warnings\":[],\"show_in_first\":false,\"special_disclaimers\":[],\"trigger_warning\":[\"Sexual Harassment\"]}}",
+            "novel_text_type": "0",
+            "platform": "7",
+            "read_count": "0",
+            "search_subtitle": "Aka: Doted on by Mr. Cookson",
+            "serial_count": "100",
+            "show_creation_status": "Selesai",
+            "show_creation_status_v2": "{\"detail_scene\":[\"Selesai\",\"Status\"],\"other_scene\":\"Selesai\"}",
+            "source": "酷匠&花生",
+            "stat_infos": [
+              "Ceo, Bayi Lucu",
+              "Selesai"
+            ],
+            "sub_abstract": "",
+            "thumb_url": "https://p16-novel-sign-sg.fizzopic.org/novel-images-sg/f64dcf2effb716fadc4700a3489ce903~tplv-resize:570:810.heic?rk3s=95ec04ee&x-expires=1768868081&x-signature=JSUJLJGHwKhO8szclLE%2BAevLpW0%3D",
+            "total_price": "",
+            "tts_status": "0",
+            "type": "0",
+            "visibility_age_gate": "18",
+            "word_number": "3000"
+          }
+        ],
+        "cell_style": 1,
+        "channel_id": 94349630949,
+        "cid": "0",
+        "has_more": false,
+        "id": "7491088279597485057",
+        "name": "",
+        "next_offset": 0,
+        "operation_type": 0,
+        "recommend_reason": "short_play",
+        "search_high_light": {
+          "title": {
+            "high_light_position": [
+              [
+                17,
+                3
+              ]
+            ],
+            "rich_text": "Istri Kesayangan <em>CEO</em>",
+            "text": "Istri Kesayangan CEO"
+          }
+        },
+        "show_type": 310,
+        "use_recommend": false
+      },
+      {
+        "books": [
+          {
+            "abstract": "Karena salah kirim pesan cinta ke bos dingin Yura, Heri malah diajak nikah. Meski belum saling kenal, mereka jalani pernikahan kilat. Siang kerja bareng, malam serumah, cinta pun tumbuh dari gesekan sehari-hari.",
+            "age_gate": "18",
+            "author": "fanqie",
+            "book_id": "7540546143273356341",
+            "book_name": "Mendadak jadi Suami CEO",
+            "book_status": "1",
+            "book_type": "2",
+            "category_info": "[{\"ObjectId\":33,\"Dim\":10,\"Name\":\"Menantu Pria\",\"ExternalDesc\":\"\",\"Gender\":1,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/3607bcc3d20664e3a55c9ae7a105f0b7~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_Soninlaw\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"character\\\"}\",\"OpUser\":\"\",\"CreateTime\":1630500442},{\"ObjectId\":753,\"Dim\":10,\"Name\":\"Sistem\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_System\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740652483},{\"ObjectId\":701,\"Dim\":10,\"Name\":\"Imajinasi Perkotaan\",\"ExternalDesc\":\"\",\"Gender\":1,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Urban_Imagination\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"theme\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740154647}]",
+            "category_v2_ids": "701,33,753",
+            "color_dominate": "#281008",
+            "comic_show_type": "0",
+            "copyright_info": "",
+            "cover_stat_infos": [
+              {
+                "stat_data_position": 3,
+                "stat_type": 6,
+                "stat_value": "5.8M"
+              }
+            ],
+            "create_time": "2025-08-20T06:10:12Z",
+            "creation_status": "0",
+            "gender": "1",
+            "genre": "203",
+            "in_bookshelf": "0",
+            "is_dubbed": "0",
+            "is_exclusive": "1",
+            "is_hot": "0",
+            "is_native": "0",
+            "is_new_book": "0",
+            "language": "id",
+            "last_chapter_first_pass_time": "1755670711",
+            "last_chapter_index": "103",
+            "last_publish_time": "1755708833",
+            "log_pb": {
+              "recommend_group_id": "7540546143273356341"
+            },
+            "media_id": "1761691552379918",
+            "novel_text_type": "0",
+            "platform": "7",
+            "read_count": "0",
+            "serial_count": "103",
+            "show_creation_status": "Selesai",
+            "show_creation_status_v2": "{\"detail_scene\":[\"Selesai\",\"Status\"],\"other_scene\":\"Selesai\"}",
+            "source": "番茄",
+            "stat_infos": [
+              "Menantu Pria, Sistem",
+              "Selesai"
+            ],
+            "sub_abstract": "",
+            "thumb_url": "https://p16-novel-sign-sg.fizzopic.org/novel-images-sg/3759c53d723c4273e20f3b0803937202~tplv-resize:570:810.heic?rk3s=95ec04ee&x-expires=1768868081&x-signature=vgT1TSQ5o7ySTWis%2BGtYY476QNw%3D",
+            "total_price": "",
+            "tts_status": "0",
+            "type": "0",
+            "visibility_age_gate": "18",
+            "word_number": "0"
+          }
+        ],
+        "cell_style": 1,
+        "channel_id": 94349630949,
+        "cid": "0",
+        "has_more": false,
+        "id": "7540546143273356341",
+        "name": "",
+        "next_offset": 0,
+        "operation_type": 0,
+        "recommend_reason": "short_play",
+        "search_high_light": {
+          "title": {
+            "high_light_position": [
+              [
+                20,
+                3
+              ]
+            ],
+            "rich_text": "Mendadak jadi Suami <em>CEO</em>",
+            "text": "Mendadak jadi Suami CEO"
+          }
+        },
+        "show_type": 310,
+        "use_recommend": false
+      },
+      {
+        "books": [
+          {
+            "abstract": "Setelah pacarnya direbut oleh adiknya sendiri, Lenny juga dipaksa ayahnya untuk menikah ke Keluarga Gustiar menggantikan adiknya. Pasangannya adalah pria yang sedang koma. Namun tak disangka, di hari pernikahan itu juga, pria itu malah tersadar dari komanya. Berbagai kejadian yang tak terduga mulai terjadi secara beruntun setelah pernikahan mereka. Simak terus kelanjutan kisah cinta antara Lenny dan Jeremy!",
+            "age_gate": "18",
+            "author": "mangzhong",
+            "book_id": "7340944598979578881",
+            "book_name": "Nikah Paksa：Jangan Kabur, CEO!",
+            "book_status": "1",
+            "book_type": "2",
+            "category_info": "[{\"ObjectId\":754,\"Dim\":10,\"Name\":\"Ceo\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Ceo\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"character\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740652500},{\"ObjectId\":699,\"Dim\":10,\"Name\":\"Cinta Setelah Pernikahan\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_LoveAfterMarriage\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740083987},{\"ObjectId\":2,\"Dim\":10,\"Name\":\"Romansa\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/ae4e5a8c44d152662be62f7916567d69~tplv-noop.image\\\",\\\"large_icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/beb25ec9b9edae1b8b30c347a7848630~tplv-noop.image\\\",\\\"back_image\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/dc9166b1732abe67dbe1be188e33d7e3~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_Romance\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"genre\\\"}\",\"OpUser\":\"\",\"CreateTime\":1607000379},{\"ObjectId\":79,\"Dim\":10,\"Name\":\"Romansa Urban\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/fd374feb6fd90a7044f8224b84db3fd7~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_Modern_love\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"theme\\\"}\",\"OpUser\":\"\",\"CreateTime\":1640806585},{\"ObjectId\":721,\"Dim\":10,\"Name\":\"Serangan balik\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_counterattack\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740580028}]",
+            "category_v2_ids": "699,2,79,754,721",
+            "color_dominate": "#283848",
+            "comic_show_type": "0",
+            "copyright_info": "",
+            "cover_stat_infos": [
+              {
+                "stat_data_position": 3,
+                "stat_type": 6,
+                "stat_value": "2.3M"
+              }
+            ],
+            "create_time": "2024-02-29T08:54:16Z",
+            "creation_status": "0",
+            "gender": "0",
+            "genre": "203",
+            "in_bookshelf": "0",
+            "is_dubbed": "0",
+            "is_exclusive": "0",
+            "is_hot": "0",
+            "is_native": "0",
+            "is_new_book": "0",
+            "language": "id",
+            "last_chapter_first_pass_time": "1709197039",
+            "last_chapter_index": "79",
+            "last_publish_time": "1709197039",
+            "log_pb": {
+              "recommend_group_id": "7340944598979578881"
+            },
+            "media_id": "2761691552379918",
+            "novel_audit_mark_info": "{\"disclaimer\":{\"content_label\":[],\"fictional_warnings\":[],\"show_in_first\":false,\"special_disclaimers\":[],\"trigger_warning\":[\"Depiction of Acts of Serious Violence\",\"Sexual Harassment\"]}}",
+            "novel_text_type": "0",
+            "platform": "7",
+            "read_count": "0",
+            "serial_count": "79",
+            "show_creation_status": "Selesai",
+            "show_creation_status_v2": "{\"detail_scene\":[\"Selesai\",\"Status\"],\"other_scene\":\"Selesai\"}",
+            "source": "mangzhong",
+            "stat_infos": [
+              "Ceo, Cinta Setelah Pernikahan",
+              "Selesai"
+            ],
+            "sub_abstract": "",
+            "thumb_url": "https://p16-novel-sign-sg.fizzopic.org/novel-images-sg/4f7d828389125b0b34e047e63cf8795d~tplv-resize:570:810.heic?rk3s=95ec04ee&x-expires=1768868081&x-signature=enOCzpn%2BVY%2BOrUoEXhnoyXO4z9I%3D",
+            "total_price": "",
+            "tts_status": "0",
+            "type": "0",
+            "visibility_age_gate": "18",
+            "word_number": "2370"
+          }
+        ],
+        "cell_style": 1,
+        "channel_id": 94349630949,
+        "cid": "0",
+        "has_more": false,
+        "id": "7340944598979578881",
+        "name": "",
+        "next_offset": 0,
+        "operation_type": 0,
+        "recommend_reason": "short_play",
+        "search_high_light": {
+          "title": {
+            "high_light_position": [
+              [
+                26,
+                3
+              ]
+            ],
+            "rich_text": "Nikah Paksa：Jangan Kabur, <em>CEO</em>!",
+            "text": "Nikah Paksa：Jangan Kabur, CEO!"
+          }
+        },
+        "show_type": 310,
+        "use_recommend": false
+      },
+      {
+        "books": [
+          {
+            "abstract": "Putri karena desakan keluarga menikah kilat dengan kakak sahabatnya, namun sang suami langsung ke luar negeri. Setahun kemudian, Putri menjadi pengacara top. Kantornya diambil alih CEO misterius yang sempurna di mata semua orang—tanpa ia tahu, pria itu adalah suami yang telah tiga tahun menghilang.",
+            "age_gate": "18",
+            "author": "lebukezhi",
+            "book_id": "7584470429373303813",
+            "book_name": "Suami Kontrakku, Sang CEO",
+            "book_status": "1",
+            "book_type": "2",
+            "category_info": "[{\"ObjectId\":754,\"Dim\":10,\"Name\":\"Ceo\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Ceo\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"character\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740652500},{\"ObjectId\":699,\"Dim\":10,\"Name\":\"Cinta Setelah Pernikahan\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_LoveAfterMarriage\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740083987},{\"ObjectId\":2,\"Dim\":10,\"Name\":\"Romansa\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/ae4e5a8c44d152662be62f7916567d69~tplv-noop.image\\\",\\\"large_icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/beb25ec9b9edae1b8b30c347a7848630~tplv-noop.image\\\",\\\"back_image\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/dc9166b1732abe67dbe1be188e33d7e3~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_Romance\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"genre\\\"}\",\"OpUser\":\"\",\"CreateTime\":1607000379},{\"ObjectId\":79,\"Dim\":10,\"Name\":\"Romansa Urban\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/fd374feb6fd90a7044f8224b84db3fd7~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_Modern_love\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"theme\\\"}\",\"OpUser\":\"\",\"CreateTime\":1640806585},{\"ObjectId\":721,\"Dim\":10,\"Name\":\"Serangan balik\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_counterattack\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740580028}]",
+            "category_v2_ids": "699,2,79,754,721",
+            "color_dominate": "#e0b088",
+            "comic_show_type": "0",
+            "copyright_info": "",
+            "cover_stat_infos": [
+              {
+                "stat_data_position": 3,
+                "stat_type": 6,
+                "stat_value": "4.9M"
+              },
+              {
+                "stat_data_position": 1,
+                "stat_type": 18,
+                "stat_value": ""
+              }
+            ],
+            "create_time": "2025-12-16T14:58:52Z",
+            "creation_status": "0",
+            "gender": "0",
+            "genre": "203",
+            "in_bookshelf": "0",
+            "is_dubbed": "0",
+            "is_exclusive": "0",
+            "is_hot": "1",
+            "is_native": "0",
+            "is_new_book": "1",
+            "language": "id",
+            "last_chapter_first_pass_time": "1766129500",
+            "last_chapter_index": "73",
+            "last_publish_time": "1766324406",
+            "log_pb": {
+              "recommend_group_id": "7584470429373303813"
+            },
+            "media_id": "1761250520173382",
+            "novel_text_type": "0",
+            "platform": "7",
+            "read_count": "0",
+            "serial_count": "73",
+            "show_creation_status": "Selesai",
+            "show_creation_status_v2": "{\"detail_scene\":[\"Selesai\",\"Status\"],\"other_scene\":\"Selesai\"}",
+            "source": "乐不可吱",
+            "stat_infos": [
+              "Ceo, Cinta Setelah Pernikahan",
+              "Selesai"
+            ],
+            "sub_abstract": "",
+            "thumb_url": "https://p16-novel-sign-sg.fizzopic.org/novel-images-sg/8583a9957e32e7f9e81e717693999fc2~tplv-resize:570:810.heic?rk3s=95ec04ee&x-expires=1768868081&x-signature=RdvcbYFw5qx9LRaPpu78JOAAZFs%3D",
+            "total_price": "",
+            "tts_status": "0",
+            "type": "0",
+            "visibility_age_gate": "18",
+            "word_number": "0"
+          }
+        ],
+        "cell_style": 1,
+        "channel_id": 94349630949,
+        "cid": "0",
+        "has_more": false,
+        "id": "7584470429373303813",
+        "name": "",
+        "next_offset": 0,
+        "operation_type": 0,
+        "recommend_reason": "short_play",
+        "search_high_light": {
+          "title": {
+            "high_light_position": [
+              [
+                22,
+                3
+              ]
+            ],
+            "rich_text": "Suami Kontrakku, Sang <em>CEO</em>",
+            "text": "Suami Kontrakku, Sang CEO"
+          }
+        },
+        "show_type": 310,
+        "use_recommend": false
+      },
+      {
+        "books": [
+          {
+            "abstract": "Setelah meninggal, Cindy Sutejo melihat Tristan Lubis, seorang CEO yang dirumorkan kejam, menghabisi pasangan jahat yang membunuhnya. Dengan tangan berlumuran darah, Tristan berlutut di depan makam Cindy dan mencium mayatnya ... Kembali ke masa mudanya, Cindy menghancurkan pria bajingan dan wanita jalang itu sambil menyelidiki Tristan dengan penuh rasa ingin tahu. Tanpa diduga, begitu Cindy mendekat, pria penuh prasangka dan pemurung itu memojokkannya ke dinding. \"Cindy, kamu tahu aku mencintaimu seperti orang gila. Tapi, kamu masih berani datang memprovokasiku!\"",
+            "age_gate": "18",
+            "author": "fanqie",
+            "book_id": "7420687874812546065",
+            "book_name": "Cinta Mendalam CEO Tampan",
+            "book_status": "1",
+            "book_type": "2",
+            "category_info": "[{\"ObjectId\":754,\"Dim\":10,\"Name\":\"Ceo\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Ceo\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"character\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740652500},{\"ObjectId\":746,\"Dim\":10,\"Name\":\"Kelahiran kembali\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Rebirth\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740652319},{\"ObjectId\":79,\"Dim\":10,\"Name\":\"Romansa Urban\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/fd374feb6fd90a7044f8224b84db3fd7~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_Modern_love\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"theme\\\"}\",\"OpUser\":\"\",\"CreateTime\":1640806585},{\"ObjectId\":721,\"Dim\":10,\"Name\":\"Serangan balik\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_counterattack\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740580028},{\"ObjectId\":713,\"Dim\":10,\"Name\":\"Keluarga Fued\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_FamilyFued\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740498843},{\"ObjectId\":749,\"Dim\":10,\"Name\":\"Pembalasan dendam\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Revenge\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740652387}]",
+            "category_v2_ids": "746,79,721,713,749,754",
+            "color_dominate": "#b09890",
+            "comic_show_type": "0",
+            "copyright_info": "",
+            "cover_stat_infos": [
+              {
+                "stat_data_position": 3,
+                "stat_type": 6,
+                "stat_value": "965.8K"
+              }
+            ],
+            "create_time": "2024-10-01T06:18:55Z",
+            "creation_status": "0",
+            "gender": "0",
+            "genre": "203",
+            "in_bookshelf": "0",
+            "is_dubbed": "0",
+            "is_exclusive": "0",
+            "is_hot": "0",
+            "is_native": "0",
+            "is_new_book": "0",
+            "language": "id",
+            "last_chapter_first_pass_time": "1727763895",
+            "last_chapter_index": "89",
+            "last_publish_time": "1727763924",
+            "log_pb": {
+              "recommend_group_id": "7420687874812546065"
+            },
+            "media_id": "1761691552379918",
+            "novel_audit_mark_info": "{\"disclaimer\":{\"content_label\":[],\"fictional_warnings\":[],\"show_in_first\":false,\"special_disclaimers\":[],\"trigger_warning\":[\"Non-Consensual Sexual Act Involving Adult (Disclaimer)\"]}}",
+            "novel_text_type": "0",
+            "platform": "7",
+            "read_count": "0",
+            "serial_count": "89",
+            "show_creation_status": "Selesai",
+            "show_creation_status_v2": "{\"detail_scene\":[\"Selesai\",\"Status\"],\"other_scene\":\"Selesai\"}",
+            "source": "番茄",
+            "stat_infos": [
+              "Ceo, Kelahiran kembali",
+              "Selesai"
+            ],
+            "sub_abstract": "",
+            "thumb_url": "https://p16-novel-sign-sg.fizzopic.org/novel-images-sg/944d903ab32b50f33a1541b20d0d910b~tplv-resize:570:810.heic?rk3s=95ec04ee&x-expires=1768868082&x-signature=tKhNt1zgRIAtHHXSXgxK4gKK3lo%3D",
+            "total_price": "",
+            "tts_status": "0",
+            "type": "0",
+            "visibility_age_gate": "18",
+            "word_number": "2670"
+          }
+        ],
+        "cell_style": 1,
+        "channel_id": 94349630949,
+        "cid": "0",
+        "has_more": false,
+        "id": "7420687874812546065",
+        "name": "",
+        "next_offset": 0,
+        "operation_type": 0,
+        "recommend_reason": "short_play",
+        "search_high_light": {
+          "title": {
+            "high_light_position": [
+              [
+                15,
+                3
+              ]
+            ],
+            "rich_text": "Cinta Mendalam <em>CEO</em> Tampan",
+            "text": "Cinta Mendalam CEO Tampan"
+          }
+        },
+        "show_type": 310,
+        "use_recommend": false
+      },
+      {
+        "books": [
+          {
+            "abstract": "Lisa masuk ke tubuh gadis kecil di hari dia genap dewasa. Tubuh ini milik anak yang selalu disiksa orang tuanya sampai mati kelaparan! Dia tiba-tiba minta tukar ayahnya jadi berandalan. Sebagai putri mahkota, melatih berandalan itu hal sepele.",
+            "age_gate": "18",
+            "author": "yinghuokuaichuang",
+            "book_id": "7543217293895928848",
+            "book_name": "Ayah Berandalan jadi CEO",
+            "book_status": "1",
+            "book_type": "2",
+            "category_info": "[{\"ObjectId\":754,\"Dim\":10,\"Name\":\"Ceo\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Ceo\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"character\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740652500},{\"ObjectId\":697,\"Dim\":10,\"Name\":\"Bayi Lucu\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":1,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_CuteBabies\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740083647},{\"ObjectId\":2,\"Dim\":10,\"Name\":\"Romansa\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/ae4e5a8c44d152662be62f7916567d69~tplv-noop.image\\\",\\\"large_icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/beb25ec9b9edae1b8b30c347a7848630~tplv-noop.image\\\",\\\"back_image\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/dc9166b1732abe67dbe1be188e33d7e3~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_Romance\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"genre\\\"}\",\"OpUser\":\"\",\"CreateTime\":1607000379},{\"ObjectId\":761,\"Dim\":10,\"Name\":\"Drama Keluarga\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_Family_Drama\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"theme\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740652677},{\"ObjectId\":721,\"Dim\":10,\"Name\":\"Serangan balik\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_counterattack\",\"InExperiment\":false,\"MainCategory\":true,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740580028},{\"ObjectId\":715,\"Dim\":10,\"Name\":\"Swap Identitas\",\"ExternalDesc\":\"\",\"Gender\":0,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/81edaf0701d9e369d18c1fe1ae5aff19~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_drama_IdentitySwap\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"zhonglirong\",\"CreateTime\":1740499386},{\"ObjectId\":36,\"Dim\":10,\"Name\":\"Time Travel\",\"ExternalDesc\":\"\",\"Gender\":2,\"Status\":1,\"AppId\":4171,\"Extra\":\"{\\\"for_publication\\\":0,\\\"icon\\\":\\\"http://p16-novel-sg.ibyteimg.com/novel-static-sg/6a13b545772ef7b2d08d5f919336007c~tplv-noop.image\\\"}\",\"NameStarlingKey\":\"genrename_Time_Travel\",\"InExperiment\":false,\"MainCategory\":false,\"ExtraInfo\":\"{\\\"group_id\\\":0,\\\"dim_name\\\":\\\"trope\\\"}\",\"OpUser\":\"\",\"CreateTime\":1630500486}]",
+            "category_v2_ids": "697,2,761,754,721,715,36",
+            "color_dominate": "#807068",
+            "comic_show_type": "0",
+            "copyright_info": "",
+            "cover_stat_infos": [
+              {
+                "stat_data_position": 3,
+                "stat_type": 6,
+                "stat_value": "36.6M"
+              }
+            ],
+            "create_time": "2025-08-27T10:55:37Z",
+            "creation_status": "0",
+            "gender": "0",
+            "genre": "203",
+            "in_bookshelf": "0",
+            "is_dubbed": "0",
+            "is_exclusive": "0",
+            "is_hot": "1",
+            "is_native": "0",
+            "is_new_book": "0",
+            "language": "id",
+            "last_chapter_first_pass_time": "1756352488",
+            "last_chapter_index": "66",
+            "last_publish_time": "1756461197",
+            "log_pb": {
+              "recommend_group_id": "7543217293895928848"
+            },
+            "media_id": "1781202562079924",
+            "novel_audit_mark_info": "{\"disclaimer\":{\"content_label\":[],\"fictional_warnings\":[],\"show_in_first\":false,\"special_disclaimers\":[],\"trigger_warning\":[\"Minor Physical Abuse (Milder)\"]}}",
+            "novel_text_type": "0",
+            "platform": "7",
+            "read_count": "0",
+            "serial_count": "66",
+            "show_creation_status": "Selesai",
+            "show_creation_status_v2": "{\"detail_scene\":[\"Selesai\",\"Status\"],\"other_scene\":\"Selesai\"}",
+            "source": "萤火快创",
+            "stat_infos": [
+              "Ceo, Bayi Lucu",
+              "Selesai"
+            ],
+            "sub_abstract": "",
+            "thumb_url": "https://p19-novel-sign-sg.fizzopic.org/novel-images-sg/3576d3139e02ebe132f421ad249f42f5~tplv-resize:570:810.heic?rk3s=95ec04ee&x-expires=1768868081&x-signature=R7tngyAVkSrt4RWaUCHEF9uI12I%3D",
+            "total_price": "",
+            "tts_status": "0",
+            "type": "0",
+            "visibility_age_gate": "18",
+            "word_number": "0"
+          }
+        ],
+        "cell_style": 1,
+        "channel_id": 94349630949,
+        "cid": "0",
+        "has_more": false,
+        "id": "7543217293895928848",
+        "name": "",
+        "next_offset": 0,
+        "operation_type": 0,
+        "recommend_reason": "short_play",
+        "search_high_light": {
+          "title": {
+            "high_light_position": [
+              [
+                21,
+                3
+              ]
+            ],
+            "rich_text": "Ayah Berandalan jadi <em>CEO</em>",
+            "text": "Ayah Berandalan jadi CEO"
+          }
+        },
+        "show_type": 310,
+        "use_recommend": false
+      }
+    ],
+    "search_id": "20251231182821CFE7D3D26DD8A4518805",
+    "search_scene": 1
+  },
+  "log_id": "20251231182821CFE7D3D26DD8A4518805",
+  "message": "success"
+}

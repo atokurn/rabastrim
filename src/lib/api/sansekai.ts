@@ -68,6 +68,20 @@ async function fetchApi<T>(endpoint: string): Promise<T | null> {
 // =====================
 // NetShort Provider
 // =====================
+
+// NetShort search response structure
+interface NetShortSearchResponse {
+    searchCodeSearchResult?: Array<{
+        shortPlayId: string;
+        shortPlayName: string;
+        shortPlayCover: string;
+        shotIntroduce?: string;
+        labelNameList?: string[];
+        heatScore?: number;
+        formatHeatScore?: string;
+    }>;
+}
+
 export const SansekaiNetShort = {
     getTheaters: async (): Promise<Drama[]> => {
         const data = await fetchApi<{ contentInfos?: Drama[] }[]>("/netshort/theaters");
@@ -76,8 +90,22 @@ export const SansekaiNetShort = {
         return data.flatMap(group => group.contentInfos || []);
     },
     getForYou: (page = 1) => fetchApi<Drama[]>(`/netshort/foryou?page=${page}`).then(d => d || []),
-    search: (query: string) =>
-        fetchApi<Drama[]>(`/netshort/search?query=${encodeURIComponent(query)}`).then(d => d || []),
+    search: async (query: string): Promise<Drama[]> => {
+        const data = await fetchApi<NetShortSearchResponse>(`/netshort/search?query=${encodeURIComponent(query)}`);
+        if (!data?.searchCodeSearchResult) return [];
+
+        // Transform to Drama format, strip <em> tags from title
+        return data.searchCodeSearchResult.map(item => ({
+            id: item.shortPlayId,
+            shortPlayId: item.shortPlayId,
+            title: item.shortPlayName.replace(/<\/?em>/g, ''),
+            shortPlayName: item.shortPlayName.replace(/<\/?em>/g, ''),
+            cover: item.shortPlayCover,
+            shortPlayCover: item.shortPlayCover,
+            description: item.shotIntroduce,
+            labelArray: item.labelNameList,
+        }));
+    },
     getAllEpisodes: (shortPlayId: string) =>
         fetchApi<Episode[]>(`/netshort/allepisode?shortPlayId=${shortPlayId}`).then(d => d || []),
 };
@@ -85,6 +113,24 @@ export const SansekaiNetShort = {
 // =====================
 // Melolo Provider
 // =====================
+
+// Melolo search response structure
+interface MeloloSearchResponse {
+    code?: number;
+    data?: {
+        search_data?: Array<{
+            books?: Array<{
+                book_id: string;
+                book_name: string;
+                thumb_url: string;
+                abstract?: string;
+                serial_count?: number;
+                stat_infos?: string[];
+            }>;
+        }>;
+    };
+}
+
 interface MeloloResponse {
     books?: Drama[];
 }
@@ -98,8 +144,28 @@ export const SansekaiMelolo = {
         const data = await fetchApi<MeloloResponse>("/melolo/latest");
         return data?.books || [];
     },
-    search: (query: string, limit = 10, offset = 0) =>
-        fetchApi<Drama[]>(`/melolo/search?query=${encodeURIComponent(query)}&limit=${limit}&offset=${offset}`).then(d => d || []),
+    search: async (query: string, limit = 10, offset = 0): Promise<Drama[]> => {
+        const data = await fetchApi<MeloloSearchResponse>(
+            `/melolo/search?query=${encodeURIComponent(query)}&limit=${limit}&offset=${offset}`
+        );
+
+        // Extract books from nested structure: data.search_data[0].books
+        if (!data?.data?.search_data?.[0]?.books) return [];
+
+        // Transform to Drama format
+        return data.data.search_data[0].books.map(item => ({
+            id: item.book_id,
+            book_id: item.book_id,
+            title: item.book_name,
+            book_name: item.book_name,
+            cover: item.thumb_url,
+            thumb_url: item.thumb_url,
+            description: item.abstract,
+            abstract: item.abstract,
+            episodes: item.serial_count,
+            serial_count: item.serial_count,
+        }));
+    },
     getDetail: (bookId: string) =>
         fetchApi<Drama>(`/melolo/detail?bookId=${bookId}`),
     getStream: (videoId: string) =>

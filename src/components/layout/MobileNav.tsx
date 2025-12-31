@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 export function MobileNav() {
     const pathname = usePathname();
 
-    if (pathname.startsWith("/watch")) return null;
+    if (pathname.startsWith("/watch") || pathname.startsWith("/search")) return null;
 
     const navs = [
         { name: "Home", href: "/", icon: Home },
@@ -18,7 +18,7 @@ export function MobileNav() {
     ];
 
     return (
-        <div className="md:hidden fixed bottom-0 left-0 right-0 bg-[#111319] border-t border-[#1f2126] z-50">
+        <div className="mobile-nav md:hidden fixed bottom-0 left-0 right-0 bg-[#111319] border-t border-[#1f2126] z-50">
             <div className="flex items-center justify-around h-16">
                 {navs.map((nav) => {
                     const isActive = pathname === nav.href;

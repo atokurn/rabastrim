@@ -19,11 +19,12 @@ export function Navbar() {
     }, []);
 
     const isWatchPage = pathname.startsWith("/watch");
+    const isSearchPage = pathname.startsWith("/search");
 
     return (
         <header
             className={cn(
-                "fixed top-0 left-0 right-0 z-50 transition-colors duration-300",
+                "navbar fixed top-0 left-0 right-0 z-50 transition-colors duration-300",
                 scrolled ? "bg-[#111319]" : "bg-gradient-to-b from-black/80 to-transparent",
                 isWatchPage ? "hidden lg:block" : ""
             )}
@@ -56,18 +57,20 @@ export function Navbar() {
 
                 {/* Right Actions */}
                 <div className="flex items-center gap-4">
-                    <div className="hidden md:flex items-center bg-[#1f2126] rounded-full px-3 py-1.5 w-64 border border-transparent focus-within:border-[#00cc55] resize-none">
-                        <input
-                            type="text"
-                            placeholder="The Best Thing"
-                            className="bg-transparent border-none focus:outline-none text-sm text-white w-full placeholder-gray-500"
-                        />
-                        <Search className="w-4 h-4 text-gray-400" />
-                    </div>
+                    {/* Hide navbar search on /search page to avoid duplicate */}
+                    {!isSearchPage && (
+                        <Link
+                            href="/search"
+                            className="hidden md:flex items-center bg-[#1f2126] rounded-full px-3 py-1.5 w-64 border border-transparent hover:border-gray-600 cursor-pointer"
+                        >
+                            <span className="text-sm text-gray-500 w-full">Cari drama...</span>
+                            <Search className="w-4 h-4 text-gray-400" />
+                        </Link>
+                    )}
 
-                    <button className="text-gray-300 hover:text-white md:hidden">
+                    <Link href="/search" className="text-gray-300 hover:text-white md:hidden">
                         <Search className="w-6 h-6" />
-                    </button>
+                    </Link>
 
                     <div className="hidden md:flex items-center gap-4 text-gray-300">
                         <button className="hover:text-white">

@@ -1,0 +1,147 @@
+{
+  "success": true,
+  "message": "Berhasil mencari drama",
+  "data": {
+    "status_code": 1,
+    "msg": "获取成功",
+    "data": [
+      {
+        "playlet_id": 1642,
+        "title": "Luka yang Tak Terlupa",
+        "cover": "https://zshipubcdn.farsunpteltd.com/playlet/1750062514_WRbb8SZ7Jy.jpg",
+        "upload_num": 99,
+        "tag_list": [
+          {
+            "tag_id": 1754,
+            "tag_name": "Bangkit",
+            "hit": 0
+          },
+          {
+            "tag_id": 1687,
+            "tag_name": "Heroine",
+            "hit": 0
+          }
+        ],
+        "introduce": "Saat Nana Sura berusia enam tahun, kedua orang tuanya tewas di tangan Wina Tayo, dan sang kakak mengalami gangguan mental. Demi merawat kakaknya, Nana tumbuh dengan banyak keahlian. Setelah mampu menghidupi kakaknya, dia mulai selidiki Wina. Menyamar sebagai terapis bernama Yani Jiro, Nana menjadi asisten pribadi Wina. Dia mengadu domba hubungan Wina dengan suaminya, mengumpulkan bukti perselingkuhan Wina, dan berkali-kali mempermalukan Wina, hingga akhirnya membalas dendam untuk orang tuanya."
+      },
+      {
+        "playlet_id": 2216,
+        "title": "Luka yang Membawa Cinta",
+        "cover": "https://zshipubcdn.farsunpteltd.com/playlet/1753439358_ee2nemeThP.jpg",
+        "upload_num": 85,
+        "tag_list": [
+          {
+            "tag_id": 1850,
+            "tag_name": "Penebusan",
+            "hit": 0
+          },
+          {
+            "tag_id": 2067,
+            "tag_name": "Orang Kecil",
+            "hit": 0
+          }
+        ],
+        "introduce": "Dia istri lembut yang bertahun-tahun disakiti. Saat divonis kanker, dia memilih bercerai dan hidup demi diri sendiri. Di tengah sakit, hadir dokter tulus yang mengobati luka hatinya. Sang mantan suami baru menyesal, tetapi semuanya sudah terlambat, dia telah temukan cinta sejati."
+      },
+      {
+        "playlet_id": 2671,
+        "title": "Jejak Luka, Jalan Pulang",
+        "cover": "https://zshipubcdn.farsunpteltd.com/playlet/1755855881_kbmSM2BC3F.jpg",
+        "upload_num": 54,
+        "tag_list": [
+          {
+            "tag_id": 2050,
+            "tag_name": "Kasih ibu",
+            "hit": 0
+          },
+          {
+            "tag_id": 1639,
+            "tag_name": "Keluarga Kaya",
+            "hit": 0
+          }
+        ],
+        "introduce": "Setelah terpisah selama 20 tahun, Lea yang dulunya bernama Jeni kembali sebagai CEO sukses dan mengungkap identitas ayah kandungnya lewat sebuah liontin. Sementara sang adik, Mery, sempat menolak ayah mereka demi ambisi menikah dengan orang kaya. Namun, kebenaran yang diungkap Lea membuat Mery sadar dan berusaha menebus kesalahan. Akhirnya, keluarga mereka pun bersatu kembali dalam kebahagiaan."
+      },
+      {
+        "playlet_id": 2916,
+        "title": "Cahaya di Balik Luka",
+        "cover": "https://zshipubcdn.farsunpteltd.com/playlet/1757057094_CCQKjG4jrt.jpg",
+        "upload_num": 65,
+        "tag_list": [
+          {
+            "tag_id": 1786,
+            "tag_name": "Jodoh",
+            "hit": 0
+          },
+          {
+            "tag_id": 1762,
+            "tag_name": "Manis",
+            "hit": 0
+          }
+        ],
+        "introduce": "Lima tahun lalu, Sena menyelamatkan Mike dari maut, namun harus menanggung cedera seumur hidup. Tanpa sengaja bertemu kembali, Mike mulai curiga pada masa lalu Sena. Di tengah konflik dan ketegangan, tumbuhlah kisah cinta yang manis dan menggelitik, hingga kebenaran pun terungkap."
+      },
+      {
+        "playlet_id": 1093,
+        "title": "Kebangkitan di Balik Luka",
+        "cover": "https://zshipubcdn.farsunpteltd.com/playlet/1745314347_wxmERXwWdC.jpg",
+        "upload_num": 57,
+        "tag_list": [
+          {
+            "tag_id": 1882,
+            "tag_name": "Dijebak",
+            "hit": 0
+          },
+          {
+            "tag_id": 1810,
+            "tag_name": "Pengkhianatan",
+            "hit": 0
+          }
+        ],
+        "introduce": "Setelah dikhianati tunangannya dan diperlakukan seperti pembantu selama tiga tahun, Vivi memutuskan untuk balas dendam dan menggantikan sepupunya menikahi pria koma. Tanpa diduga, dia menemukan kehangatan dan dukungan yang belum pernah dia rasakan sebelumnya. Ketika masa lalunya terungkap, keluarga barunya mendukungnya, mencari keadilan, dan memberinya kesempatan untuk mengejar mimpi."
+      },
+      {
+        "playlet_id": 3832,
+        "title": "Pelukan landak",
+        "cover": "https://zshipubcdn.farsunpteltd.com/playlet/1762333857_fyR4J5ZEAQ.jpg",
+        "upload_num": 71,
+        "tag_list": [
+          {
+            "tag_id": 2420,
+            "tag_name": "Tarik-Ulur​",
+            "hit": 0
+          },
+          {
+            "tag_id": 1858,
+            "tag_name": "Cinta Diam",
+            "hit": 0
+          }
+        ],
+        "introduce": "Di malam pernikahan, Vivian dan Bagus saling menipu demi gengsi. Wanita kuat dan dokter genit itu awalnya hanya menikah pura-pura, tapi dari kebohongan tumbuh cinta yang sungguh.\n"
+      },
+      {
+        "playlet_id": 3431,
+        "title": "Dalam Pelukan Waktu",
+        "cover": "https://zshipubcdn.farsunpteltd.com/playlet/1760087655_DH8krhxEYd.jpg",
+        "upload_num": 95,
+        "tag_list": [
+          {
+            "tag_id": 2307,
+            "tag_name": "Komedi Ringan​",
+            "hit": 0
+          },
+          {
+            "tag_id": 2002,
+            "tag_name": "Balik alur",
+            "hit": 0
+          }
+        ],
+        "introduce": "Terjebak di tahun 70-an sebagai antagonis dalam novel yang ia baca, Naya justru menemukan hal yang selama ini belum dia dapatkan, yaitu kasih sayang seorang ibu dan cinta tulus dari pria asing."
+      }
+    ],
+    "extra": {},
+    "request_id": "29757622162aa490d030d5fe3b885619",
+    "trace_id": "ec0b9afedd75dafb40ad33854ac96fb0"
+  },
+  "timestamp": "2025-12-31T10:44:18.706Z"
+}

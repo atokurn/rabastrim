@@ -8,13 +8,16 @@
 const BASE_URL = "https://dramabox-api-test.vercel.app";
 
 export interface FlickReelsDrama {
-    playlet_id: string;
-    playlet_title: string;
+    playlet_id: string | number;
+    playlet_title?: string;
+    title?: string;  // Search uses 'title' instead of 'playlet_title'
     cover: string;
     process_cover?: string;
-    chapter_num: number;
+    chapter_num?: number;
+    upload_num?: number;  // Search uses 'upload_num' instead of 'chapter_num'
     praise_num?: string;
     tag_list?: Array<{ tag_id: number; tag_name: string }>;
+    introduce?: string;
 }
 
 export interface FlickReelsEpisode {
@@ -25,7 +28,7 @@ export interface FlickReelsEpisode {
     hls_url?: string;
     down_url?: string;
     origin_down_url?: string;
-    videoUrl?: string; // New: Pre-constructed URL (handles VIP bypass)
+    videoUrl?: string;
     duration?: number;
     is_lock?: number;
     is_vip_episode?: number;
@@ -35,12 +38,23 @@ export interface FlickReelsEpisode {
     hasVideo?: boolean;
 }
 
-interface ApiResponse<T> {
+// Response structure for list endpoints (foryou, ranking, recommend)
+interface ListApiResponse {
     success: boolean;
     message: string;
     data?: {
-        data?: T;
-        list?: T;
+        data?: {
+            list?: FlickReelsDrama[];
+        };
+    };
+}
+
+// Response structure for search endpoint
+interface SearchApiResponse {
+    success: boolean;
+    message: string;
+    data?: {
+        data?: FlickReelsDrama[];  // Direct array, not { list: [...] }
     };
 }
 
@@ -65,7 +79,7 @@ export const FlickReelsApi = {
      * Get "For You" recommendations
      */
     getForYou: async (): Promise<FlickReelsDrama[]> => {
-        const data = await fetchApi<ApiResponse<{ list: FlickReelsDrama[] }>>("/api/flickreels/foryou");
+        const data = await fetchApi<ListApiResponse>("/api/flickreels/foryou");
         return data?.data?.data?.list || [];
     },
 
@@ -73,7 +87,7 @@ export const FlickReelsApi = {
      * Get ranking list
      */
     getRanking: async (): Promise<FlickReelsDrama[]> => {
-        const data = await fetchApi<ApiResponse<{ list: FlickReelsDrama[] }>>("/api/flickreels/ranking");
+        const data = await fetchApi<ListApiResponse>("/api/flickreels/ranking");
         return data?.data?.data?.list || [];
     },
 
@@ -81,16 +95,19 @@ export const FlickReelsApi = {
      * Get recommendations
      */
     getRecommend: async (): Promise<FlickReelsDrama[]> => {
-        const data = await fetchApi<ApiResponse<{ list: FlickReelsDrama[] }>>("/api/flickreels/recommend");
+        const data = await fetchApi<ListApiResponse>("/api/flickreels/recommend");
         return data?.data?.data?.list || [];
     },
 
     /**
      * Search dramas by query
+     * Note: Search response uses data.data[] (direct array), not data.data.list[]
+     * Also uses 'title' and 'upload_num' instead of 'playlet_title' and 'chapter_num'
      */
     search: async (query: string): Promise<FlickReelsDrama[]> => {
-        const data = await fetchApi<ApiResponse<{ list: FlickReelsDrama[] }>>(`/api/flickreels/search?q=${encodeURIComponent(query)}`);
-        return data?.data?.data?.list || [];
+        const data = await fetchApi<SearchApiResponse>(`/api/flickreels/search?q=${encodeURIComponent(query)}`);
+        // Search response is at data.data (array), not data.data.list
+        return data?.data?.data || [];
     },
 
     /**
