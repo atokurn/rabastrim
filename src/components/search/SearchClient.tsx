@@ -33,6 +33,7 @@ export function SearchClient({ initialPopular = [] }: SearchClientProps) {
         showSuggestions,
         setShowSuggestions,
         pagination,
+        sources,
         search,
         loadMore,
         clearSearch,
@@ -141,6 +142,7 @@ export function SearchClient({ initialPopular = [] }: SearchClientProps) {
                             isLoadingMore={isLoadingMore}
                             query={query}
                             pagination={pagination}
+                            sources={sources}
                             onLoadMore={handleLoadMore}
                         />
                     )}
@@ -203,6 +205,7 @@ export function SearchClient({ initialPopular = [] }: SearchClientProps) {
                                 isLoadingMore={isLoadingMore}
                                 query={query}
                                 pagination={pagination}
+                                sources={sources}
                                 onLoadMore={handleLoadMore}
                             />
                         )}

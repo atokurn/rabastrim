@@ -6,6 +6,7 @@
  */
 
 import { cache, cacheKeys, cacheTTL, redis } from "@/lib/cache";
+import { sortByRelevance, deduplicateResults } from "@/lib/search";
 import { DramaBoxAdapter } from "./adapters/dramabox";
 import { FlickReelsAdapter } from "./adapters/flickreels";
 import { NetShortAdapter } from "./adapters/netshort";
@@ -19,7 +20,6 @@ import type {
     SearchResult,
     ProviderName,
     AggregatorConfig,
-    DEFAULT_CONFIG
 } from "./types";
 
 // =====================
@@ -69,43 +69,6 @@ async function fetchWithTimeout<T>(
     } catch {
         return fallback;
     }
-}
-
-/**
- * Calculate search ranking score
- */
-function calculateScore(item: UnifiedDrama, query: string): number {
-    let score = 0;
-
-    // Source weight (0-40)
-    score += (item._weight || 0) * 0.4;
-
-    // Title match score (0-30)
-    const titleLower = item.title.toLowerCase();
-    const queryLower = query.toLowerCase();
-    if (titleLower === queryLower) {
-        score += 30;
-    } else if (titleLower.startsWith(queryLower)) {
-        score += 25;
-    } else if (titleLower.includes(queryLower)) {
-        score += 15;
-    }
-
-    // Has cover/description bonus (0-10)
-    if (item.cover) score += 5;
-    if (item.description) score += 5;
-
-    // Episode count bonus (0-10)
-    if (item.episodes && item.episodes > 0) {
-        score += Math.min(item.episodes / 10, 10);
-    }
-
-    // Score/rating bonus (0-10)
-    if (item.score) {
-        score += item.score;
-    }
-
-    return Math.round(score);
 }
 
 /**
@@ -207,15 +170,11 @@ export const SourceAggregator = {
                 }
             }
 
-            // Calculate scores and sort
-            const scoredResults = allResults.map(item => ({
-                ...item,
-                _score: calculateScore(item, query),
-            }));
+            // Sort by relevance and deduplicate
+            const sortedResults = sortByRelevance(allResults, query);
+            const uniqueResults = deduplicateResults(sortedResults);
 
-            scoredResults.sort((a, b) => (b._score || 0) - (a._score || 0));
-
-            return { results: scoredResults, sources: sourceResults };
+            return { results: uniqueResults, sources: sourceResults };
         };
 
         // Get from cache or fetch

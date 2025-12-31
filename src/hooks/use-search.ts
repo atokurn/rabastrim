@@ -37,6 +37,12 @@ export interface SearchPagination {
     hasMore: boolean;
 }
 
+export interface SourceInfo {
+    provider: string;
+    count: number;
+    success: boolean;
+}
+
 /**
  * Custom hook for search functionality with pagination
  */
@@ -53,6 +59,7 @@ export function useSearch() {
         limit: 20,
         hasMore: false,
     });
+    const [sources, setSources] = useState<SourceInfo[]>([]);
 
     const debouncedQuery = useDebounce(query, 300);
 
@@ -162,6 +169,11 @@ export function useSearch() {
                     limit: data.limit || limit,
                     hasMore: data.hasMore || false,
                 });
+
+                // Update sources info
+                if (data.sources) {
+                    setSources(data.sources);
+                }
             }
         } catch (error) {
             console.error("Search failed:", error);
@@ -188,6 +200,7 @@ export function useSearch() {
         setSuggestions([]);
         setShowSuggestions(false);
         setPagination({ total: 0, page: 1, limit: 20, hasMore: false });
+        setSources([]);
     }, []);
 
     return {
@@ -200,6 +213,7 @@ export function useSearch() {
         showSuggestions,
         setShowSuggestions,
         pagination,
+        sources,
         search,
         loadMore,
         clearSearch,

@@ -22,12 +22,19 @@ interface SearchPagination {
     hasMore: boolean;
 }
 
+interface SourceInfo {
+    provider: string;
+    count: number;
+    success: boolean;
+}
+
 interface SearchResultsProps {
     results: SearchResult[];
     isLoading?: boolean;
     isLoadingMore?: boolean;
     query: string;
     pagination?: SearchPagination;
+    sources?: SourceInfo[];
     onLoadMore?: () => void;
 }
 
@@ -37,6 +44,7 @@ export function SearchResults({
     isLoadingMore,
     query,
     pagination,
+    sources,
     onLoadMore
 }: SearchResultsProps) {
     if (isLoading && results.length === 0) {
@@ -70,13 +78,37 @@ export function SearchResults({
     return (
         <div className="px-4 py-4 space-y-6">
             {/* Results Header */}
-            <div className="flex items-center justify-between">
-                <div className="text-gray-400 text-xs uppercase tracking-wider">
-                    {featured.type || "Drama"}
+            <div className="flex flex-col gap-2 mb-4">
+                <div className="flex items-center justify-between">
+                    <div className="text-gray-400 text-xs uppercase tracking-wider">
+                        {featured.type || "Drama"}
+                    </div>
+                    {pagination && (
+                        <div className="text-gray-500 text-xs">
+                            {pagination.total} hasil
+                        </div>
+                    )}
                 </div>
-                {pagination && (
-                    <div className="text-gray-500 text-xs">
-                        {pagination.total} hasil
+
+                {/* Source Status Badges */}
+                {sources && sources.length > 0 && (
+                    <div className="flex flex-wrap gap-1.5">
+                        {sources.map((source) => (
+                            <span
+                                key={source.provider}
+                                className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium ${source.count > 0
+                                        ? 'bg-green-500/20 text-green-400'
+                                        : 'bg-gray-700/50 text-gray-500'
+                                    }`}
+                            >
+                                <span className={`w-1.5 h-1.5 rounded-full ${source.count > 0 ? 'bg-green-400' : 'bg-gray-500'
+                                    }`} />
+                                {source.provider}
+                                {source.count > 0 && (
+                                    <span className="text-gray-400">({source.count})</span>
+                                )}
+                            </span>
+                        ))}
                     </div>
                 )}
             </div>
