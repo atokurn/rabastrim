@@ -2,6 +2,7 @@
 
 import { SansekaiApi } from "@/lib/api/sansekai";
 import { DramaBoxApi } from "@/lib/api/dramabox";
+import { FlickReelsApi } from "@/lib/api/flickreels";
 
 export async function getVideoUrl(
     dramaId: string,
@@ -60,6 +61,13 @@ export async function getVideoUrl(
             return null;
         }
 
+        if (provider === "flickreels") {
+            const episodes = await FlickReelsApi.getEpisodes(dramaId);
+            const episode = episodes.find(e => e.chapter_num === episodeNumber);
+            // Use videoUrl (VIP bypass) first, then fallback to hls_url or down_url
+            return episode?.videoUrl || episode?.hls_url || episode?.down_url || null;
+        }
+
         // DramaBox (Default)
         const episodes = await DramaBoxApi.getEpisodes(dramaId);
         const episode = episodes.find(e => e.number === episodeNumber);
@@ -70,3 +78,4 @@ export async function getVideoUrl(
         return null;
     }
 }
+

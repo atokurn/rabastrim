@@ -1,6 +1,7 @@
 import { Hero } from "@/components/ui/Hero";
 import { Section } from "@/components/ui/Section";
 import { DramaBoxApi } from "@/lib/api/dramabox";
+import { FlickReelsApi } from "@/lib/api/flickreels";
 import { SansekaiApi } from "@/lib/api/sansekai";
 import { getWatchHistory } from "@/lib/actions/history";
 
@@ -25,6 +26,18 @@ function transformDramaBox(drama: any, index?: number): SectionItem {
     badge: index !== undefined && index < 10 ? `TOP ${index + 1}` : undefined,
     episodes: drama.chapterCount ? `${drama.chapterCount} Eps` : undefined,
     provider: "dramabox",
+  };
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function transformFlickReels(drama: any, index?: number): SectionItem {
+  return {
+    id: drama.playlet_id || String(index),
+    title: drama.playlet_title || "Untitled",
+    image: drama.cover || drama.process_cover || "",
+    badge: index !== undefined && index < 10 ? `TOP ${index + 1}` : undefined,
+    episodes: drama.chapter_num ? `${drama.chapter_num} Eps` : undefined,
+    provider: "flickreels",
   };
 }
 
@@ -70,14 +83,14 @@ export default async function Home() {
   // Fetch data from all providers in parallel
   const [
     dramaboxTrending,
-    dramaboxLatest,
+    flickreelsForYou,
     netshortTheaters,
     meloloTrending,
     animeLatest,
     history,
   ] = await Promise.all([
     DramaBoxApi.getTrending().catch(() => []),
-    DramaBoxApi.getLatest().catch(() => []),
+    FlickReelsApi.getForYou().catch(() => []),
     SansekaiApi.netshort.getTheaters().catch(() => []),
     SansekaiApi.melolo.getTrending().catch(() => []),
     SansekaiApi.anime.getLatest().catch(() => []),
@@ -86,7 +99,7 @@ export default async function Home() {
 
   // Transform data
   const dramaboxItems = dramaboxTrending.slice(0, 12).map((d, i) => transformDramaBox(d, i));
-  const dramaboxLatestItems = dramaboxLatest.slice(0, 12).map(d => transformDramaBox(d));
+  const flickreelsItems = flickreelsForYou.slice(0, 12).map((d, i) => transformFlickReels(d, i));
   const netshortItems = netshortTheaters.slice(0, 12).map(d => transformNetShort(d));
   const meloloItems = meloloTrending.slice(0, 12).map((d, i) => transformMelolo(d, i));
   const animeItems = animeLatest.slice(0, 12).map(d => transformAnime(d));
@@ -113,17 +126,17 @@ export default async function Home() {
           />
         )}
 
+        {flickreelsItems.length > 0 && (
+          <Section
+            title="FlickReels - For You"
+            items={flickreelsItems}
+          />
+        )}
+
         {dramaboxItems.length > 0 && (
           <Section
             title="DramaBox - Trending"
             items={dramaboxItems}
-          />
-        )}
-
-        {dramaboxLatestItems.length > 0 && (
-          <Section
-            title="DramaBox - Terbaru"
-            items={dramaboxLatestItems}
           />
         )}
 
@@ -151,3 +164,4 @@ export default async function Home() {
     </div>
   );
 }
+

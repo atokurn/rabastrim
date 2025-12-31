@@ -2,6 +2,7 @@ import { Play, Share2, Heart, Download, Loader2 } from "lucide-react";
 import { Section } from "@/components/ui/Section";
 import { cn } from "@/lib/utils";
 import { DramaBoxApi } from "@/lib/api/dramabox";
+import { FlickReelsApi } from "@/lib/api/flickreels";
 import { SansekaiApi } from "@/lib/api/sansekai";
 import Link from "next/link";
 import { VideoPlayer } from "@/components/watch/VideoPlayer";
@@ -153,6 +154,36 @@ async function fetchProviderData(id: string, provider: string, episodeNum: numbe
         };
     }
 
+    if (provider === "flickreels") {
+        // FlickReels: Use foryou API for drama info, episodes API for video
+        const [allDramas, episodesData] = await Promise.all([
+            FlickReelsApi.getForYou(),
+            FlickReelsApi.getEpisodes(id),
+        ]);
+
+        const drama = allDramas.find(d => d.playlet_id === id);
+
+        const episodes: EpisodeInfo[] = episodesData.map((ep) => ({
+            id: ep.chapter_id,
+            number: ep.chapter_num,
+            videoUrl: ep.videoUrl || ep.hls_url || ep.down_url || null, // Use videoUrl for VIP bypass
+        }));
+
+        const currentEpisode = episodes.find(e => e.number === episodeNum) || episodes[0];
+
+        return {
+            drama: drama ? {
+                title: drama.playlet_title || "Untitled",
+                cover: drama.cover || drama.process_cover || "",
+                description: undefined,
+                tags: drama.tag_list?.map(t => t.tag_name),
+                totalEpisodes: drama.chapter_num || episodes.length,
+            } : null,
+            episodes,
+            currentVideoUrl: currentEpisode?.videoUrl || null,
+        };
+    }
+
     // Default: DramaBox
     const [allDramas, episodes] = await Promise.all([
         DramaBoxApi.getHome(),
@@ -214,6 +245,14 @@ export default async function WatchPage({ params, searchParams }: WatchPageProps
                     provider: "melolo",
                 };
             });
+        } else if (provider === "flickreels") {
+            const forYou = await FlickReelsApi.getForYou();
+            recommendations = forYou.filter(d => d.playlet_id !== id).slice(0, 8).map(d => ({
+                id: d.playlet_id,
+                title: d.playlet_title || "Untitled",
+                image: d.cover || d.process_cover || "",
+                provider: "flickreels",
+            }));
         } else {
             const allDramas = await DramaBoxApi.getHome();
             recommendations = allDramas.filter(d => d.bookId !== id).slice(0, 8).map(d => ({

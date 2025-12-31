@@ -1,0 +1,65 @@
+# FlickReels VIP Video Bypass - Walkthrough
+
+## ✅ Implementation Complete
+
+VIP episodes in FlickReels that previously had empty `hls_url` now have working video URLs.
+
+---
+
+## Problem
+
+VIP/locked episodes returned:
+```json
+{
+  "is_lock": 1,
+  "hls_url": "",
+  "origin_down_url": "/playlet-hls-ims/hls_ims_XXX.mp4"
+}
+```
+
+## Solution
+
+Construct full URL from `origin_down_url`:
+```
+https://zshipricf.farsunpteltd.com + /playlet-hls-ims/... = Full Video URL
+```
+
+---
+
+## Changes Made
+
+### [flickreelsService.js](file:///Volumes/ScutiEX/ScutiEX/antigravity/dramabox/API-TEST/src/services/flickreelsService.js)
+
+1. Added `FLICKREELS_CDN_BASE` constant
+2. Created [getAllEpisodesWithVideo()](file:///Volumes/ScutiEX/ScutiEX/antigravity/dramabox/API-TEST/src/services/flickreelsService.js#152-199) function that:
+   - Uses `hls_url` for free episodes
+   - Constructs URL from `origin_down_url` for VIP episodes
+   - Adds flags: `isFree`, `isVip`, `isLocked`, `hasVideo`
+
+### [flickreelsController.js](file:///Volumes/ScutiEX/ScutiEX/antigravity/dramabox/API-TEST/src/controllers/flickreelsController.js)
+
+- Updated [getEpisodes](file:///Volumes/ScutiEX/ScutiEX/antigravity/dramabox/API-TEST/src/controllers/dramaboxDirectController.js#106-125) to use [getAllEpisodesWithVideo()](file:///Volumes/ScutiEX/ScutiEX/antigravity/dramabox/API-TEST/src/services/flickreelsService.js#152-199)
+
+---
+
+## Verification
+
+**Endpoint**: `GET /api/flickreels/episodes/3832`
+
+Episode 14 (VIP locked):
+```json
+{
+  "chapter_num": 14,
+  "is_lock": 1,
+  "is_vip_episode": 1,
+  "hls_url": "",
+  "origin_down_url": "/playlet-hls-ims/hls_ims_1762340825_269427_14_0_66058.mp4",
+  "videoUrl": "https://zshipricf.farsunpteltd.com/playlet-hls-ims/hls_ims_1762340825_269427_14_0_66058.mp4",
+  "isFree": false,
+  "isVip": true,
+  "isLocked": true,
+  "hasVideo": true
+}
+```
+
+✅ `videoUrl` successfully constructed for VIP episode!
