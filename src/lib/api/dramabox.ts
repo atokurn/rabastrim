@@ -75,55 +75,91 @@ async function fetchApi<T>(endpoint: string): Promise<T | null> {
 
 export const DramaBoxApi = {
     /**
-     * Get trending/featured dramas from home page
-     */
-    getTrending: async (): Promise<Drama[]> => {
-        const data = await fetchApi<HomeResponse>("/api/dramabox/home");
-        if (!data?.data) return [];
-        // Get dramas from newTheaterList.records
-        return data.data.newTheaterList?.records || [];
-    },
-
-    /**
-     * Get latest releases (using home page data)
-     */
-    getLatest: async (): Promise<Drama[]> => {
-        const data = await fetchApi<HomeResponse>("/api/dramabox/home");
-        if (!data?.data) return [];
-        // Aggregate from all columnVoList
-        const dramas: Drama[] = [];
-        if (data.data.columnVoList) {
-            data.data.columnVoList.forEach(col => {
-                if (col.bookList) dramas.push(...col.bookList);
-            });
-        }
-        // If no columnVoList, fallback to newTheaterList
-        if (dramas.length === 0 && data.data.newTheaterList?.records) {
-            dramas.push(...data.data.newTheaterList.records);
-        }
-        return dramas;
-    },
-
-    /**
-     * Get all home page content
+     * Get home page content (banners, featured, columns)
      */
     getHome: async (): Promise<Drama[]> => {
         const data = await fetchApi<HomeResponse>("/api/dramabox/home");
         if (!data?.data) return [];
         const dramas: Drama[] = [];
-        // Banners
         if (data.data.bannerList) dramas.push(...data.data.bannerList);
-        // New Theater
         if (data.data.newTheaterList?.records) dramas.push(...data.data.newTheaterList.records);
-        // Recommend
         if (data.data.recommendList?.records) dramas.push(...data.data.recommendList.records);
-        // Columns
         if (data.data.columnVoList) {
             data.data.columnVoList.forEach(col => {
                 if (col.bookList) dramas.push(...col.bookList);
             });
         }
         return dramas;
+    },
+
+    /**
+     * Get recommendations
+     */
+    getRecommend: async (): Promise<Drama[]> => {
+        const data = await fetchApi<{ success: boolean; data?: Drama[] }>("/api/dramabox/recommend");
+        return data?.data || [];
+    },
+
+    /**
+     * Get ranking list
+     */
+    getRanking: async (): Promise<Drama[]> => {
+        const data = await fetchApi<{ success: boolean; data?: Drama[] }>("/api/dramabox/ranking");
+        return data?.data || [];
+    },
+
+    /**
+     * Get trending dramas
+     */
+    getTrending: async (): Promise<Drama[]> => {
+        const data = await fetchApi<{ success: boolean; data?: Drama[] }>("/api/dramabox/trending");
+        return data?.data || [];
+    },
+
+    /**
+     * Get latest releases
+     */
+    getLatest: async (): Promise<Drama[]> => {
+        const data = await fetchApi<{ success: boolean; data?: Drama[] }>("/api/dramabox/latest");
+        return data?.data || [];
+    },
+
+    /**
+     * Get "For You" personalized content
+     */
+    getForYou: async (): Promise<Drama[]> => {
+        const data = await fetchApi<{ success: boolean; data?: Drama[] }>("/api/dramabox/foryou");
+        return data?.data || [];
+    },
+
+    /**
+     * Get VIP-only dramas
+     */
+    getVip: async (): Promise<Drama[]> => {
+        const data = await fetchApi<{
+            success: boolean; data?: {
+                columnVoList?: Array<{ bookList?: Drama[] }>;
+            }
+        }>("/api/dramabox/vip");
+        if (!data?.data?.columnVoList) return [];
+        // Flatten bookList from all columns
+        return data.data.columnVoList.flatMap(col => col.bookList || []);
+    },
+
+    /**
+     * Get Indonesian dubbed dramas
+     */
+    getDubIndo: async (): Promise<Drama[]> => {
+        const data = await fetchApi<{ success: boolean; data?: Drama[] }>("/api/dramabox/dubindo");
+        return data?.data || [];
+    },
+
+    /**
+     * Get random drama
+     */
+    getRandomDrama: async (): Promise<Drama[]> => {
+        const data = await fetchApi<{ success: boolean; data?: Drama[] }>("/api/dramabox/randomdrama");
+        return data?.data || [];
     },
 
     /**
@@ -135,11 +171,28 @@ export const DramaBoxApi = {
     },
 
     /**
+     * Get popular search keywords
+     */
+    getPopularSearch: async (): Promise<string[]> => {
+        const data = await fetchApi<{ success: boolean; data?: string[] }>("/api/dramabox/populersearch");
+        return data?.data || [];
+    },
+
+    /**
      * Get drama detail by bookId
      */
     getDetail: async (bookId: string): Promise<Drama | null> => {
         const data = await fetchApi<{ success: boolean; data?: Drama }>(`/api/dramabox/detail/${bookId}`);
-        return data?.data || null;
+        const drama = data?.data || null;
+
+        if (!drama?.bookName) {
+            const searchResults = await fetchApi<{ success: boolean; data?: Drama[] }>(`/api/dramabox/search?q=${bookId}`);
+            const matchedDrama = searchResults?.data?.find(d => d.bookId === bookId);
+            if (matchedDrama?.bookName) {
+                return { ...drama, ...matchedDrama };
+            }
+        }
+        return drama;
     },
 
     /**
@@ -148,11 +201,9 @@ export const DramaBoxApi = {
     getEpisodes: async (bookId: string): Promise<Episode[]> => {
         const data = await fetchApi<{ success: boolean; data?: ApiEpisode[] }>(`/api/dramabox/episodes/${bookId}`);
         if (!data?.data) return [];
-
-        // Transform API response to our Episode format
         return data.data.map(ep => ({
             id: ep.chapterId,
-            number: ep.chapterIndex + 1, // Convert 0-based to 1-based
+            number: ep.chapterIndex + 1,
             title: ep.chapterName,
             videoUrl: ep.videoUrl || (ep.allQualities?.[0]?.url) || '',
             thumbnail: ep.chapterImg,
@@ -160,3 +211,4 @@ export const DramaBoxApi = {
         }));
     },
 };
+

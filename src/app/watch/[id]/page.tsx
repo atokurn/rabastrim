@@ -9,7 +9,7 @@ import { VideoPlayer } from "@/components/watch/VideoPlayer";
 
 interface WatchPageProps {
     params: Promise<{ id: string }>;
-    searchParams: Promise<{ ep?: string; provider?: string }>;
+    searchParams: Promise<{ ep?: string; provider?: string; title?: string; cover?: string }>;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -155,13 +155,12 @@ async function fetchProviderData(id: string, provider: string, episodeNum: numbe
     }
 
     if (provider === "flickreels") {
-        // FlickReels: Use foryou API for drama info, episodes API for video
-        const [allDramas, episodesData] = await Promise.all([
-            FlickReelsApi.getForYou(),
+        // FlickReels: Use getDetail for drama info (merges detail + episodes endpoints)
+        // and getEpisodes for full episode list
+        const [drama, episodesData] = await Promise.all([
+            FlickReelsApi.getDetail(id),
             FlickReelsApi.getEpisodes(id),
         ]);
-
-        const drama = allDramas.find(d => d.playlet_id === id);
 
         const episodes: EpisodeInfo[] = episodesData.map((ep) => ({
             id: ep.chapter_id,
@@ -173,24 +172,24 @@ async function fetchProviderData(id: string, provider: string, episodeNum: numbe
 
         return {
             drama: drama ? {
-                title: drama.playlet_title || "Untitled",
+                title: drama.playlet_title || drama.title || "Untitled",
                 cover: drama.cover || drama.process_cover || "",
-                description: undefined,
+                description: drama.introduce,
                 tags: drama.tag_list?.map(t => t.tag_name),
-                totalEpisodes: drama.chapter_num || episodes.length,
+                // Use episodes.length as primary source since API chapter_num is current episode (not total)
+                totalEpisodes: episodes.length || drama.upload_num || drama.chapter_num,
             } : null,
             episodes,
             currentVideoUrl: currentEpisode?.videoUrl || null,
         };
     }
 
-    // Default: DramaBox
-    const [allDramas, episodes] = await Promise.all([
-        DramaBoxApi.getHome(),
+    // Default: DramaBox - Use getDetail directly instead of searching in home list
+    const [drama, episodes] = await Promise.all([
+        DramaBoxApi.getDetail(id),
         DramaBoxApi.getEpisodes(id),
     ]);
 
-    const drama = allDramas.find(d => d.bookId === id);
     const currentEpisode = episodes.find(e => e.number === episodeNum) || episodes[0];
 
     return {
@@ -213,10 +212,19 @@ async function fetchProviderData(id: string, provider: string, episodeNum: numbe
 
 export default async function WatchPage({ params, searchParams }: WatchPageProps) {
     const { id } = await params;
-    const { ep = "1", provider = "dramabox" } = await searchParams;
+    const { ep = "1", provider = "dramabox", title: urlTitle, cover: urlCover } = await searchParams;
     const currentEp = parseInt(ep) || 1;
 
     const { drama, episodes, currentVideoUrl } = await fetchProviderData(id, provider, currentEp);
+
+    // Use URL title as fallback if API returned null/Untitled
+    const displayTitle = drama?.title && drama.title !== "Untitled"
+        ? drama.title
+        : (urlTitle ? decodeURIComponent(urlTitle) : drama?.title || "Untitled");
+
+    // Use URL cover as fallback if API returned null/empty cover
+    const displayCover = drama?.cover || (urlCover ? decodeURIComponent(urlCover) : "");
+
     const totalEps = drama?.totalEpisodes || episodes.length;
     const nextEpisode = episodes.find(e => e.number === currentEp + 1);
 
@@ -271,15 +279,15 @@ export default async function WatchPage({ params, searchParams }: WatchPageProps
             {/* New Video Player with Client Logic */}
             <VideoPlayer
                 src={currentVideoUrl || ""}
-                poster={drama?.cover}
-                title={drama?.title || "Untitled"}
+                poster={displayCover}
+                title={displayTitle}
                 dramaId={id}
                 provider={provider}
                 currentEpisodeNumber={currentEp}
                 totalEpisodes={totalEps}
                 episodes={episodes}
                 nextEpisode={nextEpisode}
-                drama={drama}
+                drama={drama ? { ...drama, cover: displayCover } : null}
                 recommendations={recommendations}
             />
 
@@ -289,7 +297,7 @@ export default async function WatchPage({ params, searchParams }: WatchPageProps
                     <div className="flex justify-between items-start">
                         <div>
                             <h1 className="text-2xl md:text-3xl font-bold text-white mb-2">
-                                {drama?.title || `Drama ID: ${id}`}
+                                {displayTitle}
                             </h1>
                             <div className="flex items-center gap-4 text-sm text-gray-400">
                                 {drama?.score && (

@@ -40,16 +40,19 @@ export function Navbar() {
                         <Link href="/" className="text-white hover:text-[#00cc55] transition-colors">
                             For You
                         </Link>
-                        <Link href="/drama" className="hover:text-white transition-colors">
-                            Drama
+                        <Link href="/explore?source=dramabox" className="hover:text-white transition-colors">
+                            DramaBox
                         </Link>
-                        <Link href="/movie" className="hover:text-white transition-colors">
-                            Movie
+                        <Link href="/explore?source=flickreels" className="hover:text-white transition-colors">
+                            FlickReels
                         </Link>
-                        <Link href="/k-drama" className="hover:text-white transition-colors">
-                            K-Drama
+                        <Link href="/explore?source=netshort" className="hover:text-white transition-colors">
+                            NetShort
                         </Link>
-                        <Link href="/anime" className="hover:text-white transition-colors">
+                        <Link href="/explore?source=melolo" className="hover:text-white transition-colors">
+                            Melolo
+                        </Link>
+                        <Link href="/explore?source=anime" className="hover:text-white transition-colors">
                             Anime
                         </Link>
                     </nav>

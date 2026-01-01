@@ -97,8 +97,8 @@ export function SearchResults({
                             <span
                                 key={source.provider}
                                 className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium ${source.count > 0
-                                        ? 'bg-green-500/20 text-green-400'
-                                        : 'bg-gray-700/50 text-gray-500'
+                                    ? 'bg-green-500/20 text-green-400'
+                                    : 'bg-gray-700/50 text-gray-500'
                                     }`}
                             >
                                 <span className={`w-1.5 h-1.5 rounded-full ${source.count > 0 ? 'bg-green-400' : 'bg-gray-500'
@@ -117,7 +117,7 @@ export function SearchResults({
             <div className="flex gap-4">
                 {/* Large Poster */}
                 <Link
-                    href={`/watch/${featured.id}?provider=${featured.provider}`}
+                    href={`/watch/${featured.id}?provider=${featured.provider}&title=${encodeURIComponent(featured.title)}&cover=${encodeURIComponent(featured.cover || '')}`}
                     className="w-32 h-44 bg-[#1f2126] rounded-lg overflow-hidden relative shrink-0 group"
                 >
                     {featured.cover ? (
@@ -141,7 +141,7 @@ export function SearchResults({
                 {/* Info */}
                 <div className="flex-1 flex flex-col min-w-0">
                     <Link
-                        href={`/watch/${featured.id}?provider=${featured.provider}`}
+                        href={`/watch/${featured.id}?provider=${featured.provider}&title=${encodeURIComponent(featured.title)}&cover=${encodeURIComponent(featured.cover || '')}`}
                         className="text-[#00cc55] font-bold text-lg hover:underline"
                     >
                         {featured.title}
@@ -177,7 +177,7 @@ export function SearchResults({
 
                     {/* Play Button */}
                     <Link
-                        href={`/watch/${featured.id}?provider=${featured.provider}`}
+                        href={`/watch/${featured.id}?provider=${featured.provider}&title=${encodeURIComponent(featured.title)}&cover=${encodeURIComponent(featured.cover || '')}`}
                         className="mt-auto inline-flex items-center justify-center gap-2 bg-[#00cc55] text-black font-bold text-sm px-6 py-2 rounded-lg hover:bg-[#00aa44] transition-colors self-start"
                     >
                         <Play className="w-4 h-4 fill-black" />
@@ -196,7 +196,7 @@ export function SearchResults({
                         {gridResults.map((item) => (
                             <Link
                                 key={`${item.provider}-${item.id}`}
-                                href={`/watch/${item.id}?provider=${item.provider}`}
+                                href={`/watch/${item.id}?provider=${item.provider}&title=${encodeURIComponent(item.title)}&cover=${encodeURIComponent(item.cover || '')}`}
                                 className="group"
                             >
                                 <div className="aspect-[3/4] bg-[#1f2126] rounded-lg overflow-hidden relative">
