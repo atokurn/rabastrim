@@ -154,8 +154,9 @@ export function DesktopPlayer({
                 ref={videoRef}
                 src={src}
                 poster={poster}
-                className="w-full h-full object-contain"
+                className="w-full h-full object-contain cursor-pointer"
                 autoPlay
+                onClick={() => { setHasInteracted(true); togglePlay(); }}
                 onPlay={() => setIsPlaying(true)}
                 onPause={() => setIsPlaying(false)}
                 onTimeUpdate={handleTimeUpdate}
@@ -183,10 +184,18 @@ export function DesktopPlayer({
             )}
 
             {/* Controls Overlay */}
-            <div className={cn(
-                "absolute inset-0 bg-black/40 flex flex-col justify-end transition-opacity duration-200",
-                (showControls && !isLoading) || (hasInteracted && !isPlaying && !isLoading) ? "opacity-100 visible" : "opacity-0 invisible"
-            )}>
+            <div
+                className={cn(
+                    "absolute inset-0 bg-black/40 flex flex-col justify-end transition-opacity duration-200",
+                    (showControls && !isLoading) || (hasInteracted && !isPlaying && !isLoading) ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"
+                )}
+                onClick={(e) => {
+                    // Only toggle if clicking on the overlay itself (not on controls)
+                    if (e.target === e.currentTarget) {
+                        togglePlay();
+                    }
+                }}
+            >
                 {/* Top Bar (Title) */}
                 <div className="absolute top-0 left-0 right-0 p-4 bg-gradient-to-b from-black/80 to-transparent flex items-center gap-4">
                     <button onClick={() => router.push('/')} className="text-white hover:bg-white/20 p-2 rounded-full">

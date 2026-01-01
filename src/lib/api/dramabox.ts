@@ -182,17 +182,15 @@ export const DramaBoxApi = {
      * Get drama detail by bookId
      */
     getDetail: async (bookId: string): Promise<Drama | null> => {
-        const data = await fetchApi<{ success: boolean; data?: Drama }>(`/api/dramabox/detail/${bookId}`);
-        const drama = data?.data || null;
-
-        if (!drama?.bookName) {
-            const searchResults = await fetchApi<{ success: boolean; data?: Drama[] }>(`/api/dramabox/search?q=${bookId}`);
-            const matchedDrama = searchResults?.data?.find(d => d.bookId === bookId);
-            if (matchedDrama?.bookName) {
-                return { ...drama, ...matchedDrama };
+        const data = await fetchApi<{
+            success: boolean;
+            data?: {
+                book?: Drama;
+                recommends?: Drama[];
+                chapterList?: ApiEpisode[];
             }
-        }
-        return drama;
+        }>(`/api/dramabox/detail/${bookId}`);
+        return data?.data?.book || null;
     },
 
     /**

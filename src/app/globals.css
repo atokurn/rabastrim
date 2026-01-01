@@ -67,3 +67,9 @@ body.search-page-mobile nav[class*="MobileNav"] {
 body.search-page-mobile {
   padding-bottom: 0 !important;
 }
+
+/* Scroll Fade Mask */
+.mask-linear-fade {
+  mask-image: linear-gradient(to right, transparent 0, black 20px, black calc(100% - 20px), transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0, black 20px, black calc(100% - 20px), transparent 100%);
+}

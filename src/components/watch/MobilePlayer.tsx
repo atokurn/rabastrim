@@ -169,6 +169,66 @@ export function MobilePlayer({
         };
     }, [isSheetOpen]);
 
+    // ===== KEYBOARD SHORTCUTS (for desktop users on small screens) =====
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            // Ignore if typing in an input or drawer is open
+            if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+            if (isSheetOpen || isSettingsOpen) return;
+
+            setHasInteracted(true);
+
+            switch (e.key.toLowerCase()) {
+                case ' ':
+                case 'k':
+                    e.preventDefault();
+                    togglePlay();
+                    break;
+                case 'arrowleft':
+                    e.preventDefault();
+                    if (videoRef.current) videoRef.current.currentTime -= 10;
+                    break;
+                case 'arrowright':
+                    e.preventDefault();
+                    if (videoRef.current) videoRef.current.currentTime += 10;
+                    break;
+                case 'arrowup':
+                    e.preventDefault();
+                    // Next Episode (swipe up = next)
+                    if (currentEpisodeNum < totalEpisodes && !isChangingEpisode) {
+                        setSlideDirection('up');
+                        setTimeout(() => {
+                            changeEpisode(currentEpisodeNum + 1);
+                            setTimeout(() => setSlideDirection(null), 400);
+                        }, 50);
+                    }
+                    break;
+                case 'arrowdown':
+                    e.preventDefault();
+                    // Previous Episode (swipe down = prev)
+                    if (currentEpisodeNum > 1 && !isChangingEpisode) {
+                        setSlideDirection('down');
+                        setTimeout(() => {
+                            changeEpisode(currentEpisodeNum - 1);
+                            setTimeout(() => setSlideDirection(null), 400);
+                        }, 50);
+                    }
+                    break;
+                case 'm':
+                    if (videoRef.current) {
+                        videoRef.current.muted = !videoRef.current.muted;
+                    }
+                    break;
+                case 'escape':
+                    router.push('/');
+                    break;
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [togglePlay, currentEpisodeNum, totalEpisodes, isChangingEpisode, changeEpisode, isSheetOpen, isSettingsOpen, router]);
+
 
     const handleTouchStart = (e: React.TouchEvent) => {
         touchStartY.current = e.touches[0].clientY;

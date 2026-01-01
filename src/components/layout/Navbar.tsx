@@ -2,12 +2,14 @@
 
 import { Search, History, Globe, User, Crown, Menu } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 
-export function Navbar() {
+function NavbarContent() {
     const pathname = usePathname();
+    const searchParams = useSearchParams();
+    const source = searchParams.get("source");
     const [scrolled, setScrolled] = useState(false);
 
     useEffect(() => {
@@ -21,6 +23,15 @@ export function Navbar() {
     const isWatchPage = pathname.startsWith("/watch");
     const isSearchPage = pathname.startsWith("/search");
 
+    const navItems = [
+        { label: "For You", href: "/", isActive: pathname === "/" },
+        { label: "DramaBox", href: "/explore?source=dramabox", isActive: pathname === "/explore" && (source === "dramabox" || source === null) },
+        { label: "FlickReels", href: "/explore?source=flickreels", isActive: pathname === "/explore" && source === "flickreels" },
+        { label: "NetShort", href: "/explore?source=netshort", isActive: pathname === "/explore" && source === "netshort" },
+        { label: "Melolo", href: "/explore?source=melolo", isActive: pathname === "/explore" && source === "melolo" },
+        { label: "Anime", href: "/explore?source=anime", isActive: pathname === "/explore" && source === "anime" },
+    ];
+
     return (
         <header
             className={cn(
@@ -30,36 +41,36 @@ export function Navbar() {
             )}
         >
             <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-                {/* Logo & Left Menu */}
-                <div className="flex items-center gap-8">
-                    <Link href="/" className="text-2xl font-bold text-[#00cc55]">
-                        Rabastrim
-                    </Link>
+                {/* Logo */}
+                <Link href="/" className="text-2xl font-bold text-[#00cc55] shrink-0 mr-4">
+                    Rabastrim
+                </Link>
 
-                    <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-300">
-                        <Link href="/" className="text-white hover:text-[#00cc55] transition-colors">
-                            For You
-                        </Link>
-                        <Link href="/explore?source=dramabox" className="hover:text-white transition-colors">
-                            DramaBox
-                        </Link>
-                        <Link href="/explore?source=flickreels" className="hover:text-white transition-colors">
-                            FlickReels
-                        </Link>
-                        <Link href="/explore?source=netshort" className="hover:text-white transition-colors">
-                            NetShort
-                        </Link>
-                        <Link href="/explore?source=melolo" className="hover:text-white transition-colors">
-                            Melolo
-                        </Link>
-                        <Link href="/explore?source=anime" className="hover:text-white transition-colors">
-                            Anime
-                        </Link>
+                {/* Scrollable Menu */}
+                <div className="flex-1 overflow-hidden mx-2">
+                    <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-300 overflow-x-auto scrollbar-hide [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] mask-linear-fade">
+                        {navItems.map((item) => (
+                            <Link
+                                key={item.label}
+                                href={item.href}
+                                className={cn(
+                                    "transition-colors whitespace-nowrap relative px-1 py-1",
+                                    item.isActive
+                                        ? "text-[#00cc55] font-bold"
+                                        : "text-gray-300 hover:text-white"
+                                )}
+                            >
+                                {item.label}
+                                {item.isActive && (
+                                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#00cc55] rounded-full" />
+                                )}
+                            </Link>
+                        ))}
                     </nav>
                 </div>
 
                 {/* Right Actions */}
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-4 shrink-0">
                     {/* Hide navbar search on /search page to avoid duplicate */}
                     {!isSearchPage && (
                         <Link
@@ -99,5 +110,13 @@ export function Navbar() {
                 </div>
             </div>
         </header>
+    );
+}
+
+export function Navbar() {
+    return (
+        <Suspense fallback={null}>
+            <NavbarContent />
+        </Suspense>
     );
 }
