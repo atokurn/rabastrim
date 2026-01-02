@@ -129,18 +129,16 @@ export function UserHeader() {
                                         </button>
                                     </SignInButton>
 
-                                    {/* Telegram Login */}
+                                    {/* Telegram Login - Redirect Mode */}
                                     {showTelegramLogin ? (
                                         <div className="flex items-center gap-2">
-                                            {isLoadingTelegram ? (
-                                                <div className="px-4 py-2 bg-[#0088cc] text-white rounded-lg">Loading...</div>
-                                            ) : (
-                                                <TelegramLoginButton
-                                                    botName={telegramBotName}
-                                                    onAuth={handleTelegramAuth}
-                                                    buttonSize="medium"
-                                                />
-                                            )}
+                                            <TelegramLoginButton
+                                                botName={telegramBotName}
+                                                onAuth={handleTelegramAuth}
+                                                buttonSize="medium"
+                                                useRedirect={true}
+                                                redirectUrl={typeof window !== 'undefined' ? `${window.location.origin}/auth/telegram` : '/auth/telegram'}
+                                            />
                                         </div>
                                     ) : (
                                         <button
