@@ -5,8 +5,9 @@ import { useSearchParams } from "next/navigation";
 import { ExploreTabs, ExploreSection } from "@/components/explore";
 import { ProviderSource } from "@/lib/explore";
 import { getProviderSections } from "@/lib/explore/sections";
+import { Suspense } from "react";
 
-export default function ExplorePage() {
+function ExploreContent() {
     const searchParams = useSearchParams();
     const source = (searchParams.get("source") || "dramabox") as ProviderSource;
 
@@ -49,5 +50,13 @@ export default function ExplorePage() {
                 ))}
             </div>
         </div>
+    );
+}
+
+export default function ExplorePage() {
+    return (
+        <Suspense fallback={<div className="min-h-screen bg-[#0d0f14]" />}>
+            <ExploreContent />
+        </Suspense>
     );
 }

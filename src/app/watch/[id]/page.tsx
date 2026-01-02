@@ -177,7 +177,7 @@ async function fetchProviderData(id: string, provider: string, episodeNum: numbe
                 description: drama.introduce,
                 tags: drama.tag_list?.map(t => t.tag_name),
                 // Use episodes.length as primary source since API chapter_num is current episode (not total)
-                totalEpisodes: episodes.length || drama.upload_num || drama.chapter_num,
+                totalEpisodes: episodes.length || drama.upload_num || drama.chapter_num || 0,
             } : null,
             episodes,
             currentVideoUrl: currentEpisode?.videoUrl || null,
@@ -255,8 +255,8 @@ export default async function WatchPage({ params, searchParams }: WatchPageProps
             });
         } else if (provider === "flickreels") {
             const forYou = await FlickReelsApi.getForYou();
-            recommendations = forYou.filter(d => d.playlet_id !== id).slice(0, 8).map(d => ({
-                id: d.playlet_id,
+            recommendations = forYou.filter(d => String(d.playlet_id) !== id).slice(0, 8).map(d => ({
+                id: String(d.playlet_id),
                 title: d.playlet_title || "Untitled",
                 image: d.cover || d.process_cover || "",
                 provider: "flickreels",
