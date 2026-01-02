@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { MobileNav } from "@/components/layout/MobileNav";
+import { ClerkProvider } from "@clerk/nextjs";
 
 export const metadata: Metadata = {
   title: "Rabastrim - Stream Your Favorite Asian Dramas",
@@ -14,14 +15,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className="antialiased pb-16 md:pb-0 bg-[#111319] text-white">
-        <Navbar />
-        <main className="min-h-screen">
-          {children}
-        </main>
-        <MobileNav />
-      </body>
-    </html>
+    <ClerkProvider appearance={{ cssLayerName: 'clerk' }}>
+      <html lang="en">
+        <body className="antialiased pb-16 md:pb-0 bg-[#111319] text-white">
+          <Navbar />
+          <main className="min-h-screen">
+            {children}
+          </main>
+          <MobileNav />
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

@@ -8,6 +8,7 @@ import { useVideoPlayer } from "@/hooks/use-video-player";
 import Image from "next/image";
 import Link from "next/link";
 import { Drawer } from "@/components/ui/Drawer";
+import { FavoriteButton } from "./FavoriteButton";
 
 interface MobilePlayerProps {
     src: string;
@@ -68,6 +69,7 @@ export function MobilePlayer({
         currentEpisodeNumber,
         totalEpisodes,
         title,
+        cover: drama?.cover,
         nextEpisode,
         prevEpisode
     });
@@ -372,13 +374,14 @@ export function MobilePlayer({
                     "absolute right-2 bottom-32 flex flex-col gap-6 items-center pointer-events-auto z-20 transition-opacity duration-300",
                     showControls ? "opacity-100" : "opacity-0"
                 )}>
-                    {/* Sidebar buttons ... */}
-                    <button className="flex flex-col items-center gap-1 group">
-                        <div className="p-2 rounded-full bg-black/20 backdrop-blur-sm group-active:scale-90 transition-transform">
-                            <Heart className="w-8 h-8 text-white stroke-[1.5px]" />
-                        </div>
-                        <span className="text-white text-xs font-medium text-shadow">118.3k</span>
-                    </button>
+                    {/* Sidebar buttons */}
+                    <FavoriteButton
+                        bookId={dramaId}
+                        provider={provider}
+                        title={title}
+                        cover={drama?.cover || ''}
+                        variant="mobile-sidebar"
+                    />
                     <button className="flex flex-col items-center gap-1 group">
                         <div className="p-2 rounded-full bg-black/20 backdrop-blur-sm group-active:scale-90 transition-transform">
                             <MessageCircle className="w-8 h-8 text-white stroke-[1.5px]" />

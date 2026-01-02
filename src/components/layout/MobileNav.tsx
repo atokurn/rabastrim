@@ -14,7 +14,7 @@ export function MobileNav() {
         { name: "Home", href: "/", icon: Home },
         { name: "Explore", href: "/explore", icon: Compass },
         { name: "VIP", href: "/vip", icon: PlayCircle }, // Reusing PlayCircle for VIP/Shorts feel
-        { name: "Me", href: "/profile", icon: User },
+        { name: "Me", href: "/user", icon: User },
     ];
 
     return (

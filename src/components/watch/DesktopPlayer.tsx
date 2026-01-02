@@ -62,6 +62,7 @@ export function DesktopPlayer({
         currentEpisodeNumber,
         totalEpisodes,
         title,
+        cover: poster,
         nextEpisode,
         prevEpisode
     });

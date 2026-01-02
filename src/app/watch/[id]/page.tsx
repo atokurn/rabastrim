@@ -1,4 +1,4 @@
-import { Play, Share2, Heart, Download, Loader2 } from "lucide-react";
+import { Play, Share2, Download, Loader2 } from "lucide-react";
 import { Section } from "@/components/ui/Section";
 import { cn } from "@/lib/utils";
 import { DramaBoxApi } from "@/lib/api/dramabox";
@@ -6,6 +6,7 @@ import { FlickReelsApi } from "@/lib/api/flickreels";
 import { SansekaiApi } from "@/lib/api/sansekai";
 import Link from "next/link";
 import { VideoPlayer } from "@/components/watch/VideoPlayer";
+import { FavoriteButton } from "@/components/watch/FavoriteButton";
 
 interface WatchPageProps {
     params: Promise<{ id: string }>;
@@ -315,10 +316,13 @@ export default async function WatchPage({ params, searchParams }: WatchPageProps
                                 <Share2 className="w-5 h-5" />
                                 <span className="text-xs">Share</span>
                             </button>
-                            <button className="flex flex-col items-center gap-1 text-gray-400 hover:text-white">
-                                <Heart className="w-5 h-5" />
-                                <span className="text-xs">Collect</span>
-                            </button>
+                            <FavoriteButton
+                                bookId={id}
+                                provider={provider}
+                                title={displayTitle}
+                                cover={displayCover}
+                                variant="with-label"
+                            />
                             <button className="flex flex-col items-center gap-1 text-gray-400 hover:text-white">
                                 <Download className="w-5 h-5" />
                                 <span className="text-xs">Download</span>

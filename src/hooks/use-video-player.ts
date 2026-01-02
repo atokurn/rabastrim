@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { getVideoUrl } from "@/lib/actions/video-source";
+import { useUserStore } from "@/lib/auth/store";
 
 // ===== PLAYER STATE MACHINE =====
 export enum PlayerState {
@@ -55,6 +56,7 @@ export interface UseVideoPlayerProps {
     currentEpisodeNumber: number;
     totalEpisodes: number;
     title?: string;
+    cover?: string; // Added for history
     nextEpisode?: { number: number };
     prevEpisode?: { number: number };
 }
@@ -66,6 +68,7 @@ export function useVideoPlayer({
     currentEpisodeNumber,
     totalEpisodes,
     title,
+    cover,
     nextEpisode,
     prevEpisode
 }: UseVideoPlayerProps): VideoPlayerState {
@@ -97,6 +100,9 @@ export function useVideoPlayer({
     // ===== EPISODE BUFFER POOL =====
     const episodeBuffer = useRef<Map<number, string>>(new Map());
     const lastSaveTime = useRef<number>(0);
+
+    // ===== USER STORE FOR HISTORY =====
+    const addToHistory = useUserStore((state) => state.addToHistory);
 
     // Initialize buffer with current episode
     useEffect(() => {
@@ -189,6 +195,19 @@ export function useVideoPlayer({
                 }
 
                 console.log(`[Episode] Changed to episode ${episodeNum}`);
+
+                // Save to history
+                if (title && cover) {
+                    addToHistory({
+                        id: `${provider}-${dramaId}`,
+                        bookId: dramaId,
+                        title: title,
+                        cover: cover,
+                        provider: provider,
+                        episode: episodeNum,
+                        progress: 0,
+                    });
+                }
             }
         } catch (error) {
             console.error(`[Episode] Failed to change to episode ${episodeNum}:`, error);
@@ -196,7 +215,7 @@ export function useVideoPlayer({
         } finally {
             setIsChangingEpisode(false);
         }
-    }, [dramaId, provider, totalEpisodes, isChangingEpisode, title]);
+    }, [dramaId, provider, totalEpisodes, isChangingEpisode, title, cover, addToHistory]);
 
     // ===== VISIBILITY CHANGE (Pause on tab switch) =====
     useEffect(() => {
@@ -239,11 +258,25 @@ export function useVideoPlayer({
     const handleTimeUpdate = useCallback(() => {
         if (!videoRef.current) return;
         const time = videoRef.current.currentTime;
+        const videoDuration = videoRef.current.duration;
         setCurrentTime(time);
 
-        // Progress saving disabled for now - requires additional drama metadata
-        // TODO: Add progress saving via onProgressUpdate callback prop
-    }, []);
+        // Save progress to history every 15 seconds
+        const now = Date.now();
+        if (now - lastSaveTime.current > 15000 && videoDuration > 0 && title && cover) {
+            lastSaveTime.current = now;
+            const progressPercent = Math.round((time / videoDuration) * 100);
+            addToHistory({
+                id: `${provider}-${dramaId}`,
+                bookId: dramaId,
+                title: title,
+                cover: cover,
+                provider: provider,
+                episode: currentEpisodeNum,
+                progress: progressPercent,
+            });
+        }
+    }, [dramaId, provider, title, cover, currentEpisodeNum, addToHistory]);
 
     const handleSeek = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         const time = parseFloat(e.target.value);

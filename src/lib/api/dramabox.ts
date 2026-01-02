@@ -164,10 +164,44 @@ export const DramaBoxApi = {
 
     /**
      * Search dramas by query
+     * The API returns nested structure: data.search_data[].books[0]
      */
     search: async (query: string): Promise<Drama[]> => {
-        const data = await fetchApi<{ success: boolean; data?: Drama[] }>(`/api/dramabox/search?q=${encodeURIComponent(query)}`);
-        return data?.data || [];
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const data = await fetchApi<{ success: boolean; data?: { search_data?: any[] } | Drama[] }>(`/api/dramabox/search?q=${encodeURIComponent(query)}`);
+
+        if (!data?.data) return [];
+
+        // Handle nested search_data structure (from DramaBox native API)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const rawData = data.data as any;
+        if (rawData.search_data && Array.isArray(rawData.search_data)) {
+            // Extract books from each search_data item
+            const dramas: Drama[] = [];
+            for (const item of rawData.search_data) {
+                if (item.books && Array.isArray(item.books)) {
+                    for (const book of item.books) {
+                        dramas.push({
+                            bookId: book.book_id || book.bookId || "",
+                            bookName: book.book_name || book.bookName || "Untitled",
+                            coverWap: book.thumb_url || book.coverWap || "",
+                            cover: book.thumb_url || book.cover || "",
+                            chapterCount: parseInt(book.serial_count || book.chapterCount || "0"),
+                            introduction: book.abstract || book.introduction,
+                            tags: book.stat_infos,
+                        });
+                    }
+                }
+            }
+            return dramas;
+        }
+
+        // Handle simple array format (fallback for already-transformed responses)
+        if (Array.isArray(data.data)) {
+            return data.data;
+        }
+
+        return [];
     },
 
     /**
