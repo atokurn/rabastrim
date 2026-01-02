@@ -32,6 +32,7 @@ export function SearchClient({ initialPopular = [] }: SearchClientProps) {
         isSearching,
         showSuggestions,
         setShowSuggestions,
+        lastSearchedQuery,
         pagination,
         sources,
         search,
@@ -81,6 +82,8 @@ export function SearchClient({ initialPopular = [] }: SearchClientProps) {
     };
 
     const handleSuggestionSelect = (suggestion: { id: string; title: string; provider: string }) => {
+        // Immediately hide suggestions before search starts
+        setShowSuggestions(false);
         setQuery(suggestion.title);
         search(suggestion.title);
     };
@@ -99,9 +102,10 @@ export function SearchClient({ initialPopular = [] }: SearchClientProps) {
         await loadMore();
         setIsLoadingMore(false);
     };
-
     // Show results if we have them
     const hasResults = results.length > 0;
+    // Check if user is typing a new query (different from the one that produced current results)
+    const isTypingNewQuery = query.trim().toLowerCase() !== lastSearchedQuery.toLowerCase();
     const showDiscovery = !hasResults && !isSearching;
 
     // Mobile: Fullscreen search UI
@@ -129,7 +133,7 @@ export function SearchClient({ initialPopular = [] }: SearchClientProps) {
                         suggestions={suggestions}
                         query={query}
                         onSelect={handleSuggestionSelect}
-                        isVisible={showSuggestions && !hasResults}
+                        isVisible={showSuggestions && !isSearching && (isTypingNewQuery || !hasResults)}
                     />
                 </div>
 
@@ -191,7 +195,7 @@ export function SearchClient({ initialPopular = [] }: SearchClientProps) {
                         suggestions={suggestions}
                         query={query}
                         onSelect={handleSuggestionSelect}
-                        isVisible={showSuggestions && !hasResults}
+                        isVisible={showSuggestions && !isSearching && (isTypingNewQuery || !hasResults)}
                     />
                 </div>
 

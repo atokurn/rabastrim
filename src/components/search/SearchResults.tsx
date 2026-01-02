@@ -147,6 +147,11 @@ export function SearchResults({
                         {featured.title}
                     </Link>
 
+                    {/* Provider Badge */}
+                    <span className="inline-block mt-1 px-2 py-0.5 text-[10px] font-semibold rounded bg-purple-500/20 text-purple-400 w-fit capitalize">
+                        {featured.provider}
+                    </span>
+
                     {/* Rating & Meta */}
                     {featured.score && (
                         <div className="flex items-center gap-1 mt-1">
@@ -220,6 +225,10 @@ export function SearchResults({
                                 <h4 className="text-white text-xs mt-2 line-clamp-2 group-hover:text-[#00cc55] transition-colors">
                                     {item.title}
                                 </h4>
+                                {/* Provider Tag */}
+                                <span className="inline-block mt-1 px-1.5 py-0.5 text-[9px] font-medium rounded bg-gray-700/50 text-gray-400 capitalize">
+                                    {item.provider}
+                                </span>
                             </Link>
                         ))}
                     </div>

@@ -53,6 +53,7 @@ export function useSearch() {
     const [history, setHistory] = useState<string[]>([]);
     const [isSearching, setIsSearching] = useState(false);
     const [showSuggestions, setShowSuggestions] = useState(false);
+    const [lastSearchedQuery, setLastSearchedQuery] = useState(""); // Track which query produced current results
     const [pagination, setPagination] = useState<SearchPagination>({
         total: 0,
         page: 1,
@@ -158,6 +159,7 @@ export function useSearch() {
 
                 if (page === 1) {
                     setResults(data.results || []);
+                    setLastSearchedQuery(searchQuery); // Track which query produced these results
                 } else {
                     // Append results for infinite scroll
                     setResults(prev => [...prev, ...(data.results || [])]);
@@ -212,6 +214,7 @@ export function useSearch() {
         isSearching,
         showSuggestions,
         setShowSuggestions,
+        lastSearchedQuery,
         pagination,
         sources,
         search,
