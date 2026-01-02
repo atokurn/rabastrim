@@ -99,10 +99,16 @@ async function fetchProviderData(id: string, provider: string, episodeNum: numbe
             currentVideoUrl = streamData?.data?.backup_url || streamData?.data?.url || null;
         }
 
+        // Convert HEIC cover to WebP for browser compatibility
+        const rawCover = videoData.series_cover || "";
+        const cover = rawCover && rawCover.includes(".heic")
+            ? `https://wsrv.nl/?url=${encodeURIComponent(rawCover)}&output=webp&q=85`
+            : rawCover;
+
         return {
             drama: {
                 title: videoData.series_title || "Untitled",
-                cover: videoData.series_cover || "",
+                cover,
                 description: videoData.series_intro,
                 totalEpisodes: videoData.episode_cnt || episodes.length,
             },
