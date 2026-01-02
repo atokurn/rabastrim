@@ -478,7 +478,9 @@ export function MobilePlayer({
                     </div>
                     <div className="flex-1 min-w-0 flex flex-col justify-center">
                         <h2 className="text-white font-bold text-sm leading-tight line-clamp-1 mb-1">{title}</h2>
-                        <div className="text-[10px] text-gray-400 mb-2">Full {totalEpisodes} Episode</div>
+                        <div className="text-[10px] text-gray-400 mb-2 font-medium">
+                            <span className="uppercase">{provider}</span> • Full {totalEpisodes} Episode
+                        </div>
                         <button className="self-start px-3 py-1 bg-white/10 text-white text-[10px] font-bold rounded-lg border border-white/10">
                             Sudah ditambahkan
                         </button>
