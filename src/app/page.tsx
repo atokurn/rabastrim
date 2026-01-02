@@ -4,6 +4,7 @@ import { DramaBoxApi } from "@/lib/api/dramabox";
 import { FlickReelsApi } from "@/lib/api/flickreels";
 import { SansekaiApi } from "@/lib/api/sansekai";
 import { getWatchHistory } from "@/lib/actions/history";
+import { HeroService } from "@/lib/services/hero";
 
 // Transform API data to Section item format
 interface SectionItem {
@@ -82,6 +83,7 @@ function transformAnime(drama: any): SectionItem {
 export default async function Home() {
   // Fetch data from all providers in parallel
   const [
+    heroData,
     dramaboxTrending,
     flickreelsForYou,
     netshortTheaters,
@@ -89,6 +91,7 @@ export default async function Home() {
     animeLatest,
     history,
   ] = await Promise.all([
+    HeroService.getHeroContent().catch(() => []),
     DramaBoxApi.getTrending().catch(() => []),
     FlickReelsApi.getForYou().catch(() => []),
     SansekaiApi.netshort.getTheaters().catch(() => []),
@@ -115,7 +118,7 @@ export default async function Home() {
 
   return (
     <div className="pb-20">
-      <Hero />
+      <Hero initialData={heroData} />
 
       <div className="relative z-10 -mt-20 space-y-2">
         {continueWatching.length > 0 && (
