@@ -4,13 +4,53 @@ import { Search, History, Globe, User, Crown, Menu } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect, Suspense, useRef } from "react";
+import { HistoryPopup } from "./HistoryPopup";
+import { ProfilePopup } from "./ProfilePopup";
+import { AuthDialog } from "@/components/user/AuthDialog";
+import { useUserStore } from "@/lib/auth/store";
 
 function NavbarContent() {
     const pathname = usePathname();
     const searchParams = useSearchParams();
     const source = searchParams.get("source");
     const [scrolled, setScrolled] = useState(false);
+    const { login } = useUserStore();
+
+    // History Popup State
+    const [isHistoryOpen, setIsHistoryOpen] = useState(false);
+    const historyTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+    const handleHistoryEnter = () => {
+        if (historyTimeoutRef.current) {
+            clearTimeout(historyTimeoutRef.current);
+        }
+        setIsHistoryOpen(true);
+    };
+
+    const handleHistoryLeave = () => {
+        historyTimeoutRef.current = setTimeout(() => {
+            setIsHistoryOpen(false);
+        }, 300); // Small delay to prevent flickering when moving between button and popup
+    };
+
+    // Profile Popup State
+    const [isProfileOpen, setIsProfileOpen] = useState(false);
+    const [isAuthDialogOpen, setIsAuthDialogOpen] = useState(false);
+    const profileTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+    const handleProfileEnter = () => {
+        if (profileTimeoutRef.current) {
+            clearTimeout(profileTimeoutRef.current);
+        }
+        setIsProfileOpen(true);
+    };
+
+    const handleProfileLeave = () => {
+        profileTimeoutRef.current = setTimeout(() => {
+            setIsProfileOpen(false);
+        }, 300);
+    };
 
     useEffect(() => {
         const handleScroll = () => {
@@ -87,15 +127,50 @@ function NavbarContent() {
                     </Link>
 
                     <div className="hidden md:flex items-center gap-4 text-gray-300">
-                        <button className="hover:text-white">
-                            <History className="w-5 h-5" />
-                        </button>
+                        <div
+                            className="relative"
+                            onMouseEnter={handleHistoryEnter}
+                            onMouseLeave={handleHistoryLeave}
+                        >
+                            <button className={cn(
+                                "hover:text-white transition-colors flex items-center justify-center p-1 rounded-full",
+                                isHistoryOpen ? "text-white bg-gray-800" : ""
+                            )}>
+                                <History className="w-5 h-5" />
+                            </button>
+                            <HistoryPopup
+                                isVisible={isHistoryOpen}
+                                onMouseEnter={handleHistoryEnter}
+                                onMouseLeave={handleHistoryLeave}
+                            />
+                        </div>
                         <button className="hover:text-white">
                             <Globe className="w-5 h-5" />
                         </button>
-                        <button className="hover:text-white">
-                            <User className="w-6 h-6 bg-gray-700 rounded-full p-1" />
-                        </button>
+                        <div
+                            className="relative"
+                            onMouseEnter={handleProfileEnter}
+                            onMouseLeave={handleProfileLeave}
+                        >
+                            <button
+                                className={cn(
+                                    "hover:text-white transition-colors",
+                                    isProfileOpen ? "text-white" : ""
+                                )}
+                                onClick={() => setIsAuthDialogOpen(true)}
+                            >
+                                <User className="w-6 h-6 bg-gray-700 rounded-full p-1" />
+                            </button>
+                            <ProfilePopup
+                                isVisible={isProfileOpen}
+                                onMouseEnter={handleProfileEnter}
+                                onMouseLeave={handleProfileLeave}
+                                onLoginClick={() => {
+                                    setIsProfileOpen(false);
+                                    setIsAuthDialogOpen(true);
+                                }}
+                            />
+                        </div>
                     </div>
 
                     <button className="md:hidden text-white">
@@ -109,6 +184,15 @@ function NavbarContent() {
                     </div>
                 </div>
             </div>
+
+            <AuthDialog
+                isOpen={isAuthDialogOpen}
+                onClose={() => setIsAuthDialogOpen(false)}
+                onLogin={(provider) => {
+                    login(provider);
+                    setIsAuthDialogOpen(false);
+                }}
+            />
         </header>
     );
 }
