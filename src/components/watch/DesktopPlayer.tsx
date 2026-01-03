@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { Play, Pause, ChevronLeft, Loader2, Volume2, VolumeX, Maximize, Minimize, Settings } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -70,6 +70,50 @@ export function DesktopPlayer({
     const [isFullscreen, setIsFullscreen] = useState(false);
     const [showControls, setShowControls] = useState(false);
     const [hasInteracted, setHasInteracted] = useState(false);
+    const controlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+    const resetControls = useCallback(() => {
+        setShowControls(true);
+        if (controlsTimeoutRef.current) {
+            clearTimeout(controlsTimeoutRef.current);
+        }
+        if (isPlaying) {
+            controlsTimeoutRef.current = setTimeout(() => {
+                setShowControls(false);
+            }, 3000);
+        }
+    }, [isPlaying]);
+
+    useEffect(() => {
+        const container = containerRef.current;
+        if (!container) return;
+
+        const handleMouseMove = () => {
+            setHasInteracted(true);
+            resetControls();
+        };
+
+        const handleMouseLeave = () => {
+            if (controlsTimeoutRef.current) {
+                clearTimeout(controlsTimeoutRef.current);
+            }
+            if (isPlaying) {
+                setShowControls(false);
+            }
+        };
+
+        container.addEventListener('mousemove', handleMouseMove);
+        container.addEventListener('mouseleave', handleMouseLeave);
+
+        return () => {
+            container.removeEventListener('mousemove', handleMouseMove);
+            container.removeEventListener('mouseleave', handleMouseLeave);
+            if (controlsTimeoutRef.current) {
+                clearTimeout(controlsTimeoutRef.current);
+            }
+        };
+    }, [resetControls, isPlaying]); // Re-bind when playing state changes to update timeout behavior
+
 
     const formatTime = (time: number) => {
         if (!time || isNaN(time)) return "00:00";
@@ -147,17 +191,26 @@ export function DesktopPlayer({
 
     return (
         <div ref={containerRef}
-            className="w-full h-full bg-black relative group overflow-hidden md:aspect-video rounded-lg"
-            onMouseEnter={() => { setHasInteracted(true); setShowControls(true); }}
-            onMouseLeave={() => isPlaying && setShowControls(false)}
+            className={cn(
+                "w-full h-full bg-black relative group overflow-hidden md:aspect-video rounded-lg",
+                !showControls && isPlaying && "cursor-none"
+            )}
+            onMouseEnter={resetControls}
         >
             <video
                 ref={videoRef}
                 src={src}
                 poster={poster}
-                className="w-full h-full object-contain cursor-pointer"
+                className={cn(
+                    "w-full h-full object-contain transition-all duration-200",
+                    (!showControls && isPlaying) ? "cursor-none" : "cursor-pointer"
+                )}
                 autoPlay
-                onClick={() => { setHasInteracted(true); togglePlay(); }}
+                onClick={() => {
+                    setHasInteracted(true);
+                    togglePlay();
+                    resetControls();
+                }}
                 onPlay={() => setIsPlaying(true)}
                 onPause={() => setIsPlaying(false)}
                 onTimeUpdate={handleTimeUpdate}
