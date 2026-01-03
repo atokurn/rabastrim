@@ -298,7 +298,7 @@ export default async function WatchPage({ params, searchParams }: WatchPageProps
                 recommendations={recommendations}
             />
 
-            <div className="container mx-auto px-0 md:px-4 py-4 hidden lg:grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="container mx-auto px-0 md:px-4 py-4 grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Main Content Info */}
                 <div className="lg:col-span-2 px-4 md:px-0 space-y-6">
                     <div className="flex justify-between items-start">
@@ -333,6 +333,38 @@ export default async function WatchPage({ params, searchParams }: WatchPageProps
                                 <Download className="w-5 h-5" />
                                 <span className="text-xs">Download</span>
                             </button>
+                        </div>
+                    </div>
+
+                    {/* Mobile/Tablet Episode List (Hidden on Desktop) */}
+                    <div className="lg:hidden bg-[#1f2126] p-4 rounded-lg">
+                        <div className="flex justify-between items-center mb-4">
+                            <h3 className="font-bold text-lg text-white">Episodes</h3>
+                            <span className="text-xs text-gray-400">Total {totalEps}</span>
+                        </div>
+
+                        <div className="grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 gap-2 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
+                            {totalEps > 0 ? (
+                                Array.from({ length: totalEps }, (_, i) => i + 1).map(epNum => (
+                                    <Link
+                                        key={epNum}
+                                        href={`/watch/${id}?ep=${epNum}&provider=${provider}`}
+                                        className={cn(
+                                            "aspect-square rounded flex items-center justify-center text-sm font-medium transition-colors border",
+                                            currentEp === epNum
+                                                ? "bg-[#00cc55] text-black border-[#00cc55] font-bold"
+                                                : "bg-[#2e3036] text-gray-300 border-transparent hover:border-gray-500"
+                                        )}
+                                    >
+                                        {epNum}
+                                    </Link>
+                                ))
+                            ) : (
+                                <div className="col-span-full text-center text-gray-400 py-4">
+                                    <Loader2 className="w-6 h-6 animate-spin mx-auto mb-2" />
+                                    Loading episodes...
+                                </div>
+                            )}
                         </div>
                     </div>
 
