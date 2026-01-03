@@ -20,7 +20,9 @@ export function MovieCard({
     progress,
     type = 'default'
 }: MovieCardProps) {
-    const href = `/watch/${id}?provider=${provider}&title=${encodeURIComponent(title)}&cover=${encodeURIComponent(cover)}`;
+    // Build href with optional episode for history resume
+    const baseHref = `/watch/${id}?provider=${provider}&title=${encodeURIComponent(title)}&cover=${encodeURIComponent(cover)}`;
+    const href = episode ? `${baseHref}&ep=${episode}` : baseHref;
 
     return (
         <Link href={href} className="group relative flex flex-col gap-2 w-full">
