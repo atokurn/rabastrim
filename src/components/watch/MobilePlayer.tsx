@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback } from "react";
-import { Play, Pause, ChevronLeft, Loader2, Share2, Heart, MoreHorizontal, ChevronRight, MessageCircle, Settings as SettingsIcon, X } from "lucide-react";
+import { Play, Pause, ChevronLeft, Loader2, Share2, Heart, MoreHorizontal, ChevronRight, MessageCircle, Settings as SettingsIcon, X, Maximize, Minimize } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useVideoPlayer } from "@/hooks/use-video-player";
@@ -110,6 +110,32 @@ export function MobilePlayer({
     // Seek Tooltip State
     const [isSeeking, setIsSeeking] = useState(false);
 
+    // Fullscreen State
+    const [isFullscreen, setIsFullscreen] = useState(false);
+
+    // Toggle Fullscreen
+    const toggleFullscreen = useCallback(() => {
+        if (!containerRef.current) return;
+
+        if (!document.fullscreenElement) {
+            containerRef.current.requestFullscreen().catch((err) => {
+                console.error(`Error attempting to enable fullscreen: ${err.message}`);
+            });
+        } else {
+            document.exitFullscreen();
+        }
+    }, [containerRef]);
+
+    // Sync Fullscreen State
+    useEffect(() => {
+        const handleFullscreenChange = () => {
+            setIsFullscreen(!!document.fullscreenElement);
+        };
+
+        document.addEventListener('fullscreenchange', handleFullscreenChange);
+        return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    }, []);
+
     const formatTime = (time: number) => {
         if (!time || isNaN(time)) return "00:00";
         const minutes = Math.floor(time / 60);
@@ -159,20 +185,17 @@ export function MobilePlayer({
         };
     }, [resetControls]);
 
-    // Lock body scroll when drawer is open
+    // Lock body scroll while MobilePlayer is mounted
     useEffect(() => {
-        if (isSheetOpen) {
-            document.body.style.overflow = 'hidden';
-            document.body.style.overscrollBehavior = 'none'; // Prevent pull-to-refresh on body
-        } else {
-            document.body.style.overflow = '';
-            document.body.style.overscrollBehavior = '';
-        }
+        // Prevent scrolling on the body to avoid interfering with swipes
+        document.body.style.overflow = 'hidden';
+        document.body.style.overscrollBehavior = 'none'; // Prevent pull-to-refresh on body
+
         return () => {
             document.body.style.overflow = '';
             document.body.style.overscrollBehavior = '';
         };
-    }, [isSheetOpen]);
+    }, []);
 
     // ===== KEYBOARD SHORTCUTS (for desktop users on small screens) =====
     useEffect(() => {
@@ -396,6 +419,16 @@ export function MobilePlayer({
                             <Share2 className="w-8 h-8 text-white stroke-[1.5px]" />
                         </div>
                         <span className="text-white text-xs font-medium text-shadow">Bagikan</span>
+                    </button>
+                    <button onClick={toggleFullscreen} className="flex flex-col items-center gap-1 group">
+                        <div className="p-2 rounded-full bg-black/20 backdrop-blur-sm group-active:scale-90 transition-transform">
+                            {isFullscreen ? (
+                                <Minimize className="w-8 h-8 text-white stroke-[1.5px]" />
+                            ) : (
+                                <Maximize className="w-8 h-8 text-white stroke-[1.5px]" />
+                            )}
+                        </div>
+                        <span className="text-white text-xs font-medium text-shadow">Layar Penuh</span>
                     </button>
                 </div>
 

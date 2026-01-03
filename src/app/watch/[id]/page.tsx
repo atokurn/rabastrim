@@ -298,7 +298,7 @@ export default async function WatchPage({ params, searchParams }: WatchPageProps
                 recommendations={recommendations}
             />
 
-            <div className="container mx-auto px-0 md:px-4 py-4 grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="container mx-auto px-0 md:px-4 py-4 hidden lg:grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Main Content Info */}
                 <div className="lg:col-span-2 px-4 md:px-0 space-y-6">
                     <div className="flex justify-between items-start">
