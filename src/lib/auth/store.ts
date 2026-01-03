@@ -9,8 +9,10 @@ export interface WatchedItem {
     cover: string;
     provider: string;
     updatedAt: number;
-    progress?: number; // 0-100 or specific episode
+    progress?: number; // 0-100 percentage for UI
     episode?: number;
+    lastPosition?: number; // seconds for resume
+    duration?: number; // video duration in seconds
 }
 
 export interface FavoriteItem {

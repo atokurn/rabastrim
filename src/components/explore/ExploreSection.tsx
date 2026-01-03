@@ -254,13 +254,17 @@ export default function ExploreSection({ section }: ExploreSectionProps) {
 
     // Fetch data with SWR (only when visible)
     const { data: rawItems, isLoading } = useSWR(
-        isVisible ? `section-${section.id}` : null,
+        isVisible ? `section-${section.source}-${section.id}` : null,
         async () => {
             const items = await section.fetcher();
             if (!Array.isArray(items)) return [];
             return items.map(section.normalizer);
         },
-        { revalidateOnFocus: false }
+        {
+            revalidateOnFocus: false,
+            errorRetryCount: 2,
+            errorRetryInterval: 3000,
+        }
     );
 
     const items = rawItems || [];

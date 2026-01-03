@@ -95,6 +95,7 @@ export function useVideoPlayer({
     useEffect(() => {
         setCurrentEpisodeNum(currentEpisodeNumber);
         setCurrentSrc(src);
+        resumeApplied.current = false; // Reset resume flag for new episode
     }, [currentEpisodeNumber, src]);
 
     // ===== EPISODE BUFFER POOL =====
@@ -103,6 +104,8 @@ export function useVideoPlayer({
 
     // ===== USER STORE FOR HISTORY =====
     const addToHistory = useUserStore((state) => state.addToHistory);
+    const history = useUserStore((state) => state.history);
+    const resumeApplied = useRef<boolean>(false);
 
     // Initialize buffer with current episode
     useEffect(() => {
@@ -254,6 +257,23 @@ export function useVideoPlayer({
         }
     }, [isMuted]);
 
+    // ===== SAVE PROGRESS HELPER =====
+    const saveProgress = useCallback((time: number, videoDuration: number) => {
+        if (videoDuration <= 0 || !title || !cover) return;
+        const progressPercent = Math.round((time / videoDuration) * 100);
+        addToHistory({
+            id: `${provider}-${dramaId}`,
+            bookId: dramaId,
+            title: title,
+            cover: cover,
+            provider: provider,
+            episode: currentEpisodeNum,
+            progress: progressPercent,
+            lastPosition: Math.floor(time),
+            duration: Math.floor(videoDuration),
+        });
+    }, [dramaId, provider, title, cover, currentEpisodeNum, addToHistory]);
+
     // ===== TIME UPDATE & PROGRESS SAVING =====
     const handleTimeUpdate = useCallback(() => {
         if (!videoRef.current) return;
@@ -261,30 +281,44 @@ export function useVideoPlayer({
         const videoDuration = videoRef.current.duration;
         setCurrentTime(time);
 
-        // Save progress to history every 15 seconds
+        // Save progress to history every 3 seconds
         const now = Date.now();
-        if (now - lastSaveTime.current > 15000 && videoDuration > 0 && title && cover) {
+        if (now - lastSaveTime.current > 3000 && videoDuration > 0) {
             lastSaveTime.current = now;
-            const progressPercent = Math.round((time / videoDuration) * 100);
-            addToHistory({
-                id: `${provider}-${dramaId}`,
-                bookId: dramaId,
-                title: title,
-                cover: cover,
-                provider: provider,
-                episode: currentEpisodeNum,
-                progress: progressPercent,
-            });
+            saveProgress(time, videoDuration);
         }
-    }, [dramaId, provider, title, cover, currentEpisodeNum, addToHistory]);
+    }, [saveProgress]);
+
+    // ===== APPLY RESUME POSITION =====
+    useEffect(() => {
+        if (resumeApplied.current) return;
+        if (!videoRef.current || duration <= 0) return;
+
+        // Find matching history entry
+        const historyItem = history.find(
+            (h) => h.bookId === dramaId && h.provider === provider && h.episode === currentEpisodeNum
+        );
+
+        if (historyItem?.lastPosition && historyItem.lastPosition > 0) {
+            // Resume from last position (buffer 2s from end)
+            const resumeTime = Math.min(historyItem.lastPosition, duration - 2);
+            if (resumeTime > 0) {
+                videoRef.current.currentTime = resumeTime;
+                console.log(`[Resume] Seeking to ${resumeTime}s`);
+            }
+            resumeApplied.current = true;
+        }
+    }, [duration, history, dramaId, provider, currentEpisodeNum]);
 
     const handleSeek = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         const time = parseFloat(e.target.value);
         if (videoRef.current) {
             videoRef.current.currentTime = time;
             setCurrentTime(time);
+            // Save progress immediately on seek
+            saveProgress(time, videoRef.current.duration);
         }
-    }, []);
+    }, [saveProgress]);
 
     const changeSpeed = useCallback((speed: number) => {
         if (videoRef.current) {

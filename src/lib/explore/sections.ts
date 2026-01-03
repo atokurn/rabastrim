@@ -13,6 +13,7 @@ import { ProviderSource, ExploreItem } from "./types";
 // Section configuration
 export interface SectionConfig {
     id: string;
+    source: ProviderSource; // Provider source for unique SWR key
     title: string;
     icon: string;
     variant?: "portrait" | "landscape" | "ranking"; // Card style variant
@@ -99,35 +100,35 @@ function normalizeAnime(item: any): ExploreItem {
 
 // DramaBox sections
 const DRAMABOX_SECTIONS: SectionConfig[] = [
-    { id: "trending", title: "Trending", icon: "🔥", variant: "portrait", layout: "carousel", fetcher: DramaBoxApi.getTrending, normalizer: normalizeDramaBox },
-    { id: "recommend", title: "Rekomendasi", icon: "🎯", variant: "portrait", layout: "grid", fetcher: DramaBoxApi.getRecommend, normalizer: normalizeDramaBox },
-    { id: "latest", title: "Terbaru", icon: "🆕", variant: "portrait", layout: "carousel", fetcher: DramaBoxApi.getLatest, normalizer: normalizeDramaBox },
-    { id: "ranking", title: "Populer", icon: "⭐", variant: "ranking", layout: "ranking-list", fetcher: DramaBoxApi.getRanking, normalizer: normalizeDramaBox },
-    { id: "vip", title: "VIP", icon: "👑", variant: "portrait", layout: "carousel", fetcher: DramaBoxApi.getVip, normalizer: normalizeDramaBox },
+    { id: "trending", source: "dramabox", title: "Trending", icon: "🔥", variant: "portrait", layout: "carousel", fetcher: DramaBoxApi.getTrending, normalizer: normalizeDramaBox },
+    { id: "recommend", source: "dramabox", title: "Rekomendasi", icon: "🎯", variant: "portrait", layout: "grid", fetcher: DramaBoxApi.getRecommend, normalizer: normalizeDramaBox },
+    { id: "latest", source: "dramabox", title: "Terbaru", icon: "🆕", variant: "portrait", layout: "carousel", fetcher: DramaBoxApi.getLatest, normalizer: normalizeDramaBox },
+    { id: "ranking", source: "dramabox", title: "Populer", icon: "⭐", variant: "ranking", layout: "ranking-list", fetcher: DramaBoxApi.getRanking, normalizer: normalizeDramaBox },
+    { id: "vip", source: "dramabox", title: "VIP", icon: "👑", variant: "portrait", layout: "carousel", fetcher: DramaBoxApi.getVip, normalizer: normalizeDramaBox },
 ];
 
 // FlickReels sections
 const FLICKREELS_SECTIONS: SectionConfig[] = [
-    { id: "foryou", title: "Untuk Kamu", icon: "💝", variant: "portrait", layout: "carousel", fetcher: FlickReelsApi.getForYou, normalizer: normalizeFlickReels },
-    { id: "ranking", title: "Ranking", icon: "📊", variant: "ranking", layout: "ranking-list", fetcher: FlickReelsApi.getRanking, normalizer: normalizeFlickReels },
-    { id: "recommend", title: "Rekomendasi", icon: "✨", variant: "portrait", layout: "grid", fetcher: FlickReelsApi.getRecommend, normalizer: normalizeFlickReels },
+    { id: "foryou", source: "flickreels", title: "Untuk Kamu", icon: "💝", variant: "portrait", layout: "carousel", fetcher: FlickReelsApi.getForYou, normalizer: normalizeFlickReels },
+    { id: "ranking", source: "flickreels", title: "Ranking", icon: "📊", variant: "ranking", layout: "ranking-list", fetcher: FlickReelsApi.getRanking, normalizer: normalizeFlickReels },
+    { id: "recommend", source: "flickreels", title: "Rekomendasi", icon: "✨", variant: "portrait", layout: "grid", fetcher: FlickReelsApi.getRecommend, normalizer: normalizeFlickReels },
 ];
 
 // NetShort sections
 const NETSHORT_SECTIONS: SectionConfig[] = [
-    { id: "foryou", title: "Untuk Kamu", icon: "💝", variant: "landscape", fetcher: () => SansekaiApi.netshort.getForYou(1), normalizer: normalizeNetShort },
-    { id: "theaters", title: "Theater", icon: "🎭", variant: "portrait", fetcher: SansekaiApi.netshort.getTheaters, normalizer: normalizeNetShort },
+    { id: "foryou", source: "netshort", title: "Untuk Kamu", icon: "💝", variant: "landscape", fetcher: () => SansekaiApi.netshort.getForYou(1), normalizer: normalizeNetShort },
+    { id: "theaters", source: "netshort", title: "Theater", icon: "🎭", variant: "portrait", fetcher: SansekaiApi.netshort.getTheaters, normalizer: normalizeNetShort },
 ];
 
 // Melolo sections
 const MELOLO_SECTIONS: SectionConfig[] = [
-    { id: "trending", title: "Trending", icon: "🔥", variant: "ranking", fetcher: SansekaiApi.melolo.getTrending, normalizer: normalizeMelolo },
-    { id: "latest", title: "Terbaru", icon: "🆕", variant: "portrait", fetcher: SansekaiApi.melolo.getLatest, normalizer: normalizeMelolo },
+    { id: "trending", source: "melolo", title: "Trending", icon: "🔥", variant: "ranking", fetcher: SansekaiApi.melolo.getTrending, normalizer: normalizeMelolo },
+    { id: "latest", source: "melolo", title: "Terbaru", icon: "🆕", variant: "portrait", fetcher: SansekaiApi.melolo.getLatest, normalizer: normalizeMelolo },
 ];
 
 // Anime sections
 const ANIME_SECTIONS: SectionConfig[] = [
-    { id: "latest", title: "Terbaru", icon: "🆕", variant: "portrait", fetcher: SansekaiApi.anime.getLatest, normalizer: normalizeAnime },
+    { id: "latest", source: "anime", title: "Terbaru", icon: "🆕", variant: "portrait", fetcher: SansekaiApi.anime.getLatest, normalizer: normalizeAnime },
 ];
 
 // Get sections for a provider
