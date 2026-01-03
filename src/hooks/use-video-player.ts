@@ -104,7 +104,8 @@ export function useVideoPlayer({
 
     // ===== USER STORE FOR HISTORY =====
     const addToHistory = useUserStore((state) => state.addToHistory);
-    const history = useUserStore((state) => state.history);
+    // Don't subscribe to history updates to prevent re-renders on save
+    // const history = useUserStore((state) => state.history); 
     const resumeApplied = useRef<boolean>(false);
 
     // Initialize buffer with current episode
@@ -294,6 +295,9 @@ export function useVideoPlayer({
         if (resumeApplied.current) return;
         if (!videoRef.current || duration <= 0) return;
 
+        // Fetch history directly from store without subscription
+        const history = useUserStore.getState().history;
+
         // Find matching history entry
         const historyItem = history.find(
             (h) => h.bookId === dramaId && h.provider === provider && h.episode === currentEpisodeNum
@@ -308,7 +312,7 @@ export function useVideoPlayer({
             }
             resumeApplied.current = true;
         }
-    }, [duration, history, dramaId, provider, currentEpisodeNum]);
+    }, [duration, dramaId, provider, currentEpisodeNum]);
 
     const handleSeek = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         const time = parseFloat(e.target.value);
