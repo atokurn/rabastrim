@@ -70,6 +70,8 @@ export function DesktopPlayer({
     const [isFullscreen, setIsFullscreen] = useState(false);
     const [showControls, setShowControls] = useState(false);
     const [hasInteracted, setHasInteracted] = useState(false);
+    const [hoverTime, setHoverTime] = useState<number | null>(null);
+    const [hoverPosition, setHoverPosition] = useState<number>(0);
     const controlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
     const resetControls = useCallback(() => {
@@ -270,13 +272,30 @@ export function DesktopPlayer({
                 {/* Bottom Bar */}
                 <div className="p-4 bg-gradient-to-t from-black/80 to-transparent space-y-2">
                     {/* Progress Bar */}
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3 relative group/seek">
+                        {/* Tooltip */}
+                        {hoverTime !== null && (
+                            <div
+                                className="absolute bottom-full mb-2 px-2 py-1 bg-black/80 text-white text-xs font-bold rounded -translate-x-1/2 pointer-events-none whitespace-nowrap z-30"
+                                style={{ left: `${hoverPosition}px` }}
+                            >
+                                {formatTime(hoverTime)}
+                            </div>
+                        )}
                         <input
                             type="range"
                             min={0}
                             max={duration || 0}
                             value={currentTime}
                             onChange={handleSeek}
+                            onMouseMove={(e) => {
+                                const rect = e.currentTarget.getBoundingClientRect();
+                                const x = e.clientX - rect.left;
+                                const percent = Math.min(Math.max(0, x), rect.width) / rect.width;
+                                setHoverTime(percent * (duration || 0));
+                                setHoverPosition(x);
+                            }}
+                            onMouseLeave={() => setHoverTime(null)}
                             className="w-full h-1 bg-gray-600 rounded-lg cursor-pointer accent-[#00cc55] hover:h-2 transition-all"
                         />
                     </div>

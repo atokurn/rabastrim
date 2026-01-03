@@ -107,6 +107,9 @@ export function MobilePlayer({
     // Transition Animation State
     const [slideDirection, setSlideDirection] = useState<'up' | 'down' | null>(null);
 
+    // Seek Tooltip State
+    const [isSeeking, setIsSeeking] = useState(false);
+
     const formatTime = (time: number) => {
         if (!time || isNaN(time)) return "00:00";
         const minutes = Math.floor(time / 60);
@@ -418,12 +421,28 @@ export function MobilePlayer({
                     >
                         <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-white rounded-full shadow" />
                     </div>
+
+                    {/* Tooltip */}
+                    {isSeeking && (
+                        <div
+                            className="absolute -top-8 px-2 py-0.5 bg-black/80 backdrop-blur-sm text-white text-[10px] font-bold rounded -translate-x-1/2 pointer-events-none whitespace-nowrap z-30"
+                            style={{ left: `${progressPercent}%` }}
+                        >
+                            {formatTime(currentTime)}
+                        </div>
+                    )}
+
                     <input
                         type="range"
                         min={0}
                         max={duration || 0}
                         value={currentTime}
                         onChange={handleSeek}
+                        onTouchStart={() => setIsSeeking(true)}
+                        onTouchEnd={() => setIsSeeking(false)}
+                        // Also handle mouse for testing on desktop with mobile view
+                        onMouseDown={() => setIsSeeking(true)}
+                        onMouseUp={() => setIsSeeking(false)}
                         className="absolute inset-0 w-full h-4 -top-1.5 opacity-0 cursor-pointer"
                     />
                 </div>
