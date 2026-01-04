@@ -2,8 +2,8 @@
  * Sansekai API Adapter
  * Base URL: https://api.sansekai.my.id/api
  * 
- * This adapter provides: NetShort, Melolo, Anime
- * DramaBox is handled by the dedicated DramaBox API
+ * This adapter provides: NetShort, Anime
+ * DramaBox and Melolo are handled by their dedicated API adapters
  */
 
 const BASE_URL = "https://api.sansekai.my.id/api";
@@ -19,10 +19,6 @@ export interface Drama {
     shortPlayId?: string;
     shortPlayName?: string;
     labelArray?: string[];
-    // Melolo specific
-    book_id?: string;
-    book_name?: string;
-    abstract?: string;
     // Anime specific
     judul?: string;
     sinopsis?: string;
@@ -111,68 +107,6 @@ export const SansekaiNetShort = {
 };
 
 // =====================
-// Melolo Provider
-// =====================
-
-// Melolo search response structure
-interface MeloloSearchResponse {
-    code?: number;
-    data?: {
-        search_data?: Array<{
-            books?: Array<{
-                book_id: string;
-                book_name: string;
-                thumb_url: string;
-                abstract?: string;
-                serial_count?: number;
-                stat_infos?: string[];
-            }>;
-        }>;
-    };
-}
-
-interface MeloloResponse {
-    books?: Drama[];
-}
-
-export const SansekaiMelolo = {
-    getTrending: async (): Promise<Drama[]> => {
-        const data = await fetchApi<MeloloResponse>("/melolo/trending");
-        return data?.books || [];
-    },
-    getLatest: async (): Promise<Drama[]> => {
-        const data = await fetchApi<MeloloResponse>("/melolo/latest");
-        return data?.books || [];
-    },
-    search: async (query: string, limit = 10, offset = 0): Promise<Drama[]> => {
-        const data = await fetchApi<MeloloSearchResponse>(
-            `/melolo/search?query=${encodeURIComponent(query)}&limit=${limit}&offset=${offset}`
-        );
-
-        // Extract books from nested structure: data.search_data[0].books
-        if (!data?.data?.search_data?.[0]?.books) return [];
-
-        // Transform to Drama format
-        return data.data.search_data[0].books.map(item => ({
-            id: item.book_id,
-            book_id: item.book_id,
-            title: item.book_name,
-            book_name: item.book_name,
-            cover: item.thumb_url,
-            thumb_url: item.thumb_url,
-            description: item.abstract,
-            abstract: item.abstract,
-            episodes: item.serial_count,
-            serial_count: item.serial_count,
-        }));
-    },
-    getDetail: (bookId: string) =>
-        fetchApi<Drama>(`/melolo/detail?bookId=${bookId}`),
-    getStream: (videoId: string) =>
-        fetchApi<{ url?: string }>(`/melolo/stream?videoId=${videoId}`),
-};
-
-// =====================
 // Anime Provider
 // =====================
 export const SansekaiAnime = {
@@ -188,6 +122,5 @@ export const SansekaiAnime = {
 // Convenience aggregator
 export const SansekaiApi = {
     netshort: SansekaiNetShort,
-    melolo: SansekaiMelolo,
     anime: SansekaiAnime,
 };

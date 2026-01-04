@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { DramaBoxApi } from "@/lib/api/dramabox";
 import { SansekaiApi } from "@/lib/api/sansekai";
+import { MeloloApi } from "@/lib/api/melolo";
 import { cache, cacheKeys, cacheTTL } from "@/lib/cache";
 
 interface HomeItem {
@@ -73,7 +74,7 @@ export async function GET() {
                     DramaBoxApi.getTrending().catch(() => []),
                     DramaBoxApi.getLatest().catch(() => []),
                     SansekaiApi.netshort.getTheaters().catch(() => []),
-                    SansekaiApi.melolo.getTrending().catch(() => []),
+                    MeloloApi.getTrending().catch(() => []),
                     SansekaiApi.anime.getLatest().catch(() => []),
                 ]);
 

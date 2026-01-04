@@ -8,6 +8,7 @@
 import { DramaBoxApi } from "@/lib/api/dramabox";
 import { FlickReelsApi } from "@/lib/api/flickreels";
 import { SansekaiApi } from "@/lib/api/sansekai";
+import { MeloloApi } from "@/lib/api/melolo";
 import { ProviderSource, ExploreItem } from "./types";
 
 // Section configuration
@@ -122,8 +123,8 @@ const NETSHORT_SECTIONS: SectionConfig[] = [
 
 // Melolo sections
 const MELOLO_SECTIONS: SectionConfig[] = [
-    { id: "trending", source: "melolo", title: "Trending", icon: "🔥", variant: "ranking", fetcher: SansekaiApi.melolo.getTrending, normalizer: normalizeMelolo },
-    { id: "latest", source: "melolo", title: "Terbaru", icon: "🆕", variant: "portrait", fetcher: SansekaiApi.melolo.getLatest, normalizer: normalizeMelolo },
+    { id: "trending", source: "melolo", title: "Trending", icon: "🔥", variant: "ranking", fetcher: MeloloApi.getTrending, normalizer: normalizeMelolo },
+    { id: "latest", source: "melolo", title: "Terbaru", icon: "🆕", variant: "portrait", fetcher: MeloloApi.getLatest, normalizer: normalizeMelolo },
 ];
 
 // Anime sections

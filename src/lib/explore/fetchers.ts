@@ -4,13 +4,14 @@
  * Functions to fetch and normalize explore data from each provider
  * 
  * API Base URLs:
- * - DramaBox & FlickReels: https://dramabox-api-test.vercel.app/
- * - NetShort, Melolo, Anime: https://api.sansekai.my.id/
+ * - DramaBox, FlickReels, Melolo: https://dramabox-api-test.vercel.app/
+ * - NetShort, Anime: https://api.sansekai.my.id/
  */
 
 import { DramaBoxApi } from "@/lib/api/dramabox";
 import { FlickReelsApi } from "@/lib/api/flickreels";
 import { SansekaiApi } from "@/lib/api/sansekai";
+import { MeloloApi } from "@/lib/api/melolo";
 import { ExploreItem, ExploreFilters, ProviderSource, DEFAULT_SORTS } from "./types";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -165,11 +166,14 @@ export async function fetchProviderData(
             }
 
             case "melolo": {
-                // Melolo search supports offset pagination
-                const limit = 20;
-                const offset = (page - 1) * limit;
-                const data = await SansekaiApi.melolo.search("", limit, offset);
-                items = data.map(normalizeMelolo);
+                // Melolo - use trending/latest for catalog (search needs query in new API)
+                const [trending, latest] = await Promise.all([
+                    MeloloApi.getTrending(),
+                    MeloloApi.getLatest(),
+                ]);
+
+                const allData = [...trending, ...latest];
+                items = deduplicateItems(allData.map(normalizeMelolo));
                 break;
             }
 

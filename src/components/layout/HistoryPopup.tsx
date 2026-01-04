@@ -41,7 +41,7 @@ export function HistoryPopup({ isVisible, onMouseEnter, onMouseLeave }: HistoryP
                         {recentHistory.map((item) => (
                             <Link
                                 key={item.id}
-                                href={`/watch/${item.provider}/${item.bookId}${item.episode ? `/${item.episode}` : ''}`}
+                                href={`/watch/${item.bookId}?provider=${item.provider}&title=${encodeURIComponent(item.title)}&cover=${encodeURIComponent(item.cover)}&ep=${item.episode || 1}`}
                                 className="flex gap-3 group"
                             >
                                 <div className="relative w-24 h-14 shrink-0 rounded overflow-hidden">

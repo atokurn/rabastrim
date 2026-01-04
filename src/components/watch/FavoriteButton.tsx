@@ -45,8 +45,8 @@ export function FavoriteButton({
     if (variant === 'mobile-sidebar') {
         return (
             <button onClick={handleToggle} className={`flex flex-col items-center gap-1 group ${className}`}>
-                <div className="p-2 rounded-full bg-black/20 backdrop-blur-sm group-active:scale-90 transition-transform">
-                    <Heart className={`w-8 h-8 stroke-[1.5px] ${isFavorite ? 'text-red-500 fill-red-500' : 'text-white'}`} />
+                <div className="p-1.5 rounded-full bg-black/20 backdrop-blur-sm group-active:scale-90 transition-transform">
+                    <Heart className={`w-7 h-7 stroke-[1.5px] ${isFavorite ? 'text-red-500 fill-red-500' : 'text-white'}`} />
                 </div>
                 <span className="text-white text-xs font-medium text-shadow">{isFavorite ? 'Disimpan' : 'Simpan'}</span>
             </button>

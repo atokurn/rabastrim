@@ -22,25 +22,23 @@ export async function getVideoUrl(
         }
 
         if (provider === "melolo") {
-            // Needed to get the video ID first
-            const detailData = await fetch(`https://api.sansekai.my.id/api/melolo/detail?bookId=${dramaId}`, {
-                next: { revalidate: 300 },
-            }).then(r => r.json()).catch(() => null);
+            try {
+                // Get directory/episodes to find the video ID
+                const { MeloloApi } = await import("@/lib/api/melolo");
+                const episodes = await MeloloApi.getDirectory(dramaId);
 
-            const videoData = detailData?.data?.video_data?.video_list;
-            if (!videoData) return null;
+                // Episodes use 0-based vid_index, so subtract 1 from episodeNumber
+                const episode = episodes.find(ep => ep.vid_index === episodeNumber - 1);
 
-            // Melolo episodes might use 1-based index or array index
-            // Assuming sorted by index or relying on finding by index
-            const episode = videoData.find((ep: any) => (ep.vid_index || 0) === episodeNumber) || videoData[episodeNumber - 1];
-
-            if (episode?.vid) {
-                const streamData = await fetch(`https://api.sansekai.my.id/api/melolo/stream?videoId=${episode.vid}`, {
-                    next: { revalidate: 60 },
-                }).then(r => r.json()).catch(() => null);
-                return streamData?.data?.backup_url || streamData?.data?.url || null;
+                if (episode?.vid) {
+                    const stream = await MeloloApi.getStream(episode.vid);
+                    return stream?.main_url || stream?.backup_url || stream?.url || null;
+                }
+                return null;
+            } catch (error) {
+                console.error("[Melolo] Video fetch failed:", error);
+                return null;
             }
-            return null;
         }
 
         if (provider === "anime") {

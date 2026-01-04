@@ -7,9 +7,10 @@
 
 import { DramaBoxApi, Drama as DramaBoxDrama } from "./dramabox";
 import { SansekaiApi, Drama as SansekaiDrama } from "./sansekai";
+import { MeloloApi, MeloloDrama } from "./melolo";
 
 // Re-export types
-export type { DramaBoxDrama, SansekaiDrama };
+export type { DramaBoxDrama, SansekaiDrama, MeloloDrama };
 
 export interface UnifiedDrama {
     id: string;
@@ -59,7 +60,7 @@ export const ApiAggregator = {
     getTrending: async (): Promise<UnifiedDrama[]> => {
         const [dramabox, melolo] = await Promise.all([
             DramaBoxApi.getTrending(),
-            SansekaiApi.melolo.getTrending(),
+            MeloloApi.getTrending(),
         ]);
         return [
             ...dramabox.map(d => transformDrama(d, "dramabox")),
@@ -73,7 +74,7 @@ export const ApiAggregator = {
     getLatest: async (): Promise<UnifiedDrama[]> => {
         const [dramabox, melolo] = await Promise.all([
             DramaBoxApi.getLatest(),
-            SansekaiApi.melolo.getLatest(),
+            MeloloApi.getLatest(),
         ]);
         return [
             ...dramabox.map(d => transformDrama(d, "dramabox")),
@@ -88,7 +89,7 @@ export const ApiAggregator = {
         const [dramabox, netshort, melolo] = await Promise.all([
             DramaBoxApi.search(query),
             SansekaiApi.netshort.search(query),
-            SansekaiApi.melolo.search(query),
+            MeloloApi.search(query),
         ]);
         return [
             ...dramabox.map(d => transformDrama(d, "dramabox")),
@@ -100,3 +101,4 @@ export const ApiAggregator = {
 
 export { DramaBoxApi } from "./dramabox";
 export { SansekaiApi } from "./sansekai";
+export { MeloloApi } from "./melolo";

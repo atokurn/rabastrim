@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { DramaBoxApi } from "@/lib/api/dramabox";
 import { FlickReelsApi } from "@/lib/api/flickreels";
 import { SansekaiApi } from "@/lib/api/sansekai";
+import { MeloloApi } from "@/lib/api/melolo";
 import Link from "next/link";
 import { VideoPlayer } from "@/components/watch/VideoPlayer";
 import { FavoriteButton } from "@/components/watch/FavoriteButton";
@@ -69,21 +70,17 @@ async function fetchProviderData(id: string, provider: string, episodeNum: numbe
     }
 
     if (provider === "melolo") {
-        // Melolo: Get detail for drama info, then stream API for video
-        const detailData = await fetch(`https://api.sansekai.my.id/api/melolo/detail?bookId=${id}`, {
-            next: { revalidate: 300 },
-        }).then(r => r.json()).catch(() => null);
+        // Melolo: Use new MeloloApi for detail and stream
+        const [detail, directory] = await Promise.all([
+            MeloloApi.getDetail(id),
+            MeloloApi.getDirectory(id),
+        ]);
 
-        const videoData = detailData?.data?.video_data;
-        if (!videoData) return { drama: null, episodes: [], currentVideoUrl: null };
+        if (!detail) return { drama: null, episodes: [], currentVideoUrl: null };
 
-        const episodes: EpisodeInfo[] = (videoData.video_list || []).map((ep: {
-            vid: string;
-            vid_index: number;
-            title?: string;
-        }, idx: number) => ({
+        const episodes: EpisodeInfo[] = directory.map((ep, idx: number) => ({
             id: ep.vid,
-            number: ep.vid_index || idx + 1,
+            number: (ep.vid_index ?? idx) + 1,
             videoUrl: null, // Will fetch separately
         }));
 
@@ -92,25 +89,22 @@ async function fetchProviderData(id: string, provider: string, episodeNum: numbe
         let currentVideoUrl: string | null = null;
 
         if (currentEp?.id) {
-            const streamData = await fetch(`https://api.sansekai.my.id/api/melolo/stream?videoId=${currentEp.id}`, {
-                next: { revalidate: 60 },
-            }).then(r => r.json()).catch(() => null);
-
-            currentVideoUrl = streamData?.data?.backup_url || streamData?.data?.url || null;
+            const stream = await MeloloApi.getStream(currentEp.id);
+            currentVideoUrl = stream?.main_url || stream?.backup_url || stream?.url || null;
         }
 
         // Convert HEIC cover to WebP for browser compatibility
-        const rawCover = videoData.series_cover || "";
+        const rawCover = detail.thumb_url || detail.cover_url || "";
         const cover = rawCover && rawCover.includes(".heic")
             ? `https://wsrv.nl/?url=${encodeURIComponent(rawCover)}&output=webp&q=85`
             : rawCover;
 
         return {
             drama: {
-                title: videoData.series_title || "Untitled",
+                title: detail.book_name || "Untitled",
                 cover,
-                description: videoData.series_intro,
-                totalEpisodes: videoData.episode_cnt || episodes.length,
+                description: detail.abstract || detail.introduction,
+                totalEpisodes: detail.serial_count || episodes.length,
             },
             episodes,
             currentVideoUrl,
@@ -247,9 +241,9 @@ export default async function WatchPage({ params, searchParams }: WatchPageProps
                 provider: "netshort",
             }));
         } else if (provider === "melolo") {
-            const trending = await SansekaiApi.melolo.getTrending();
-            recommendations = trending.slice(0, 8).map((d: { book_id?: string; book_name?: string; thumb_url?: string; cover?: string }) => {
-                const rawImage = d.thumb_url || d.cover || "";
+            const trending = await MeloloApi.getTrending();
+            recommendations = trending.slice(0, 8).map((d) => {
+                const rawImage = d.thumb_url || d.cover_url || "";
                 const image = rawImage.includes(".heic")
                     ? `https://wsrv.nl/?url=${encodeURIComponent(rawImage)}&output=webp&q=85`
                     : rawImage;

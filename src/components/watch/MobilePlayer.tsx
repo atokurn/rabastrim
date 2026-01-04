@@ -340,7 +340,8 @@ export function MobilePlayer({
                 src={src}
                 poster={poster}
                 className={cn(
-                    "absolute inset-0 w-full h-full object-contain bg-black transition-all duration-300 ease-out",
+                    "absolute top-0 left-0 right-0 bottom-12 w-full h-full bg-black transition-all duration-300 ease-out",
+                    isFullscreen ? "object-contain object-center scale-110" : "object-contain",
                     slideDirection === 'up' && "opacity-0 -translate-y-20",
                     slideDirection === 'down' && "opacity-0 translate-y-20",
                     !slideDirection && "opacity-100 translate-y-0"
@@ -386,7 +387,7 @@ export function MobilePlayer({
             )}>
                 <div className={cn(
                     "absolute top-0 left-0 right-0 p-4 pt-8 flex justify-between items-start bg-gradient-to-b from-black/60 to-transparent pointer-events-auto transition-opacity duration-300",
-                    showControls ? "opacity-100" : "opacity-0"
+                    showControls && !isSeeking ? "opacity-100" : "opacity-0"
                 )}>
                     <button onClick={() => router.push('/')} className="text-white hover:opacity-70">
                         <ChevronLeft className="w-8 h-8 shadow-sm" />
@@ -397,8 +398,8 @@ export function MobilePlayer({
                 </div>
 
                 <div className={cn(
-                    "absolute right-2 bottom-32 flex flex-col gap-6 items-center pointer-events-auto z-20 transition-opacity duration-300",
-                    showControls ? "opacity-100" : "opacity-0"
+                    "absolute right-2 bottom-20 flex flex-col gap-4 items-center pointer-events-auto z-20 transition-opacity duration-300",
+                    showControls && !isSeeking ? "opacity-100" : "opacity-0"
                 )}>
                     {/* Sidebar buttons */}
                     <FavoriteButton
@@ -409,23 +410,23 @@ export function MobilePlayer({
                         variant="mobile-sidebar"
                     />
                     <button className="flex flex-col items-center gap-1 group">
-                        <div className="p-2 rounded-full bg-black/20 backdrop-blur-sm group-active:scale-90 transition-transform">
-                            <MessageCircle className="w-8 h-8 text-white stroke-[1.5px]" />
+                        <div className="p-1.5 rounded-full bg-black/20 backdrop-blur-sm group-active:scale-90 transition-transform">
+                            <MessageCircle className="w-7 h-7 text-white stroke-[1.5px]" />
                         </div>
                         <span className="text-white text-xs font-medium text-shadow">123</span>
                     </button>
                     <button className="flex flex-col items-center gap-1 group">
-                        <div className="p-2 rounded-full bg-black/20 backdrop-blur-sm group-active:scale-90 transition-transform">
-                            <Share2 className="w-8 h-8 text-white stroke-[1.5px]" />
+                        <div className="p-1.5 rounded-full bg-black/20 backdrop-blur-sm group-active:scale-90 transition-transform">
+                            <Share2 className="w-7 h-7 text-white stroke-[1.5px]" />
                         </div>
                         <span className="text-white text-xs font-medium text-shadow">Bagikan</span>
                     </button>
                     <button onClick={toggleFullscreen} className="flex flex-col items-center gap-1 group">
-                        <div className="p-2 rounded-full bg-black/20 backdrop-blur-sm group-active:scale-90 transition-transform">
+                        <div className="p-1.5 rounded-full bg-black/20 backdrop-blur-sm group-active:scale-90 transition-transform">
                             {isFullscreen ? (
-                                <Minimize className="w-8 h-8 text-white stroke-[1.5px]" />
+                                <Minimize className="w-7 h-7 text-white stroke-[1.5px]" />
                             ) : (
-                                <Maximize className="w-8 h-8 text-white stroke-[1.5px]" />
+                                <Maximize className="w-7 h-7 text-white stroke-[1.5px]" />
                             )}
                         </div>
                         <span className="text-white text-xs font-medium text-shadow">Layar Penuh</span>
@@ -434,7 +435,7 @@ export function MobilePlayer({
 
                 <div className={cn(
                     "absolute left-0 right-16 bottom-16 px-4 flex flex-col items-start gap-2 pointer-events-auto z-10 text-shadow-lg transition-opacity duration-300",
-                    showControls ? "opacity-100" : "opacity-0"
+                    showControls && !isSeeking ? "opacity-100" : "opacity-0"
                 )}>
                     <h1 className="text-white font-bold text-lg leading-tight line-clamp-2">
                         <span className="mr-2 opacity-70">Ep.{currentEpisodeNum}</span>
@@ -455,13 +456,14 @@ export function MobilePlayer({
                         <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-white rounded-full shadow" />
                     </div>
 
-                    {/* Tooltip */}
+                    {/* Seek Overlay (Bottom Centered - Time Only) */}
                     {isSeeking && (
-                        <div
-                            className="absolute -top-8 px-2 py-0.5 bg-black/80 backdrop-blur-sm text-white text-[10px] font-bold rounded -translate-x-1/2 pointer-events-none whitespace-nowrap z-30"
-                            style={{ left: `${progressPercent}%` }}
-                        >
-                            {formatTime(currentTime)}
+                        <div className="absolute bottom-14 left-0 right-0 flex flex-col items-center justify-end z-40 pointer-events-none">
+                            <div className="text-white text-3xl font-bold text-shadow-lg flex items-center gap-1 mb-4">
+                                <span className="text-white">{formatTime(currentTime)}</span>
+                                <span className="text-white/50 text-2xl">/</span>
+                                <span className="text-white/50 text-2xl">{formatTime(duration)}</span>
+                            </div>
                         </div>
                     )}
 

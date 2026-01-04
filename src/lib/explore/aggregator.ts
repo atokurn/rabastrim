@@ -10,6 +10,7 @@
 import { DramaBoxApi } from "@/lib/api/dramabox";
 import { FlickReelsApi } from "@/lib/api/flickreels";
 import { SansekaiApi } from "@/lib/api/sansekai";
+import { MeloloApi } from "@/lib/api/melolo";
 import { cache } from "@/lib/cache";
 import { ExploreItem, ProviderSource } from "./types";
 
@@ -196,8 +197,8 @@ async function aggregateMelolo(): Promise<ExploreItem[]> {
     console.log("[Aggregator] Fetching all Melolo endpoints...");
 
     const [latest, trending] = await Promise.all([
-        SansekaiApi.melolo.getLatest().catch(() => []),
-        SansekaiApi.melolo.getTrending().catch(() => []),
+        MeloloApi.getLatest().catch(() => []),
+        MeloloApi.getTrending().catch(() => []),
     ]);
 
     const allItems = [

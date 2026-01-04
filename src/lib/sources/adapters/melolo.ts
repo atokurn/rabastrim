@@ -1,24 +1,23 @@
 /**
- * Melolo Source Adapter (via Sansekai API)
+ * Melolo Source Adapter (via new Melolo API)
  * Weight: 50
  */
 
-import { SansekaiApi } from "@/lib/api/sansekai";
+import { MeloloApi, MeloloDrama } from "@/lib/api/melolo";
 import type { SourceAdapter, UnifiedDrama, UnifiedDetail, UnifiedEpisode } from "../types";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function normalize(data: any): UnifiedDrama {
+function normalize(data: MeloloDrama): UnifiedDrama {
     // Handle HEIC images
-    const rawCover = data.thumb_url || data.cover || "";
+    const rawCover = data.thumb_url || data.cover_url || "";
     const cover = rawCover.includes(".heic")
         ? `https://wsrv.nl/?url=${encodeURIComponent(rawCover)}&output=webp&q=85`
         : rawCover;
 
     return {
-        id: data.book_id || data.id || "",
-        title: data.book_name || data.title || "Untitled",
+        id: data.book_id || "",
+        title: data.book_name || "Untitled",
         cover,
-        description: data.abstract || data.description,
+        description: data.abstract || data.introduction,
         episodes: data.serial_count,
         provider: "melolo",
         _weight: 50,
@@ -31,7 +30,7 @@ export const MeloloAdapter: SourceAdapter = {
 
     search: async (query: string): Promise<UnifiedDrama[]> => {
         try {
-            const results = await SansekaiApi.melolo.search(query);
+            const results = await MeloloApi.search(query);
             return results.map(normalize);
         } catch (error) {
             console.error("[Melolo] Search failed:", error);
@@ -41,7 +40,7 @@ export const MeloloAdapter: SourceAdapter = {
 
     getTrending: async (): Promise<UnifiedDrama[]> => {
         try {
-            const results = await SansekaiApi.melolo.getTrending();
+            const results = await MeloloApi.getTrending();
             return results.map(normalize);
         } catch (error) {
             console.error("[Melolo] getTrending failed:", error);
@@ -51,7 +50,7 @@ export const MeloloAdapter: SourceAdapter = {
 
     getLatest: async (): Promise<UnifiedDrama[]> => {
         try {
-            const results = await SansekaiApi.melolo.getLatest();
+            const results = await MeloloApi.getLatest();
             return results.map(normalize);
         } catch (error) {
             console.error("[Melolo] getLatest failed:", error);
@@ -61,7 +60,7 @@ export const MeloloAdapter: SourceAdapter = {
 
     getDetail: async (id: string): Promise<UnifiedDetail | null> => {
         try {
-            const data = await SansekaiApi.melolo.getDetail(id);
+            const data = await MeloloApi.getDetail(id);
             if (!data) return null;
             return normalize(data) as UnifiedDetail;
         } catch (error) {
@@ -70,10 +69,22 @@ export const MeloloAdapter: SourceAdapter = {
         }
     },
 
-    getEpisodes: async (_id: string): Promise<UnifiedEpisode[]> => {
-        // Melolo episodes require video stream endpoint
-        // This would need additional implementation
-        console.warn("[Melolo] getEpisodes not fully implemented");
-        return [];
+    getEpisodes: async (id: string): Promise<UnifiedEpisode[]> => {
+        try {
+            const episodes = await MeloloApi.getDirectory(id);
+            return episodes.map(ep => ({
+                id: ep.item_id || ep.vid || String(ep.vid_index),
+                number: (ep.vid_index ?? 0) + 1,
+                title: ep.title || `Episode ${(ep.vid_index ?? 0) + 1}`,
+                videoUrl: "", // Will be fetched via stream endpoint when playing
+                videoId: ep.vid,
+                thumbnail: ep.cover_url,
+                isLocked: ep.is_locked,
+                provider: "melolo" as const,
+            }));
+        } catch (error) {
+            console.error("[Melolo] getEpisodes failed:", error);
+            return [];
+        }
     },
 };

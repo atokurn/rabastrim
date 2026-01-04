@@ -3,6 +3,7 @@ import { Section } from "@/components/ui/Section";
 import { DramaBoxApi } from "@/lib/api/dramabox";
 import { FlickReelsApi } from "@/lib/api/flickreels";
 import { SansekaiApi } from "@/lib/api/sansekai";
+import { MeloloApi } from "@/lib/api/melolo";
 import { getWatchHistory } from "@/lib/actions/history";
 import { HeroService } from "@/lib/services/hero";
 
@@ -95,7 +96,7 @@ export default async function Home() {
     DramaBoxApi.getTrending().catch(() => []),
     FlickReelsApi.getForYou().catch(() => []),
     SansekaiApi.netshort.getTheaters().catch(() => []),
-    SansekaiApi.melolo.getTrending().catch(() => []),
+    MeloloApi.getTrending().catch(() => []),
     SansekaiApi.anime.getLatest().catch(() => []),
     getWatchHistory(10).catch(() => []),
   ]);

@@ -1,4 +1,5 @@
 import { SansekaiApi } from "@/lib/api/sansekai";
+import { MeloloApi } from "@/lib/api/melolo";
 import { HeroItem } from "./types";
 
 export async function getNetShortHero(limit: number = 2): Promise<HeroItem[]> {
@@ -22,7 +23,7 @@ export async function getNetShortHero(limit: number = 2): Promise<HeroItem[]> {
 
 export async function getMeloloHero(limit: number = 2): Promise<HeroItem[]> {
     try {
-        const data = await SansekaiApi.melolo.getTrending();
+        const data = await MeloloApi.getTrending();
 
         return data.slice(0, limit).map((item: any) => {
             const rawImage = item.thumb_url || item.cover || "";
