@@ -31,7 +31,6 @@ export function RecentHistory() {
                                     episode={item.episode}
                                     progress={item.progress}
                                     type="history"
-                                    compact={true} // We might need to add this prop to MovieCard or just style it via className
                                 />
                             </div>
                         ))}
