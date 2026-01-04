@@ -8,7 +8,8 @@ import { useVideoPlayer } from "@/hooks/use-video-player";
 import Image from "next/image";
 import Link from "next/link";
 import { Drawer } from "@/components/ui/Drawer";
-import { FavoriteButton } from "./FavoriteButton";
+import { LikeButton } from "./LikeButton";
+import { CollectionButton } from "./CollectionButton";
 
 interface MobilePlayerProps {
     src: string;
@@ -402,19 +403,24 @@ export function MobilePlayer({
                     showControls && !isSeeking ? "opacity-100" : "opacity-0"
                 )}>
                     {/* Sidebar buttons */}
-                    <FavoriteButton
+                    {/* Sidebar buttons */}
+                    {/* Top Button: Suka (Like Episode - Heart) */}
+                    <LikeButton
+                        bookId={dramaId}
+                        provider={provider}
+                        episode={currentEpisodeNum}
+                        title={title}
+                        cover={drama?.cover || ''}
+                        variant="mobile-sidebar"
+                    />
+                    {/* Second Button: Koleksi (Collect Drama - Bookmark) replaces Comment */}
+                    <CollectionButton
                         bookId={dramaId}
                         provider={provider}
                         title={title}
                         cover={drama?.cover || ''}
                         variant="mobile-sidebar"
                     />
-                    <button className="flex flex-col items-center gap-1 group">
-                        <div className="p-1.5 rounded-full bg-black/20 backdrop-blur-sm group-active:scale-90 transition-transform">
-                            <MessageCircle className="w-7 h-7 text-white stroke-[1.5px]" />
-                        </div>
-                        <span className="text-white text-xs font-medium text-shadow">123</span>
-                    </button>
                     <button className="flex flex-col items-center gap-1 group">
                         <div className="p-1.5 rounded-full bg-black/20 backdrop-blur-sm group-active:scale-90 transition-transform">
                             <Share2 className="w-7 h-7 text-white stroke-[1.5px]" />

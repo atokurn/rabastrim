@@ -24,6 +24,16 @@ export interface FavoriteItem {
     createdAt: number;
 }
 
+export interface LikeItem {
+    id: string; // "provider-bookId-episode"
+    bookId: string;
+    episode: number;
+    title: string;
+    cover: string;
+    provider: string;
+    createdAt: number;
+}
+
 interface User {
     id: string;
     name: string;
@@ -35,6 +45,7 @@ interface UserState {
     user: User | null;
     history: WatchedItem[];
     favorites: FavoriteItem[];
+    likes: LikeItem[];
     preferences: {
         autoplay: boolean;
         muted: boolean;
@@ -50,6 +61,10 @@ interface UserState {
     removeFromFavorites: (bookId: string, provider: string) => void;
     isFavorite: (bookId: string, provider: string) => boolean;
 
+    addToLikes: (item: Omit<LikeItem, 'id' | 'createdAt'>) => void;
+    removeFromLikes: (bookId: string, episode: number, provider: string) => void;
+    isLiked: (bookId: string, episode: number, provider: string) => boolean;
+
     clearHistory: () => void;
     updatePreferences: (prefs: Partial<UserState['preferences']>) => void;
     syncWithClerkUser: (clerkUser: { id: string; firstName?: string | null; lastName?: string | null; imageUrl?: string }) => void;
@@ -62,6 +77,7 @@ export const useUserStore = create<UserState>()(
             user: null,
             history: [],
             favorites: [],
+            likes: [],
             preferences: {
                 autoplay: true,
                 muted: false,
@@ -144,6 +160,32 @@ export const useUserStore = create<UserState>()(
             isFavorite: (bookId, provider) => {
                 const id = `${provider}-${bookId}`;
                 return get().favorites.some(f => f.id === id);
+            },
+
+            addToLikes: (item) => {
+                const id = `${item.provider}-${item.bookId}-${item.episode}`;
+                const newItem: LikeItem = {
+                    ...item,
+                    id,
+                    createdAt: Date.now(),
+                };
+
+                set((state) => {
+                    if (state.likes.some(l => l.id === id)) return state;
+                    return { likes: [newItem, ...state.likes] };
+                });
+            },
+
+            removeFromLikes: (bookId, episode, provider) => {
+                const id = `${provider}-${bookId}-${episode}`;
+                set((state) => ({
+                    likes: state.likes.filter((l) => l.id !== id)
+                }));
+            },
+
+            isLiked: (bookId, episode, provider) => {
+                const id = `${provider}-${bookId}-${episode}`;
+                return get().likes.some(l => l.id === id);
             },
 
             clearHistory: () => set({ history: [] }),
