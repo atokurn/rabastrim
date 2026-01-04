@@ -13,6 +13,7 @@ interface SearchSuggestionsProps {
     query: string;
     onSelect: (suggestion: SearchSuggestion) => void;
     isVisible: boolean;
+    className?: string;
 }
 
 export function SearchSuggestions({
@@ -20,6 +21,7 @@ export function SearchSuggestions({
     query,
     onSelect,
     isVisible,
+    className,
 }: SearchSuggestionsProps) {
     if (!isVisible || suggestions.length === 0) return null;
 
@@ -41,7 +43,7 @@ export function SearchSuggestions({
     };
 
     return (
-        <div className="absolute top-full left-0 right-0 z-50 bg-[#0f1014] border-t border-gray-800">
+        <div className={cn("absolute top-full left-0 right-0 z-50 bg-[#0f1014] border-t border-gray-800", className)}>
             <ul className="divide-y divide-gray-800/50">
                 {suggestions.map((suggestion) => (
                     <li key={`${suggestion.provider}-${suggestion.id}`}>
