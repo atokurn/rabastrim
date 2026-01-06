@@ -5,13 +5,13 @@
  * 
  * API Base URLs:
  * - DramaBox, FlickReels, Melolo: https://dramabox-api-test.vercel.app/
- * - NetShort, Anime: https://api.sansekai.my.id/
+ * - Drama Queen: https://drama-queen-api.vercel.app/
  */
 
 import { DramaBoxApi } from "@/lib/api/dramabox";
 import { FlickReelsApi } from "@/lib/api/flickreels";
-import { SansekaiApi } from "@/lib/api/sansekai";
 import { MeloloApi } from "@/lib/api/melolo";
+import { DramaQueenApi } from "@/lib/api/dramaqueen";
 import { ExploreItem, ExploreFilters, ProviderSource, DEFAULT_SORTS } from "./types";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -43,16 +43,6 @@ function normalizeFlickReels(item: any): ExploreItem {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function normalizeNetShort(item: any): ExploreItem {
-    return {
-        id: item.shortPlayId || item.id || "",
-        title: item.shortPlayName || item.title || "Untitled",
-        poster: item.shortPlayCover || item.coverUrl || item.cover || "",
-        source: "netshort",
-    };
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function normalizeMelolo(item: any): ExploreItem {
     const rawImage = item.thumb_url || item.cover || "";
     const poster = rawImage && rawImage.includes(".heic")
@@ -68,12 +58,17 @@ function normalizeMelolo(item: any): ExploreItem {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function normalizeAnime(item: any): ExploreItem {
+function normalizeDramaQueen(item: any): ExploreItem {
+    // Item is already normalized by DramaQueenApi, use unified field names
     return {
-        id: item.url || item.id || "",
-        title: item.judul || item.title || "Untitled",
-        poster: item.cover || "",
-        source: "anime",
+        id: item.id || "",
+        title: item.title || "Untitled",
+        poster: item.cover || item.landscapeCover || "",
+        episodes: item.episodes || item.totalEpisodes,
+        tags: item.genres,
+        source: "dramaqueen",
+        score: item.score,
+        description: item.description,
     };
 }
 
@@ -102,15 +97,14 @@ interface FetchOptions {
  * Strategy per provider:
  * - DramaBox: search("") for full catalog, or getHome() + search combo
  * - FlickReels: Merge getForYou + getRanking + getRecommend for more content
- * - NetShort: getForYou(page) - supports real pagination!
- * - Melolo: search("", limit, offset) - supports offset pagination
- * - Anime: search("") for more results, or getLatest()
+ * - Melolo: trending/latest for catalog
+ * - Drama Queen: popular + latest for catalog
  */
 export async function fetchProviderData(
     source: ProviderSource,
     options: FetchOptions = {}
 ): Promise<{ items: ExploreItem[]; filters: ExploreFilters }> {
-    const { page = 1, sort = "popular" } = options;
+    const { sort = "popular" } = options;
     let items: ExploreItem[] = [];
     const filters: ExploreFilters = {
         categories: [],
@@ -158,13 +152,6 @@ export async function fetchProviderData(
                 break;
             }
 
-            case "netshort": {
-                // NetShort has REAL pagination support via getForYou(page)
-                const data = await SansekaiApi.netshort.getForYou(page);
-                items = data.map(normalizeNetShort);
-                break;
-            }
-
             case "melolo": {
                 // Melolo - use trending/latest for catalog (search needs query in new API)
                 const [trending, latest] = await Promise.all([
@@ -177,15 +164,16 @@ export async function fetchProviderData(
                 break;
             }
 
-            case "anime": {
-                // Use search for more results, fallback to latest
-                const [latestData, searchData] = await Promise.all([
-                    SansekaiApi.anime.getLatest(),
-                    SansekaiApi.anime.search(""),
+            case "dramaqueen": {
+                // Drama Queen - use popular + latest for catalog
+                const [popular, latest, donghua] = await Promise.all([
+                    DramaQueenApi.getPopular(),
+                    DramaQueenApi.getLatest(),
+                    DramaQueenApi.getDonghuaList(1),
                 ]);
 
-                const allData = [...latestData, ...searchData];
-                items = deduplicateItems(allData.map(normalizeAnime));
+                const allData = [...popular, ...latest, ...donghua];
+                items = deduplicateItems(allData.map(normalizeDramaQueen));
                 break;
             }
         }

@@ -114,3 +114,108 @@ export type DramaCache = typeof dramaCache.$inferSelect;
 export type NewDramaCache = typeof dramaCache.$inferInsert;
 export type EpisodeCache = typeof episodeCache.$inferSelect;
 export type NewEpisodeCache = typeof episodeCache.$inferInsert;
+
+// ============================================
+// LOCAL METADATA STORAGE TABLES
+// ============================================
+
+/**
+ * Provider type for content sources
+ */
+export type ContentProvider = "dramabox" | "flickreels" | "melolo" | "dramaqueen";
+
+/**
+ * Source where content was fetched from
+ */
+export type FetchedFrom = "trending" | "home" | "search" | "foryou";
+
+/**
+ * Content visibility status
+ */
+export type ContentStatus = "active" | "hidden";
+
+/**
+ * Contents - Main metadata table with freshness control
+ * This is the source of truth for all content metadata
+ */
+export const contents = pgTable("contents", {
+    id: uuid("id").defaultRandom().primaryKey(),
+
+    // Provider identification (WAJIB - provider ID discipline)
+    provider: varchar("provider", { length: 50 }).notNull(),
+    providerContentId: varchar("provider_content_id", { length: 100 }).notNull(),
+
+    // Core metadata
+    title: varchar("title", { length: 500 }).notNull(),
+    altTitles: text("alt_titles"), // JSON array
+    description: text("description"),
+    posterUrl: text("poster_url"),
+    bannerUrl: text("banner_url"),
+
+    // Additional metadata
+    year: integer("year"),
+    region: varchar("region", { length: 50 }),
+    tags: text("tags"), // JSON array
+    rating: real("rating"),
+
+    // Content info
+    isSeries: boolean("is_series").default(true),
+    episodeCount: integer("episode_count"),
+    isVip: boolean("is_vip").default(false),
+
+    // Source & Freshness Control (WAJIB)
+    fetchedFrom: varchar("fetched_from", { length: 50 }).notNull(), // trending, home, search, foryou
+    fetchedAt: timestamp("fetched_at").defaultNow(),
+    lastSeenAt: timestamp("last_seen_at").defaultNow(),
+    status: varchar("status", { length: 20 }).default("active"), // hidden, active
+
+    // Scoring
+    popularityScore: integer("popularity_score").default(0),
+
+    // Timestamps
+    createdAt: timestamp("created_at").defaultNow(),
+    updatedAt: timestamp("updated_at").defaultNow(),
+}, (table) => [
+    uniqueIndex("content_provider_idx").on(table.provider, table.providerContentId),
+]);
+
+/**
+ * Episodes Metadata - Lightweight episode info (no video URLs)
+ * Video URLs should be fetched real-time from provider API
+ */
+export const episodesMetadata = pgTable("episodes_metadata", {
+    id: uuid("id").defaultRandom().primaryKey(),
+    contentId: uuid("content_id").references(() => contents.id, { onDelete: "cascade" }).notNull(),
+    providerEpisodeId: varchar("provider_episode_id", { length: 100 }), // WAJIB simpan
+    episodeNumber: integer("episode_number").notNull(),
+    title: varchar("title", { length: 255 }),
+    duration: integer("duration"), // seconds
+    isFree: boolean("is_free").default(true),
+    createdAt: timestamp("created_at").defaultNow(),
+}, (table) => [
+    uniqueIndex("episode_content_idx").on(table.contentId, table.episodeNumber),
+]);
+
+/**
+ * Sync Logs - Track background sync jobs
+ */
+export const syncLogs = pgTable("sync_logs", {
+    id: uuid("id").defaultRandom().primaryKey(),
+    provider: varchar("provider", { length: 50 }).notNull(),
+    syncType: varchar("sync_type", { length: 50 }).notNull(), // trending, home, foryou
+    itemsProcessed: integer("items_processed").default(0),
+    itemsCreated: integer("items_created").default(0),
+    itemsUpdated: integer("items_updated").default(0),
+    status: varchar("status", { length: 20 }).default("success"), // success, failed, partial
+    error: text("error"),
+    durationMs: integer("duration_ms"),
+    completedAt: timestamp("completed_at").defaultNow(),
+});
+
+// New type exports for local metadata storage
+export type Content = typeof contents.$inferSelect;
+export type NewContent = typeof contents.$inferInsert;
+export type EpisodeMetadata = typeof episodesMetadata.$inferSelect;
+export type NewEpisodeMetadata = typeof episodesMetadata.$inferInsert;
+export type SyncLog = typeof syncLogs.$inferSelect;
+export type NewSyncLog = typeof syncLogs.$inferInsert;

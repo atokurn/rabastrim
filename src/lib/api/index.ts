@@ -6,11 +6,11 @@
  */
 
 import { DramaBoxApi, Drama as DramaBoxDrama } from "./dramabox";
-import { SansekaiApi, Drama as SansekaiDrama } from "./sansekai";
 import { MeloloApi, MeloloDrama } from "./melolo";
+import { DramaQueenApi, DramaQueenDrama } from "./dramaqueen";
 
 // Re-export types
-export type { DramaBoxDrama, SansekaiDrama, MeloloDrama };
+export type { DramaBoxDrama, MeloloDrama, DramaQueenDrama };
 
 export interface UnifiedDrama {
     id: string;
@@ -21,7 +21,7 @@ export interface UnifiedDrama {
     score?: number;
     tags?: string[];
     year?: string;
-    provider: "dramabox" | "netshort" | "melolo";
+    provider: "dramabox" | "flickreels" | "melolo" | "dramaqueen";
 }
 
 /**
@@ -30,13 +30,13 @@ export interface UnifiedDrama {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function transformDrama(drama: any, provider: UnifiedDrama["provider"]): UnifiedDrama {
     return {
-        id: drama.bookId || drama.book_id || drama.shortPlayId || drama.id || "",
-        title: drama.bookName || drama.book_name || drama.shortPlayName || drama.title || "Untitled",
-        cover: drama.coverWap || drama.cover || drama.shortPlayCover || drama.thumb_url || "",
-        description: drama.introduction || drama.abstract || drama.description,
-        episodes: drama.chapterCount || drama.serial_count || drama.episodes,
-        score: drama.score ? parseFloat(String(drama.score)) : undefined,
-        tags: drama.tags,
+        id: drama.bookId || drama.book_id || drama.playlet_id || drama.id || "",
+        title: drama.bookName || drama.book_name || drama.playlet_title || drama.title || "Untitled",
+        cover: drama.coverWap || drama.cover || drama.process_cover || drama.thumb_url || drama.image || drama.poster || "",
+        description: drama.introduction || drama.abstract || drama.introduce || drama.description || drama.synopsis,
+        episodes: drama.chapterCount || drama.serial_count || drama.chapter_num || drama.episodes || drama.episodeCount,
+        score: drama.score ? parseFloat(String(drama.score)) : (drama.rating ? parseFloat(String(drama.rating)) : undefined),
+        tags: drama.tags || drama.genres,
         year: drama.year,
         provider,
     };
@@ -58,13 +58,15 @@ export const ApiAggregator = {
      * Get trending dramas from all providers
      */
     getTrending: async (): Promise<UnifiedDrama[]> => {
-        const [dramabox, melolo] = await Promise.all([
+        const [dramabox, melolo, dramaqueen] = await Promise.all([
             DramaBoxApi.getTrending(),
             MeloloApi.getTrending(),
+            DramaQueenApi.getTrending(),
         ]);
         return [
             ...dramabox.map(d => transformDrama(d, "dramabox")),
             ...melolo.map(d => transformDrama(d, "melolo")),
+            ...dramaqueen.map(d => transformDrama(d, "dramaqueen")),
         ];
     },
 
@@ -72,13 +74,15 @@ export const ApiAggregator = {
      * Get latest releases
      */
     getLatest: async (): Promise<UnifiedDrama[]> => {
-        const [dramabox, melolo] = await Promise.all([
+        const [dramabox, melolo, dramaqueen] = await Promise.all([
             DramaBoxApi.getLatest(),
             MeloloApi.getLatest(),
+            DramaQueenApi.getLatest(),
         ]);
         return [
             ...dramabox.map(d => transformDrama(d, "dramabox")),
             ...melolo.map(d => transformDrama(d, "melolo")),
+            ...dramaqueen.map(d => transformDrama(d, "dramaqueen")),
         ];
     },
 
@@ -86,19 +90,19 @@ export const ApiAggregator = {
      * Search across providers
      */
     search: async (query: string): Promise<UnifiedDrama[]> => {
-        const [dramabox, netshort, melolo] = await Promise.all([
+        const [dramabox, melolo, dramaqueen] = await Promise.all([
             DramaBoxApi.search(query),
-            SansekaiApi.netshort.search(query),
             MeloloApi.search(query),
+            DramaQueenApi.search(query),
         ]);
         return [
             ...dramabox.map(d => transformDrama(d, "dramabox")),
-            ...netshort.map(d => transformDrama(d, "netshort")),
             ...melolo.map(d => transformDrama(d, "melolo")),
+            ...dramaqueen.map(d => transformDrama(d, "dramaqueen")),
         ];
     },
 };
 
 export { DramaBoxApi } from "./dramabox";
-export { SansekaiApi } from "./sansekai";
 export { MeloloApi } from "./melolo";
+export { DramaQueenApi } from "./dramaqueen";

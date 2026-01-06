@@ -9,7 +9,6 @@ import { cache, cacheKeys, cacheTTL, redis } from "@/lib/cache";
 import { sortByRelevance, deduplicateResults } from "@/lib/search";
 import { DramaBoxAdapter } from "./adapters/dramabox";
 import { FlickReelsAdapter } from "./adapters/flickreels";
-import { NetShortAdapter } from "./adapters/netshort";
 import { MeloloAdapter } from "./adapters/melolo";
 import type {
     SourceAdapter,
@@ -28,7 +27,6 @@ import type {
 const adapters: Map<ProviderName, SourceAdapter> = new Map([
     ["dramabox", DramaBoxAdapter],
     ["flickreels", FlickReelsAdapter],
-    ["netshort", NetShortAdapter],
     ["melolo", MeloloAdapter],
 ]);
 
@@ -39,7 +37,6 @@ const config: AggregatorConfig = {
     providers: [
         { name: "dramabox", enabled: true, weight: 100, timeout: 5000 },
         { name: "flickreels", enabled: true, weight: 80, timeout: 5000 },
-        { name: "netshort", enabled: true, weight: 60, timeout: 5000 },
         { name: "melolo", enabled: true, weight: 50, timeout: 5000 },
     ],
     defaultTimeout: 5000,

@@ -1,6 +1,6 @@
 import { getDramaBoxHero } from "./dramabox";
 import { getFlickReelsHero } from "./flickreels";
-import { getNetShortHero, getMeloloHero } from "./others";
+import { getMeloloHero } from "./others";
 import { HeroItem } from "./types";
 
 export const HeroService = {
@@ -13,8 +13,7 @@ export const HeroService = {
         const results = await Promise.allSettled([
             getDramaBoxHero(3),
             getFlickReelsHero(3),
-            getNetShortHero(2),
-            getMeloloHero(2),
+            getMeloloHero(3),
         ]);
 
         let allItems: HeroItem[] = [];
@@ -32,7 +31,7 @@ export const HeroService = {
         // 3. Fallback to basic shuffle if no detailed score
 
         // Simple interleaving strategy for variety
-        const providers = ['dramabox', 'flickreels', 'netshort', 'melolo'];
+        const providers = ['dramabox', 'flickreels', 'melolo'];
         const sortedItems: HeroItem[] = [];
 
         // Group by provider
@@ -52,8 +51,6 @@ export const HeroService = {
                     hasItems = true;
                 }
             }
-            // Add remaining from any custom provider added later logic? 
-            // Loop handles generic round robin.
         }
 
         // Return top 8 items

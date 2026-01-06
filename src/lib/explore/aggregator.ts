@@ -9,7 +9,6 @@
 
 import { DramaBoxApi } from "@/lib/api/dramabox";
 import { FlickReelsApi } from "@/lib/api/flickreels";
-import { SansekaiApi } from "@/lib/api/sansekai";
 import { MeloloApi } from "@/lib/api/melolo";
 import { cache } from "@/lib/cache";
 import { ExploreItem, ProviderSource } from "./types";
@@ -56,18 +55,6 @@ function normalizeFlickReels(item: any, source?: string): ExploreItem {
     };
 }
 
-// Normalize NetShort item to ExploreItem
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function normalizeNetShort(item: any, source?: string): ExploreItem {
-    return {
-        id: item.shortPlayId || item.id || "",
-        title: item.shortPlayName || item.title || "Untitled",
-        poster: item.shortPlayCover || item.coverUrl || item.cover || "",
-        source: "netshort",
-        _source: source,
-    };
-}
-
 // Normalize Melolo item to ExploreItem
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function normalizeMelolo(item: any, source?: string): ExploreItem {
@@ -81,18 +68,6 @@ function normalizeMelolo(item: any, source?: string): ExploreItem {
         title: item.book_name || item.title || "Untitled",
         poster,
         source: "melolo",
-        _source: source,
-    };
-}
-
-// Normalize Anime item to ExploreItem
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function normalizeAnime(item: any, source?: string): ExploreItem {
-    return {
-        id: item.url || item.id || "",
-        title: item.judul || item.title || "Untitled",
-        poster: item.cover || "",
-        source: "anime",
         _source: source,
     };
 }
@@ -169,28 +144,6 @@ async function aggregateFlickReels(): Promise<ExploreItem[]> {
 }
 
 /**
- * Aggregate ALL endpoints for NetShort
- */
-async function aggregateNetShort(): Promise<ExploreItem[]> {
-    console.log("[Aggregator] Fetching all NetShort endpoints...");
-
-    const [theaters, foryou] = await Promise.all([
-        SansekaiApi.netshort.getTheaters().catch(() => []),
-        SansekaiApi.netshort.getForYou(1).catch(() => []),
-    ]);
-
-    const allItems = [
-        ...ensureArray(theaters).map(i => normalizeNetShort(i, "theaters")),
-        ...ensureArray(foryou).map(i => normalizeNetShort(i, "foryou")),
-    ];
-
-    const deduplicated = deduplicateItems(allItems);
-    console.log(`[Aggregator] NetShort: ${allItems.length} raw → ${deduplicated.length} unique`);
-
-    return deduplicated;
-}
-
-/**
  * Aggregate ALL endpoints for Melolo
  */
 async function aggregateMelolo(): Promise<ExploreItem[]> {
@@ -213,26 +166,6 @@ async function aggregateMelolo(): Promise<ExploreItem[]> {
 }
 
 /**
- * Aggregate ALL endpoints for Anime
- */
-async function aggregateAnime(): Promise<ExploreItem[]> {
-    console.log("[Aggregator] Fetching all Anime endpoints...");
-
-    const [latest] = await Promise.all([
-        SansekaiApi.anime.getLatest().catch(() => []),
-    ]);
-
-    const allItems = [
-        ...ensureArray(latest).map(i => normalizeAnime(i, "latest")),
-    ];
-
-    const deduplicated = deduplicateItems(allItems);
-    console.log(`[Aggregator] Anime: ${allItems.length} raw → ${deduplicated.length} unique`);
-
-    return deduplicated;
-}
-
-/**
  * Get aggregated content for a provider (with caching)
  */
 export async function getAggregatedContent(provider: ProviderSource): Promise<ExploreItem[]> {
@@ -246,12 +179,8 @@ export async function getAggregatedContent(provider: ProviderSource): Promise<Ex
                     return aggregateDramaBox();
                 case "flickreels":
                     return aggregateFlickReels();
-                case "netshort":
-                    return aggregateNetShort();
                 case "melolo":
                     return aggregateMelolo();
-                case "anime":
-                    return aggregateAnime();
                 default:
                     return [];
             }

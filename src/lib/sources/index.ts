@@ -4,7 +4,6 @@
  * Unified interface for fetching data from multiple providers:
  * - DramaBox (weight: 100)
  * - FlickReels (weight: 80)
- * - NetShort (weight: 60)
  * - Melolo (weight: 50)
  */
 
@@ -29,5 +28,4 @@ export type {
 // Individual adapters (for direct access if needed)
 export { DramaBoxAdapter } from "./adapters/dramabox";
 export { FlickReelsAdapter } from "./adapters/flickreels";
-export { NetShortAdapter } from "./adapters/netshort";
 export { MeloloAdapter } from "./adapters/melolo";

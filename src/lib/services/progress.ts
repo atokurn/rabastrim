@@ -3,7 +3,8 @@
  */
 
 import { DramaBoxApi } from "@/lib/api/dramabox";
-import { SansekaiApi } from "@/lib/api/sansekai";
+import { FlickReelsApi } from "@/lib/api/flickreels";
+import { MeloloApi } from "@/lib/api/melolo";
 
 const COMPLETION_THRESHOLD = 0.9; // 90%
 
@@ -32,12 +33,22 @@ export async function getNextEpisode(
     provider: string
 ): Promise<{ episodeId: string; episodeNumber: number } | null> {
     try {
-        let episodes: { id?: string; episodeId?: string; episodeNumber?: number; number?: number }[] = [];
+        let episodes: { id?: string; episodeId?: string; episodeNumber?: number; number?: number; chapter_num?: number; chapter_id?: string; vid?: string; vid_index?: number }[] = [];
 
         if (provider === "dramabox") {
             episodes = await DramaBoxApi.getEpisodes(dramaId);
-        } else if (provider === "netshort") {
-            episodes = await SansekaiApi.netshort.getAllEpisodes(dramaId);
+        } else if (provider === "flickreels") {
+            const flickreelsEps = await FlickReelsApi.getEpisodes(dramaId);
+            episodes = flickreelsEps.map(ep => ({
+                id: ep.chapter_id,
+                number: ep.chapter_num,
+            }));
+        } else if (provider === "melolo") {
+            const meloloEps = await MeloloApi.getDirectory(dramaId);
+            episodes = meloloEps.map((ep, idx) => ({
+                id: ep.vid,
+                number: (ep.vid_index ?? idx) + 1,
+            }));
         }
 
         if (!episodes || episodes.length === 0) return null;

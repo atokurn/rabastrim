@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cache, cacheKeys, cacheTTL } from "@/lib/cache";
+import { ContentRepository } from "@/lib/services/content-repository";
+import { ContentIngestionService } from "@/lib/services/content-ingestion";
 import { SourceAggregator } from "@/lib/sources";
+import type { ContentProvider } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 
@@ -9,12 +12,20 @@ interface Suggestion {
     title: string;
     cover?: string;
     provider: string;
+    providerContentId: string;
 }
+
+// Minimum results before falling back to API
+const MIN_LOCAL_RESULTS = 5;
 
 /**
  * GET /api/search/suggestions?q=query
- * Returns lightweight suggestions for autocomplete from ALL providers
- * Uses SourceAggregator for unified multi-source suggestions
+ * 
+ * DB-FIRST search suggest with API fallback:
+ * 1. Query local DB (fast)
+ * 2. If results < MIN_LOCAL_RESULTS, call API
+ * 3. Ingest API results to DB (hidden status)
+ * 4. Return combined results
  */
 export async function GET(request: NextRequest) {
     const query = request.nextUrl.searchParams.get("q");
@@ -23,7 +34,6 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({ suggestions: [] });
     }
 
-    // Normalize query
     const normalizedQuery = query.toLowerCase().trim();
     const cacheKey = cacheKeys.searchSuggestions(normalizedQuery);
 
@@ -31,33 +41,72 @@ export async function GET(request: NextRequest) {
         const suggestions = await cache.getOrSet<Suggestion[]>(
             cacheKey,
             async () => {
-                // Use SourceAggregator for multi-source suggestions
-                const { results } = await SourceAggregator.search(query, {
-                    limit: 12,  // Get more, then dedupe
-                    page: 1,
-                });
+                // Step 1: Query local DB first (fast)
+                const localResults = await ContentRepository.searchSuggest(normalizedQuery, 8);
 
-                // Deduplicate by title (case-insensitive)
-                const seen = new Set<string>();
-                const unique: Suggestion[] = [];
+                const suggestions: Suggestion[] = localResults.map(item => ({
+                    id: item.id,
+                    title: item.title,
+                    cover: item.posterUrl || undefined,
+                    provider: item.provider,
+                    providerContentId: item.providerContentId,
+                }));
 
-                for (const item of results) {
-                    const key = item.title.toLowerCase().trim();
-                    if (!seen.has(key)) {
-                        seen.add(key);
-                        unique.push({
-                            id: item.id,
-                            title: item.title,
-                            cover: item.cover,
-                            provider: item.provider,
-                        });
+                // Step 2: If not enough local results, fallback to API
+                if (suggestions.length < MIN_LOCAL_RESULTS) {
+                    console.log(`[SearchSuggest] Local results: ${suggestions.length}, fetching from API...`);
+
+                    const apiResult = await SourceAggregator.search(query, {
+                        limit: 10,
+                        page: 1,
+                    });
+
+                    // Step 3: Ingest API results to DB (hidden status)
+                    const byProvider = new Map<ContentProvider, typeof apiResult.results>();
+                    for (const item of apiResult.results) {
+                        const provider = item.provider as ContentProvider;
+                        if (!byProvider.has(provider)) {
+                            byProvider.set(provider, []);
+                        }
+                        byProvider.get(provider)!.push(item);
                     }
-                    if (unique.length >= 8) break;
+
+                    // Ingest each provider's results
+                    for (const [provider, items] of byProvider) {
+                        await ContentIngestionService.ingestFromSearch(
+                            provider,
+                            items.map(item => ({
+                                providerContentId: item.id,
+                                title: item.title,
+                                description: item.description,
+                                posterUrl: item.cover,
+                                episodeCount: item.episodes,
+                                tags: item.tags,
+                            }))
+                        );
+                    }
+
+                    // Add API results to suggestions (deduplicate)
+                    const seen = new Set(suggestions.map(s => `${s.provider}-${s.providerContentId}`));
+                    for (const item of apiResult.results) {
+                        const key = `${item.provider}-${item.id}`;
+                        if (!seen.has(key)) {
+                            seen.add(key);
+                            suggestions.push({
+                                id: item.id,
+                                title: item.title,
+                                cover: item.cover,
+                                provider: item.provider,
+                                providerContentId: item.id,
+                            });
+                        }
+                        if (suggestions.length >= 8) break;
+                    }
                 }
 
-                return unique;
+                return suggestions.slice(0, 8);
             },
-            cacheTTL.search  // 120 seconds TTL
+            cacheTTL.search // 120 seconds TTL (can be lowered to 60s for faster updates)
         );
 
         return NextResponse.json({ suggestions });

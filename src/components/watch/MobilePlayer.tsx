@@ -63,6 +63,9 @@ export function MobilePlayer({
         changeEpisode,
         isChangingEpisode,
         currentEpisodeNum,
+        error,
+        handleError,
+        handlePlaying
     } = useVideoPlayer({
         src,
         dramaId,
@@ -358,7 +361,7 @@ export function MobilePlayer({
                     e.currentTarget.play().catch(() => { });
                 }}
                 onWaiting={() => setIsLoading(true)}
-                onPlaying={() => setIsLoading(false)}
+                onPlaying={handlePlaying}
                 onEnded={() => {
                     setHasInteracted(false); // Reset interaction on episode end
                     if (currentEpisodeNum < totalEpisodes) goToEpisode(currentEpisodeNum + 1);
@@ -367,7 +370,26 @@ export function MobilePlayer({
                 onClick={togglePlay}
                 onTouchStart={handleVideoTouchStart}
                 onTouchEnd={handleVideoTouchEnd}
+                onError={handleError}
             />
+
+            {error && (
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/90 z-20 text-white gap-3 backdrop-blur-sm animate-in fade-in duration-300">
+                    <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mb-1">
+                        <div className="text-2xl">⚠️</div>
+                    </div>
+                    <p className="text-white/90 font-medium text-sm">Gagal memutar video</p>
+                    <button
+                        onClick={() => window.location.reload()}
+                        className="px-5 py-2 bg-[#00cc55] hover:bg-[#00b34a] rounded-full text-black font-bold text-xs transition-transform active:scale-95 flex items-center gap-2 mt-1"
+                    >
+                        Muat Ulang
+                    </button>
+                    <p className="text-[10px] text-white/40 max-w-[200px] text-center leading-relaxed">
+                        Terjadi kesalahan koneksi. Silakan coba lagi.
+                    </p>
+                </div>
+            )}
 
             {isLoading && (
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
@@ -375,7 +397,7 @@ export function MobilePlayer({
                 </div>
             )}
 
-            {!isPlaying && !isLoading && !isSheetOpen && !isSettingsOpen && (
+            {!isPlaying && !isLoading && !error && !isSheetOpen && !isSettingsOpen && (
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
                     <div className="w-16 h-16 bg-black/30 rounded-full flex items-center justify-center backdrop-blur-sm animate-in fade-in zoom-in duration-200">
                         <Play className="w-8 h-8 text-white fill-white ml-1" />

@@ -7,7 +7,7 @@
 // =====================
 // Provider Types
 // =====================
-export type ProviderName = "dramabox" | "flickreels" | "netshort" | "melolo";
+export type ProviderName = "dramabox" | "flickreels" | "melolo";
 
 export interface ProviderConfig {
     name: ProviderName;
@@ -108,7 +108,6 @@ export const DEFAULT_CONFIG: AggregatorConfig = {
     providers: [
         { name: "dramabox", enabled: true, weight: 100, timeout: 5000 },
         { name: "flickreels", enabled: true, weight: 80, timeout: 5000 },
-        { name: "netshort", enabled: true, weight: 60, timeout: 5000 },
         { name: "melolo", enabled: true, weight: 50, timeout: 5000 },
     ],
     defaultTimeout: 5000,

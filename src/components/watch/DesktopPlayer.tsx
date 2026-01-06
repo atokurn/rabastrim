@@ -54,7 +54,10 @@ export function DesktopPlayer({
         setIsLoading,
         setIsPlaying,
         setDuration,
-        changeSpeed
+        changeSpeed,
+        error,
+        handleError,
+        handlePlaying
     } = useVideoPlayer({
         src,
         dramaId,
@@ -225,13 +228,33 @@ export function DesktopPlayer({
                     });
                 }}
                 onWaiting={() => setIsLoading(true)}
-                onPlaying={() => setIsLoading(false)}
+                onPlaying={handlePlaying}
+                onError={handleError}
                 onEnded={() => {
                     setIsPlaying(false);
                     setHasInteracted(false); // Reset interaction on episode end
                     if (currentEpisodeNumber < totalEpisodes) goToEpisode(currentEpisodeNumber + 1);
                 }}
             />
+
+            {error && (
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/90 z-30 text-white gap-3 backdrop-blur-sm animate-in fade-in duration-300">
+                    <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center mb-1">
+                        {/* Just using Loader as generic icon or maybe AlertCircle if available, but staying safe with existing imports for now, though AlertCircle would be better. Let's stick to simple text or existing icons. Actually lets import AlertCircle if possible, but I don't want to break imports. I'll use text for now or simple structure. Wait, I can use simple UI. */}
+                        <div className="text-3xl">⚠️</div>
+                    </div>
+                    <p className="text-white/90 font-medium text-base">Gagal memutar video</p>
+                    <button
+                        onClick={() => window.location.reload()}
+                        className="px-6 py-2 bg-[#00cc55] hover:bg-[#00b34a] rounded-full text-black font-bold text-sm transition-transform active:scale-95 flex items-center gap-2 mt-2"
+                    >
+                        <span>Muat Ulang</span>
+                    </button>
+                    <p className="text-xs text-white/40 max-w-[200px] text-center">
+                        Terjadi kesalahan saat memuat media. Silakan periksa koneksi internet Anda.
+                    </p>
+                </div>
+            )}
 
             {isLoading && (
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
@@ -261,7 +284,7 @@ export function DesktopPlayer({
                 </div>
 
                 {/* Center Play Button (Large) */}
-                {!isPlaying && (
+                {!isPlaying && !error && (
                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                         <div className="w-20 h-20 icon-scale bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm pointer-events-auto cursor-pointer hover:bg-[#00cc55]/80 transition-colors" onClick={togglePlay}>
                             <Play className="w-10 h-10 text-white fill-white ml-2" />

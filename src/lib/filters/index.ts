@@ -7,9 +7,7 @@
 import { FilterGroup, ProviderSource } from "@/lib/explore/types";
 import { getDramaboxFilters } from "./dramabox";
 import { getFlickreelsFilters } from "./flickreels";
-import { getNetshortFilters } from "./netshort";
 import { getMeloloFilters } from "./melolo";
-import { getAnimeFilters } from "./anime";
 
 /**
  * Get filter configuration for a specific provider
@@ -20,12 +18,8 @@ export function getProviderFilters(provider: ProviderSource): FilterGroup[] {
             return getDramaboxFilters();
         case "flickreels":
             return getFlickreelsFilters();
-        case "netshort":
-            return getNetshortFilters();
         case "melolo":
             return getMeloloFilters();
-        case "anime":
-            return getAnimeFilters();
         default:
             return [];
     }
@@ -45,6 +39,4 @@ export const DEFAULT_SORT_FILTER: FilterGroup = {
 // Re-export individual filter getters
 export { getDramaboxFilters } from "./dramabox";
 export { getFlickreelsFilters } from "./flickreels";
-export { getNetshortFilters } from "./netshort";
 export { getMeloloFilters } from "./melolo";
-export { getAnimeFilters } from "./anime";

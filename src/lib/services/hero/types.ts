@@ -1,4 +1,4 @@
-export type HeroProvider = 'dramabox' | 'flickreels' | 'netshort' | 'melolo' | 'anime';
+export type HeroProvider = 'dramabox' | 'flickreels' | 'melolo';
 
 export interface HeroItem {
     id: string;

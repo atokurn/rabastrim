@@ -24,6 +24,7 @@ export interface VideoPlayerState {
     duration: number;
     isMuted: boolean;
     isLoading: boolean;
+    error: string | null;
     playbackRate: number;
 
     // Episode State
@@ -43,6 +44,9 @@ export interface VideoPlayerState {
     setDuration: (duration: number) => void;
     setIsLoading: (loading: boolean) => void;
     setIsPlaying: (playing: boolean) => void;
+    handleError: (e?: React.SyntheticEvent) => void;
+    handlePlaying: () => void;
+    retryCount: number;
 
     // NEW: Episode Navigation
     changeEpisode: (episodeNum: number) => Promise<void>;
@@ -85,16 +89,23 @@ export function useVideoPlayer({
     const [isMuted, setIsMuted] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [playbackRate, setPlaybackRate] = useState(1);
+    const [error, setError] = useState<string | null>(null);
+    const [retryCount, setRetryCount] = useState(0);
+    const maxRetries = 3;
 
     // ===== EPISODE STATE =====
     const [currentEpisodeNum, setCurrentEpisodeNum] = useState(currentEpisodeNumber);
     const [currentSrc, setCurrentSrc] = useState(src);
     const [isChangingEpisode, setIsChangingEpisode] = useState(false);
 
-    // Sync episode state when props change (e.g., on initial load or page navigation)
     useEffect(() => {
         setCurrentEpisodeNum(currentEpisodeNumber);
-        setCurrentSrc(src);
+        if (src !== currentSrc) {
+            setCurrentSrc(src);
+            setIsLoading(true);
+            setError(null);
+            setRetryCount(0);
+        }
         resumeApplied.current = false; // Reset resume flag for new episode
     }, [currentEpisodeNumber, src]);
 
@@ -367,7 +378,32 @@ export function useVideoPlayer({
         setDuration,
         setIsLoading,
         setIsPlaying,
+        handleError: useCallback((e?: React.SyntheticEvent) => {
+            console.error("[VideoPlayer] Error:", e);
+
+            if (retryCount < maxRetries) {
+                console.log(`[VideoPlayer] Retrying... (${retryCount + 1}/${maxRetries})`);
+                setIsLoading(true);
+                // Delay retry slightly to avoid spamming
+                setTimeout(() => {
+                    setRetryCount(prev => prev + 1);
+                    if (videoRef.current) {
+                        videoRef.current.load();
+                    }
+                }, 2000);
+            } else {
+                setIsLoading(false);
+                setError("Failed to load video");
+            }
+        }, [retryCount]),
+        handlePlaying: useCallback(() => {
+            setIsLoading(false);
+            setRetryCount(0);
+            setIsPlaying(true); // Ensure playing state matches
+        }, []),
         changeEpisode,
         isChangingEpisode,
+        error,
+        retryCount
     };
 }

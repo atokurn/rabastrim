@@ -5,7 +5,7 @@
  */
 
 // Available provider sources
-export type ProviderSource = "dramabox" | "flickreels" | "netshort" | "melolo" | "anime";
+export type ProviderSource = "dramabox" | "flickreels" | "melolo" | "dramaqueen" | "donghua";
 
 // Standardized explore item (normalized from different providers)
 export interface ExploreItem {
@@ -77,9 +77,8 @@ export interface ProviderConfig {
 export const PROVIDERS: ProviderConfig[] = [
     { id: "dramabox", name: "DramaBox", icon: "📺", enabled: true },
     { id: "flickreels", name: "FlickReels", icon: "🎬", enabled: true },
-    { id: "netshort", name: "NetShort", icon: "📱", enabled: true },
     { id: "melolo", name: "Melolo", icon: "🎭", enabled: true },
-    { id: "anime", name: "Anime", icon: "🎌", enabled: true },
+    { id: "dramaqueen", name: "Drama Queen", icon: "👑", enabled: true },
 ];
 
 // Default sort options (shared across providers)

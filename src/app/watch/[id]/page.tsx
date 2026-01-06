@@ -3,8 +3,8 @@ import { Section } from "@/components/ui/Section";
 import { cn } from "@/lib/utils";
 import { DramaBoxApi } from "@/lib/api/dramabox";
 import { FlickReelsApi } from "@/lib/api/flickreels";
-import { SansekaiApi } from "@/lib/api/sansekai";
 import { MeloloApi } from "@/lib/api/melolo";
+import { DramaQueenApi } from "@/lib/api/dramaqueen";
 import Link from "next/link";
 import { VideoPlayer } from "@/components/watch/VideoPlayer";
 import { FavoriteButton } from "@/components/watch/FavoriteButton";
@@ -36,39 +36,6 @@ async function fetchProviderData(id: string, provider: string, episodeNum: numbe
     episodes: EpisodeInfo[];
     currentVideoUrl: string | null;
 }> {
-    if (provider === "netshort") {
-        // NetShort: Use allepisode API which returns episodes with playVoucher
-        const data = await fetch(`https://api.sansekai.my.id/api/netshort/allepisode?shortPlayId=${id}`, {
-            next: { revalidate: 300 },
-        }).then(r => r.json()).catch(() => null);
-
-        if (!data) return { drama: null, episodes: [], currentVideoUrl: null };
-
-        const episodes: EpisodeInfo[] = (data.shortPlayEpisodeInfos || []).map((ep: {
-            episodeId: string;
-            episodeNo: number;
-            playVoucher?: string;
-        }) => ({
-            id: ep.episodeId,
-            number: ep.episodeNo,
-            videoUrl: ep.playVoucher || null,
-        }));
-
-        const currentEp = episodes.find(e => e.number === episodeNum) || episodes[0];
-
-        return {
-            drama: {
-                title: data.shortPlayName || "Untitled",
-                cover: data.shortPlayCover || "",
-                description: data.shotIntroduce,
-                tags: data.shortPlayLabels,
-                totalEpisodes: data.totalEpisode || episodes.length,
-            },
-            episodes,
-            currentVideoUrl: currentEp?.videoUrl || null,
-        };
-    }
-
     if (provider === "melolo") {
         // Melolo: Use new MeloloApi for detail and stream
         const [detail, directory] = await Promise.all([
@@ -111,50 +78,6 @@ async function fetchProviderData(id: string, provider: string, episodeNum: numbe
         };
     }
 
-    if (provider === "anime") {
-        // Anime: Get detail with urlId parameter
-        const detailData = await fetch(`https://api.sansekai.my.id/api/anime/detail?urlId=${encodeURIComponent(id)}`, {
-            next: { revalidate: 300 },
-        }).then(r => r.json()).catch(() => null);
-
-        // Handle potential error response
-        if (!detailData || detailData.error) {
-            return { drama: null, episodes: [], currentVideoUrl: null };
-        }
-
-        const animeData = detailData?.data?.[0] || detailData;
-        const chapters = animeData?.chapter || [];
-
-        const episodes: EpisodeInfo[] = chapters.map((ch: { url?: string; judul?: string }, idx: number) => ({
-            id: ch.url || String(idx + 1),
-            number: idx + 1,
-            videoUrl: null, // Need to call getvideo API
-        }));
-
-        // Get video URL for current episode
-        const currentEp = episodes[episodeNum - 1] || episodes[0];
-        let currentVideoUrl: string | null = null;
-
-        if (currentEp?.id) {
-            const videoData = await fetch(`https://api.sansekai.my.id/api/anime/getvideo?url=${encodeURIComponent(currentEp.id)}`, {
-                next: { revalidate: 60 },
-            }).then(r => r.json()).catch(() => null);
-
-            currentVideoUrl = videoData?.url || videoData?.video?.url || null;
-        }
-
-        return {
-            drama: {
-                title: animeData?.judul || "Untitled",
-                cover: animeData?.cover || "",
-                description: animeData?.sinopsis,
-                totalEpisodes: chapters.length,
-            },
-            episodes,
-            currentVideoUrl,
-        };
-    }
-
     if (provider === "flickreels") {
         // FlickReels: Use getDetail for drama info (merges detail + episodes endpoints)
         // and getEpisodes for full episode list
@@ -180,6 +103,68 @@ async function fetchProviderData(id: string, provider: string, episodeNum: numbe
                 // Use episodes.length as primary source since API chapter_num is current episode (not total)
                 totalEpisodes: episodes.length || drama.upload_num || drama.chapter_num || 0,
             } : null,
+            episodes,
+            currentVideoUrl: currentEpisode?.videoUrl || null,
+        };
+    }
+
+    if (provider === "dramaqueen") {
+        // Drama Queen: Use getDetail for drama info and getEpisodes for episodes
+        const [detail, episodesData] = await Promise.all([
+            DramaQueenApi.getDetail(id),
+            DramaQueenApi.getEpisodes(id),
+        ]);
+
+        if (!detail) return { drama: null, episodes: [], currentVideoUrl: null };
+
+        const episodes: EpisodeInfo[] = episodesData.map((ep) => ({
+            id: String(ep.id),
+            number: ep.number,
+            videoUrl: ep.videoUrl || null,
+        }));
+
+        const currentEpisode = episodes.find(e => e.number === episodeNum) || episodes[0];
+
+        return {
+            drama: {
+                title: detail.title || "Untitled",
+                cover: detail.cover || detail.landscapeCover || "",
+                description: detail.description,
+                score: detail.rating,
+                tags: detail.genres,
+                totalEpisodes: detail.totalEpisodes || detail.episodes || episodes.length,
+            },
+            episodes,
+            currentVideoUrl: currentEpisode?.videoUrl || null,
+        };
+    }
+
+    if (provider === "donghua") {
+        // Donghua: Use getDonghuaDetail for info and getDonghuaEpisodes for episodes
+        const detail = await DramaQueenApi.getDonghuaDetail(id);
+
+        if (!detail) return { drama: null, episodes: [], currentVideoUrl: null };
+
+        // Donghua episodes are embedded in detail response, use getDonghuaEpisodes
+        const episodesData = await DramaQueenApi.getDonghuaEpisodes(id);
+
+        const episodes: EpisodeInfo[] = episodesData.map((ep) => ({
+            id: String(ep.id),
+            number: ep.number,
+            videoUrl: ep.videoUrl || null,
+        }));
+
+        const currentEpisode = episodes.find(e => e.number === episodeNum) || episodes[0];
+
+        return {
+            drama: {
+                title: detail.title || "Untitled",
+                cover: detail.cover || "",
+                description: detail.description,
+                score: detail.rating,
+                tags: detail.genres,
+                totalEpisodes: detail.totalEpisodes || detail.episodes || episodes.length,
+            },
             episodes,
             currentVideoUrl: currentEpisode?.videoUrl || null,
         };
@@ -232,15 +217,7 @@ export default async function WatchPage({ params, searchParams }: WatchPageProps
     // Get recommendations based on provider
     let recommendations: Array<{ id: string; title: string; image: string; provider: string }> = [];
     try {
-        if (provider === "netshort") {
-            const theaters = await SansekaiApi.netshort.getTheaters();
-            recommendations = theaters.slice(0, 8).map((d: { shortPlayId?: string; shortPlayName?: string; shortPlayCover?: string }) => ({
-                id: d.shortPlayId || "",
-                title: d.shortPlayName || "Untitled",
-                image: d.shortPlayCover || "",
-                provider: "netshort",
-            }));
-        } else if (provider === "melolo") {
+        if (provider === "melolo") {
             const trending = await MeloloApi.getTrending();
             recommendations = trending.slice(0, 8).map((d) => {
                 const rawImage = d.thumb_url || d.cover_url || "";
@@ -261,6 +238,14 @@ export default async function WatchPage({ params, searchParams }: WatchPageProps
                 title: d.playlet_title || "Untitled",
                 image: d.cover || d.process_cover || "",
                 provider: "flickreels",
+            }));
+        } else if (provider === "dramaqueen") {
+            const popular = await DramaQueenApi.getPopular();
+            recommendations = popular.filter(d => String(d.id) !== id).slice(0, 8).map(d => ({
+                id: String(d.id),
+                title: d.title || "Untitled",
+                image: d.cover || d.landscapeCover || "",
+                provider: "dramaqueen",
             }));
         } else {
             const allDramas = await DramaBoxApi.getHome();

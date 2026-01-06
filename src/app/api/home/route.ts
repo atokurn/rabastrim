@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
+import { ContentRepository } from "@/lib/services/content-repository";
 import { DramaBoxApi } from "@/lib/api/dramabox";
-import { SansekaiApi } from "@/lib/api/sansekai";
+import { FlickReelsApi } from "@/lib/api/flickreels";
 import { MeloloApi } from "@/lib/api/melolo";
 import { cache, cacheKeys, cacheTTL } from "@/lib/cache";
+import type { Content } from "@/lib/db";
 
 interface HomeItem {
     id: string;
@@ -14,7 +16,27 @@ interface HomeItem {
     provider: string;
 }
 
-// Transform functions
+interface HomeSection {
+    provider: string;
+    title: string;
+    items: HomeItem[];
+}
+
+// Transform Content from DB to HomeItem format
+function transformContent(content: Content, index?: number): HomeItem {
+    return {
+        id: content.providerContentId,
+        title: content.title,
+        image: content.posterUrl || "",
+        badge: index !== undefined && index < 10 ? `TOP ${index + 1}` : undefined,
+        episodes: content.episodeCount ? `${content.episodeCount} Eps` : undefined,
+        provider: content.provider,
+        isVip: content.isVip ?? false,
+    };
+}
+
+// Transform external API data (fallback only)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function transformDramaBox(drama: any, index?: number): HomeItem {
     return {
         id: drama.bookId || drama.book_id || String(index),
@@ -26,6 +48,19 @@ function transformDramaBox(drama: any, index?: number): HomeItem {
     };
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function transformFlickReels(drama: any, index?: number): HomeItem {
+    return {
+        id: drama.playlet_id || String(index),
+        title: drama.playlet_title || "Untitled",
+        image: drama.cover || drama.process_cover || "",
+        badge: index !== undefined && index < 10 ? `TOP ${index + 1}` : undefined,
+        episodes: drama.chapter_num ? `${drama.chapter_num} Eps` : undefined,
+        provider: "flickreels",
+    };
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function transformMelolo(drama: any, index?: number): HomeItem {
     const rawImage = drama.thumb_url || drama.cover || "";
     const image = rawImage && rawImage.includes(".heic")
@@ -41,52 +76,83 @@ function transformMelolo(drama: any, index?: number): HomeItem {
     };
 }
 
-function transformNetShort(drama: any): HomeItem {
-    return {
-        id: drama.shortPlayId || drama.id || "",
-        title: drama.shortPlayName || drama.title || "Untitled",
-        image: drama.shortPlayCover || drama.coverUrl || drama.cover || "",
-        provider: "netshort",
-    };
-}
+const SECTION_TITLES: Record<string, string> = {
+    dramabox: "DramaBox - Trending",
+    flickreels: "FlickReels - For You",
+    melolo: "Melolo - Trending",
+};
 
-function transformAnime(drama: any): HomeItem {
-    return {
-        id: drama.url || drama.id || "",
-        title: drama.judul || drama.title || "Untitled",
-        image: drama.cover || "",
-        provider: "anime",
-    };
-}
-
+/**
+ * GET /api/home
+ * 
+ * DB-FIRST approach:
+ * 1. Try fetching from local database (fast)
+ * 2. If DB is empty or has insufficient data, fallback to external APIs
+ */
 export async function GET() {
     try {
         const data = await cache.getOrSet(
             cacheKeys.home(),
             async () => {
+                // Step 1: Try local DB first
+                const dbContent = await ContentRepository.getForHomepageGrouped(12);
+
+                // Check if we have enough data from DB (lowered threshold)
+                const hasEnoughData = dbContent.length >= 1 &&
+                    dbContent.some(section => section.items.length >= 3);
+
+                if (hasEnoughData) {
+                    console.log("[Home] Serving from local DB");
+
+                    const sections: HomeSection[] = dbContent.map(section => ({
+                        provider: section.provider,
+                        title: SECTION_TITLES[section.provider] || section.provider,
+                        items: section.items.map((item, index) => transformContent(item, index)),
+                    }));
+
+                    return { sections, source: "db" };
+                }
+
+                // Step 2: Fallback to external APIs if DB doesn't have enough data
+                console.log("[Home] DB insufficient, falling back to external APIs");
+
                 const [
                     dramaboxTrending,
-                    dramaboxLatest,
-                    netshortTheaters,
+                    flickreelsForYou,
                     meloloTrending,
-                    animeLatest,
                 ] = await Promise.all([
                     DramaBoxApi.getTrending().catch(() => []),
-                    DramaBoxApi.getLatest().catch(() => []),
-                    SansekaiApi.netshort.getTheaters().catch(() => []),
+                    FlickReelsApi.getForYou().catch(() => []),
                     MeloloApi.getTrending().catch(() => []),
-                    SansekaiApi.anime.getLatest().catch(() => []),
                 ]);
 
-                return {
-                    dramabox: {
-                        trending: dramaboxTrending.slice(0, 12).map((d, i) => transformDramaBox(d, i)),
-                        latest: dramaboxLatest.slice(0, 12).map(d => transformDramaBox(d)),
-                    },
-                    netshort: netshortTheaters.slice(0, 12).map(d => transformNetShort(d)),
-                    melolo: meloloTrending.slice(0, 12).map((d, i) => transformMelolo(d, i)),
-                    anime: animeLatest.slice(0, 12).map(d => transformAnime(d)),
-                };
+                const sections: HomeSection[] = [];
+
+                if (flickreelsForYou.length > 0) {
+                    sections.push({
+                        provider: "flickreels",
+                        title: SECTION_TITLES.flickreels,
+                        items: flickreelsForYou.slice(0, 12).map((d, i) => transformFlickReels(d, i)),
+                    });
+                }
+
+                if (dramaboxTrending.length > 0) {
+                    sections.push({
+                        provider: "dramabox",
+                        title: SECTION_TITLES.dramabox,
+                        items: dramaboxTrending.slice(0, 12).map((d, i) => transformDramaBox(d, i)),
+                    });
+                }
+
+                if (meloloTrending.length > 0) {
+                    sections.push({
+                        provider: "melolo",
+                        title: SECTION_TITLES.melolo,
+                        items: meloloTrending.slice(0, 12).map((d, i) => transformMelolo(d, i)),
+                    });
+                }
+
+                return { sections, source: "api" };
             },
             cacheTTL.home
         );

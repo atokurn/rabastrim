@@ -1,25 +1,5 @@
-import { SansekaiApi } from "@/lib/api/sansekai";
 import { MeloloApi } from "@/lib/api/melolo";
 import { HeroItem } from "./types";
-
-export async function getNetShortHero(limit: number = 2): Promise<HeroItem[]> {
-    try {
-        const data = await SansekaiApi.netshort.getTheaters();
-
-        return data.slice(0, limit).map((item: any) => ({
-            id: item.shortPlayId || item.id || `netshort-${Math.random()}`,
-            title: item.shortPlayName || item.title || "Untitled",
-            cover: item.shortPlayCover || item.cover,
-            backdrop: item.shortPlayCover || item.cover,
-            provider: 'netshort',
-            description: item.synopsis || item.description,
-            tags: item.keywords,
-        }));
-    } catch (error) {
-        console.error("Error fetching NetShort hero:", error);
-        return [];
-    }
-}
 
 export async function getMeloloHero(limit: number = 2): Promise<HeroItem[]> {
     try {

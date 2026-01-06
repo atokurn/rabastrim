@@ -1,6 +1,5 @@
 "use server";
 
-import { SansekaiApi } from "@/lib/api/sansekai";
 import { DramaBoxApi } from "@/lib/api/dramabox";
 import { FlickReelsApi } from "@/lib/api/flickreels";
 
@@ -10,17 +9,6 @@ export async function getVideoUrl(
     episodeNumber: number
 ): Promise<string | null> {
     try {
-        if (provider === "netshort") {
-            const data = await fetch(`https://api.sansekai.my.id/api/netshort/allepisode?shortPlayId=${dramaId}`, {
-                next: { revalidate: 300 },
-            }).then(r => r.json()).catch(() => null);
-
-            if (!data?.shortPlayEpisodeInfos) return null;
-
-            const episode = data.shortPlayEpisodeInfos.find((ep: any) => ep.episodeNo === episodeNumber);
-            return episode?.playVoucher || null;
-        }
-
         if (provider === "melolo") {
             try {
                 // Get directory/episodes to find the video ID
@@ -41,29 +29,24 @@ export async function getVideoUrl(
             }
         }
 
-        if (provider === "anime") {
-            const detailData = await fetch(`https://api.sansekai.my.id/api/anime/detail?urlId=${encodeURIComponent(dramaId)}`, {
-                next: { revalidate: 300 },
-            }).then(r => r.json()).catch(() => null);
-
-            const animeData = detailData?.data?.[0] || detailData;
-            const chapters = animeData?.chapter || [];
-            const episode = chapters[episodeNumber - 1];
-
-            if (episode?.url) {
-                const videoData = await fetch(`https://api.sansekai.my.id/api/anime/getvideo?url=${encodeURIComponent(episode.url)}`, {
-                    next: { revalidate: 60 },
-                }).then(r => r.json()).catch(() => null);
-                return videoData?.url || videoData?.video?.url || null;
-            }
-            return null;
-        }
-
         if (provider === "flickreels") {
             const episodes = await FlickReelsApi.getEpisodes(dramaId);
             const episode = episodes.find(e => e.chapter_num === episodeNumber);
             // Use videoUrl (VIP bypass) first, then fallback to hls_url or down_url
             return episode?.videoUrl || episode?.hls_url || episode?.down_url || null;
+        }
+
+        if (provider === "dramaqueen") {
+            try {
+                const { DramaQueenApi } = await import("@/lib/api/dramaqueen");
+                const episodes = await DramaQueenApi.getEpisodes(dramaId);
+                const episode = episodes.find(e => e.number === episodeNumber);
+                // Drama Queen provides direct video URLs with auto-authentication
+                return episode?.videoUrl || null;
+            } catch (error) {
+                console.error("[DramaQueen] Video fetch failed:", error);
+                return null;
+            }
         }
 
         // DramaBox (Default)
@@ -76,4 +59,3 @@ export async function getVideoUrl(
         return null;
     }
 }
-

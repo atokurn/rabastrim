@@ -2,7 +2,6 @@ import { Hero } from "@/components/ui/Hero";
 import { Section } from "@/components/ui/Section";
 import { DramaBoxApi } from "@/lib/api/dramabox";
 import { FlickReelsApi } from "@/lib/api/flickreels";
-import { SansekaiApi } from "@/lib/api/sansekai";
 import { MeloloApi } from "@/lib/api/melolo";
 import { getWatchHistory } from "@/lib/actions/history";
 import { HeroService } from "@/lib/services/hero";
@@ -44,16 +43,6 @@ function transformFlickReels(drama: any, index?: number): SectionItem {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function transformNetShort(drama: any): SectionItem {
-  return {
-    id: drama.shortPlayId || drama.id || "",
-    title: drama.shortPlayName || drama.title || "Untitled",
-    image: drama.shortPlayCover || drama.coverUrl || drama.cover || "",
-    provider: "netshort",
-  };
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function transformMelolo(drama: any, index?: number): SectionItem {
   // Melolo images are in .heic format which Chrome doesn't support
   // Use wsrv.nl image proxy to convert to WebP
@@ -71,42 +60,26 @@ function transformMelolo(drama: any, index?: number): SectionItem {
   };
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function transformAnime(drama: any): SectionItem {
-  return {
-    id: drama.url || drama.id || "",
-    title: drama.judul || drama.title || "Untitled",
-    image: drama.cover || "",
-    provider: "anime",
-  };
-}
-
 export default async function Home() {
   // Fetch data from all providers in parallel
   const [
     heroData,
     dramaboxTrending,
     flickreelsForYou,
-    netshortTheaters,
     meloloTrending,
-    animeLatest,
     history,
   ] = await Promise.all([
     HeroService.getHeroContent().catch(() => []),
     DramaBoxApi.getTrending().catch(() => []),
     FlickReelsApi.getForYou().catch(() => []),
-    SansekaiApi.netshort.getTheaters().catch(() => []),
     MeloloApi.getTrending().catch(() => []),
-    SansekaiApi.anime.getLatest().catch(() => []),
     getWatchHistory(10).catch(() => []),
   ]);
 
   // Transform data
   const dramaboxItems = dramaboxTrending.slice(0, 12).map((d, i) => transformDramaBox(d, i));
   const flickreelsItems = flickreelsForYou.slice(0, 12).map((d, i) => transformFlickReels(d, i));
-  const netshortItems = netshortTheaters.slice(0, 12).map(d => transformNetShort(d));
   const meloloItems = meloloTrending.slice(0, 12).map((d, i) => transformMelolo(d, i));
-  const animeItems = animeLatest.slice(0, 12).map(d => transformAnime(d));
 
   // Transform watch history from database
   const continueWatching: SectionItem[] = history.map(item => ({
@@ -144,28 +117,13 @@ export default async function Home() {
           />
         )}
 
-        {netshortItems.length > 0 && (
-          <Section
-            title="NetShort - Drama Viral"
-            items={netshortItems}
-          />
-        )}
-
         {meloloItems.length > 0 && (
           <Section
             title="Melolo - Trending"
             items={meloloItems}
           />
         )}
-
-        {animeItems.length > 0 && (
-          <Section
-            title="Anime - Terbaru"
-            items={animeItems}
-          />
-        )}
       </div>
     </div>
   );
 }
-

@@ -1,0 +1,52 @@
+{
+  "success": true,
+  "dramaName": "Idol I (2025)",
+  "totalEpisodes": 5,
+  "data": [
+    {
+      "id": 36400,
+      "episodeNumber": 1,
+      "videoUrl": "http://tupaidrama:password@honeydew.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E1%20720p.mp4",
+      "videoUrlPro": "http://tupaidrama:password@durian.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E1%20720p.mp4",
+      "videoUrlPremium": "http://tupaidrama:password@honeydew.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E1%20720p.mp4",
+      "videoUrlRaw": "http://honeydew.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E1%20720p.mp4",
+      "size": 146
+    },
+    {
+      "id": 36461,
+      "episodeNumber": 2,
+      "videoUrl": "http://tupaidrama:password@honeydew.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E2%20720p.mp4",
+      "videoUrlPro": "http://tupaidrama:password@durian.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E2%20720p.mp4",
+      "videoUrlPremium": "http://tupaidrama:password@honeydew.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E2%20720p.mp4",
+      "videoUrlRaw": "http://honeydew.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E2%20720p.mp4",
+      "size": 237
+    },
+    {
+      "id": 36682,
+      "episodeNumber": 3,
+      "videoUrl": "http://tupaidrama:password@honeydew.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E3%20720p.mp4",
+      "videoUrlPro": "http://tupaidrama:password@durian.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E3%20720p.mp4",
+      "videoUrlPremium": "http://tupaidrama:password@honeydew.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E3%20720p.mp4",
+      "videoUrlRaw": "http://honeydew.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E3%20720p.mp4",
+      "size": 237
+    },
+    {
+      "id": 36701,
+      "episodeNumber": 4,
+      "videoUrl": "http://tupaidrama:password@honeydew.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E4%20720p.mp4",
+      "videoUrlPro": "http://tupaidrama:password@durian.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E4%20720p.mp4",
+      "videoUrlPremium": "http://tupaidrama:password@honeydew.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E4%20720p.mp4",
+      "videoUrlRaw": "http://honeydew.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E4%20720p.mp4",
+      "size": 553369600
+    },
+    {
+      "id": 36851,
+      "episodeNumber": 5,
+      "videoUrl": "http://tupaidrama:password@honeydew.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E5%20720p.mp4",
+      "videoUrlPro": "http://tupaidrama:password@durian.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E5%20720p.mp4",
+      "videoUrlPremium": "http://tupaidrama:password@honeydew.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E5%20720p.mp4",
+      "videoUrlRaw": "http://honeydew.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E5%20720p.mp4",
+      "size": 521705700
+    }
+  ]
+}

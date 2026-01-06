@@ -7,8 +7,8 @@
 
 import { DramaBoxApi } from "@/lib/api/dramabox";
 import { FlickReelsApi } from "@/lib/api/flickreels";
-import { SansekaiApi } from "@/lib/api/sansekai";
 import { MeloloApi } from "@/lib/api/melolo";
+import { DramaQueenApi } from "@/lib/api/dramaqueen";
 import { ProviderSource, ExploreItem } from "./types";
 
 // Section configuration
@@ -61,17 +61,6 @@ function normalizeFlickReels(item: any): ExploreItem {
     };
 }
 
-// Normalize NetShort item
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function normalizeNetShort(item: any): ExploreItem {
-    return {
-        id: item.shortPlayId || item.id || "",
-        title: item.shortPlayName || item.title || "Untitled",
-        poster: item.shortPlayCover || item.coverUrl || item.cover || "",
-        source: "netshort",
-    };
-}
-
 // Normalize Melolo item
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function normalizeMelolo(item: any): ExploreItem {
@@ -88,14 +77,18 @@ function normalizeMelolo(item: any): ExploreItem {
     };
 }
 
-// Normalize Anime item
+// Normalize Drama Queen item (already normalized by DramaQueenApi)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function normalizeAnime(item: any): ExploreItem {
+function normalizeDramaQueen(item: any): ExploreItem {
     return {
-        id: item.url || item.id || "",
-        title: item.judul || item.title || "Untitled",
-        poster: item.cover || "",
-        source: "anime",
+        id: item.id || "",
+        title: item.title || "Untitled",
+        poster: item.cover || item.landscapeCover || "",
+        episodes: item.episodes || item.totalEpisodes,
+        tags: item.genres,
+        source: "dramaqueen",
+        score: item.score,
+        description: item.description,
     };
 }
 
@@ -115,21 +108,17 @@ const FLICKREELS_SECTIONS: SectionConfig[] = [
     { id: "recommend", source: "flickreels", title: "Rekomendasi", icon: "✨", variant: "portrait", layout: "grid", fetcher: FlickReelsApi.getRecommend, normalizer: normalizeFlickReels },
 ];
 
-// NetShort sections
-const NETSHORT_SECTIONS: SectionConfig[] = [
-    { id: "foryou", source: "netshort", title: "Untuk Kamu", icon: "💝", variant: "landscape", fetcher: () => SansekaiApi.netshort.getForYou(1), normalizer: normalizeNetShort },
-    { id: "theaters", source: "netshort", title: "Theater", icon: "🎭", variant: "portrait", fetcher: SansekaiApi.netshort.getTheaters, normalizer: normalizeNetShort },
-];
-
 // Melolo sections
 const MELOLO_SECTIONS: SectionConfig[] = [
     { id: "trending", source: "melolo", title: "Trending", icon: "🔥", variant: "ranking", fetcher: MeloloApi.getTrending, normalizer: normalizeMelolo },
     { id: "latest", source: "melolo", title: "Terbaru", icon: "🆕", variant: "portrait", fetcher: MeloloApi.getLatest, normalizer: normalizeMelolo },
 ];
 
-// Anime sections
-const ANIME_SECTIONS: SectionConfig[] = [
-    { id: "latest", source: "anime", title: "Terbaru", icon: "🆕", variant: "portrait", fetcher: SansekaiApi.anime.getLatest, normalizer: normalizeAnime },
+// Drama Queen sections
+const DRAMAQUEEN_SECTIONS: SectionConfig[] = [
+    { id: "popular", source: "dramaqueen", title: "Drama Populer", icon: "⭐", variant: "portrait", layout: "carousel", fetcher: DramaQueenApi.getPopular, normalizer: normalizeDramaQueen },
+    { id: "latest", source: "dramaqueen", title: "Terbaru", icon: "🆕", variant: "portrait", layout: "carousel", fetcher: DramaQueenApi.getLatest, normalizer: normalizeDramaQueen },
+    { id: "donghua", source: "donghua", title: "Donghua", icon: "🐲", variant: "portrait", layout: "grid", fetcher: () => DramaQueenApi.getDonghuaList(1), normalizer: normalizeDramaQueen },
 ];
 
 // Get sections for a provider
@@ -139,12 +128,10 @@ export function getProviderSections(provider: ProviderSource): SectionConfig[] {
             return DRAMABOX_SECTIONS;
         case "flickreels":
             return FLICKREELS_SECTIONS;
-        case "netshort":
-            return NETSHORT_SECTIONS;
         case "melolo":
             return MELOLO_SECTIONS;
-        case "anime":
-            return ANIME_SECTIONS;
+        case "dramaqueen":
+            return DRAMAQUEEN_SECTIONS;
         default:
             return [];
     }

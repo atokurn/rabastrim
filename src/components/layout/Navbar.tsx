@@ -70,9 +70,8 @@ function NavbarContent() {
         { label: "For You", href: "/", isActive: pathname === "/" },
         { label: "DramaBox", href: "/explore?source=dramabox", isActive: pathname === "/explore" && (source === "dramabox" || source === null) },
         { label: "FlickReels", href: "/explore?source=flickreels", isActive: pathname === "/explore" && source === "flickreels" },
-        { label: "NetShort", href: "/explore?source=netshort", isActive: pathname === "/explore" && source === "netshort" },
         { label: "Melolo", href: "/explore?source=melolo", isActive: pathname === "/explore" && source === "melolo" },
-        { label: "Anime", href: "/explore?source=anime", isActive: pathname === "/explore" && source === "anime" },
+        { label: "Drama Queen", href: "/explore?source=dramaqueen", isActive: pathname === "/explore" && source === "dramaqueen" },
     ];
 
     return (
