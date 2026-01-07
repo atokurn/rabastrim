@@ -75,14 +75,16 @@ export function Hero({ initialData = [] }: HeroProps) {
                         loading="eager"
                         fetchPriority="high"
                     />
-                    {/* Gradient Overlay */}
-                    {/* Gradient Overlay - Removed "Vintage Effect" per request, keeping subtle bottom fade for text if needed, otherwise clean */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#111319] via-transparent to-transparent" />
+                    {/* Gradient Overlays */}
+                    {/* Side fade for text readability */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent" />
+                    {/* Bottom fade for seamless content transition */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#121418] via-transparent to-transparent" />
                 </div>
             </div>
 
             {/* Content */}
-            <div className="relative container mx-auto px-4 h-full flex flex-col justify-end pb-24 lg:pb-32">
+            <div className="relative container mx-auto px-4 h-full flex flex-col justify-center pb-10">
                 <div className="max-w-2xl space-y-6">
                     {/* Tags */}
                     <div className="flex flex-wrap items-center gap-2 text-xs font-bold uppercase tracking-wider">
@@ -116,18 +118,20 @@ export function Hero({ initialData = [] }: HeroProps) {
                         {displayItem.episodeCount && <span>{displayItem.episodeCount}</span>}
                     </div>
 
-                    {/* Description Removed */}
+                    {/* Description */}
+                    <p className="text-gray-300 text-sm md:text-base line-clamp-2 max-w-xl drop-shadow-md">
+                        {displayItem.description || "No description available."}
+                    </p>
 
                     {/* Buttons */}
                     <div className="flex items-center gap-4 pt-4">
                         <Link href={`/watch/${displayItem.id}?provider=${displayItem.provider}`}>
-                            <button className="bg-[#00cc55] hover:bg-[#00b34a] text-black px-8 py-3 rounded-full font-bold flex items-center gap-2 transition-transform active:scale-95">
-                                <Play className="w-5 h-5 fill-black" />
-                                Watch Now
+                            <button className="w-14 h-14 bg-[#00cc55] hover:bg-[#00b34a] rounded-full flex items-center justify-center transition-transform active:scale-95 shadow-lg shadow-green-500/20 group">
+                                <Play className="w-6 h-6 fill-black text-black ml-1" />
                             </button>
                         </Link>
-                        <button className="bg-[#1f2126]/80 hover:bg-[#2a2d35] text-white px-4 py-3 rounded-full font-bold transition-transform active:scale-95 border border-white/10">
-                            <Plus className="w-5 h-5" />
+                        <button className="w-14 h-14 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center transition-transform active:scale-95 border border-white/10">
+                            <Plus className="w-6 h-6 text-white" />
                         </button>
                     </div>
                 </div>

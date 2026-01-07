@@ -56,7 +56,7 @@ export default async function Home() {
       <div className="relative z-10 space-y-6 -mt-20">
         {/* 2. Rekomendasi Populer */}
         {popularItems.length > 0 && (
-          <div className="pt-10"> {/* Add padding to separate from hero gradient if needed, or rely on z-index */}
+          <div className="pt-0"> {/* Remove padding to let margin control position precisely */}
             <Section
               title="Rekomendasi populer"
               items={popularItems}
