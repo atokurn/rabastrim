@@ -76,13 +76,13 @@ export function Hero({ initialData = [] }: HeroProps) {
                         fetchPriority="high"
                     />
                     {/* Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#111319] via-[#111319]/60 to-transparent" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#111319] via-[#111319]/20 to-transparent" />
+                    {/* Gradient Overlay - Removed "Vintage Effect" per request, keeping subtle bottom fade for text if needed, otherwise clean */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#111319] via-transparent to-transparent" />
                 </div>
             </div>
 
             {/* Content */}
-            <div className="relative container mx-auto px-4 h-full flex flex-col justify-center pt-20">
+            <div className="relative container mx-auto px-4 h-full flex flex-col justify-end pb-24 lg:pb-32">
                 <div className="max-w-2xl space-y-6">
                     {/* Tags */}
                     <div className="flex flex-wrap items-center gap-2 text-xs font-bold uppercase tracking-wider">
@@ -116,10 +116,7 @@ export function Hero({ initialData = [] }: HeroProps) {
                         {displayItem.episodeCount && <span>{displayItem.episodeCount}</span>}
                     </div>
 
-                    {/* Description */}
-                    <p className="text-gray-300 text-sm md:text-base line-clamp-3 md:line-clamp-2 max-w-xl">
-                        {displayItem.description || "No description available."}
-                    </p>
+                    {/* Description Removed */}
 
                     {/* Buttons */}
                     <div className="flex items-center gap-4 pt-4">

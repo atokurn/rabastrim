@@ -85,19 +85,21 @@ export function MovieCard({
                     )}>
                         {provider}
                     </div>
+                </div>
 
-                    {/* Episode Badge (if not history or even if history) */}
-                    {episode && (
-                        <div className="bg-black/60 backdrop-blur-md text-white text-[10px] font-bold px-2 py-0.5 rounded-sm uppercase tracking-wider shadow-sm shrink-0">
+                {/* Episode Badge - Bottom Left */}
+                {episode && (
+                    <div className="absolute bottom-2 left-2 z-10 pointer-events-none">
+                        <div className="bg-black/60 backdrop-blur-md text-white text-[10px] font-bold px-2 py-0.5 rounded-sm uppercase tracking-wider shadow-sm">
                             EP {episode}
                         </div>
-                    )}
-                </div>
+                    </div>
+                )}
             </div>
 
             {/* Content */}
             <div className="flex flex-col gap-0.5">
-                <h3 className="text-sm font-medium text-gray-200 line-clamp-1 group-hover:text-[#00cc55] transition-colors">
+                <h3 className="text-sm font-medium text-gray-200 line-clamp-2 leading-tight group-hover:text-[#00cc55] transition-colors">
                     {title}
                 </h3>
                 {type === 'history' && episode && (

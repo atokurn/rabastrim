@@ -1,6 +1,7 @@
 "use client";
 
-import { Play } from "lucide-react";
+import { Play, ChevronLeft, ChevronRight } from "lucide-react";
+import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -24,8 +25,18 @@ interface SectionProps {
 }
 
 export function Section({ title, items, variant = "portrait" }: SectionProps) {
+    const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+    const scroll = (direction: 'left' | 'right') => {
+        if (scrollContainerRef.current) {
+            const { current } = scrollContainerRef;
+            const scrollAmount = direction === 'left' ? -current.offsetWidth / 2 : current.offsetWidth / 2;
+            current.scrollBy({ left: scrollAmount, behavior: "smooth" });
+        }
+    };
+
     return (
-        <section className="py-6 space-y-4">
+        <section className="py-6 space-y-4 group/section">
             <div className="container mx-auto px-4 flex items-center justify-between">
                 <h2 className="text-xl md:text-2xl font-bold text-white flex items-center gap-2">
                     {title}
@@ -33,8 +44,29 @@ export function Section({ title, items, variant = "portrait" }: SectionProps) {
                 </h2>
             </div>
 
-            <div className="relative">
-                <div className="flex overflow-x-auto gap-4 px-4 pb-4 md:px-8 snap-x snap-mandatory scrollbar-hide">
+            <div className="relative group/slider">
+                {/* Left Button - Only visible on desktop hover */}
+                <button
+                    onClick={() => scroll('left')}
+                    className="absolute left-2 top-1/2 -translate-y-1/2 z-20 bg-black/60 p-3 rounded-full text-white backdrop-blur-sm opacity-0 group-hover/slider:opacity-100 transition-opacity hidden md:block hover:bg-black/80 hover:scale-110 active:scale-95"
+                    aria-label="Scroll left"
+                >
+                    <ChevronLeft className="w-6 h-6" />
+                </button>
+
+                {/* Right Button - Only visible on desktop hover */}
+                <button
+                    onClick={() => scroll('right')}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 z-20 bg-black/60 p-3 rounded-full text-white backdrop-blur-sm opacity-0 group-hover/slider:opacity-100 transition-opacity hidden md:block hover:bg-black/80 hover:scale-110 active:scale-95"
+                    aria-label="Scroll right"
+                >
+                    <ChevronRight className="w-6 h-6" />
+                </button>
+
+                <div
+                    ref={scrollContainerRef}
+                    className="flex overflow-x-auto gap-4 px-4 pb-4 md:px-8 snap-x snap-mandatory scrollbar-hide"
+                >
                     {items.map((item, idx) => (
                         <Link
                             key={item.id}

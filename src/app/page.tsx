@@ -1,129 +1,74 @@
 import { Hero } from "@/components/ui/Hero";
 import { Section } from "@/components/ui/Section";
 import { DramaBoxApi } from "@/lib/api/dramabox";
-import { FlickReelsApi } from "@/lib/api/flickreels";
-import { MeloloApi } from "@/lib/api/melolo";
-import { getWatchHistory } from "@/lib/actions/history";
 import { HeroService } from "@/lib/services/hero";
+import { HomeFeed } from "@/components/home/HomeFeed";
 
-// Transform API data to Section item format
+// Use Hero types
+import { HeroItem } from "@/lib/services/hero/types";
+
+// Fetcher for Hero (client-side fallback handled in component) and Popular/Trending for server side
+async function getHeroContent(): Promise<HeroItem[]> {
+  // We can fetch from API or imported service if available. 
+  // Since Hero component handles SWR, we can just pass partial initial data or let it fetch.
+  // For now let's try to fetch from API URL if possible, or just return empty to let client fetch.
+  // Actually existing code imported HeroService. 
+  // Let's standard usage.
+  try {
+    const res = await fetch("http://localhost:3000/api/home/hero", { next: { revalidate: 60 } });
+    if (res.ok) {
+      const json = await res.json();
+      return json.data || [];
+    }
+  } catch (e) { }
+  return [];
+}
+
 interface SectionItem {
   id: string;
   title: string;
   image: string;
   badge?: string;
-  isVip?: boolean;
-  episodes?: string;
-  progress?: number;
   provider?: string;
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function transformDramaBox(drama: any, index?: number): SectionItem {
-  return {
-    id: drama.bookId || drama.book_id || String(index),
-    title: drama.bookName || drama.book_name || drama.title || "Untitled",
-    image: drama.coverWap || drama.cover || "",
-    badge: index !== undefined && index < 10 ? `TOP ${index + 1}` : undefined,
-    episodes: drama.chapterCount ? `${drama.chapterCount} Eps` : undefined,
-    provider: "dramabox",
-  };
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function transformFlickReels(drama: any, index?: number): SectionItem {
-  return {
-    id: drama.playlet_id || String(index),
-    title: drama.playlet_title || "Untitled",
-    image: drama.cover || drama.process_cover || "",
-    badge: index !== undefined && index < 10 ? `TOP ${index + 1}` : undefined,
-    episodes: drama.chapter_num ? `${drama.chapter_num} Eps` : undefined,
-    provider: "flickreels",
-  };
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function transformMelolo(drama: any, index?: number): SectionItem {
-  // Melolo images are in .heic format which Chrome doesn't support
-  // Use wsrv.nl image proxy to convert to WebP
-  const rawImage = drama.thumb_url || drama.cover || "";
-  const image = rawImage && rawImage.includes(".heic")
-    ? `https://wsrv.nl/?url=${encodeURIComponent(rawImage)}&output=webp&q=85`
-    : rawImage;
-
-  return {
-    id: drama.book_id || drama.id || String(index),
-    title: drama.book_name || drama.title || "Untitled",
-    image,
-    badge: index !== undefined && index < 10 ? `TOP ${index + 1}` : undefined,
-    provider: "melolo",
-  };
+  progress?: number;
+  episodes?: string;
 }
 
 export default async function Home() {
-  // Fetch data from all providers in parallel
-  const [
-    heroData,
-    dramaboxTrending,
-    flickreelsForYou,
-    meloloTrending,
-    history,
-  ] = await Promise.all([
-    HeroService.getHeroContent().catch(() => []),
-    DramaBoxApi.getTrending().catch(() => []),
-    FlickReelsApi.getForYou().catch(() => []),
-    MeloloApi.getTrending().catch(() => []),
-    getWatchHistory(10).catch(() => []),
-  ]);
+  // 1. Fetch Hero Data (optional, Hero component fetches itself too but refined SSR is better)
+  // 2. Fetch "Rekomendasi Populer" (Trending from DramaBox as a good default)
+  const popularData = await DramaBoxApi.getTrending().catch(() => []);
 
-  // Transform data
-  const dramaboxItems = dramaboxTrending.slice(0, 12).map((d, i) => transformDramaBox(d, i));
-  const flickreelsItems = flickreelsForYou.slice(0, 12).map((d, i) => transformFlickReels(d, i));
-  const meloloItems = meloloTrending.slice(0, 12).map((d, i) => transformMelolo(d, i));
-
-  // Transform watch history from database
-  const continueWatching: SectionItem[] = history.map(item => ({
-    id: item.dramaId,
-    title: item.dramaTitle || "Untitled",
-    image: item.dramaCover || "",
-    progress: item.progress || 0,
-    episodes: item.episodeNumber ? `Ep ${item.episodeNumber}` : undefined,
+  const popularItems: SectionItem[] = popularData.slice(0, 10).map((d, i) => ({
+    id: d.bookId,
+    title: d.bookName,
+    image: d.coverWap || d.cover || "",
+    badge: i < 3 ? `TOP ${i + 1}` : undefined,
+    provider: "dramabox",
+    episodes: d.chapterCount ? `${d.chapterCount} Eps` : undefined,
   }));
 
   return (
-    <div className="pb-20">
-      <Hero initialData={heroData} />
+    <div className="pb-20 bg-[#121418]">
+      {/* 1. Hero Banner */}
+      <Hero />
 
-      <div className="relative z-10 -mt-20 space-y-2">
-        {continueWatching.length > 0 && (
-          <Section
-            title="Lanjut Tonton"
-            variant="landscape"
-            items={continueWatching}
-          />
+      <div className="relative z-10 space-y-6 -mt-20">
+        {/* 2. Rekomendasi Populer */}
+        {popularItems.length > 0 && (
+          <div className="pt-10"> {/* Add padding to separate from hero gradient if needed, or rely on z-index */}
+            <Section
+              title="Rekomendasi populer"
+              items={popularItems}
+              variant="portrait"
+            />
+          </div>
         )}
 
-        {flickreelsItems.length > 0 && (
-          <Section
-            title="FlickReels - For You"
-            items={flickreelsItems}
-          />
-        )}
-
-        {dramaboxItems.length > 0 && (
-          <Section
-            title="DramaBox - Trending"
-            items={dramaboxItems}
-          />
-        )}
-
-        {meloloItems.length > 0 && (
-          <Section
-            title="Melolo - Trending"
-            items={meloloItems}
-          />
-        )}
+        {/* 3. Category Tabs & 4. Filtered Grid (Infinite Scroll) */}
+        <HomeFeed />
       </div>
     </div>
   );
 }
+
