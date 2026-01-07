@@ -9,6 +9,19 @@ import Link from "next/link";
 import { VideoPlayer } from "@/components/watch/VideoPlayer";
 import { FavoriteButton } from "@/components/watch/FavoriteButton";
 
+/**
+ * Proxy video URLs with embedded credentials (user:pass@host) through /api/video-proxy
+ * This is needed because browsers block credential-embedded URLs for security.
+ */
+function proxyCredentialUrl(url: string | null): string | null {
+    if (!url) return null;
+    // Check if URL contains embedded credentials (user:pass@host)
+    if (url.includes("@") && (url.startsWith("http://") || url.startsWith("https://"))) {
+        return `/api/video-proxy?url=${encodeURIComponent(url)}`;
+    }
+    return url;
+}
+
 interface WatchPageProps {
     params: Promise<{ id: string }>;
     searchParams: Promise<{ ep?: string; provider?: string; title?: string; cover?: string }>;
@@ -135,7 +148,7 @@ async function fetchProviderData(id: string, provider: string, episodeNum: numbe
                 totalEpisodes: detail.totalEpisodes || detail.episodes || episodes.length,
             },
             episodes,
-            currentVideoUrl: currentEpisode?.videoUrl || null,
+            currentVideoUrl: proxyCredentialUrl(currentEpisode?.videoUrl || null),
         };
     }
 
@@ -166,7 +179,7 @@ async function fetchProviderData(id: string, provider: string, episodeNum: numbe
                 totalEpisodes: detail.totalEpisodes || detail.episodes || episodes.length,
             },
             episodes,
-            currentVideoUrl: currentEpisode?.videoUrl || null,
+            currentVideoUrl: proxyCredentialUrl(currentEpisode?.videoUrl || null),
         };
     }
 
