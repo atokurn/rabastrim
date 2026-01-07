@@ -77,3 +77,24 @@ export function normalizeMelolo(data: BaseProviderData, fetchedFrom: "trending" 
         viewCount: 0,
     };
 }
+
+export function normalizeDramaQueen(data: BaseProviderData, fetchedFrom: "trending" | "search" | "home" | "foryou"): NewContent {
+    return {
+        provider: "dramaqueen",
+        providerContentId: data.bookId,
+        title: data.title || data.bookName || "Unknown Title",
+        altTitles: null,
+        description: data.description || data.desc || "",
+        posterUrl: data.cover || data.poster || "",
+        year: data.year || null,
+        region: data.region || null,
+        tags: data.tags ? JSON.stringify(data.tags) : null,
+        isSeries: true,
+        episodeCount: data.episodeCount || data.totalEpisodes || 0,
+        fetchedFrom,
+        status: "active",
+        popularityScore: 0,
+        viewCount: 0,
+    };
+}
+

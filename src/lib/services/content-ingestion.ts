@@ -7,7 +7,7 @@
 
 import { db, syncLogs, type ContentProvider, type FetchedFrom } from "@/lib/db";
 import { upsertContent } from "./content-repository";
-import { normalizeDramaBox, normalizeNetShort, normalizeMelolo } from "./provider-normalizers";
+import { normalizeDramaBox, normalizeNetShort, normalizeMelolo, normalizeDramaQueen } from "./provider-normalizers";
 
 // ============================================
 // TTL CONFIGURATION
@@ -83,6 +83,9 @@ export const ContentIngestionService = {
                         break;
                     case "melolo":
                         normalized = normalizeMelolo(baseData, fetchedFrom);
+                        break;
+                    case "dramaqueen":
+                        normalized = normalizeDramaQueen(baseData, fetchedFrom);
                         break;
                     default:
                         // Default fallback
