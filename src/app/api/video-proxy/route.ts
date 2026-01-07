@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 
+// Use Edge Runtime for video streaming (no timeout limit)
+export const runtime = "edge";
+
 /**
  * Video Proxy for Whatbox/Donghua streams
  * 
@@ -41,7 +44,8 @@ export async function GET(request: NextRequest) {
 
         // Add Basic Auth if credentials were present in URL
         if (username && password) {
-            const credentials = Buffer.from(`${username}:${password}`).toString("base64");
+            // Use btoa() instead of Buffer for Edge Runtime compatibility
+            const credentials = btoa(`${username}:${password}`);
             headers["Authorization"] = `Basic ${credentials}`;
         }
 
