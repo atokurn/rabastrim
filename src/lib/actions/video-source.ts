@@ -41,8 +41,19 @@ export async function getVideoUrl(
                 const { DramaQueenApi } = await import("@/lib/api/dramaqueen");
                 const episodes = await DramaQueenApi.getEpisodes(dramaId);
                 const episode = episodes.find(e => e.number === episodeNumber);
-                // Drama Queen provides direct video URLs with auto-authentication
-                return episode?.videoUrl || null;
+
+                if (!episode?.videoUrl) return null;
+
+                // Drama Queen URLs often contain embedded credentials (user:pass@host)
+                // Modern browsers block these for security, so we proxy through our server
+                const videoUrl = episode.videoUrl;
+                if (videoUrl.includes("@")) {
+                    // URL has credentials - use proxy
+                    return `/api/video-proxy?url=${encodeURIComponent(videoUrl)}`;
+                }
+
+                // URL without credentials - use directly
+                return videoUrl;
             } catch (error) {
                 console.error("[DramaQueen] Video fetch failed:", error);
                 return null;
