@@ -72,6 +72,7 @@ function NavbarContent() {
         { label: "FlickReels", href: "/explore?source=flickreels", isActive: pathname === "/explore" && source === "flickreels" },
         { label: "Melolo", href: "/explore?source=melolo", isActive: pathname === "/explore" && source === "melolo" },
         { label: "Drama Queen", href: "/explore?source=dramaqueen", isActive: pathname === "/explore" && source === "dramaqueen" },
+        { label: "Anime", href: "/explore?source=anime", isActive: pathname === "/explore" && source === "anime" },
     ];
 
     return (

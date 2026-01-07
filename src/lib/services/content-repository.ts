@@ -1,280 +1,188 @@
-/**
- * Content Repository
- * 
- * Data access layer for querying content from local database.
- * Provides methods for homepage, explore, and search operations.
- */
+import { db, contents, Content, NewContent } from "@/lib/db";
+import { eq, ilike, desc, sql, and, notInArray } from "drizzle-orm";
 
-import { db, contents, type Content, type ContentProvider, type ContentStatus } from "@/lib/db";
-import { eq, and, ilike, desc, sql, or } from "drizzle-orm";
+export async function upsertContent(data: NewContent) {
+    // Check if exists first to avoid unnecessary updates if data hasn't changed?
+    // For now, simpler to just upsert on conflict
 
-// ============================================
-// TYPES
-// ============================================
-
-export interface ExploreFilters {
-    provider?: ContentProvider;
-    status?: ContentStatus;
-    tags?: string[];
-    year?: number;
-    region?: string;
-    limit?: number;
-    offset?: number;
+    return db
+        .insert(contents)
+        .values(data)
+        .onConflictDoUpdate({
+            target: [contents.provider, contents.providerContentId],
+            set: {
+                title: data.title,
+                description: data.description,
+                posterUrl: data.posterUrl,
+                episodeCount: data.episodeCount,
+                fetchedAt: new Date(),
+                fetchedFrom: data.fetchedFrom, // Update source tracking if seen again
+                // NOT updating popularityScore or viewCount here, they persist
+            },
+        })
+        .returning();
 }
 
-export interface SearchSuggestResult {
-    id: string;
-    title: string;
-    posterUrl: string | null;
-    provider: string;
-    providerContentId: string;
+const PAGE_SIZE = 20;
+
+export async function getContent(cursor?: number, limit: number = PAGE_SIZE) {
+    let query = db
+        .select()
+        .from(contents)
+        .where(eq(contents.status, "active"))
+        // Composite score: viewCount * 2 + popularityScore (ingest signal)
+        .orderBy(desc(sql`(${contents.viewCount} * 2 + ${contents.popularityScore})`), desc(contents.updatedAt))
+        .limit(limit);
+
+    if (cursor) {
+        query.offset(cursor);
+    }
+
+    return await query;
 }
 
-export interface HomepageGroupedContent {
-    provider: ContentProvider;
-    items: Content[];
-}
+export async function searchContent(query: string, limit: number = 8) {
+    if (!query) return [];
 
-// ============================================
-// CONTENT REPOSITORY
-// ============================================
+    // 1. Exact/Prefix matches first (highest priority)
+    const prefixMatches = await db
+        .select()
+        .from(contents)
+        .where(
+            and(
+                eq(contents.status, "active"),
+                ilike(contents.title, `${query}%`)
+            )
+        )
+        .orderBy(desc(contents.viewCount))
+        .limit(limit);
 
-export const ContentRepository = {
-    /**
-     * Get content for homepage
-     * Returns active content sorted by popularity score
-     */
-    async getForHomepage(limit = 20): Promise<Content[]> {
-        return db
+    if (prefixMatches.length >= limit) {
+        return prefixMatches;
+    }
+
+    // Track found IDs to avoid duplicates
+    const foundIds = new Set(prefixMatches.map(c => c.id));
+    const results = [...prefixMatches];
+
+    // 2. Fuzzy matches (contains query)
+    const needed = limit - results.length;
+    if (needed > 0) {
+        const fuzzyConditions = [
+            eq(contents.status, "active"),
+            ilike(contents.title, `%${query}%`)
+        ];
+
+        if (foundIds.size > 0) {
+            fuzzyConditions.push(notInArray(contents.id, Array.from(foundIds)));
+        }
+
+        const fuzzyMatches = await db
             .select()
             .from(contents)
-            .where(eq(contents.status, "active"))
-            .orderBy(desc(contents.popularityScore), desc(contents.updatedAt))
-            .limit(limit);
-    },
+            .where(and(...fuzzyConditions))
+            .orderBy(desc(contents.viewCount))
+            .limit(needed);
 
-    /**
-     * Get content grouped by provider for homepage sections
-     */
-    async getForHomepageGrouped(itemsPerProvider = 12): Promise<HomepageGroupedContent[]> {
-        const providers: ContentProvider[] = ["dramabox", "flickreels", "melolo"];
-        const result: HomepageGroupedContent[] = [];
+        fuzzyMatches.forEach(m => {
+            foundIds.add(m.id);
+            results.push(m);
+        });
+    }
 
-        for (const provider of providers) {
+    // 3. Keyword-based search (for related titles like "Cinta" matching "Alunan Cinta", "Tersalah Cinta", etc.)
+    // Split query into keywords and search for each
+    const keywords = query.split(/\s+/).filter(k => k.length >= 3);
+
+    for (const keyword of keywords) {
+        if (results.length >= limit) break;
+
+        const stillNeeded = limit - results.length;
+        const keywordConditions = [
+            eq(contents.status, "active"),
+            ilike(contents.title, `%${keyword}%`)
+        ];
+
+        if (foundIds.size > 0) {
+            keywordConditions.push(notInArray(contents.id, Array.from(foundIds)));
+        }
+
+        const keywordMatches = await db
+            .select()
+            .from(contents)
+            .where(and(...keywordConditions))
+            .orderBy(desc(contents.viewCount))
+            .limit(stillNeeded);
+
+        keywordMatches.forEach(m => {
+            foundIds.add(m.id);
+            results.push(m);
+        });
+    }
+
+    // 4. Search for dubbing versions (Sulih Suara) of matched titles
+    // Extract base title without dubbing suffix and find related versions
+    if (results.length > 0 && results.length < limit) {
+        const baseTitlePattern = results[0].title
+            .replace(/\s*\(Sulih Suara\).*$/i, '')
+            .replace(/\s*\(Dubbing\).*$/i, '')
+            .trim();
+
+        if (baseTitlePattern.length >= 3) {
+            const stillNeeded = limit - results.length;
+            const dubbingConditions = [
+                eq(contents.status, "active"),
+                ilike(contents.title, `%${baseTitlePattern}%`)
+            ];
+
+            if (foundIds.size > 0) {
+                dubbingConditions.push(notInArray(contents.id, Array.from(foundIds)));
+            }
+
+            const dubbingMatches = await db
+                .select()
+                .from(contents)
+                .where(and(...dubbingConditions))
+                .orderBy(desc(contents.viewCount))
+                .limit(stillNeeded);
+
+            dubbingMatches.forEach(m => {
+                foundIds.add(m.id);
+                results.push(m);
+            });
+        }
+    }
+
+    return results.slice(0, limit);
+}
+
+export async function incrementViewCount(id: string) {
+    await db
+        .update(contents)
+        .set({
+            viewCount: sql`${contents.viewCount} + 1`
+        })
+        .where(eq(contents.id, id));
+}
+
+export async function getForHomepageGrouped(limitPerProvider: number = 12) {
+    const providers = ["dramabox", "flickreels", "melolo", "netshort"];
+
+    const results = await Promise.all(
+        providers.map(async (provider) => {
             const items = await db
                 .select()
                 .from(contents)
-                .where(
-                    and(
-                        eq(contents.provider, provider),
-                        eq(contents.status, "active")
-                    )
-                )
-                .orderBy(desc(contents.popularityScore), desc(contents.updatedAt))
-                .limit(itemsPerProvider);
+                .where(and(eq(contents.provider, provider), eq(contents.status, "active")))
+                .orderBy(desc(contents.viewCount), desc(contents.updatedAt))
+                .limit(limitPerProvider);
 
-            if (items.length > 0) {
-                result.push({ provider, items });
-            }
-        }
+            return {
+                provider,
+                items
+            };
+        })
+    );
 
-        return result;
-    },
-
-    /**
-     * Get content for explore page with filters and pagination
-     */
-    async getForExplore(filters: ExploreFilters = {}): Promise<Content[]> {
-        const {
-            provider,
-            status = "active",
-            limit = 20,
-            offset = 0,
-        } = filters;
-
-        const conditions = [eq(contents.status, status)];
-
-        if (provider) {
-            conditions.push(eq(contents.provider, provider));
-        }
-
-        return db
-            .select()
-            .from(contents)
-            .where(and(...conditions))
-            .orderBy(desc(contents.popularityScore), desc(contents.updatedAt))
-            .limit(limit)
-            .offset(offset);
-    },
-
-    /**
-     * Search suggest - fast ILIKE query on title
-     * Includes both active and hidden content
-     */
-    async searchSuggest(query: string, limit = 8): Promise<SearchSuggestResult[]> {
-        const normalizedQuery = query.toLowerCase().trim();
-
-        if (normalizedQuery.length < 2) {
-            return [];
-        }
-
-        const results = await db
-            .select({
-                id: contents.id,
-                title: contents.title,
-                posterUrl: contents.posterUrl,
-                provider: contents.provider,
-                providerContentId: contents.providerContentId,
-            })
-            .from(contents)
-            .where(
-                or(
-                    ilike(contents.title, `${normalizedQuery}%`),
-                    ilike(contents.title, `%${normalizedQuery}%`)
-                )
-            )
-            .orderBy(
-                // Prioritize exact prefix matches
-                sql`CASE WHEN LOWER(${contents.title}) LIKE ${normalizedQuery + '%'} THEN 0 ELSE 1 END`,
-                desc(contents.popularityScore)
-            )
-            .limit(limit);
-
-        return results;
-    },
-
-    /**
-     * Full search with more comprehensive matching
-     */
-    async searchFull(query: string, limit = 20, offset = 0): Promise<Content[]> {
-        const normalizedQuery = query.toLowerCase().trim();
-
-        if (normalizedQuery.length < 2) {
-            return [];
-        }
-
-        return db
-            .select()
-            .from(contents)
-            .where(
-                or(
-                    ilike(contents.title, `%${normalizedQuery}%`),
-                    ilike(contents.description, `%${normalizedQuery}%`)
-                )
-            )
-            .orderBy(
-                sql`CASE WHEN LOWER(${contents.title}) LIKE ${normalizedQuery + '%'} THEN 0 ELSE 1 END`,
-                desc(contents.popularityScore)
-            )
-            .limit(limit)
-            .offset(offset);
-    },
-
-    /**
-     * Get content by provider and provider content ID
-     */
-    async getByProviderId(provider: ContentProvider, providerContentId: string): Promise<Content | null> {
-        const result = await db
-            .select()
-            .from(contents)
-            .where(
-                and(
-                    eq(contents.provider, provider),
-                    eq(contents.providerContentId, providerContentId)
-                )
-            )
-            .limit(1);
-
-        return result[0] || null;
-    },
-
-    /**
-     * Get content by internal ID
-     */
-    async getById(id: string): Promise<Content | null> {
-        const result = await db
-            .select()
-            .from(contents)
-            .where(eq(contents.id, id))
-            .limit(1);
-
-        return result[0] || null;
-    },
-
-    /**
-     * Increment popularity score based on event
-     */
-    async incrementPopularity(
-        provider: ContentProvider,
-        providerContentId: string,
-        event: "view" | "favorite" | "search" | "trending"
-    ): Promise<void> {
-        const scoreMap = {
-            trending: 10,
-            favorite: 5,
-            view: 3,
-            search: 1,
-        };
-
-        const increment = scoreMap[event];
-
-        await db
-            .update(contents)
-            .set({
-                popularityScore: sql`${contents.popularityScore} + ${increment}`,
-                updatedAt: new Date(),
-            })
-            .where(
-                and(
-                    eq(contents.provider, provider),
-                    eq(contents.providerContentId, providerContentId)
-                )
-            );
-    },
-
-    /**
-     * Promote content from hidden to active if score meets threshold
-     */
-    async promoteByScore(threshold = 10): Promise<number> {
-        const result = await db
-            .update(contents)
-            .set({ status: "active", updatedAt: new Date() })
-            .where(
-                and(
-                    eq(contents.status, "hidden"),
-                    sql`${contents.popularityScore} >= ${threshold}`
-                )
-            );
-
-        return result.rowCount || 0;
-    },
-
-    /**
-     * Count total active content
-     */
-    async countActive(): Promise<number> {
-        const result = await db
-            .select({ count: sql<number>`count(*)` })
-            .from(contents)
-            .where(eq(contents.status, "active"));
-
-        return Number(result[0]?.count) || 0;
-    },
-
-    /**
-     * Count content by provider
-     */
-    async countByProvider(): Promise<Record<string, number>> {
-        const result = await db
-            .select({
-                provider: contents.provider,
-                count: sql<number>`count(*)`,
-            })
-            .from(contents)
-            .groupBy(contents.provider);
-
-        return Object.fromEntries(
-            result.map(r => [r.provider, Number(r.count)])
-        );
-    },
-};
+    return results.filter(r => r.items.length > 0);
+}

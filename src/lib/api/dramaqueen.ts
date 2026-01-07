@@ -71,11 +71,14 @@ async function fetchApi<T>(endpoint: string): Promise<T | null> {
 /**
  * Normalize drama from API response to unified format
  * API uses: name, cover_url, desc, genre, jumlah_episode
+ * Note: /popular endpoint returns {id: ranking_order, drama_id: actual_id}
+ *       /latest endpoint returns {id: actual_id}
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function normalizeDrama(item: any): DramaQueenDrama {
     return {
-        id: String(item.id || ""),
+        // Prioritize drama_id (from /popular) over id (from /latest)
+        id: String(item.drama_id || item.id || ""),
         title: item.name || item.title || "Untitled",
         cover: item.cover_url || item.cover || item.image || item.poster || "",
         landscapeCover: item.img_landscape_url || item.cover_url || "",
@@ -126,8 +129,9 @@ function normalizeEpisode(ep: any, index: number): DramaQueenEpisode {
         id: String(ep.id || index + 1),
         number: ep.episodeNumber || ep.number_episode || ep.number || index + 1,
         title: ep.title || `Episode ${ep.episodeNumber || ep.number_episode || index + 1}`,
-        // Priority: videoUrl (with auth) > link720_premium > link720_pro > link_720
-        videoUrl: ep.videoUrl || ep.videoUrlPremium || ep.link720_premium || ep.link720_pro || ep.link_720 || undefined,
+        // Priority: link720_en (public HLS, no auth required) > authenticated URLs
+        // Using link720_en first prevents Chrome from showing HTTP Basic Auth popup
+        videoUrl: ep.link720_en || ep.videoUrl || ep.videoUrlPremium || ep.link720_premium || ep.link720_pro || ep.link_720 || undefined,
         thumbnail: ep.thumbnail,
         duration: ep.duration,
     };
@@ -266,18 +270,29 @@ export const DramaQueenApi = {
 
     /**
      * Get donghua episodes
+     * Note: Donghua API doesn't have separate episodes endpoint
+     * Episodes are included in the detail response at data.episodes[]
      */
     getDonghuaEpisodes: async (id: string): Promise<DramaQueenEpisode[]> => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const data = await fetchApi<any>(`/donghua/episodes/${id}`);
+        const data = await fetchApi<any>(`/donghua/detail/${id}`);
         if (!data) return [];
 
-        // Donghua detail response includes episodes inline
+        // Episodes are included in the detail response
         const detail = data.data || data;
-        const episodes = detail.episodes || data.episodes || [];
+        const episodes = detail.episodes || [];
         if (!Array.isArray(episodes)) return [];
 
-        return episodes.map((ep, index) => normalizeEpisode(ep, index));
+        // Normalize with Donghua-specific field names
+        return episodes.map((ep, index) => ({
+            id: String(ep.id || index + 1),
+            number: ep.number_episode || ep.episodeNumber || ep.number || index + 1,
+            title: ep.title || `Episode ${ep.number_episode || index + 1}`,
+            // Donghua uses link_720 and videoUrl fields
+            videoUrl: ep.videoUrl || ep.link_720 || undefined,
+            thumbnail: ep.thumbnail,
+            duration: ep.duration,
+        }));
     },
 
     // ============================================
@@ -293,5 +308,31 @@ export const DramaQueenApi = {
             DramaQueenApi.getDonghuaList(1),
         ]);
         return [...popular.slice(0, 10), ...donghua.slice(0, 5)];
+    },
+
+    /**
+     * Get Korean dramas (filtered by negara = "South Korea")
+     */
+    getKoreanDramas: async (limit = 20): Promise<DramaQueenDrama[]> => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const data = await fetchApi<any>(`/drama/latest?limit=100`);
+        const dramas = extractDramas(data);
+        // Filter by country
+        return dramas
+            .filter(d => d.country === "South Korea")
+            .slice(0, limit);
+    },
+
+    /**
+     * Get Chinese dramas (filtered by negara = "China")
+     */
+    getChineseDramas: async (limit = 20): Promise<DramaQueenDrama[]> => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const data = await fetchApi<any>(`/drama/latest?limit=100`);
+        const dramas = extractDramas(data);
+        // Filter by country
+        return dramas
+            .filter(d => d.country === "China")
+            .slice(0, limit);
     },
 };

@@ -21,7 +21,7 @@ export default function HistoryPage() {
     };
 
     return (
-        <div className="min-h-screen bg-black text-white pb-20">
+        <div className="min-h-screen bg-black text-white pb-20 md:pt-20">
 
             {/* Header / Tabs - Adjusted top position since MobileHeader takes up space or acts as the header */}
             <div className="sticky top-0 z-10 bg-black/95 backdrop-blur-sm">

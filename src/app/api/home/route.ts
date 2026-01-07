@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { ContentRepository } from "@/lib/services/content-repository";
+import { getForHomepageGrouped } from "@/lib/services/content-repository";
 import { DramaBoxApi } from "@/lib/api/dramabox";
 import { FlickReelsApi } from "@/lib/api/flickreels";
 import { MeloloApi } from "@/lib/api/melolo";
@@ -95,7 +95,7 @@ export async function GET() {
             cacheKeys.home(),
             async () => {
                 // Step 1: Try local DB first
-                const dbContent = await ContentRepository.getForHomepageGrouped(12);
+                const dbContent = await getForHomepageGrouped(12);
 
                 // Check if we have enough data from DB (lowered threshold)
                 const hasEnoughData = dbContent.length >= 1 &&

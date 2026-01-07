@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback } from "react";
-import { Play, Pause, ChevronLeft, Loader2, Share2, Heart, MoreHorizontal, ChevronRight, MessageCircle, Settings as SettingsIcon, X, Maximize, Minimize } from "lucide-react";
+import { Play, Pause, ChevronLeft, Loader2, Share2, Heart, MoreHorizontal, ChevronRight, MessageCircle, Settings as SettingsIcon, X, Maximize, Minimize, RotateCcw, RotateCw } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useVideoPlayer } from "@/hooks/use-video-player";
@@ -116,6 +116,8 @@ export function MobilePlayer({
 
     // Fullscreen State
     const [isFullscreen, setIsFullscreen] = useState(false);
+    // Aspect Ratio State
+    const [isHorizontal, setIsHorizontal] = useState(false);
 
     // Toggle Fullscreen
     const toggleFullscreen = useCallback(() => {
@@ -125,10 +127,20 @@ export function MobilePlayer({
             containerRef.current.requestFullscreen().catch((err) => {
                 console.error(`Error attempting to enable fullscreen: ${err.message}`);
             });
+            // Try to lock orientation if horizontal
+            if (isHorizontal && screen.orientation && 'lock' in screen.orientation) {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                (screen.orientation as any).lock('landscape').catch(() => {
+                    // Orientation lock not supported or failed
+                });
+            }
         } else {
             document.exitFullscreen();
+            if (screen.orientation && 'unlock' in screen.orientation) {
+                screen.orientation.unlock();
+            }
         }
-    }, [containerRef]);
+    }, [containerRef, isHorizontal]);
 
     // Sync Fullscreen State
     useEffect(() => {
@@ -136,8 +148,18 @@ export function MobilePlayer({
             setIsFullscreen(!!document.fullscreenElement);
         };
 
+        // Handle auto-rotation if device rotates
+        const handleOrientationChange = () => {
+            // Optional: Force fullscreen if rotated to landscape?
+            // For now just kept simple
+        };
+
         document.addEventListener('fullscreenchange', handleFullscreenChange);
-        return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+        window.addEventListener('orientationchange', handleOrientationChange);
+        return () => {
+            document.removeEventListener('fullscreenchange', handleFullscreenChange);
+            window.removeEventListener('orientationchange', handleOrientationChange);
+        };
     }, []);
 
     const formatTime = (time: number) => {
@@ -156,6 +178,7 @@ export function MobilePlayer({
     // Auto-hide controls logic
     const resetControls = useCallback(() => {
         // Don't show controls during episode transition or if user hasn't interacted
+        // EXCEPTION: In horizontal mode, might want them visible initially or easier to access
         if (isChangingEpisode || !hasInteracted) {
             setShowControls(false);
             return;
@@ -226,8 +249,8 @@ export function MobilePlayer({
                     break;
                 case 'arrowup':
                     e.preventDefault();
-                    // Next Episode (swipe up = next)
-                    if (currentEpisodeNum < totalEpisodes && !isChangingEpisode) {
+                    // Next Episode (swipe up = next) - disable in Horizontal?
+                    if (!isHorizontal && currentEpisodeNum < totalEpisodes && !isChangingEpisode) {
                         setSlideDirection('up');
                         setTimeout(() => {
                             changeEpisode(currentEpisodeNum + 1);
@@ -238,7 +261,7 @@ export function MobilePlayer({
                 case 'arrowdown':
                     e.preventDefault();
                     // Previous Episode (swipe down = prev)
-                    if (currentEpisodeNum > 1 && !isChangingEpisode) {
+                    if (!isHorizontal && currentEpisodeNum > 1 && !isChangingEpisode) {
                         setSlideDirection('down');
                         setTimeout(() => {
                             changeEpisode(currentEpisodeNum - 1);
@@ -259,7 +282,7 @@ export function MobilePlayer({
 
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [togglePlay, currentEpisodeNum, totalEpisodes, isChangingEpisode, changeEpisode, isSheetOpen, isSettingsOpen, router]);
+    }, [togglePlay, currentEpisodeNum, totalEpisodes, isChangingEpisode, changeEpisode, isSheetOpen, isSettingsOpen, router, isHorizontal]);
 
 
     const handleTouchStart = (e: React.TouchEvent) => {
@@ -300,12 +323,16 @@ export function MobilePlayer({
     const handleVideoTouchStart = (e: React.TouchEvent) => {
         // Don't trigger if drawer or settings is open
         if (isSheetOpen || isSettingsOpen) return;
+
+        // DISABLE VERTICAL SWIPE FOR EPISODES IN HORIZONTAL MODE to avoid accidents
+        if (isHorizontal) return;
+
         videoTouchStartY.current = e.touches[0].clientY;
         videoTouchStartX.current = e.touches[0].clientX;
     };
 
     const handleVideoTouchEnd = (e: React.TouchEvent) => {
-        if (isSheetOpen || isSettingsOpen || isChangingEpisode) return;
+        if (isSheetOpen || isSettingsOpen || isChangingEpisode || isHorizontal) return;
 
         const deltaY = e.changedTouches[0].clientY - videoTouchStartY.current;
         const deltaX = e.changedTouches[0].clientX - videoTouchStartX.current;
@@ -345,7 +372,8 @@ export function MobilePlayer({
                 poster={poster}
                 className={cn(
                     "absolute top-0 left-0 right-0 bottom-12 w-full h-full bg-black transition-all duration-300 ease-out",
-                    isFullscreen ? "object-contain object-center scale-110" : "object-contain",
+                    isFullscreen && !isHorizontal ? "object-contain object-center scale-110" : "object-contain", // Scale only for vertical on some screens?
+                    // Horizontal full screen usually fits well with object-contain
                     slideDirection === 'up' && "opacity-0 -translate-y-20",
                     slideDirection === 'down' && "opacity-0 translate-y-20",
                     !slideDirection && "opacity-100 translate-y-0"
@@ -358,6 +386,18 @@ export function MobilePlayer({
                 onLoadedMetadata={(e) => {
                     setDuration(e.currentTarget.duration);
                     setIsLoading(false);
+
+                    // CHECK ASPECT RATIO
+                    const width = e.currentTarget.videoWidth;
+                    const height = e.currentTarget.videoHeight;
+                    if (width > height) {
+                        setIsHorizontal(true);
+                        // Optional: Rotate to landscape immediately if allowed?
+                        // screen.orientation.lock('landscape').catch(() => {});
+                    } else {
+                        setIsHorizontal(false);
+                    }
+
                     e.currentTarget.play().catch(() => { });
                 }}
                 onWaiting={() => setIsLoading(true)}
@@ -405,96 +445,218 @@ export function MobilePlayer({
                 </div>
             )}
 
-            <div className={cn("absolute inset-0 pointer-events-none transition-opacity duration-500",
-                isSheetOpen ? "opacity-0" : "opacity-100"
+            {/* === 2. Video Controls Overlay === */}
+            {/* We now differentiate between Vertical (Right Sidebar) and Horizontal (Bottom Bar) layouts */}
+
+            {/* Common Top Bar (Back & Settings) - Always visible when controls are shown */}
+            <div className={cn(
+                "absolute top-0 left-0 right-0 p-4 pt-8 flex justify-between items-start bg-gradient-to-b from-black/60 to-transparent pointer-events-auto transition-opacity duration-300 z-30",
+                showControls && !isSeeking ? "opacity-100" : "opacity-0"
             )}>
-                <div className={cn(
-                    "absolute top-0 left-0 right-0 p-4 pt-8 flex justify-between items-start bg-gradient-to-b from-black/60 to-transparent pointer-events-auto transition-opacity duration-300",
-                    showControls && !isSeeking ? "opacity-100" : "opacity-0"
-                )}>
-                    <button onClick={() => router.push('/')} className="text-white hover:opacity-70">
+                <div className="flex items-center gap-4 flex-1 min-w-0">
+                    <button onClick={() => router.push('/')} className="text-white hover:opacity-70 flex-shrink-0">
                         <ChevronLeft className="w-8 h-8 shadow-sm" />
                     </button>
+                    {isHorizontal && (
+                        <h1 className="text-white font-bold text-sm leading-tight line-clamp-1 text-shadow-sm flex-1">
+                            <span className="opacity-70 mr-2">Ep.{currentEpisodeNum}</span>
+                            {title}
+                        </h1>
+                    )}
+                </div>
+                <div className="flex items-center gap-4 flex-shrink-0">
+                    {/* In Horizontal mode, we might want extra top buttons here if needed, but for now just Settings */}
                     <button onClick={() => setIsSettingsOpen(true)} className="text-white hover:opacity-70">
                         <MoreHorizontal className="w-8 h-8 shadow-sm" />
                     </button>
                 </div>
+            </div>
 
-                <div className={cn(
-                    "absolute right-2 bottom-20 flex flex-col gap-4 items-center pointer-events-auto z-20 transition-opacity duration-300",
-                    showControls && !isSeeking ? "opacity-100" : "opacity-0"
-                )}>
-                    {/* Sidebar buttons */}
-                    {/* Sidebar buttons */}
-                    {/* Top Button: Suka (Like Episode - Heart) */}
-                    <LikeButton
-                        bookId={dramaId}
-                        provider={provider}
-                        episode={currentEpisodeNum}
-                        title={title}
-                        cover={drama?.cover || ''}
-                        variant="mobile-sidebar"
-                    />
-                    {/* Second Button: Koleksi (Collect Drama - Bookmark) replaces Comment */}
-                    <CollectionButton
-                        bookId={dramaId}
-                        provider={provider}
-                        title={title}
-                        cover={drama?.cover || ''}
-                        variant="mobile-sidebar"
-                    />
-                    <button className="flex flex-col items-center gap-1 group">
-                        <div className="p-1.5 rounded-full bg-black/20 backdrop-blur-sm group-active:scale-90 transition-transform">
-                            <Share2 className="w-7 h-7 text-white stroke-[1.5px]" />
-                        </div>
-                        <span className="text-white text-xs font-medium text-shadow">Bagikan</span>
-                    </button>
-                    <button onClick={toggleFullscreen} className="flex flex-col items-center gap-1 group">
-                        <div className="p-1.5 rounded-full bg-black/20 backdrop-blur-sm group-active:scale-90 transition-transform">
-                            {isFullscreen ? (
-                                <Minimize className="w-7 h-7 text-white stroke-[1.5px]" />
+            {/* ---> VERTICAL LAYOUT (Default "Shorts" Style) <--- */}
+            {!isHorizontal && (
+                <>
+                    <div className={cn(
+                        "absolute right-2 bottom-20 flex flex-col gap-4 items-center pointer-events-auto z-20 transition-opacity duration-300",
+                        showControls && !isSeeking ? "opacity-100" : "opacity-0"
+                    )}>
+                        {/* Sidebar buttons */}
+                        <LikeButton
+                            bookId={dramaId}
+                            provider={provider}
+                            episode={currentEpisodeNum}
+                            title={title}
+                            cover={drama?.cover || ''}
+                            variant="mobile-sidebar"
+                        />
+                        <CollectionButton
+                            bookId={dramaId}
+                            provider={provider}
+                            title={title}
+                            cover={drama?.cover || ''}
+                            variant="mobile-sidebar"
+                        />
+                        <button className="flex flex-col items-center gap-1 group">
+                            <div className="p-1.5 rounded-full bg-black/20 backdrop-blur-sm group-active:scale-90 transition-transform">
+                                <Share2 className="w-7 h-7 text-white stroke-[1.5px]" />
+                            </div>
+                            <span className="text-white text-xs font-medium text-shadow">Bagikan</span>
+                        </button>
+                        <button onClick={toggleFullscreen} className="flex flex-col items-center gap-1 group">
+                            <div className="p-1.5 rounded-full bg-black/20 backdrop-blur-sm group-active:scale-90 transition-transform">
+                                {isFullscreen ? (
+                                    <Minimize className="w-7 h-7 text-white stroke-[1.5px]" />
+                                ) : (
+                                    <Maximize className="w-7 h-7 text-white stroke-[1.5px]" />
+                                )}
+                            </div>
+                            <span className="text-white text-xs font-medium text-shadow">Layar Penuh</span>
+                        </button>
+                    </div>
+
+                    <div className={cn(
+                        "absolute left-0 right-16 bottom-16 px-4 flex flex-col items-start gap-2 pointer-events-auto z-10 text-shadow-lg transition-opacity duration-300",
+                        showControls && !isSeeking ? "opacity-100" : "opacity-0"
+                    )}>
+                        <h1 className="text-white font-bold text-lg leading-tight line-clamp-2">
+                            <span className="mr-2 opacity-70">Ep.{currentEpisodeNum}</span>
+                            {title}
+                        </h1>
+                        {drama?.description && (
+                            <p className="text-white/90 text-sm line-clamp-2 leading-snug">
+                                {drama.description}
+                            </p>
+                        )}
+                    </div>
+                </>
+            )}
+
+            {/* ---> HORIZONTAL LAYOUT (Traditional Landscape Player) <--- */}
+            {isHorizontal && (
+                <>
+                    {/* Center Play Button for Horizontal (Larger) */}
+                    <div className={cn(
+                        "absolute inset-0 flex items-center justify-center gap-8 md:gap-14 pointer-events-none z-20 transition-opacity duration-300",
+                        showControls && !isSeeking ? "opacity-100" : "opacity-0"
+                    )}>
+                        {/* Rewind Button */}
+                        <button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                if (videoRef.current) videoRef.current.currentTime -= 10;
+                            }}
+                            className="relative w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-full bg-black/40 backdrop-blur-sm pointer-events-auto hover:bg-black/60 transition-all active:scale-90"
+                        >
+                            {/* Icon with gap for text */}
+                            <RotateCcw className="w-5 h-5 md:w-6 md:h-6 text-white stroke-[1.5px]" />
+                            {/* Centered Text */}
+                            <span className="absolute text-[8px] md:text-[10px] font-bold text-white pt-0.5">10</span>
+                        </button>
+
+                        {/* Play/Pause Button */}
+                        <button
+                            onClick={(e) => { e.stopPropagation(); togglePlay(); }}
+                            className="w-12 h-12 md:w-16 md:h-16 bg-black/40 rounded-full flex items-center justify-center backdrop-blur-sm text-white pointer-events-auto hover:bg-black/60 transition-colors active:scale-95"
+                        >
+                            {isPlaying ? (
+                                <Pause className="w-6 h-6 md:w-8 md:h-8 fill-white" />
                             ) : (
-                                <Maximize className="w-7 h-7 text-white stroke-[1.5px]" />
+                                <Play className="w-6 h-6 md:w-8 md:h-8 fill-white ml-1" />
                             )}
+                        </button>
+
+                        {/* Forward Button */}
+                        <button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                if (videoRef.current) videoRef.current.currentTime += 10;
+                            }}
+                            className="relative w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-full bg-black/40 backdrop-blur-sm pointer-events-auto hover:bg-black/60 transition-all active:scale-90"
+                        >
+                            <RotateCw className="w-5 h-5 md:w-6 md:h-6 text-white stroke-[1.5px]" />
+                            {/* Centered Text */}
+                            <span className="absolute text-[8px] md:text-[10px] font-bold text-white pt-0.5">10</span>
+                        </button>
+                    </div>
+
+                    {/* Bottom Controls Bar */}
+                    <div className={cn(
+                        "absolute left-0 right-0 bottom-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent pt-12 pb-4 px-4 flex flex-col gap-2 z-30 transition-transform duration-300",
+                        showControls && !isSeeking ? "translate-y-0" : "translate-y-full"
+                    )}>
+                        {/* Progress Bar Row */}
+                        <div className="flex items-center gap-4 text-xs font-medium text-white mb-1">
+                            <span>{formatTime(currentTime)}</span>
+                            <div className="flex-1 relative h-1 bg-white/30 rounded-full group/slider mx-2 pointer-events-auto">
+                                <div
+                                    className="absolute left-0 top-0 bottom-0 bg-[#00cc55] rounded-full"
+                                    style={{ width: `${progressPercent}%` }}
+                                >
+                                    <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full shadow opacity-0 group-hover/slider:opacity-100 transition-opacity" />
+                                </div>
+                                <input
+                                    type="range"
+                                    min={0}
+                                    max={duration || 0}
+                                    value={currentTime}
+                                    onChange={handleSeek}
+                                    onTouchStart={() => setIsSeeking(true)}
+                                    onTouchEnd={() => setIsSeeking(false)}
+                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                />
+                            </div>
+                            <span>{formatTime(duration)}</span>
                         </div>
-                        <span className="text-white text-xs font-medium text-shadow">Layar Penuh</span>
-                    </button>
-                </div>
 
-                <div className={cn(
-                    "absolute left-0 right-16 bottom-16 px-4 flex flex-col items-start gap-2 pointer-events-auto z-10 text-shadow-lg transition-opacity duration-300",
-                    showControls && !isSeeking ? "opacity-100" : "opacity-0"
-                )}>
-                    <h1 className="text-white font-bold text-lg leading-tight line-clamp-2">
-                        <span className="mr-2 opacity-70">Ep.{currentEpisodeNum}</span>
-                        {title}
-                    </h1>
-                    {drama?.description && (
-                        <p className="text-white/90 text-sm line-clamp-2 leading-snug">
-                            {drama.description}
-                        </p>
-                    )}
-                </div>
+                        {/* Bottom Actions Row */}
+                        <div className="flex items-center justify-between pointer-events-auto">
+                            <div className="flex items-center gap-4">
+                                <button
+                                    onClick={() => setIsSheetOpen(true)}
+                                    className="text-white/90 text-sm font-medium flex items-center gap-2 hover:text-white"
+                                >
+                                    <div className="flex flex-col leading-none">
+                                        <span className="text-[10px] text-white/50 uppercase">Episode</span>
+                                        <span>{currentEpisodeNum} <span className="text-white/50">/ {totalEpisodes}</span></span>
+                                    </div>
+                                    <ChevronRight className="w-5 h-5" />
+                                </button>
+                            </div>
 
-                <div className="absolute bottom-12 left-0 right-0 h-1 bg-white/30 pointer-events-auto z-20">
+                            <div className="flex items-center gap-4">
+                                <LikeButton
+                                    bookId={dramaId}
+                                    provider={provider}
+                                    episode={currentEpisodeNum}
+                                    title={title}
+                                    cover={drama?.cover || ''}
+                                    variant="ghost"
+                                />
+                                <CollectionButton
+                                    bookId={dramaId}
+                                    provider={provider}
+                                    title={title}
+                                    cover={drama?.cover || ''}
+                                    variant="ghost"
+                                />
+                                <button onClick={toggleFullscreen} className="text-white hover:text-[#00cc55]">
+                                    {isFullscreen ? <Minimize className="w-6 h-6" /> : <Maximize className="w-6 h-6" />}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </>
+            )}
+
+
+            {/* Floating Progress Bar (Only visible when controls hidden, to show status) */}
+            {/* For horizontal, we might just hide everything. For vertical, we keep the bottom line */}
+            {!isHorizontal && (
+                <div className={cn("absolute bottom-12 left-0 right-0 h-1 bg-white/30 pointer-events-auto z-20 transition-opacity duration-300 opacity-100")}>
                     <div
                         className="h-full bg-[#00cc55] relative"
                         style={{ width: `${progressPercent}%` }}
-                    >
-                        <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-white rounded-full shadow" />
-                    </div>
-
-                    {/* Seek Overlay (Bottom Centered - Time Only) */}
-                    {isSeeking && (
-                        <div className="absolute bottom-14 left-0 right-0 flex flex-col items-center justify-end z-40 pointer-events-none">
-                            <div className="text-white text-3xl font-bold text-shadow-lg flex items-center gap-1 mb-4">
-                                <span className="text-white">{formatTime(currentTime)}</span>
-                                <span className="text-white/50 text-2xl">/</span>
-                                <span className="text-white/50 text-2xl">{formatTime(duration)}</span>
-                            </div>
-                        </div>
-                    )}
-
+                    />
+                    {/* Input for blind seeking when controls hidden */}
                     <input
                         type="range"
                         min={0}
@@ -503,13 +665,13 @@ export function MobilePlayer({
                         onChange={handleSeek}
                         onTouchStart={() => setIsSeeking(true)}
                         onTouchEnd={() => setIsSeeking(false)}
-                        // Also handle mouse for testing on desktop with mobile view
-                        onMouseDown={() => setIsSeeking(true)}
-                        onMouseUp={() => setIsSeeking(false)}
                         className="absolute inset-0 w-full h-4 -top-1.5 opacity-0 cursor-pointer"
                     />
                 </div>
+            )}
 
+            {/* Bottom Episode Bar (Only for Vertical Mode) */}
+            {!isHorizontal && (
                 <button
                     onClick={() => { setIsSheetOpen(true); setActiveTab('episodes'); }}
                     className="absolute bottom-0 left-0 right-0 h-12 bg-[#000000] flex items-center justify-between px-4 pointer-events-auto active:bg-gray-900 transition-colors z-20"
@@ -523,7 +685,18 @@ export function MobilePlayer({
                         <ChevronRight className="w-5 h-5" />
                     </div>
                 </button>
-            </div>
+            )}
+
+            {/* Seek Overlay (Large Center Time) - Shared */}
+            {isSeeking && (
+                <div className="absolute inset-0 flex items-center justify-center z-40 pointer-events-none bg-black/40">
+                    <div className="text-white text-4xl font-bold text-shadow-lg flex items-center gap-2">
+                        <span className="text-[#00cc55]">{formatTime(currentTime)}</span>
+                        <span className="text-white/50">/</span>
+                        <span className="text-white/70">{formatTime(duration)}</span>
+                    </div>
+                </div>
+            )}
 
             {/* === 3. Bottom Sheet (Drawer) === */}
             <div

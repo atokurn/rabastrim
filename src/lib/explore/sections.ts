@@ -92,6 +92,21 @@ function normalizeDramaQueen(item: any): ExploreItem {
     };
 }
 
+// Normalize Donghua item - requires separate provider for correct video fetching
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function normalizeDonghua(item: any): ExploreItem {
+    return {
+        id: item.id || "",
+        title: item.title || "Untitled",
+        poster: item.cover || item.landscapeCover || "",
+        episodes: item.episodes || item.totalEpisodes,
+        tags: item.genres,
+        source: "donghua", // Use donghua provider for correct API routing
+        score: item.score,
+        description: item.description,
+    };
+}
+
 // DramaBox sections
 const DRAMABOX_SECTIONS: SectionConfig[] = [
     { id: "trending", source: "dramabox", title: "Trending", icon: "🔥", variant: "portrait", layout: "carousel", fetcher: DramaBoxApi.getTrending, normalizer: normalizeDramaBox },
@@ -117,8 +132,14 @@ const MELOLO_SECTIONS: SectionConfig[] = [
 // Drama Queen sections
 const DRAMAQUEEN_SECTIONS: SectionConfig[] = [
     { id: "popular", source: "dramaqueen", title: "Drama Populer", icon: "⭐", variant: "portrait", layout: "carousel", fetcher: DramaQueenApi.getPopular, normalizer: normalizeDramaQueen },
+    { id: "korea", source: "dramaqueen", title: "Drama Korea", icon: "🇰🇷", variant: "portrait", layout: "carousel", fetcher: () => DramaQueenApi.getKoreanDramas(20), normalizer: normalizeDramaQueen },
+    { id: "china", source: "dramaqueen", title: "Drama China", icon: "🇨🇳", variant: "portrait", layout: "carousel", fetcher: () => DramaQueenApi.getChineseDramas(20), normalizer: normalizeDramaQueen },
     { id: "latest", source: "dramaqueen", title: "Terbaru", icon: "🆕", variant: "portrait", layout: "carousel", fetcher: DramaQueenApi.getLatest, normalizer: normalizeDramaQueen },
-    { id: "donghua", source: "donghua", title: "Donghua", icon: "🐲", variant: "portrait", layout: "grid", fetcher: () => DramaQueenApi.getDonghuaList(1), normalizer: normalizeDramaQueen },
+];
+
+// Anime sections (Donghua)
+const ANIME_SECTIONS: SectionConfig[] = [
+    { id: "donghua", source: "donghua", title: "Donghua", icon: "🐲", variant: "portrait", layout: "grid", fetcher: () => DramaQueenApi.getDonghuaList(1), normalizer: normalizeDonghua },
 ];
 
 // Get sections for a provider
@@ -132,6 +153,8 @@ export function getProviderSections(provider: ProviderSource): SectionConfig[] {
             return MELOLO_SECTIONS;
         case "dramaqueen":
             return DRAMAQUEEN_SECTIONS;
+        case "anime":
+            return ANIME_SECTIONS;
         default:
             return [];
     }

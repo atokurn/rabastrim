@@ -10,7 +10,7 @@ interface LikeButtonProps {
     episode: number;
     title: string;
     cover: string;
-    variant?: 'icon-only' | 'with-label' | 'mobile-sidebar';
+    variant?: 'icon-only' | 'with-label' | 'mobile-sidebar' | 'ghost';
     className?: string;
 }
 
@@ -60,6 +60,14 @@ export function LikeButton({
         return (
             <button onClick={handleToggle} className={`text-gray-400 hover:text-red-500 transition-colors ${className}`}>
                 <Heart className={`w-5 h-5 ${isLiked ? 'text-red-500 fill-red-500' : ''}`} />
+            </button>
+        );
+    }
+
+    if (variant === 'ghost') {
+        return (
+            <button onClick={handleToggle} className={`text-white hover:text-red-500 transition-colors ${className}`}>
+                <Heart className={`w-6 h-6 ${isLiked ? 'text-red-500 fill-red-500' : ''}`} />
             </button>
         );
     }

@@ -43,15 +43,18 @@ export function SearchSuggestions({
     };
 
     return (
-        <div className={cn("absolute top-full left-0 right-0 z-50 bg-[#0f1014] border-t border-gray-800", className)}>
-            <ul className="divide-y divide-gray-800/50">
+        <div className={cn(
+            "absolute top-full left-0 right-0 z-50 bg-black md:bg-[#0f1014] md:border-t md:border-gray-800 shadow-xl min-h-[calc(100vh-60px)] md:min-h-0",
+            className
+        )}>
+            <ul className="flex flex-col py-2">
                 {suggestions.map((suggestion) => (
-                    <li key={`${suggestion.provider}-${suggestion.id}`}>
+                    <li key={`${suggestion.provider}-${suggestion.id}`} className="border-b border-white/5 md:border-gray-800/50 last:border-none">
                         <button
                             onClick={() => onSelect(suggestion)}
-                            className="w-full px-6 py-4 text-left hover:bg-white/5 transition-colors"
+                            className="w-full px-4 py-4 md:px-6 md:py-3 text-left hover:bg-white/5 transition-colors flex items-center justify-between group"
                         >
-                            <span className="text-white text-sm">
+                            <span className="text-gray-100 text-[15px] md:text-sm font-normal line-clamp-1 group-hover:text-[#00cc55] transition-colors">
                                 {highlightMatch(suggestion.title)}
                             </span>
                         </button>

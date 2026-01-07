@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cache, cacheKeys, cacheTTL } from "@/lib/cache";
-import { ContentRepository } from "@/lib/services/content-repository";
+import { searchContent } from "@/lib/services/content-repository";
 import { ContentIngestionService } from "@/lib/services/content-ingestion";
 import { SourceAggregator } from "@/lib/sources";
-import type { ContentProvider } from "@/lib/db";
+import { ContentProvider } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 
@@ -42,7 +42,7 @@ export async function GET(request: NextRequest) {
             cacheKey,
             async () => {
                 // Step 1: Query local DB first (fast)
-                const localResults = await ContentRepository.searchSuggest(normalizedQuery, 8);
+                const localResults = await searchContent(normalizedQuery, 8);
 
                 const suggestions: Suggestion[] = localResults.map(item => ({
                     id: item.id,
@@ -76,12 +76,12 @@ export async function GET(request: NextRequest) {
                         await ContentIngestionService.ingestFromSearch(
                             provider,
                             items.map(item => ({
-                                providerContentId: item.id,
+                                bookId: item.id, // Correct: bookId
                                 title: item.title,
                                 description: item.description,
-                                posterUrl: item.cover,
-                                episodeCount: item.episodes,
-                                tags: item.tags,
+                                poster: item.cover, // Correct: poster
+                                episodeCount: item.episodes, // Correct property
+                                // tags: item.tags, // Not present in unified drama usually unless mapped
                             }))
                         );
                     }

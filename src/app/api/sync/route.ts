@@ -11,10 +11,10 @@ export const dynamic = "force-dynamic";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function normalizeDramaBox(item: any): ContentInput {
     return {
-        providerContentId: item.bookId || item.book_id || "",
+        bookId: item.bookId || item.book_id || "",
         title: item.bookName || item.book_name || item.title || "Untitled",
         description: item.introduction || item.desc,
-        posterUrl: item.coverWap || item.cover,
+        poster: item.coverWap || item.cover,
         episodeCount: item.chapterCount,
         tags: item.tags,
         isVip: item.isVip,
@@ -24,10 +24,10 @@ function normalizeDramaBox(item: any): ContentInput {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function normalizeFlickReels(item: any): ContentInput {
     return {
-        providerContentId: String(item.playlet_id || ""),
+        bookId: String(item.playlet_id || ""),
         title: item.playlet_title || item.title || "Untitled",
         description: item.introduce,
-        posterUrl: item.cover || item.process_cover,
+        poster: item.cover || item.process_cover,
         episodeCount: item.chapter_num || item.upload_num,
         tags: item.tag_list?.map((t: { tag_name: string }) => t.tag_name),
     };
@@ -37,15 +37,15 @@ function normalizeFlickReels(item: any): ContentInput {
 function normalizeMelolo(item: any): ContentInput {
     // Melolo trending/latest API uses: abstract, book_id, book_name, thumb_url, serial_count
     const rawImage = item.thumb_url || item.cover || "";
-    const posterUrl = rawImage && rawImage.includes(".heic")
+    const poster = rawImage && rawImage.includes(".heic")
         ? `https://wsrv.nl/?url=${encodeURIComponent(rawImage)}&output=webp&q=85`
         : rawImage;
 
     return {
-        providerContentId: item.book_id || item.id || "",
+        bookId: item.book_id || item.id || "",
         title: item.book_name || item.title || "Untitled",
         description: item.abstract || item.introduction || null,
-        posterUrl,
+        poster,
         episodeCount: item.serial_count || null,
     };
 }
@@ -120,7 +120,7 @@ export async function POST(request: NextRequest) {
                 }
 
                 // Filter out items without valid IDs
-                items = items.filter(item => item.providerContentId);
+                items = items.filter(item => item.bookId);
 
                 if (items.length > 0) {
                     const result = syncType === "trending"

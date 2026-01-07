@@ -38,7 +38,9 @@ export function SearchClient({ initialPopular = [] }: SearchClientProps) {
         search,
         loadMore,
         clearSearch,
+        addToHistory,
         clearHistory,
+        removeFromHistory,
     } = useSearch();
 
     const [popular, setPopular] = useState<PopularItem[]>(initialPopular);
@@ -157,6 +159,7 @@ export function SearchClient({ initialPopular = [] }: SearchClientProps) {
                                 history={history}
                                 onSelect={handleHistorySelect}
                                 onClear={clearHistory}
+                                onRemove={removeFromHistory}
                             />
                             <PopularSearches
                                 items={popular}
@@ -219,6 +222,7 @@ export function SearchClient({ initialPopular = [] }: SearchClientProps) {
                                 history={history}
                                 onSelect={handleHistorySelect}
                                 onClear={clearHistory}
+                                onRemove={removeFromHistory}
                             />
                         )}
                     </div>

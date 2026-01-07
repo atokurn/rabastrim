@@ -122,7 +122,7 @@ export type NewEpisodeCache = typeof episodeCache.$inferInsert;
 /**
  * Provider type for content sources
  */
-export type ContentProvider = "dramabox" | "flickreels" | "melolo" | "dramaqueen";
+export type ContentProvider = "dramabox" | "flickreels" | "melolo" | "dramaqueen" | "netshort";
 
 /**
  * Source where content was fetched from
@@ -171,6 +171,7 @@ export const contents = pgTable("contents", {
 
     // Scoring
     popularityScore: integer("popularity_score").default(0),
+    viewCount: integer("view_count").default(0),
 
     // Timestamps
     createdAt: timestamp("created_at").defaultNow(),

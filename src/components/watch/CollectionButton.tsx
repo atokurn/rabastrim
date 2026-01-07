@@ -9,7 +9,7 @@ interface CollectionButtonProps {
     provider: string;
     title: string;
     cover: string;
-    variant?: 'icon-only' | 'with-label' | 'mobile-sidebar';
+    variant?: 'icon-only' | 'with-label' | 'mobile-sidebar' | 'ghost';
     className?: string;
 }
 
@@ -59,6 +59,14 @@ export function CollectionButton({
         return (
             <button onClick={handleToggle} className={`text-gray-400 hover:text-[#00cc55] transition-colors ${className}`}>
                 <Bookmark className={`w-5 h-5 ${isCollected ? 'text-[#00cc55] fill-[#00cc55]' : ''}`} />
+            </button>
+        );
+    }
+
+    if (variant === 'ghost') {
+        return (
+            <button onClick={handleToggle} className={`text-white hover:text-[#00cc55] transition-colors ${className}`}>
+                <Bookmark className={`w-6 h-6 ${isCollected ? 'text-[#00cc55] fill-[#00cc55]' : ''}`} />
             </button>
         );
     }
