@@ -59,13 +59,15 @@ export function normalizeNetShort(data: BaseProviderData, fetchedFrom: "trending
 }
 
 export function normalizeMelolo(data: BaseProviderData, fetchedFrom: "trending" | "search" | "home" | "foryou"): NewContent {
+    const posterUrl = data.poster || data.cover || "";
+
     return {
         provider: "melolo",
         providerContentId: data.bookId || String(Math.random()),
-        title: data.title || "Unknown Title",
+        title: data.bookName || data.title || "Unknown Title",
         altTitles: null,
-        description: data.description || "",
-        posterUrl: data.cover || "",
+        description: data.description || data.introduction || "",
+        posterUrl,
         year: null,
         region: null,
         tags: null,

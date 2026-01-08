@@ -8,6 +8,7 @@
 import { DramaBoxApi } from "@/lib/api/dramabox";
 import { FlickReelsApi } from "@/lib/api/flickreels";
 import { MeloloApi } from "@/lib/api/melolo";
+import { DramaWaveApi } from "@/lib/api/dramawave";
 import { DramaQueenApi } from "@/lib/api/dramaqueen";
 import { ProviderSource, ExploreItem } from "./types";
 
@@ -129,6 +130,27 @@ const MELOLO_SECTIONS: SectionConfig[] = [
     { id: "latest", source: "melolo", title: "Terbaru", icon: "🆕", variant: "portrait", fetcher: MeloloApi.getLatest, normalizer: normalizeMelolo },
 ];
 
+// Normalize DramaWave item
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function normalizeDramaWave(item: any): ExploreItem {
+    return {
+        id: item.id || item.key || "",
+        title: item.title || "Untitled",
+        poster: item.cover || "",
+        episodes: item.episodeCount,
+        tags: item.tags,
+        source: "dramawave",
+        description: item.description,
+    };
+}
+
+// DramaWave sections
+const DRAMAWAVE_SECTIONS: SectionConfig[] = [
+    { id: "trending", source: "dramawave", title: "Trending", icon: "🔥", variant: "ranking", layout: "ranking-list", fetcher: DramaWaveApi.getTrending, normalizer: normalizeDramaWave },
+    { id: "home", source: "dramawave", title: "Untuk Kamu", icon: "🌊", variant: "portrait", layout: "carousel", fetcher: DramaWaveApi.getHome, normalizer: normalizeDramaWave },
+    { id: "ranking", source: "dramawave", title: "Ranking", icon: "📊", variant: "portrait", layout: "grid", fetcher: DramaWaveApi.getRanking, normalizer: normalizeDramaWave },
+];
+
 // Drama Queen sections
 const DRAMAQUEEN_SECTIONS: SectionConfig[] = [
     { id: "popular", source: "dramaqueen", title: "Drama Populer", icon: "⭐", variant: "portrait", layout: "carousel", fetcher: DramaQueenApi.getPopular, normalizer: normalizeDramaQueen },
@@ -151,6 +173,8 @@ export function getProviderSections(provider: ProviderSource): SectionConfig[] {
             return FLICKREELS_SECTIONS;
         case "melolo":
             return MELOLO_SECTIONS;
+        case "dramawave":
+            return DRAMAWAVE_SECTIONS;
         case "dramaqueen":
             return DRAMAQUEEN_SECTIONS;
         case "anime":

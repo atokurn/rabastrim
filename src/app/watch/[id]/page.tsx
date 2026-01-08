@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { DramaBoxApi } from "@/lib/api/dramabox";
 import { FlickReelsApi } from "@/lib/api/flickreels";
 import { MeloloApi } from "@/lib/api/melolo";
+import { DramaWaveApi } from "@/lib/api/dramawave";
 import { DramaQueenApi } from "@/lib/api/dramaqueen";
 import Link from "next/link";
 import { VideoPlayer } from "@/components/watch/VideoPlayer";
@@ -85,6 +86,40 @@ async function fetchProviderData(id: string, provider: string, episodeNum: numbe
                 cover,
                 description: detail.abstract || detail.introduction,
                 totalEpisodes: detail.serial_count || episodes.length,
+            },
+            episodes,
+            currentVideoUrl,
+        };
+    }
+
+    if (provider === "dramawave") {
+        // DramaWave: Use getDetail for drama info (includes currentEpisode with videoUrl)
+        const detail = await DramaWaveApi.getDetail(id);
+
+        if (!detail) return { drama: null, episodes: [], currentVideoUrl: null };
+
+        const episodeCount = detail.episodeCount || 0;
+        const episodes: EpisodeInfo[] = [];
+
+        // Generate episode list
+        for (let i = 1; i <= episodeCount; i++) {
+            episodes.push({
+                id: `${id}-ep-${i}`,
+                number: i,
+                videoUrl: null, // Will be fetched via stream when playing
+            });
+        }
+
+        // Get video URL for current episode from currentEpisode
+        const currentVideoUrl = detail.currentEpisode?.videoUrl || null;
+
+        return {
+            drama: {
+                title: detail.title || "Untitled",
+                cover: detail.cover || "",
+                description: detail.description,
+                tags: detail.tags,
+                totalEpisodes: episodeCount,
             },
             episodes,
             currentVideoUrl,

@@ -71,6 +71,7 @@ function NavbarContent() {
         { label: "DramaBox", href: "/explore?source=dramabox", isActive: pathname === "/explore" && (source === "dramabox" || source === null) },
         { label: "FlickReels", href: "/explore?source=flickreels", isActive: pathname === "/explore" && source === "flickreels" },
         { label: "Melolo", href: "/explore?source=melolo", isActive: pathname === "/explore" && source === "melolo" },
+        { label: "DramaWave", href: "/explore?source=dramawave", isActive: pathname === "/explore" && source === "dramawave" },
         { label: "Drama Queen", href: "/explore?source=dramaqueen", isActive: pathname === "/explore" && source === "dramaqueen" },
         { label: "Anime", href: "/explore?source=anime", isActive: pathname === "/explore" && source === "anime" },
     ];

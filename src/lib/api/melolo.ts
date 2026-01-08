@@ -242,9 +242,12 @@ export const MeloloApi = {
                 title: `Episode ${index + 1}`,
             }));
         }
+        // Sort by vid_index to ensure episodes are in ascending order (episode 1 first)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const sortedVideoList = [...videoList].sort((a: any, b: any) => (a.vid_index ?? 0) - (b.vid_index ?? 0));
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        return videoList.map((ep: any, index: number) => ({
+        return sortedVideoList.map((ep: any, index: number) => ({
             item_id: ep.vid || String(index),
             vid: ep.vid || "",
             vid_index: (ep.vid_index ?? index + 1) - 1, // API uses 1-based index, convert to 0-based

@@ -29,6 +29,17 @@ export async function getVideoUrl(
             }
         }
 
+        if (provider === "dramawave") {
+            try {
+                const { DramaWaveApi } = await import("@/lib/api/dramawave");
+                const videoUrl = await DramaWaveApi.getStream(dramaId, episodeNumber);
+                return videoUrl;
+            } catch (error) {
+                console.error("[DramaWave] Video fetch failed:", error);
+                return null;
+            }
+        }
+
         if (provider === "flickreels") {
             const episodes = await FlickReelsApi.getEpisodes(dramaId);
             const episode = episodes.find(e => e.chapter_num === episodeNumber);
