@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { HomeCategories } from "./HomeCategories";
 import { HomeContent } from "./HomeContent";
 
-const CATEGORIES = ["Semua", "Short Drama", "Drama China", "Drama Korea", "Anime"];
+const CATEGORIES = ["Semua", "Short Drama", "Drama China", "Drama Korea", "Drama Jepang", "Drama Thailand", "Anime"];
 
 export function HomeFeed() {
     const [activeCategory, setActiveCategory] = useState("Semua");

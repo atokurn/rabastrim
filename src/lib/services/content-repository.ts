@@ -2,9 +2,6 @@ import { db, contents, Content, NewContent } from "@/lib/db";
 import { eq, ilike, desc, sql, and, notInArray } from "drizzle-orm";
 
 export async function upsertContent(data: NewContent) {
-    // Check if exists first to avoid unnecessary updates if data hasn't changed?
-    // For now, simpler to just upsert on conflict
-
     return db
         .insert(contents)
         .values(data)
@@ -15,9 +12,15 @@ export async function upsertContent(data: NewContent) {
                 description: data.description,
                 posterUrl: data.posterUrl,
                 episodeCount: data.episodeCount,
+                region: data.region,
+                contentType: data.contentType,
+                tags: data.tags,
+                releaseDate: data.releaseDate,
+                releaseYear: data.releaseYear,
+                releaseStatus: data.releaseStatus,
+                releaseSource: data.releaseSource,
                 fetchedAt: new Date(),
-                fetchedFrom: data.fetchedFrom, // Update source tracking if seen again
-                // NOT updating popularityScore or viewCount here, they persist
+                fetchedFrom: data.fetchedFrom,
             },
         })
         .returning();

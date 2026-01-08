@@ -15,6 +15,13 @@
       "when": 1767053567604,
       "tag": "0001_fearless_magus",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1767861413574,
+      "tag": "0002_jazzy_luckman",
+      "breakpoints": true
     }
   ]
 }

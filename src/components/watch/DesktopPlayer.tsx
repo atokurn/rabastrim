@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useState, useRef, useCallback } from "react";
-import { Play, Pause, ChevronLeft, Loader2, Volume2, VolumeX, Maximize, Minimize, Settings } from "lucide-react";
+import { Play, Pause, ChevronLeft, Loader2, Volume2, VolumeX, Maximize, Minimize } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useVideoPlayer } from "@/hooks/use-video-player";
+import { LanguageSelector } from "./LanguageSelector";
 
 interface DesktopPlayerProps {
     src: string;
@@ -350,6 +351,16 @@ export function DesktopPlayer({
                         </div>
 
                         <div className="flex items-center gap-4">
+                            {/* Language Selector */}
+                            <LanguageSelector
+                                contentId={dramaId}
+                                provider={provider}
+                                onLanguageChange={(code) => {
+                                    console.log("[DesktopPlayer] Language changed to:", code);
+                                    // Future: reload video with new language URL
+                                }}
+                            />
+
                             {/* Speed Selector */}
                             <div className="relative group/speed">
                                 <button className="text-white text-sm font-bold bg-white/10 px-2 py-1 rounded hover:bg-[#00cc55] hover:text-black transition-colors">

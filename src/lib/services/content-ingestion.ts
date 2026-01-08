@@ -7,7 +7,8 @@
 
 import { db, syncLogs, type ContentProvider, type FetchedFrom } from "@/lib/db";
 import { upsertContent } from "./content-repository";
-import { normalizeDramaBox, normalizeNetShort, normalizeMelolo, normalizeDramaQueen } from "./provider-normalizers";
+import { normalizeDramaBox, normalizeNetShort, normalizeFlickReels, normalizeMelolo, normalizeDramaQueen, normalizeDonghua } from "./provider-normalizers";
+import { setDefaultLanguageForContent } from "./language-ingestion";
 
 // ============================================
 // TTL CONFIGURATION
@@ -45,6 +46,16 @@ export interface ScraperItem {
     tagNames?: string[];
     year?: number;
     region?: string;
+    contentType?: string;
+    releaseDate?: Date | null;
+    releaseYear?: number | null;
+    releaseStatus?: string;
+    releaseSource?: string;  // api_detail, inferred, ingestion, unknown
+    // Raw API fields for release info extraction
+    tahun_rilis?: string;  // DramaQueen: full date "2025-12-22"
+    release_date?: string; // Other providers: various formats
+    is_finish?: boolean;   // DramaQueen: completed status
+    is_coming?: boolean;   // DramaQueen: upcoming status
     score?: number;
     isVip?: boolean;
 }
@@ -77,7 +88,9 @@ export const ContentIngestionService = {
                     case "dramabox":
                         normalized = normalizeDramaBox(baseData, fetchedFrom);
                         break;
-                    case "flickreels": // Uses NetShort structure usually
+                    case "flickreels":
+                        normalized = normalizeFlickReels(baseData, fetchedFrom);
+                        break;
                     case "netshort":
                         normalized = normalizeNetShort(baseData, fetchedFrom);
                         break;
@@ -86,6 +99,9 @@ export const ContentIngestionService = {
                         break;
                     case "dramaqueen":
                         normalized = normalizeDramaQueen(baseData, fetchedFrom);
+                        break;
+                    case "donghua":
+                        normalized = normalizeDonghua(baseData, fetchedFrom);
                         break;
                     default:
                         // Default fallback
@@ -101,12 +117,11 @@ export const ContentIngestionService = {
                 // Upsert via repository
                 const result = await upsertContent(normalized);
 
-                // Detection of created vs updated is tricky with upsert returning array
-                // We assume it worked. For stats, we can't easily distinguish without more logic.
-                // Let's increment 'processed'.
-                // If we really want accurate 'created' vs 'updated', we check `createdAt` equal to now.
-                // BUT upsert might return existing record.
-                // For simplified V2, accurate logs are secondary.
+                // Set default language for newly synced content (idempotent)
+                if (result && result.length > 0) {
+                    await setDefaultLanguageForContent(result[0].id, provider);
+                }
+
                 updated++;
 
             } catch (error) {

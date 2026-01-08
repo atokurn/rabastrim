@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { contents } from "@/lib/db/schema";
-import { desc, lt, eq, and, or, ilike, sql } from "drizzle-orm";
+import { desc, lt, eq, and, or, sql } from "drizzle-orm";
 
 // Fallback imports for API-based data when DB is empty
 import { DramaBoxApi } from "@/lib/api/dramabox";
@@ -16,14 +16,16 @@ interface NormalizedItem {
     image: string;
     episodes?: string;
     provider: string;
+    releaseDate?: string;
+    releaseStatus?: string;
     createdAt?: string;
 }
 
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
 
-    // Cursor-based pagination (NOT page-based)
-    const cursor = searchParams.get("cursor"); // ISO timestamp
+    // Composite cursor format: releaseDate|createdAt|uuid
+    const cursor = searchParams.get("cursor");
     const limit = Math.min(parseInt(searchParams.get("limit") || "24"), 40); // Max 40
     const provider = searchParams.get("provider") || "all";
     const category = searchParams.get("category"); // Optional category filter
@@ -32,10 +34,27 @@ export async function GET(request: Request) {
         // Build WHERE conditions
         const conditions = [eq(contents.status, "active")];
 
-        // Cursor condition
+        // Composite cursor: sortValue|uuid (where sortValue is COALESCE(releaseDate, createdAt) as ISO timestamp)
         if (cursor) {
-            conditions.push(lt(contents.createdAt, new Date(cursor)));
+            const [cursorSortValue, cursorId] = cursor.split("|");
+
+            // Build proper comparison matching ORDER BY: COALESCE(releaseDate, createdAt) DESC, id DESC
+            // IMPORTANT: Must match ORDER BY exactly for consistent pagination
+            if (cursorSortValue && cursorId) {
+                // Use ISO string directly to avoid Date object serialization issues
+                conditions.push(
+                    or(
+                        // Match ORDER BY exactly: COALESCE(releaseDate, createdAt)
+                        sql`COALESCE(${contents.releaseDate}, ${contents.createdAt}) < ${cursorSortValue}::timestamp`,
+                        and(
+                            sql`COALESCE(${contents.releaseDate}, ${contents.createdAt}) = ${cursorSortValue}::timestamp`,
+                            sql`${contents.id}::text < ${cursorId}`
+                        )
+                    )!
+                );
+            }
         }
+
 
         // Provider filter
         if (provider && provider !== "all") {
@@ -44,66 +63,77 @@ export async function GET(request: Request) {
 
         // Category-based filtering
         if (category === "Short Drama") {
-            // Only short drama providers
+            // Only short drama providers or contentType
             conditions.push(
                 or(
+                    eq(contents.contentType, "short_drama"),
                     eq(contents.provider, "dramabox"),
                     eq(contents.provider, "flickreels"),
                     eq(contents.provider, "melolo")
                 )!
             );
         } else if (category === "Drama China") {
-            conditions.push(
-                or(
-                    ilike(contents.region, "%china%"),
-                    ilike(contents.region, "%tiongkok%")
-                )!
-            );
+            // Chinese dramas from DramaQueen only (exclude donghua/anime)
+            conditions.push(eq(contents.provider, "dramaqueen"));
+            conditions.push(eq(contents.region, "CN"));
+            // Exclude donghua by checking tags and poster URL
+            conditions.push(sql`NOT (${contents.posterUrl}::text ILIKE '%donghua%')`);
         } else if (category === "Drama Korea") {
-            conditions.push(
-                or(
-                    ilike(contents.region, "%korea%"),
-                    ilike(contents.region, "%korea selatan%")
-                )!
-            );
+            // Korean dramas from DramaQueen only
+            conditions.push(eq(contents.provider, "dramaqueen"));
+            conditions.push(eq(contents.region, "KR"));
+        } else if (category === "Drama Jepang") {
+            // Japanese dramas from DramaQueen only
+            conditions.push(eq(contents.provider, "dramaqueen"));
+            conditions.push(eq(contents.region, "JP"));
+        } else if (category === "Drama Thailand") {
+            // Thai dramas from DramaQueen only
+            conditions.push(eq(contents.provider, "dramaqueen"));
+            conditions.push(eq(contents.region, "TH"));
         } else if (category === "Anime") {
-            conditions.push(
-                or(
-                    eq(contents.provider, "dramaqueen"),
-                    sql`${contents.tags}::text ILIKE '%donghua%'`
-                )!
-            );
+            // Anime/Donghua - now stored with provider='donghua'
+            conditions.push(eq(contents.provider, "donghua"));
         }
 
-        // Query database
+        // Query database - composite sort with id tiebreaker
         const items = await db.select({
+            uuid: contents.id,  // Primary key for cursor tiebreaker
             id: contents.providerContentId,
             title: contents.title,
             image: contents.posterUrl,
             episodes: contents.episodeCount,
             provider: contents.provider,
+            releaseDate: contents.releaseDate,
+            releaseStatus: contents.releaseStatus,
             createdAt: contents.createdAt,
         })
             .from(contents)
             .where(and(...conditions))
-            .orderBy(desc(contents.createdAt))
+            .orderBy(
+                desc(sql`COALESCE(${contents.releaseDate}, ${contents.createdAt})`),
+                desc(contents.id)  // Tiebreaker for stable pagination
+            )
             .limit(limit + 1); // Fetch one extra to check hasMore
 
         // Determine if there are more items
         const hasMore = items.length > limit;
         const resultItems = hasMore ? items.slice(0, limit) : items;
 
-        // Get next cursor from last item
+        // Build composite next cursor: sortValue|uuid (sortValue = releaseDate as date or createdAt as full timestamp)
         const lastItem = resultItems[resultItems.length - 1];
-        const nextCursor = lastItem?.createdAt?.toISOString() || null;
+        const nextCursor = lastItem
+            ? `${lastItem.releaseDate || lastItem.createdAt?.toISOString() || ''}|${lastItem.uuid}`
+            : null;
 
-        // Normalize response
+        // Normalize response with release info
         const data: NormalizedItem[] = resultItems.map(item => ({
             id: item.id,
             title: item.title,
             image: item.image || "",
             episodes: item.episodes ? `${item.episodes} Eps` : undefined,
             provider: item.provider,
+            releaseDate: item.releaseDate || undefined,
+            releaseStatus: item.releaseStatus || undefined,
             createdAt: item.createdAt?.toISOString(),
         }));
 

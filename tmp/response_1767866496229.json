@@ -1,0 +1,647 @@
+{
+  "success": true,
+  "message": "Berhasil mengambil detail drama",
+  "data": {
+    "book": {
+      "bookId": "42000003547",
+      "bookName": "Raja Tanpa Mahkota (Sulih Suara) ",
+      "cover": "https://hwztchapter.dramaboxdb.com/data/cppartner/4x2/42x0/420x0/42000003547/42000003547.jpg?t=1767688874696",
+      "coverWap": "https://hwztchapter.dramaboxdb.com/data/cppartner/4x2/42x0/420x0/42000003547/42000003547.jpg?t=1767688874696",
+      "introduction": "Tiga tahun lalu, Arjun dijebak masuk penjara demi melindungi pacarnya. Setelah masa tahanannya berakhir, dia mengambil alih Grup Arjuna dan menjadi bos di balik layar. Dia bertekad untuk mengungkap kebenaran di balik alasan dia dipenjara dan menghancurkan siapa pun yang meremehkannya. Di mata orang banyak, dia hanya orang biasa. Tapi, dia mengandalkan ilmu yang dipelajarinya di penjara untuk mematahkan musuh dan menyeret para penjahat ke hadapan hukum.",
+      "chapterCount": 76,
+      "viewCount": "187K",
+      "playCount": "187K",
+      "inLibraryCount": 8711,
+      "tags": [
+        "Balas Dendam",
+        "Serangan Balik",
+        "Keadilan",
+        "Orang Biasa",
+        "Kekuatan Khusus",
+        "Modern"
+      ],
+      "labels": [
+        "Balas Dendam",
+        "Serangan Balik",
+        "Keadilan",
+        "Orang Biasa",
+        "Kekuatan Khusus",
+        "Modern"
+      ],
+      "tagNames": [
+        "Balas Dendam",
+        "Serangan Balik",
+        "Keadilan",
+        "Orang Biasa",
+        "Kekuatan Khusus",
+        "Modern"
+      ],
+      "tagV3s": [
+        {
+          "tagId": 1337,
+          "tagName": "Balas Dendam",
+          "tagEnName": "Revenge"
+        },
+        {
+          "tagId": 1340,
+          "tagName": "Serangan Balik",
+          "tagEnName": "Counterattack"
+        },
+        {
+          "tagId": 10037,
+          "tagName": "Keadilan",
+          "tagEnName": "Justice Served"
+        },
+        {
+          "tagId": 1331,
+          "tagName": "Orang Biasa",
+          "tagEnName": "A Nobody"
+        },
+        {
+          "tagId": 1334,
+          "tagName": "Kekuatan Khusus",
+          "tagEnName": "The Chosen One"
+        },
+        {
+          "tagId": 1318,
+          "tagName": "Modern",
+          "tagEnName": "Modern"
+        }
+      ],
+      "corner": {
+        "cornerType": 1,
+        "name": "Terbaru",
+        "color": "#8773DF"
+      },
+      "bookStatus": 1,
+      "bookCategory": 0,
+      "vip": false,
+      "inLibrary": false,
+      "lastChapterUtime": 1767690530000
+    },
+    "recommends": [
+      {
+        "bookId": "42000000651",
+        "bookName": "Suami untuk Tiga Tahun (Sulih Suara)",
+        "coverWap": "https://hwztchapter.dramaboxdb.com/data/cppartner/4x2/42x0/420x0/42000000651/42000000651.jpg?t=1764042578579",
+        "chapterCount": 65,
+        "introduction": "Ezra yang sudah hidup ribuan tahun menepati janji pada muridnya yang sekarat untuk menjaga keluarganya selama tiga tahun. Selama waktu itu, dia menikahi cucu sang murid, tapi malah diperlakukan dingin dan diremehkan. Meski sering disulitkan, Ezra tetap sabar. Begitu tiga tahun berlalu, dia pergi tanpa penyesalan.",
+        "tags": [
+          "Penyesalan",
+          "Pembalikan Identitas",
+          "Penebusan",
+          "Pemberontak",
+          "Supranatural",
+          "Pria Dominan"
+        ],
+        "tagV3s": [
+          {
+            "tagId": 1658,
+            "tagName": "Penyesalan",
+            "tagEnName": "All-Too-Late"
+          },
+          {
+            "tagId": 1338,
+            "tagName": "Pembalikan Identitas",
+            "tagEnName": "Hidden Identity"
+          },
+          {
+            "tagId": 1478,
+            "tagName": "Penebusan",
+            "tagEnName": "Redemption"
+          },
+          {
+            "tagId": 1335,
+            "tagName": "Pemberontak",
+            "tagEnName": "Rebellious"
+          },
+          {
+            "tagId": 1322,
+            "tagName": "Supranatural",
+            "tagEnName": "Supernatural"
+          },
+          {
+            "tagId": 1323,
+            "tagName": "Pria Dominan",
+            "tagEnName": "Powerful Male Lead"
+          }
+        ],
+        "bookSource": {
+          "sceneId": "ovs_vd_cnxh_rec",
+          "expId": "bigdata_rec",
+          "strategyId": "giv215e2",
+          "strategyName": "",
+          "log_id": "c54417a9567db21b3ba50e964a2d4d1b"
+        },
+        "isEntry": 0,
+        "index": 0,
+        "corner": {
+          "cornerType": 1,
+          "name": "Terpopuler",
+          "color": "#F54E96"
+        },
+        "dataFrom": "算法_推荐剧",
+        "cardType": 1,
+        "rankVo": {
+          "rankType": 1,
+          "hotCode": "585K",
+          "recCopy": "Sedang Tren TOP 1",
+          "sort": 1
+        },
+        "markNamesConnectKey": ", ",
+        "algorithmRecomDot": "{\"log_id\":\"c54417a9567db21b3ba50e964a2d4d1b\",\"ret_time\":\"1767866496167\",\"scene_id\":\"ovs_vd_cnxh_rec\",\"rec_id\":\"bigdata_rec\"}",
+        "playCount": "78.5M",
+        "bookShelfTime": 1764052944000,
+        "shelfTime": "2025-11-25 14:42:24",
+        "inLibrary": false
+      },
+      {
+        "bookId": "42000000999",
+        "bookName": "Jangan Tangisi Kepergianku (Sulih Suara)  ",
+        "coverWap": "https://hwztchapter.dramaboxdb.com/data/cppartner/4x2/42x0/420x0/42000000999/42000000999.jpg?t=1764839213039",
+        "chapterCount": 75,
+        "introduction": "Demi membalas budi, Neil menandatangani kontrak dengan ayahnya Keira untuk menikahi Keira dan membantunya pulih dari perpisahan dengan cinta pertamanya, Simon. Namun Keira yang masih tak mampu melepaskan bayang-bayang Simon hanya menganggap Neil sekedar pengganti. Setelah kontrak berakhir, Neil bercerai dan mengejar cita-citanya sebagai astronaut, sementara Keira yang akhirnya menyadari ketergantungan dirinya pada Neil bertekad merebut hatinya dan kembali menikah dengannya.",
+        "tags": [
+          "Bangkitnya Orang Biasa",
+          "Penyesalan",
+          "Balas Dendam",
+          "Perselingkuhan",
+          "Orang Biasa",
+          "Kesempatan Kedua"
+        ],
+        "tagV3s": [
+          {
+            "tagId": 1339,
+            "tagName": "Bangkitnya Orang Biasa",
+            "tagEnName": "Underdog Story"
+          },
+          {
+            "tagId": 1658,
+            "tagName": "Penyesalan",
+            "tagEnName": "All-Too-Late"
+          },
+          {
+            "tagId": 1337,
+            "tagName": "Balas Dendam",
+            "tagEnName": "Revenge"
+          },
+          {
+            "tagId": 1341,
+            "tagName": "Perselingkuhan",
+            "tagEnName": "Betrayal"
+          },
+          {
+            "tagId": 1331,
+            "tagName": "Orang Biasa",
+            "tagEnName": "A Nobody"
+          },
+          {
+            "tagId": 1422,
+            "tagName": "Kesempatan Kedua",
+            "tagEnName": "Second Chance"
+          }
+        ],
+        "bookSource": {
+          "sceneId": "ovs_vd_cnxh_rec",
+          "expId": "bigdata_rec",
+          "strategyId": "giv215e2",
+          "strategyName": "",
+          "log_id": "c54417a9567db21b3ba50e964a2d4d1b"
+        },
+        "isEntry": 0,
+        "index": 0,
+        "corner": {
+          "cornerType": 1,
+          "name": "Terpopuler",
+          "color": "#F54E96"
+        },
+        "dataFrom": "算法_推荐剧",
+        "cardType": 1,
+        "markNamesConnectKey": ", ",
+        "algorithmRecomDot": "{\"log_id\":\"c54417a9567db21b3ba50e964a2d4d1b\",\"ret_time\":\"1767866496167\",\"scene_id\":\"ovs_vd_cnxh_rec\",\"rec_id\":\"bigdata_rec\"}",
+        "playCount": "10M",
+        "bookShelfTime": 1765252800000,
+        "shelfTime": "2025-12-09 12:00:00",
+        "inLibrary": false
+      },
+      {
+        "bookId": "42000002888",
+        "bookName": "Dewa Judi (Sulih Suara)",
+        "coverWap": "https://hwztchapter.dramaboxdb.com/data/cppartner/4x2/42x0/420x0/42000002888/42000002888.jpg?t=1766975617476",
+        "chapterCount": 74,
+        "introduction": "Selama liburan Tahun Baru Imlek, Yena dijebak oleh sahabatnya, Ceni, dan kalah judi 400 juta. Uang itu adalah biaya sekolah putrinya, biaya pengobatan ayahnya, dan biaya hidup keluarga mereka bertiga. Demi mendapatkan kembali uang tersebut, Sandi nekat masuk ke dalam lingkaran judi itu untuk melawan mereka dengan menggunakan teknik judi tingkat tinggi...",
+        "tags": [
+          "Balas Dendam",
+          "Judi",
+          "Serangan Balik",
+          "Kekuatan Khusus",
+          "Modern",
+          "Pria Dominan"
+        ],
+        "tagV3s": [
+          {
+            "tagId": 1337,
+            "tagName": "Balas Dendam",
+            "tagEnName": "Revenge"
+          },
+          {
+            "tagId": 1688,
+            "tagName": "Judi",
+            "tagEnName": "Gambling"
+          },
+          {
+            "tagId": 1340,
+            "tagName": "Serangan Balik",
+            "tagEnName": "Counterattack"
+          },
+          {
+            "tagId": 1334,
+            "tagName": "Kekuatan Khusus",
+            "tagEnName": "The Chosen One"
+          },
+          {
+            "tagId": 1318,
+            "tagName": "Modern",
+            "tagEnName": "Modern"
+          },
+          {
+            "tagId": 1323,
+            "tagName": "Pria Dominan",
+            "tagEnName": "Powerful Male Lead"
+          }
+        ],
+        "bookSource": {
+          "sceneId": "ovs_vd_cnxh_rec",
+          "expId": "bigdata_rec",
+          "strategyId": "giv215e2",
+          "strategyName": "",
+          "log_id": "c54417a9567db21b3ba50e964a2d4d1b"
+        },
+        "isEntry": 0,
+        "index": 0,
+        "corner": {
+          "cornerType": 1,
+          "name": "Terpopuler",
+          "color": "#F54E96"
+        },
+        "dataFrom": "算法_推荐剧",
+        "cardType": 1,
+        "rankVo": {
+          "rankType": 2,
+          "hotCode": "158K",
+          "recCopy": "Pencarian TOP 2",
+          "sort": 2
+        },
+        "markNamesConnectKey": ", ",
+        "algorithmRecomDot": "{\"log_id\":\"c54417a9567db21b3ba50e964a2d4d1b\",\"ret_time\":\"1767866496167\",\"scene_id\":\"ovs_vd_cnxh_rec\",\"rec_id\":\"bigdata_rec\"}",
+        "playCount": "3.3M",
+        "bookShelfTime": 1766987470000,
+        "shelfTime": "2025-12-29 13:51:10",
+        "inLibrary": false
+      },
+      {
+        "bookId": "42000002976",
+        "bookName": "Kupasrahkan Diriku Pada Cintamu (Sulih Suara)",
+        "coverWap": "https://hwztchapter.dramaboxdb.com/data/cppartner/4x2/42x0/420x0/42000002976/42000002976.jpg?t=1766999911887",
+        "chapterCount": 54,
+        "introduction": "Saat datang menemui kekasihnya, Olivia secara tak sengaja bertemu dengan Ellis, seorang CEO miliarder paruh baya yang sekaligus ayah kekasihnya. Perkenalan Olivia dengan Ellis menuntun Olivia yang polos memasuki dunia percintaan yang berbeda, yang penuh hasrat dan dominasi...  ",
+        "tags": [
+          "Ketahuan Selingkuh",
+          "Perbedaan Usia",
+          "CEO",
+          "Gadis Naif",
+          "Cinta Terlarang",
+          "Modern"
+        ],
+        "tagV3s": [
+          {
+            "tagId": 1461,
+            "tagName": "Ketahuan Selingkuh",
+            "tagEnName": "Caught Cheating"
+          },
+          {
+            "tagId": 1383,
+            "tagName": "Perbedaan Usia",
+            "tagEnName": "Age-Gap Love"
+          },
+          {
+            "tagId": 1362,
+            "tagName": "CEO",
+            "tagEnName": "Billionaire"
+          },
+          {
+            "tagId": 1374,
+            "tagName": "Gadis Naif",
+            "tagEnName": "Innocent Damsel"
+          },
+          {
+            "tagId": 1379,
+            "tagName": "Cinta Terlarang",
+            "tagEnName": "Forbidden Love"
+          },
+          {
+            "tagId": 1352,
+            "tagName": "Modern",
+            "tagEnName": "Modern"
+          }
+        ],
+        "bookSource": {
+          "sceneId": "ovs_vd_cnxh_rec",
+          "expId": "bigdata_rec",
+          "strategyId": "giv215e2",
+          "strategyName": "",
+          "log_id": "c54417a9567db21b3ba50e964a2d4d1b"
+        },
+        "isEntry": 0,
+        "index": 0,
+        "corner": {
+          "cornerType": 1,
+          "name": "Terpopuler",
+          "color": "#F54E96"
+        },
+        "dataFrom": "算法_推荐剧",
+        "cardType": 1,
+        "rankVo": {
+          "rankType": 1,
+          "hotCode": "321K",
+          "recCopy": "Sedang Tren TOP 5",
+          "sort": 5
+        },
+        "markNamesConnectKey": ", ",
+        "algorithmRecomDot": "{\"log_id\":\"c54417a9567db21b3ba50e964a2d4d1b\",\"ret_time\":\"1767866496167\",\"scene_id\":\"ovs_vd_cnxh_rec\",\"rec_id\":\"bigdata_rec\"}",
+        "playCount": "1.5M",
+        "bookShelfTime": 1767004293000,
+        "shelfTime": "2025-12-29 18:31:33",
+        "inLibrary": false
+      },
+      {
+        "bookId": "41000122939",
+        "bookName": "Istriku Tiga, Takdirku Gila (Sulih Suara) ",
+        "coverWap": "https://hwztchapter.dramaboxdb.com/data/cppartner/4x1/41x0/410x0/41000122939/41000122939.jpg?t=1765787838538",
+        "chapterCount": 74,
+        "introduction": "Arsa melakukan perjalanan waktu ke Dinasti Kina kuno. Kebetulan, pemerintah saat itu sedang memaksa para pemuda lajang untuk menikah. Di antara para calon istri itu, ada seorang putri kerajaan, putri dari keluarga jenderal, dan putri dari keluarga kaya. Saat Arsa masih bingung memilih, sebuah sistem tiba-tiba muncul dan memaksanya untuk menikahi ketiga wanita itu. Dia hanya bisa mendapatkan berbagai hadiah menarik dengan meningkatkan tingkat kasih sayang dari mereka...",
+        "tags": [
+          "Perjalanan Waktu",
+          "Sistem",
+          "Kekuatan Khusus",
+          "Sejarah",
+          "Bangsawan",
+          "Pria Dominan"
+        ],
+        "tagV3s": [
+          {
+            "tagId": 1344,
+            "tagName": "Perjalanan Waktu",
+            "tagEnName": "Time Travel"
+          },
+          {
+            "tagId": 1346,
+            "tagName": "Sistem",
+            "tagEnName": "Gamified World"
+          },
+          {
+            "tagId": 1334,
+            "tagName": "Kekuatan Khusus",
+            "tagEnName": "The Chosen One"
+          },
+          {
+            "tagId": 1319,
+            "tagName": "Sejarah",
+            "tagEnName": "Historical"
+          },
+          {
+            "tagId": 1327,
+            "tagName": "Bangsawan",
+            "tagEnName": "Royalty"
+          },
+          {
+            "tagId": 1323,
+            "tagName": "Pria Dominan",
+            "tagEnName": "Powerful Male Lead"
+          }
+        ],
+        "bookSource": {
+          "sceneId": "ovs_vd_cnxh_rec",
+          "expId": "bigdata_rec",
+          "strategyId": "giv215e2",
+          "strategyName": "",
+          "log_id": "c54417a9567db21b3ba50e964a2d4d1b"
+        },
+        "isEntry": 0,
+        "index": 0,
+        "corner": {
+          "cornerType": 1,
+          "name": "Terpopuler",
+          "color": "#F54E96"
+        },
+        "dataFrom": "算法_推荐剧",
+        "cardType": 1,
+        "rankVo": {
+          "rankType": 2,
+          "hotCode": "167K",
+          "recCopy": "Pencarian TOP 1",
+          "sort": 1
+        },
+        "markNamesConnectKey": ", ",
+        "algorithmRecomDot": "{\"log_id\":\"c54417a9567db21b3ba50e964a2d4d1b\",\"ret_time\":\"1767866496167\",\"scene_id\":\"ovs_vd_cnxh_rec\",\"rec_id\":\"bigdata_rec\"}",
+        "playCount": "128M",
+        "bookShelfTime": 1761537600000,
+        "shelfTime": "2025-10-27 12:00:00",
+        "inLibrary": false
+      },
+      {
+        "bookId": "42000001340",
+        "bookName": "Cintaku Gagal Membuatmu Hangat (Sulih Suara) ",
+        "coverWap": "https://hwztchapter.dramaboxdb.com/data/cppartner/4x2/42x0/420x0/42000001340/42000001340.jpg?t=1765518703932",
+        "chapterCount": 82,
+        "introduction": "Menikah tujuh tahun, suami Rania selalu dingin seperti es. Di hari ulang tahunnya, dia terbang ke luar negeri mencari suami dan putrinya, tetapi dia menemukan bahwa suaminya yang tidak mengingat hari ulang tahunnya, malah membawa putrinya merayakan ulang tahun wanita lain. Suaminya yang dingin dan jauh kepada semua orang, justru tersenyum hanya kepada wanita itu. Bahkan putri Rania ingin menganggap wanita itu sebagai ibunya. Rania akhirnya benar-benar menyerah.",
+        "tags": [
+          "Penyesalan",
+          "Cinta Retak",
+          "Perselingkuhan",
+          "Mengejar Istri",
+          "Cinta Segitiga",
+          "Modern"
+        ],
+        "tagV3s": [
+          {
+            "tagId": 1654,
+            "tagName": "Penyesalan",
+            "tagEnName": "All-Too-Late"
+          },
+          {
+            "tagId": 1636,
+            "tagName": "Cinta Retak",
+            "tagEnName": "Love After Divorce"
+          },
+          {
+            "tagId": 1400,
+            "tagName": "Perselingkuhan",
+            "tagEnName": "Betrayal"
+          },
+          {
+            "tagId": 1401,
+            "tagName": "Mengejar Istri",
+            "tagEnName": "Winning Her Back"
+          },
+          {
+            "tagId": 1380,
+            "tagName": "Cinta Segitiga",
+            "tagEnName": "Love Triangle"
+          },
+          {
+            "tagId": 1352,
+            "tagName": "Modern",
+            "tagEnName": "Modern"
+          }
+        ],
+        "bookSource": {
+          "sceneId": "ovs_vd_cnxh_rec",
+          "expId": "bigdata_rec",
+          "strategyId": "giv215e2",
+          "strategyName": "",
+          "log_id": "c54417a9567db21b3ba50e964a2d4d1b"
+        },
+        "isEntry": 0,
+        "index": 0,
+        "corner": {
+          "cornerType": 1,
+          "name": "Terpopuler",
+          "color": "#F54E96"
+        },
+        "dataFrom": "算法_推荐剧",
+        "cardType": 1,
+        "rankVo": {
+          "rankType": 2,
+          "hotCode": "46.9K",
+          "recCopy": "Pencarian TOP 7",
+          "sort": 7
+        },
+        "markNamesConnectKey": ", ",
+        "algorithmRecomDot": "{\"log_id\":\"c54417a9567db21b3ba50e964a2d4d1b\",\"ret_time\":\"1767866496167\",\"scene_id\":\"ovs_vd_cnxh_rec\",\"rec_id\":\"bigdata_rec\"}",
+        "playCount": "22.6M",
+        "bookShelfTime": 1765528013000,
+        "shelfTime": "2025-12-12 16:26:53",
+        "inLibrary": false
+      },
+      {
+        "bookId": "42000002601",
+        "bookName": "Akhirnya, Aku Benaran Kehilanganmu (Sulih Suara)",
+        "coverWap": "https://hwztchapter.dramaboxdb.com/data/cppartner/4x2/42x0/420x0/42000002601/42000002601.jpg?t=1766631018834",
+        "bookSource": {
+          "sceneId": "ovs_vd_tagcard_rec",
+          "expId": "bigdata_rec",
+          "strategyId": "gd0kj6xo",
+          "strategyName": "\"EXP_1\"",
+          "log_id": "74dfeaf5e3222e544d4d3e4ee2a418c8"
+        },
+        "algorithmRecomDot": "{\"log_id\":\"74dfeaf5e3222e544d4d3e4ee2a418c8\",\"ret_time\":\"1767866496167\",\"scene_id\":\"ovs_vd_tagcard_rec\",\"rec_id\":\"bigdata_rec\"}"
+      },
+      {
+        "bookId": "42000001340",
+        "bookName": "Cintaku Gagal Membuatmu Hangat (Sulih Suara) ",
+        "coverWap": "https://hwztchapter.dramaboxdb.com/data/cppartner/4x2/42x0/420x0/42000001340/42000001340.jpg?t=1765518703932",
+        "bookSource": {
+          "sceneId": "ovs_vd_tagcard_rec",
+          "expId": "bigdata_rec",
+          "strategyId": "gd0kj6xo",
+          "strategyName": "\"EXP_1\"",
+          "log_id": "74dfeaf5e3222e544d4d3e4ee2a418c8"
+        },
+        "algorithmRecomDot": "{\"log_id\":\"74dfeaf5e3222e544d4d3e4ee2a418c8\",\"ret_time\":\"1767866496167\",\"scene_id\":\"ovs_vd_tagcard_rec\",\"rec_id\":\"bigdata_rec\"}"
+      },
+      {
+        "bookId": "42000001695",
+        "bookName": "Pengganti Tiga Tahun",
+        "coverWap": "https://hwztchapter.dramaboxdb.com/data/cppartner/4x2/42x0/420x0/42000001695/42000001695.jpg?t=1765874891738",
+        "bookSource": {
+          "sceneId": "ovs_vd_tagcard_rec",
+          "expId": "bigdata_rec",
+          "strategyId": "gd0kj6xo",
+          "strategyName": "\"EXP_1\"",
+          "log_id": "74dfeaf5e3222e544d4d3e4ee2a418c8"
+        },
+        "algorithmRecomDot": "{\"log_id\":\"74dfeaf5e3222e544d4d3e4ee2a418c8\",\"ret_time\":\"1767866496167\",\"scene_id\":\"ovs_vd_tagcard_rec\",\"rec_id\":\"bigdata_rec\"}"
+      },
+      {
+        "bookId": "42000001655",
+        "bookName": "Di Cintamu Hanya Ada Dusta",
+        "coverWap": "https://hwztchapter.dramaboxdb.com/data/cppartner/4x2/42x0/420x0/42000001655/42000001655.jpg?t=1765863755557",
+        "bookSource": {
+          "sceneId": "ovs_vd_tagcard_rec",
+          "expId": "bigdata_rec",
+          "strategyId": "gd0kj6xo",
+          "strategyName": "\"EXP_1\"",
+          "log_id": "74dfeaf5e3222e544d4d3e4ee2a418c8"
+        },
+        "algorithmRecomDot": "{\"log_id\":\"74dfeaf5e3222e544d4d3e4ee2a418c8\",\"ret_time\":\"1767866496167\",\"scene_id\":\"ovs_vd_tagcard_rec\",\"rec_id\":\"bigdata_rec\"}"
+      }
+    ],
+    "chapterList": [
+      {
+        "chapterId": "700217210",
+        "chapterName": "EP 1",
+        "chapterIndex": 0,
+        "chapterImg": "https://hwztvideo.dramaboxdb.com/01/7x4/74x5/745x3/74530000024/700217210_1/700217210.mp4.jpg",
+        "isVip": false,
+        "isLocked": false,
+        "quality": 720,
+        "videoUrl": "https://hwztvideo.dramaboxdb.com/01/7x4/74x5/745x3/74530000024/700217210_1/700217210.720p.narrowv3.mp4?Expires=1767949200&Signature=ybVu5dG5vh0TUhiKYaDFf750VWHqN1CCV046IYd~-eI~Ix94rlivEfcfx97zs3mfQqCBuEAvdxVuqHb1e5d6SbzapjBYR78EbgEppMROLan3qrRE0ouUiqq1pHKBqt23o~u9-qNQNt7mskV6bKMYZGk~UiDQZdjL7NbrYMjL4Q79m95ImpFuxRe58U43w4CYlcCDwdJxJAJUCRhBQri2OmL02E9tWVt-2hEO3uLv9jmLoLpXQfDev3y5EDuimih31HyDtZuQNc78-StjDVJ8MXhugNcpe2EkEV6D8xyDo~zwDwS22N7YUNoiEEA2cw3~2mfjrEWgmSSX5~GwUrfM5A__&Key-Pair-Id=K3HA2TLE2QH99V"
+      },
+      {
+        "chapterId": "700217211",
+        "chapterName": "EP 2",
+        "chapterIndex": 1,
+        "chapterImg": "https://hwztvideo.dramaboxdb.com/11/7x4/74x5/745x3/74530000024/700217211_1/700217211.mp4.jpg",
+        "isVip": false,
+        "isLocked": false,
+        "quality": 720,
+        "videoUrl": "https://hwztvideo.dramaboxdb.com/11/7x4/74x5/745x3/74530000024/700217211_1/700217211.720p.narrowv3.mp4?Expires=1767949200&Signature=Rj1d3PaI6w3x7Of5tX-tZlbrPI6ZtN41J841Fy1rxlp6usRE3JwMt9ZFb82n0d-wKtHNyHOBVVw8jeza0nwhLC4NHOlkck-C~pYyijJVhM9fhGhHKPVsvzRa0ssYaidQf1bNL3gy7dbn9pdC02ttYjQT5GbJemsfMEofq7WSgu~ubZjMl~wknlm5It1HFZjsMrk4QHaojC9btCXUvWGcdrj793R5x79AjEcvtPu4kPN9AFM0xm~S2fE-0gySWsF~6-SJsTBj5QbB~SlmJFaZKGsK1UAYKFWDm4G78cNtwiPXJtKFILRmQxk8OBHiT9h65PIb3q71dE~~Q454UmBZWA__&Key-Pair-Id=K3HA2TLE2QH99V"
+      },
+      {
+        "chapterId": "700217212",
+        "chapterName": "EP 3",
+        "chapterIndex": 2,
+        "chapterImg": "https://hwztvideo.dramaboxdb.com/21/7x4/74x5/745x3/74530000024/700217212_1/700217212.mp4.jpg",
+        "isVip": false,
+        "isLocked": false,
+        "quality": 720,
+        "videoUrl": "https://hwztvideo.dramaboxdb.com/21/7x4/74x5/745x3/74530000024/700217212_1/700217212.720p.narrowv3.mp4?Expires=1767949200&Signature=SR-p20uWv8OC0p~q3bVm-qeNc4DTQn6XE3u4ID9iF4BSSFKsw0VyazUajaRUhX4FjX8j9kcgmPfr2-wE43Trl9UHv4piMy9N9p5iwQfS96PSKybLdAy-wYrTf3cShIcaG9FRio8VLqYCh5umTfyGehuZ3J0dxDnVSaqtC-npsd-WeB1SObiKIAUMgbgZ14XHaon8bPW6dA30v6gdEUAzn9m9oUVrKGRNaDb2tKONQ8OO84fctSEYkdcfh9yVgz5UFELJPRF4UxxiIVa0PqBjtlKF5zb9Ao4TqbktEz~AL~mNVEc6TSnyd0C4irNHYwxm09XeEA9NHq3BFvFgz2l6GQ__&Key-Pair-Id=K3HA2TLE2QH99V"
+      },
+      {
+        "chapterId": "700217213",
+        "chapterName": "EP 4",
+        "chapterIndex": 3,
+        "chapterImg": "https://hwztvideo.dramaboxdb.com/31/7x4/74x5/745x3/74530000024/700217213_1/700217213.mp4.jpg",
+        "isVip": false,
+        "isLocked": false,
+        "quality": 720,
+        "videoUrl": "https://hwztvideo.dramaboxdb.com/31/7x4/74x5/745x3/74530000024/700217213_1/700217213.720p.narrowv3.mp4?Expires=1767949200&Signature=MxiGmS~~PWozKFkRmRALi16-FiNRC1lv3OnbwicI2b-DeVgSr~d1J15zj7Ih7joGBs8YGJ7xgYHCUuvWXmvKwT~Akt4HNUVMlkwDFBXK8E7XTbN6he7jzS9knQPwcOX6sciJqr9r33LJhCiiyEN0ZVNyy5Y1jyP1HdkPOazJkxPqhbgoWit5WkZQ5APJxZ9BNeGm-OOrFMqw66CvprJooyN1-SO7Xo1F6YWNRBV6Y97GVVEHqOVyNpblu0nR3G~IEV~Kw8gm7Rbmx03NPyy8KpznECDU0aPoafJs50fsfOo3zxrW3Fwf6ixdBSQv8NX0OXmddOiqEUPWhk4AxMHb1Q__&Key-Pair-Id=K3HA2TLE2QH99V"
+      },
+      {
+        "chapterId": "700217214",
+        "chapterName": "EP 5",
+        "chapterIndex": 4,
+        "chapterImg": "https://hwztvideo.dramaboxdb.com/41/7x4/74x5/745x3/74530000024/700217214_1/700217214.mp4.jpg",
+        "isVip": false,
+        "isLocked": false,
+        "quality": 720,
+        "videoUrl": "https://hwztvideo.dramaboxdb.com/41/7x4/74x5/745x3/74530000024/700217214_1/700217214.720p.narrowv3.mp4?Expires=1767949200&Signature=k~~EX5Jwf46~rWVeAYd4SqMl4f~ACDN-C6ZAJp-O2X3H60Y8EfSyaJu7SqfEKvammFo7hc6GmpgB2t2xbZLJDr9597jr4cxIC2m9wJPmH3GBPXpy4g92V7eKdxP22pP9b0xBX8tQKQs3IDrMo6rFPRA1ZeM7~G0C3yW~dWS7x4FdhC-~EEcNZ9b53dcmxfW1PAzaK~pe1OnQyoiMZKHtT9Ukngk5xFWKYpKHf~U10unrHO1mwMDpDB7DhdVw~mHU24M6iYP6WODy0jGUKgEMeSC-55YsKRva4wVTs9Q7vnAoTtdwV83kCJ1FjFOBMpZ9GdjJ2g60HQsUAf1AlG1eqg__&Key-Pair-Id=K3HA2TLE2QH99V"
+      },
+      {
+        "chapterId": "700217215",
+        "chapterName": "EP 6",
+        "chapterIndex": 5,
+        "chapterImg": "https://hwztvideo.dramaboxdb.com/51/7x4/74x5/745x3/74530000024/700217215_1/700217215.mp4.jpg",
+        "isVip": false,
+        "isLocked": false,
+        "quality": 720,
+        "videoUrl": "https://hwztvideo.dramaboxdb.com/51/7x4/74x5/745x3/74530000024/700217215_1/700217215.720p.narrowv3.mp4?Expires=1767949200&Signature=gp9M9EFVMwYslq6ka79uPaNIbcI3RJLRij4TlckeJk26cfQo6jQKaUG~rJ2YsMEsHMnHAe5iJs3Uul3L3NCoic-UChVFnh1iXDChss86~cwIh8oggdNk4o6fa1gO0rtUb0wV85RWv6TCnm0BlfUYNXBOgruYTP7tBucuJ9j8QyuWmYgqI8t9OaHNEiQsQeNDQj5w8fsusWqcQpat56WNObKzFkKm8ISD422kSU9HABIZ9hLSuI2bOZF9AafAcBlinBLUOod9b~MgKM37rThFs47LlHz6rjSUK-ItFlr9YauTnWJOnaKJYRqCal6wCMPDCcgWYxFvk71E9z2l~kDDTA__&Key-Pair-Id=K3HA2TLE2QH99V"
+      }
+    ],
+    "memberAdvertisingSpaceResponse": {
+      "showSpace": 0
+    }
+  },
+  "timestamp": "2026-01-08T10:01:36.363Z"
+}

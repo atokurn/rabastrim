@@ -2,6 +2,7 @@ import {
     pgTable,
     text,
     timestamp,
+    date,
     integer,
     varchar,
     boolean,
@@ -122,7 +123,7 @@ export type NewEpisodeCache = typeof episodeCache.$inferInsert;
 /**
  * Provider type for content sources
  */
-export type ContentProvider = "dramabox" | "flickreels" | "melolo" | "dramaqueen" | "netshort";
+export type ContentProvider = "dramabox" | "flickreels" | "melolo" | "dramaqueen" | "netshort" | "donghua";
 
 /**
  * Source where content was fetched from
@@ -154,12 +155,17 @@ export const contents = pgTable("contents", {
 
     // Additional metadata
     year: integer("year"),
+    releaseDate: date("release_date"),                    // Actual release date from provider
+    releaseYear: integer("release_year"),                 // Year fallback if full date unavailable
+    releaseStatus: varchar("release_status", { length: 20 }).default("unknown"), // released, ongoing, upcoming, unknown
+    releaseSource: varchar("release_source", { length: 20 }).default("unknown"), // api_detail, inferred, ingestion, unknown
     region: varchar("region", { length: 50 }),
     tags: text("tags"), // JSON array
     rating: real("rating"),
 
     // Content info
     isSeries: boolean("is_series").default(true),
+    contentType: varchar("content_type", { length: 20 }), // drama, anime, short_drama, movie
     episodeCount: integer("episode_count"),
     isVip: boolean("is_vip").default(false),
 
@@ -213,6 +219,38 @@ export const syncLogs = pgTable("sync_logs", {
     completedAt: timestamp("completed_at").defaultNow(),
 });
 
+// ============================================
+// LANGUAGE SUPPORT TABLES
+// ============================================
+
+/**
+ * Language type for content
+ */
+export type LanguageType = "subtitle" | "dubbing";
+
+/**
+ * Source of language data
+ */
+export type LanguageSource = "default" | "playback" | "admin" | "api";
+
+/**
+ * Content Languages - Available languages for each content
+ * Supports both subtitle and dubbing per provider
+ */
+export const contentLanguages = pgTable("content_languages", {
+    id: uuid("id").defaultRandom().primaryKey(),
+    contentId: uuid("content_id").references(() => contents.id, { onDelete: "cascade" }).notNull(),
+    provider: varchar("provider", { length: 50 }).notNull(),
+    languageCode: varchar("language_code", { length: 10 }).notNull(), // id, en, zh, ja, ko
+    providerLanguageId: varchar("provider_language_id", { length: 20 }), // "4", "6", "id-ID"
+    isDefault: boolean("is_default").default(false),
+    type: varchar("type", { length: 20 }).default("subtitle"), // subtitle | dubbing
+    source: varchar("source", { length: 20 }).default("default"), // default | playback | admin | api
+    createdAt: timestamp("created_at").defaultNow(),
+}, (table) => [
+    uniqueIndex("content_lang_idx").on(table.contentId, table.provider, table.languageCode, table.type),
+]);
+
 // New type exports for local metadata storage
 export type Content = typeof contents.$inferSelect;
 export type NewContent = typeof contents.$inferInsert;
@@ -220,3 +258,5 @@ export type EpisodeMetadata = typeof episodesMetadata.$inferSelect;
 export type NewEpisodeMetadata = typeof episodesMetadata.$inferInsert;
 export type SyncLog = typeof syncLogs.$inferSelect;
 export type NewSyncLog = typeof syncLogs.$inferInsert;
+export type ContentLanguage = typeof contentLanguages.$inferSelect;
+export type NewContentLanguage = typeof contentLanguages.$inferInsert;

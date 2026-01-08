@@ -31,6 +31,15 @@ export interface DramaQueenDrama {
     country?: string;
     type?: "drama" | "donghua";
     views?: number;
+    // Raw API fields for release date
+    tahun_rilis?: string;    // Full date: "2025-12-22"
+    is_finish?: boolean;     // Completed status
+    is_coming?: boolean;     // Upcoming status
+    // Donghua-specific fields (different API structure)
+    name?: string;           // Donghua uses 'name' instead of 'title'
+    image?: string;          // Donghua uses 'image' instead of 'cover'
+    jumlah_episode?: number; // Donghua current episode count
+    episode_final?: number;  // Donghua total episode count
 }
 
 export interface DramaQueenEpisode {
@@ -40,6 +49,8 @@ export interface DramaQueenEpisode {
     videoUrl?: string;
     thumbnail?: string;
     duration?: number;
+    /** Language detected from the video URL field used */
+    detectedLanguage?: string;
 }
 
 export interface DramaQueenDetail extends DramaQueenDrama {
@@ -93,6 +104,10 @@ function normalizeDrama(item: any): DramaQueenDrama {
         country: item.negara || item.country,
         type: item.type === "donghua" ? "donghua" : "drama",
         views: item.views,
+        // Preserve raw release date fields for normalization
+        tahun_rilis: item.tahun_rilis,
+        is_finish: item.is_finish,
+        is_coming: item.is_coming,
     };
 }
 
@@ -125,15 +140,30 @@ function normalizeDonghua(item: any): DramaQueenDrama {
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function normalizeEpisode(ep: any, index: number): DramaQueenEpisode {
+    // Determine which video URL to use and track detected language
+    let videoUrl: string | undefined;
+    let detectedLanguage: string | undefined;
+
+    // Priority: link720_en (English, public HLS) > link720_id (Indonesian) > authenticated URLs
+    if (ep.link720_en) {
+        videoUrl = ep.link720_en;
+        detectedLanguage = 'en';
+    } else if (ep.link720_id) {
+        videoUrl = ep.link720_id;
+        detectedLanguage = 'id';
+    } else if (ep.videoUrl || ep.videoUrlPremium || ep.link720_premium || ep.link720_pro || ep.link_720) {
+        videoUrl = ep.videoUrl || ep.videoUrlPremium || ep.link720_premium || ep.link720_pro || ep.link_720;
+        detectedLanguage = 'zh'; // Original Chinese for DramaQueen authenticated URLs
+    }
+
     return {
         id: String(ep.id || index + 1),
         number: ep.episodeNumber || ep.number_episode || ep.number || index + 1,
         title: ep.title || `Episode ${ep.episodeNumber || ep.number_episode || index + 1}`,
-        // Priority: link720_en (public HLS, no auth required) > authenticated URLs
-        // Using link720_en first prevents Chrome from showing HTTP Basic Auth popup
-        videoUrl: ep.link720_en || ep.videoUrl || ep.videoUrlPremium || ep.link720_premium || ep.link720_pro || ep.link_720 || undefined,
+        videoUrl,
         thumbnail: ep.thumbnail,
         duration: ep.duration,
+        detectedLanguage,
     };
 }
 

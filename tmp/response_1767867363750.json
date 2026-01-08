@@ -1,0 +1,30 @@
+{
+  "success": true,
+  "provider": "dramawave",
+  "data": {
+    "id": "kVpS4E1Ms6",
+    "key": "kVpS4E1Ms6",
+    "title": "Ayah Miliarder Menyamar(Sulih Suara)",
+    "cover": "https://static-v1.mydramawave.com/vt/prod/cover/511bc12a-c0d2-4c41-be06-3c2b340ff475.jpg?image_process=quality,85/resize,w_600/format,webp",
+    "description": "Lin Baiyi, bos besar konstruksi, menyamar sebagai pedagang sederhana demi melatih putranya. Ketika sang putra ditindas, identitasnya terbongkar. Musuh meremehkan, hingga kebenaran muncul dan mengguncang segalanya.",
+    "episodeCount": 58,
+    "viewCount": 0,
+    "followCount": 61766,
+    "free": false,
+    "vipType": 0,
+    "tags": [
+      "Miskin Jadi Kaya",
+      "Teka-Teki Identitas"
+    ],
+    "rating": "",
+    "payIndex": 10,
+    "currentEpisode": {
+      "id": "F622e72JOr",
+      "name": "Ayah Miliarder Menyamar(Sulih Suara)",
+      "cover": "https://static-v1.mydramawave.com/vt/video/cover/episode/3f7d6b68b58d4454a52045e1d171488a.jpg?image_process=quality,85/resize,w_600/format,webp",
+      "videoUrl": "https://video-v6.mydramawave.com/vt/51126396-b9b8-461c-8fe8-739d0ba8e0c1/h264-0c4ed1e1-8ffb-4ebe-92fb-d3595bcb6923.m3u8",
+      "duration": 283,
+      "index": 1
+    }
+  }
+}

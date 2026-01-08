@@ -1,0 +1,166 @@
+{
+  "success": true,
+  "status": 200,
+  "data": {
+    "id": 2016,
+    "name": "Idol I (2025)",
+    "negara": "South Korea",
+    "genre": [
+      "Comedy",
+      "Mystery",
+      "Romance"
+    ],
+    "type": "Drama",
+    "views": 9264,
+    "desc": "<p>Seorang pengacara selebriti yang berbudi luhur dan penggemar setia, membela idola favoritnya setelah ia dituduh melakukan pembunuhan.</p><p>Maeng Se Na, seorang pengacara terkemuka yang bertekad membuktikan bahwa idola favoritnya, Do Ra lk, tidak bersalah.</p><p>Ia dijuluki \"pengacara para penjahat\" karena menangani kasus-kasus kriminal yang tidak populer dan menuai kritik publik. Ia diam-diam telah menjadi penggemar setia band Gold Boys selama 10 tahun. Ketika idolanya terlibat dalam kasus pembunuhan yang aneh, ia menyembunyikan kekagumannya, menerima pembelaannya, dan mengungkap kebenaran yang tak terduga.</p><p>Do Ra lk, visual center dan vokalis Gold Boys, menjadi tersangka pembunuhan. Ketika panggung yang dulu ia dambakan tak lagi memberikan kebahagiaan dan cinta penggemar terasa seperti beban berat, ia menyembunyikan kegelapannya di balik senyum cerah. Setelah kasus pembunuhan menjungkirbalikkan hidupnya, ia membuang topengnya dan terlahir kembali sebagai seseorang yang hidup seolah tak ada hari esok.</p>",
+    "link_trailer": "",
+    "tahun_rilis": "2025-12-22",
+    "is_finish": false,
+    "is_coming": false,
+    "rating": 0,
+    "jumlah_episode": 6,
+    "episode_final": 12,
+    "cover_url": "https://imagesdrama.my.id/drama/176491619849126.png",
+    "img_landscape_url": "https://imagesdrama.my.id/drama/landscape176491619868848.webp",
+    "schedule": "Setiap Senin & Selasa",
+    "dominant_color": "#663D3D",
+    "episodes": [
+      {
+        "id": 36400,
+        "number_episode": 1,
+        "link720_pro": "http://tupaidrama:password@durian.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E1%20720p.mp4",
+        "link720_en": "http://tupaidrama:password@honeydew.whatbox.ca:15198/drama/2025/Idol%20I/Idol_I_E1_720p_hls/master.m3u8",
+        "link720_premium": "http://tupaidrama:password@honeydew.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E1%20720p.mp4",
+        "size": 146,
+        "videoUrl": "http://tupaidrama:password@honeydew.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E1%20720p.mp4"
+      },
+      {
+        "id": 36461,
+        "number_episode": 2,
+        "link720_pro": "http://tupaidrama:password@durian.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E2%20720p.mp4",
+        "link720_en": "http://tupaidrama:password@honeydew.whatbox.ca:15198/drama/2025/Idol%20I/Idol_I_E2_720p_hls/master.m3u8",
+        "link720_premium": "http://tupaidrama:password@honeydew.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E2%20720p.mp4",
+        "size": 237,
+        "videoUrl": "http://tupaidrama:password@honeydew.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E2%20720p.mp4"
+      },
+      {
+        "id": 36682,
+        "number_episode": 3,
+        "link720_pro": "http://tupaidrama:password@durian.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E3%20720p.mp4",
+        "link720_en": "http://tupaidrama:password@honeydew.whatbox.ca:15198/drama/2025/Idol%20I/Idol_I_E3_720p_hls/master.m3u8",
+        "link720_premium": "http://tupaidrama:password@honeydew.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E3%20720p.mp4",
+        "size": 237,
+        "videoUrl": "http://tupaidrama:password@honeydew.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E3%20720p.mp4"
+      },
+      {
+        "id": 36701,
+        "number_episode": 4,
+        "link720_pro": "http://tupaidrama:password@durian.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E4%20720p.mp4",
+        "link720_en": null,
+        "link720_premium": "http://tupaidrama:password@honeydew.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E4%20720p.mp4",
+        "size": 553369600,
+        "videoUrl": "http://tupaidrama:password@honeydew.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E4%20720p.mp4"
+      },
+      {
+        "id": 36851,
+        "number_episode": 5,
+        "link720_pro": "http://tupaidrama:password@durian.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E5%20720p.mp4",
+        "link720_en": null,
+        "link720_premium": "http://tupaidrama:password@honeydew.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E5%20720p.mp4",
+        "size": 521705700,
+        "videoUrl": "http://tupaidrama:password@honeydew.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E5%20720p.mp4"
+      },
+      {
+        "id": 36866,
+        "number_episode": 6,
+        "link720_pro": "http://tupaidrama:password@durian.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E6%20720p.mp4",
+        "link720_en": null,
+        "link720_premium": "http://tupaidrama:password@honeydew.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E6%20720p.mp4",
+        "size": 604524600,
+        "videoUrl": "http://tupaidrama:password@honeydew.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E6%20720p.mp4"
+      }
+    ]
+  },
+  "raw": {
+    "data": {
+      "id": 2016,
+      "name": "Idol I (2025)",
+      "negara": "South Korea",
+      "genre": [
+        "Comedy",
+        "Mystery",
+        "Romance"
+      ],
+      "type": "Drama",
+      "views": 9264,
+      "desc": "<p>Seorang pengacara selebriti yang berbudi luhur dan penggemar setia, membela idola favoritnya setelah ia dituduh melakukan pembunuhan.</p><p>Maeng Se Na, seorang pengacara terkemuka yang bertekad membuktikan bahwa idola favoritnya, Do Ra lk, tidak bersalah.</p><p>Ia dijuluki \"pengacara para penjahat\" karena menangani kasus-kasus kriminal yang tidak populer dan menuai kritik publik. Ia diam-diam telah menjadi penggemar setia band Gold Boys selama 10 tahun. Ketika idolanya terlibat dalam kasus pembunuhan yang aneh, ia menyembunyikan kekagumannya, menerima pembelaannya, dan mengungkap kebenaran yang tak terduga.</p><p>Do Ra lk, visual center dan vokalis Gold Boys, menjadi tersangka pembunuhan. Ketika panggung yang dulu ia dambakan tak lagi memberikan kebahagiaan dan cinta penggemar terasa seperti beban berat, ia menyembunyikan kegelapannya di balik senyum cerah. Setelah kasus pembunuhan menjungkirbalikkan hidupnya, ia membuang topengnya dan terlahir kembali sebagai seseorang yang hidup seolah tak ada hari esok.</p>",
+      "link_trailer": "",
+      "tahun_rilis": "2025-12-22",
+      "is_finish": false,
+      "is_coming": false,
+      "rating": 0,
+      "jumlah_episode": 6,
+      "episode_final": 12,
+      "cover_url": "https://imagesdrama.my.id/drama/176491619849126.png",
+      "img_landscape_url": "https://imagesdrama.my.id/drama/landscape176491619868848.webp",
+      "schedule": "Setiap Senin & Selasa",
+      "dominant_color": "#663D3D",
+      "episodes": [
+        {
+          "id": 36400,
+          "number_episode": 1,
+          "link720_pro": "http://tupaidrama:password@durian.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E1%20720p.mp4",
+          "link720_en": "http://tupaidrama:password@honeydew.whatbox.ca:15198/drama/2025/Idol%20I/Idol_I_E1_720p_hls/master.m3u8",
+          "link720_premium": "http://tupaidrama:password@honeydew.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E1%20720p.mp4",
+          "size": 146,
+          "videoUrl": "http://tupaidrama:password@honeydew.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E1%20720p.mp4"
+        },
+        {
+          "id": 36461,
+          "number_episode": 2,
+          "link720_pro": "http://tupaidrama:password@durian.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E2%20720p.mp4",
+          "link720_en": "http://tupaidrama:password@honeydew.whatbox.ca:15198/drama/2025/Idol%20I/Idol_I_E2_720p_hls/master.m3u8",
+          "link720_premium": "http://tupaidrama:password@honeydew.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E2%20720p.mp4",
+          "size": 237,
+          "videoUrl": "http://tupaidrama:password@honeydew.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E2%20720p.mp4"
+        },
+        {
+          "id": 36682,
+          "number_episode": 3,
+          "link720_pro": "http://tupaidrama:password@durian.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E3%20720p.mp4",
+          "link720_en": "http://tupaidrama:password@honeydew.whatbox.ca:15198/drama/2025/Idol%20I/Idol_I_E3_720p_hls/master.m3u8",
+          "link720_premium": "http://tupaidrama:password@honeydew.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E3%20720p.mp4",
+          "size": 237,
+          "videoUrl": "http://tupaidrama:password@honeydew.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E3%20720p.mp4"
+        },
+        {
+          "id": 36701,
+          "number_episode": 4,
+          "link720_pro": "http://tupaidrama:password@durian.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E4%20720p.mp4",
+          "link720_en": null,
+          "link720_premium": "http://tupaidrama:password@honeydew.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E4%20720p.mp4",
+          "size": 553369600,
+          "videoUrl": "http://tupaidrama:password@honeydew.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E4%20720p.mp4"
+        },
+        {
+          "id": 36851,
+          "number_episode": 5,
+          "link720_pro": "http://tupaidrama:password@durian.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E5%20720p.mp4",
+          "link720_en": null,
+          "link720_premium": "http://tupaidrama:password@honeydew.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E5%20720p.mp4",
+          "size": 521705700,
+          "videoUrl": "http://tupaidrama:password@honeydew.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E5%20720p.mp4"
+        },
+        {
+          "id": 36866,
+          "number_episode": 6,
+          "link720_pro": "http://tupaidrama:password@durian.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E6%20720p.mp4",
+          "link720_en": null,
+          "link720_premium": "http://tupaidrama:password@honeydew.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E6%20720p.mp4",
+          "size": 604524600,
+          "videoUrl": "http://tupaidrama:password@honeydew.whatbox.ca:15198/drama/2025/Idol%20I/Idol%20I%20E6%20720p.mp4"
+        }
+      ]
+    }
+  }
+}

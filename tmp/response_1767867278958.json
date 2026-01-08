@@ -1,0 +1,83 @@
+{
+  "success": true,
+  "message": "Berhasil mengambil detail",
+  "data": {
+    "status_code": 1,
+    "msg": "成功",
+    "data": {
+      "playlet_id": "454",
+      "chapter_id": "35331",
+      "playlet_title": "Trampa",
+      "chapter_title": "Trampa-EP.1",
+      "chapter_num": 1,
+      "hls_url": "https://zshipricf.farsunpteltd.com/playlet-hls/hls_1738837137_1_72507.m3u8?verify=1767870879-d4df%2BsoI3s8nIXQS2FzA1eHXtU7PgFLl1UwOkL7NdvE%3D",
+      "hls_time_left": 2400,
+      "hls_timeout": 1767869679,
+      "is_need_pay": 0,
+      "need_pay_coin": 0,
+      "show_unlock_popup": 0,
+      "share_text": "https://pages.farsunpteltd.com?playlet_id=454&package_id=2",
+      "auto_lock": 1,
+      "cost_coin": 0,
+      "is_praise": 0,
+      "praise_num": "311.7K",
+      "total_duration": 165,
+      "start_pay_time": 0,
+      "tag_list": [
+        {
+          "tag_id": 1849,
+          "tag_name": "Redención"
+        },
+        {
+          "tag_id": 1753,
+          "tag_name": "Superarse"
+        },
+        {
+          "tag_id": 1630,
+          "tag_name": "Identidad Misteriosa"
+        },
+        {
+          "tag_id": 1686,
+          "tag_name": "Mujer fuerte"
+        },
+        {
+          "tag_id": 1559,
+          "tag_name": "Venganza"
+        },
+        {
+          "tag_id": 2584,
+          "tag_name": "Zhao Jia"
+        },
+        {
+          "tag_id": 2474,
+          "tag_name": "Deng Lingshu"
+        },
+        {
+          "tag_id": 2507,
+          "tag_name": "Zeng Hui"
+        },
+        {
+          "tag_id": 1463,
+          "tag_name": "Urbano"
+        }
+      ],
+      "is_pay_chapter": 2,
+      "is_vip_unlock": 0,
+      "is_ad_unlock": 0,
+      "e_is_attribution_reel": false,
+      "e_is_pay_point": false,
+      "e_is_last_free_episode": false,
+      "e_play_type": "免费",
+      "e_is_vip_episode": false,
+      "e_VIP_level": "",
+      "vip_btn_show": 1,
+      "vip_btn_scene": 1,
+      "chapter_type": 0,
+      "has_collection": 0
+    },
+    "extra": {},
+    "request_id": "88f675a0f99b4fb907effc24c16593a3",
+    "trace_id": "c33b0a7c08540c7e1c9481861902a9e3"
+  },
+  "timestamp": "2026-01-08T10:14:39.015Z"
+}

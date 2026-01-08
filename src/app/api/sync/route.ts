@@ -75,14 +75,41 @@ function normalizeMelolo(item: any): ContentInput {
     };
 }
 
+// Normalize country names to standard codes
+function normalizeCountry(country?: string | null): string | null {
+    if (!country) return null;
+    const lower = country.toLowerCase();
+    if (lower.includes("china") || lower === "tiongkok") return "CN";
+    if (lower.includes("korea")) return "KR";
+    if (lower.includes("japan") || lower === "jepang") return "JP";
+    if (lower.includes("thailand")) return "TH";
+    if (lower.includes("taiwan")) return "TW";
+    return country; // Keep original if no match
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function normalizeDramaQueen(item: any): ContentInput {
+    // DramaQueenApi normalizes negara → country
+    const contentType = item.type === "donghua" ? "donghua" : "drama";
+
+    // Extract year from tahun_rilis if available (format: "2025-12-22")
+    const tahunRilis = item.tahun_rilis;
+    const year = tahunRilis ? parseInt(String(tahunRilis).slice(0, 4)) : (item.year ? parseInt(item.year) : undefined);
+
     return {
         bookId: String(item.id || ""),
         title: item.title || item.name || "Untitled",
-        description: item.description || item.desc || null,
-        poster: item.cover || item.landscapeCover || null,
-        episodeCount: item.episodes || item.totalEpisodes || null,
+        description: item.description || item.desc || undefined,
+        poster: item.cover || item.landscapeCover || undefined,
+        episodeCount: item.episodes || item.totalEpisodes || undefined,
+        region: normalizeCountry(item.country) || undefined,
+        contentType,
+        tags: item.type ? [item.type] : undefined,
+        // Release date fields for normalizeReleaseInfo
+        year,
+        tahun_rilis: tahunRilis,  // Full date: "2025-12-22"
+        is_finish: item.is_finish ?? (item.status === "Completed"),
+        is_coming: item.is_coming ?? (item.status === "Coming Soon"),
     };
 }
 
@@ -109,9 +136,9 @@ export async function POST(request: NextRequest) {
     const syncType = searchParams.get("type") as "trending" | "home" | "foryou";
     const provider = searchParams.get("provider") as ContentProvider | null;
 
-    if (!syncType || !["trending", "home", "foryou"].includes(syncType)) {
+    if (!syncType || !["trending", "home", "foryou", "list"].includes(syncType)) {
         return NextResponse.json(
-            { error: "Invalid sync type. Use: trending, home, or foryou" },
+            { error: "Invalid sync type. Use: trending, home, foryou, or list" },
             { status: 400 }
         );
     }
@@ -126,6 +153,7 @@ export async function POST(request: NextRequest) {
 
         for (const p of providers) {
             try {
+                console.log(`!!! [Sync] Processing provider: ${p}, type: ${syncType} !!!`);
                 let items: ContentInput[] = [];
 
                 switch (p) {
@@ -163,12 +191,45 @@ export async function POST(request: NextRequest) {
                         break;
 
                     case "dramaqueen":
-                        if (syncType === "trending") {
-                            const data = await DramaQueenApi.getTrending();
-                            items = data.map(normalizeDramaQueen);
-                        } else if (syncType === "home") {
-                            const data = await DramaQueenApi.getHome();
-                            items = data.map(normalizeDramaQueen);
+                        // Use getList which returns complete data including negara/tahun_rilis
+                        if (syncType !== "foryou") {
+                            // getList returns full data with negara (country), tahun_rilis
+                            const data = await DramaQueenApi.getList(51, 100);
+                            console.log(`[Sync DramaQueen] Got ${data.length} items from /drama/list`);
+
+                            // Log first item to verify data
+                            if (data.length > 0) {
+                                console.log("[Sync DramaQueen] First item raw:", JSON.stringify({
+                                    id: data[0].id,
+                                    title: data[0].title,
+                                    country: data[0].country,
+                                    tahun_rilis: data[0].tahun_rilis,
+                                    is_finish: data[0].is_finish,
+                                }, null, 2));
+                            }
+
+                            items = data.map(item => normalizeDramaQueen({
+                                bookId: item.id,
+                                title: item.title,
+                                description: item.description,
+                                cover: item.cover,
+                                region: normalizeCountry(item.country) || undefined,
+                                contentType: item.type === "donghua" ? "donghua" : "drama",
+                                tags: item.type ? [item.type] : undefined,
+                                year: item.tahun_rilis ? parseInt(String(item.tahun_rilis).slice(0, 4)) : undefined,
+                                tahun_rilis: item.tahun_rilis,
+                                is_finish: item.is_finish,
+                                is_coming: item.is_coming,
+                                episodeCount: item.episodes,
+                            }));
+
+                            if (items.length > 0) {
+                                console.log("[Sync DramaQueen] First normalized item:", JSON.stringify({
+                                    title: items[0].title,
+                                    region: items[0].region,
+                                    tahun_rilis: items[0].tahun_rilis,
+                                }, null, 2));
+                            }
                         } else {
                             const data = await DramaQueenApi.getLatest();
                             items = data.map(normalizeDramaQueen);
