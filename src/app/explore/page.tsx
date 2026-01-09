@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { ExploreTabs, ExploreSection } from "@/components/explore";
+import { ExploreTabs, ExploreSection, ExploreFeedSection } from "@/components/explore";
 import { ProviderSource } from "@/lib/explore";
 import { getProviderSections } from "@/lib/explore/sections";
 import { Suspense } from "react";
@@ -41,12 +41,15 @@ function ExploreContent() {
             {/* Provider Tabs (Mobile only) */}
             <ExploreTabs className="top-0 md:hidden" />
 
-            {/* Sections */}
+            {/* Carousel Sections */}
             <div className="mt-4 md:mt-24">
                 {sections.map((section) => (
                     <ExploreSection key={section.id} section={section} />
                 ))}
             </div>
+
+            {/* Lihat Semua - Infinite Scroll Grid */}
+            <ExploreFeedSection provider={source} />
         </div>
     );
 }
