@@ -8,23 +8,29 @@ import {
     boolean,
     uuid,
     uniqueIndex,
+    index,
     real,
 } from "drizzle-orm/pg-core";
 
 /**
  * User table - stores basic user info
- * For anonymous users, we can use a device-based ID
+ * Supports both guest (device-based) and logged-in (Clerk) users
  */
 export const users = pgTable("users", {
     id: uuid("id").defaultRandom().primaryKey(),
     deviceId: varchar("device_id", { length: 255 }).unique(),
+    clerkId: varchar("clerk_id", { length: 255 }).unique(), // Clerk user ID for logged-in users
+    isGuest: boolean("is_guest").default(true), // false when linked to Clerk account
     email: varchar("email", { length: 255 }).unique(),
     name: varchar("name", { length: 255 }),
     avatar: text("avatar"),
     isVip: boolean("is_vip").default(false),
     createdAt: timestamp("created_at").defaultNow(),
     updatedAt: timestamp("updated_at").defaultNow(),
-});
+}, (table) => [
+    index("users_clerk_idx").on(table.clerkId),
+    index("users_guest_idx").on(table.isGuest),
+]);
 
 /**
  * Watch history - tracks user viewing progress
@@ -53,7 +59,7 @@ export const watchHistory = pgTable("watch_history", {
  */
 export const favorites = pgTable("favorites", {
     id: uuid("id").defaultRandom().primaryKey(),
-    userId: uuid("user_id").references(() => users.id).notNull(),
+    userId: uuid("user_id").references(() => users.id, { onDelete: "cascade" }).notNull(),
     dramaId: varchar("drama_id", { length: 100 }).notNull(),
     dramaTitle: varchar("drama_title", { length: 500 }),
     dramaCover: text("drama_cover"),
@@ -62,6 +68,23 @@ export const favorites = pgTable("favorites", {
     createdAt: timestamp("created_at").defaultNow(),
 }, (table) => [
     uniqueIndex("user_favorite_idx").on(table.userId, table.dramaId),
+]);
+
+/**
+ * Likes - Episode-level likes
+ */
+export const likes = pgTable("likes", {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: uuid("user_id").references(() => users.id, { onDelete: "cascade" }).notNull(),
+    dramaId: varchar("drama_id", { length: 100 }).notNull(),
+    dramaTitle: varchar("drama_title", { length: 500 }),
+    dramaCover: text("drama_cover"),
+    provider: varchar("provider", { length: 50 }),
+    episodeNumber: integer("episode_number").notNull(),
+    createdAt: timestamp("created_at").defaultNow(),
+}, (table) => [
+    uniqueIndex("user_like_idx").on(table.userId, table.dramaId, table.episodeNumber),
+    index("likes_user_idx").on(table.userId),
 ]);
 
 /**
@@ -111,6 +134,8 @@ export type WatchHistory = typeof watchHistory.$inferSelect;
 export type NewWatchHistory = typeof watchHistory.$inferInsert;
 export type Favorite = typeof favorites.$inferSelect;
 export type NewFavorite = typeof favorites.$inferInsert;
+export type Like = typeof likes.$inferSelect;
+export type NewLike = typeof likes.$inferInsert;
 export type DramaCache = typeof dramaCache.$inferSelect;
 export type NewDramaCache = typeof dramaCache.$inferInsert;
 export type EpisodeCache = typeof episodeCache.$inferSelect;

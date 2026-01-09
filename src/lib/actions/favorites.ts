@@ -1,8 +1,8 @@
 "use server";
 
-import { db, users, favorites } from "@/lib/db";
+import { db, favorites } from "@/lib/db";
 import { eq, and, desc } from "drizzle-orm";
-import { getOrCreateUser } from "./history";
+import { getCurrentUser } from "./user";
 
 /**
  * Add drama to favorites
@@ -14,7 +14,7 @@ export async function addToFavorites(data: {
     provider: string;
     description?: string;
 }) {
-    const user = await getOrCreateUser();
+    const user = await getCurrentUser();
 
     // Check if already exists
     const existing = await db
@@ -48,7 +48,7 @@ export async function addToFavorites(data: {
  * Remove drama from favorites
  */
 export async function removeFromFavorites(dramaId: string) {
-    const user = await getOrCreateUser();
+    const user = await getCurrentUser();
 
     await db
         .delete(favorites)
@@ -66,7 +66,7 @@ export async function removeFromFavorites(dramaId: string) {
  * Get user's favorites
  */
 export async function getFavorites(limit: number = 50) {
-    const user = await getOrCreateUser();
+    const user = await getCurrentUser();
 
     const favs = await db
         .select()
@@ -82,7 +82,7 @@ export async function getFavorites(limit: number = 50) {
  * Check if drama is in favorites
  */
 export async function isFavorite(dramaId: string): Promise<boolean> {
-    const user = await getOrCreateUser();
+    const user = await getCurrentUser();
 
     const existing = await db
         .select()

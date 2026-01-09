@@ -39,6 +39,7 @@ interface User {
     name: string;
     avatar?: string;
     type: 'guest' | 'google' | 'telegram';
+    isGuest?: boolean;
 }
 
 interface UserState {
@@ -50,6 +51,7 @@ interface UserState {
         autoplay: boolean;
         muted: boolean;
     };
+    isSyncing: boolean;
 
     // Actions
     initGuest: () => void;
@@ -69,7 +71,53 @@ interface UserState {
     updatePreferences: (prefs: Partial<UserState['preferences']>) => void;
     syncWithClerkUser: (clerkUser: { id: string; firstName?: string | null; lastName?: string | null; imageUrl?: string }) => void;
     loginWithTelegram: (telegramUser: { id: string; name: string; avatar?: string; username?: string }) => void;
+
+    // Server sync actions
+    syncUserFromServer: () => Promise<void>;
+    syncHistoryFromServer: () => Promise<void>;
+    syncFavoritesFromServer: () => Promise<void>;
+    syncLikesFromServer: () => Promise<void>;
+    pushHistoryToServer: (item: WatchedItem) => Promise<void>;
+    pushFavoriteToServer: (bookId: string, provider: string, title: string, cover: string, action: 'add' | 'remove') => Promise<void>;
+    pushLikeToServer: (item: LikeItem) => Promise<void>;
+
+    // Bulk sync: push all local data to server
+    pushLocalHistoryToServer: () => Promise<{ inserted: number; updated: number; skipped: number }>;
 }
+
+// Cross-tab sync channel name
+const SYNC_CHANNEL_NAME = "rabastrim_sync";
+
+// Helper to broadcast updates to other tabs
+const broadcastUpdate = (type: "history" | "favorites" | "likes") => {
+    if (typeof window === "undefined" || typeof BroadcastChannel === "undefined") return;
+    try {
+        const channel = new BroadcastChannel(SYNC_CHANNEL_NAME);
+        channel.postMessage({ type: "DATA_UPDATED", dataType: type, timestamp: Date.now() });
+        channel.close();
+    } catch (error) {
+        // Silent fail - cross-tab sync is optional
+    }
+};
+
+// Helper to push to server with retry
+const pushToServer = async (url: string, data: Record<string, unknown>, retries = 2): Promise<Response | null> => {
+    for (let i = 0; i <= retries; i++) {
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            });
+            if (response.ok) return response;
+        } catch (error) {
+            console.warn(`[Store] Push attempt ${i + 1} failed:`, error);
+            if (i === retries) return null;
+            await new Promise(r => setTimeout(r, 1000 * (i + 1))); // Exponential backoff
+        }
+    }
+    return null;
+};
 
 export const useUserStore = create<UserState>()(
     persist(
@@ -82,6 +130,7 @@ export const useUserStore = create<UserState>()(
                 autoplay: true,
                 muted: false,
             },
+            isSyncing: false,
 
             initGuest: () => {
                 const { user } = get();
@@ -91,33 +140,27 @@ export const useUserStore = create<UserState>()(
                             id: `guest_${uuidv4().substring(0, 8)}`,
                             name: 'Guest',
                             type: 'guest',
+                            isGuest: true,
                         }
                     });
                 }
             },
 
             login: (provider, mockData) => {
-                // In a real app, this would handle the auth response
-                // For now, it upgrades the guest user or replaces it
                 const newUser: User = {
                     id: mockData?.id || `user_${uuidv4().substring(0, 8)}`,
                     name: mockData?.name || (provider === 'google' ? 'Google User' : 'Telegram User'),
                     avatar: mockData?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${Math.random()}`,
                     type: provider,
+                    isGuest: false,
                 };
-
                 set({ user: newUser });
             },
 
             logout: () => {
                 set({
                     user: null,
-                    // Optional: decide if we clear history/favorites on logout or keep them
-                    // For this mock implementation, we'll reset to a clean guest state
-                    // history: [], 
-                    // favorites: []
                 });
-                // Re-init guest strictly speaking isn't automatic, but for UX flow:
                 get().initGuest();
             },
 
@@ -130,10 +173,15 @@ export const useUserStore = create<UserState>()(
                 };
 
                 set((state) => {
-                    // Remove existing entry for same ID to bring to top
                     const filtered = state.history.filter((h) => h.id !== id);
                     return { history: [newItem, ...filtered] };
                 });
+
+                // Push to server in background (PUSH mode)
+                get().pushHistoryToServer(newItem);
+
+                // Notify other tabs
+                broadcastUpdate("history");
             },
 
             addToFavorites: (item) => {
@@ -148,6 +196,12 @@ export const useUserStore = create<UserState>()(
                     if (state.favorites.some(f => f.id === id)) return state;
                     return { favorites: [newItem, ...state.favorites] };
                 });
+
+                // Push to server
+                get().pushFavoriteToServer(item.bookId, item.provider, item.title, item.cover, 'add');
+
+                // Notify other tabs
+                broadcastUpdate("favorites");
             },
 
             removeFromFavorites: (bookId, provider) => {
@@ -155,6 +209,9 @@ export const useUserStore = create<UserState>()(
                 set((state) => ({
                     favorites: state.favorites.filter((f) => f.id !== id)
                 }));
+
+                // Push to server
+                get().pushFavoriteToServer(bookId, provider, '', '', 'remove');
             },
 
             isFavorite: (bookId, provider) => {
@@ -174,6 +231,12 @@ export const useUserStore = create<UserState>()(
                     if (state.likes.some(l => l.id === id)) return state;
                     return { likes: [newItem, ...state.likes] };
                 });
+
+                // Push to server
+                get().pushLikeToServer(newItem);
+
+                // Notify other tabs
+                broadcastUpdate("likes");
             },
 
             removeFromLikes: (bookId, episode, provider) => {
@@ -203,6 +266,7 @@ export const useUserStore = create<UserState>()(
                             name: [clerkUser.firstName, clerkUser.lastName].filter(Boolean).join(' ') || 'User',
                             avatar: clerkUser.imageUrl,
                             type: 'google',
+                            isGuest: false,
                         }
                     });
                 }
@@ -215,12 +279,245 @@ export const useUserStore = create<UserState>()(
                         name: telegramUser.name,
                         avatar: telegramUser.avatar,
                         type: 'telegram',
+                        isGuest: false,
                     }
                 });
             },
+
+            // Server sync: Pull user profile from server
+            syncUserFromServer: async () => {
+                try {
+                    const response = await fetch('/api/user/me');
+                    if (!response.ok) throw new Error('Failed to fetch user profile');
+
+                    const data = await response.json();
+
+                    // Update user in store with server-side ID if guest
+                    if (data.isGuest) {
+                        set({
+                            user: {
+                                id: data.id,
+                                name: data.name || 'Guest',
+                                avatar: data.avatar,
+                                type: 'guest',
+                                isGuest: true,
+                            }
+                        });
+                    } else if (!data.isGuest && data.email) {
+                        set({
+                            user: {
+                                id: data.id,
+                                name: data.name || 'User',
+                                avatar: data.avatar,
+                                type: 'google',
+                                isGuest: false,
+                            }
+                        });
+                    }
+                } catch (error) {
+                    console.error('[Store] Failed to sync user profile:', error);
+                }
+            },
+
+            // Server sync: Pull history from server
+            syncHistoryFromServer: async () => {
+                set({ isSyncing: true });
+                try {
+                    const response = await fetch('/api/history?limit=50');
+                    if (!response.ok) throw new Error('Failed to fetch history');
+
+                    const data = await response.json();
+                    const serverHistory: WatchedItem[] = data.items.map((item: {
+                        id: string;
+                        title: string;
+                        image: string;
+                        provider: string;
+                        watchedAt: string;
+                        progress: number;
+                        episodeNumber: number;
+                        lastPosition: number;
+                        duration: number;
+                    }) => ({
+                        id: `${item.provider}-${item.id}`,
+                        bookId: item.id,
+                        title: item.title,
+                        cover: item.image,
+                        provider: item.provider,
+                        updatedAt: new Date(item.watchedAt).getTime(),
+                        progress: item.progress,
+                        episode: item.episodeNumber,
+                        lastPosition: item.lastPosition,
+                        duration: item.duration,
+                    }));
+
+                    // Merge: server data takes precedence for same items
+                    set((state) => {
+                        const localMap = new Map(state.history.map(h => [h.id, h]));
+                        const merged = [...serverHistory];
+
+                        // Add local items not in server
+                        for (const local of state.history) {
+                            if (!serverHistory.some(s => s.id === local.id)) {
+                                merged.push(local);
+                            }
+                        }
+
+                        // Sort by updatedAt DESC
+                        merged.sort((a, b) => b.updatedAt - a.updatedAt);
+
+                        return { history: merged };
+                    });
+                } catch (error) {
+                    console.error('[Store] Failed to sync history:', error);
+                } finally {
+                    set({ isSyncing: false });
+                }
+            },
+
+            // Server sync: Pull favorites from server
+            syncFavoritesFromServer: async () => {
+                set({ isSyncing: true });
+                try {
+                    const response = await fetch('/api/favorites?limit=50');
+                    if (!response.ok) throw new Error('Failed to fetch favorites');
+
+                    const data = await response.json();
+                    const serverFavorites: FavoriteItem[] = data.items.map((item: {
+                        id: string;
+                        title: string;
+                        image: string;
+                        provider: string;
+                        createdAt: string;
+                    }) => ({
+                        id: `${item.provider}-${item.id}`,
+                        bookId: item.id,
+                        title: item.title,
+                        cover: item.image,
+                        provider: item.provider,
+                        createdAt: new Date(item.createdAt).getTime(),
+                    }));
+
+                    // Replace with server data (server is source of truth after login)
+                    set({ favorites: serverFavorites });
+                } catch (error) {
+                    console.error('[Store] Failed to sync favorites:', error);
+                } finally {
+                    set({ isSyncing: false });
+                }
+            },
+
+            // Push history to server
+            pushHistoryToServer: async (item) => {
+                await pushToServer('/api/progress', {
+                    dramaId: item.bookId,
+                    dramaTitle: item.title,
+                    dramaCover: item.cover,
+                    provider: item.provider,
+                    episodeNumber: item.episode,
+                    position: item.lastPosition || 0,
+                    duration: item.duration || 0,
+                });
+            },
+
+            // Push favorite to server
+            pushFavoriteToServer: async (bookId, provider, title, cover, action) => {
+                await pushToServer('/api/favorites', {
+                    dramaId: bookId,
+                    dramaTitle: title,
+                    dramaCover: cover,
+                    provider,
+                });
+            },
+
+            // Server sync: Pull likes from server
+            syncLikesFromServer: async () => {
+                set({ isSyncing: true });
+                try {
+                    const response = await fetch('/api/likes?limit=50');
+                    if (!response.ok) throw new Error('Failed to fetch likes');
+
+                    const data = await response.json();
+                    const serverLikes: LikeItem[] = data.items.map((item: {
+                        dramaId: string;
+                        title: string;
+                        image: string;
+                        provider: string;
+                        episodeNumber: number;
+                        createdAt: string;
+                    }) => ({
+                        id: `${item.provider}-${item.dramaId}-${item.episodeNumber}`,
+                        bookId: item.dramaId,
+                        title: item.title,
+                        cover: item.image,
+                        provider: item.provider,
+                        episode: item.episodeNumber,
+                        createdAt: new Date(item.createdAt).getTime(),
+                    }));
+
+                    // Replace with server data
+                    set({ likes: serverLikes });
+                } catch (error) {
+                    console.error('[Store] Failed to sync likes:', error);
+                } finally {
+                    set({ isSyncing: false });
+                }
+            },
+
+            // Push like to server
+            pushLikeToServer: async (item) => {
+                await pushToServer('/api/likes', {
+                    dramaId: item.bookId,
+                    dramaTitle: item.title,
+                    dramaCover: item.cover,
+                    provider: item.provider,
+                    episodeNumber: item.episode,
+                });
+            },
+
+            // Bulk push all local history to server
+            pushLocalHistoryToServer: async () => {
+                const { history } = get();
+
+                if (history.length === 0) {
+                    return { inserted: 0, updated: 0, skipped: 0 };
+                }
+
+                console.log(`[Store] Pushing ${history.length} local history items to server...`);
+
+                try {
+                    const items = history.map(item => ({
+                        dramaId: item.bookId,
+                        dramaTitle: item.title,
+                        dramaCover: item.cover,
+                        provider: item.provider,
+                        episodeNumber: item.episode,
+                        lastPosition: item.lastPosition || 0,
+                        duration: item.duration || 0,
+                        progress: item.progress || 0,
+                        updatedAt: item.updatedAt,
+                    }));
+
+                    const response = await fetch('/api/history/bulk', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ items }),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Bulk sync failed');
+                    }
+
+                    const result = await response.json();
+                    console.log(`[Store] Bulk sync complete:`, result);
+                    return result;
+                } catch (error) {
+                    console.error('[Store] Bulk history sync failed:', error);
+                    return { inserted: 0, updated: 0, skipped: 0 };
+                }
+            },
         }),
         {
-            name: 'user-storage', // name of the item in the storage (must be unique)
+            name: 'user-storage',
             storage: createJSONStorage(() => localStorage),
         }
     )

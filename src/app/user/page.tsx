@@ -13,9 +13,12 @@ import { useEffect } from "react";
 export default function UserPage() {
     const { initGuest } = useUserStore();
 
+    // Initialize guest if not logged in
     useEffect(() => {
         initGuest();
     }, [initGuest]);
+
+    // Note: Sync is handled globally by UserSyncProvider in layout.tsx
 
     const menuItems = [
         { label: "Unduhan Saya", href: "/downloads" },
