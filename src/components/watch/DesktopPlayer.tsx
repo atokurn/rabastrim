@@ -278,7 +278,7 @@ export function DesktopPlayer({
             >
                 {/* Top Bar (Title) */}
                 <div className="absolute top-0 left-0 right-0 p-4 bg-gradient-to-b from-black/80 to-transparent flex items-center gap-4">
-                    <button onClick={() => router.push('/')} className="text-white hover:bg-white/20 p-2 rounded-full">
+                    <button onClick={() => router.back()} className="text-white hover:bg-white/20 p-2 rounded-full">
                         <ChevronLeft className="w-6 h-6" />
                     </button>
                     <h1 className="text-white font-medium text-lg drop-shadow">{title}</h1>

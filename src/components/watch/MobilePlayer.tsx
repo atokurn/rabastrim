@@ -454,7 +454,7 @@ export function MobilePlayer({
                 showControls && !isSeeking ? "opacity-100" : "opacity-0"
             )}>
                 <div className="flex items-center gap-4 flex-1 min-w-0">
-                    <button onClick={() => router.push('/')} className="text-white hover:opacity-70 flex-shrink-0">
+                    <button onClick={() => router.back()} className="text-white hover:opacity-70 flex-shrink-0">
                         <ChevronLeft className="w-8 h-8 shadow-sm" />
                     </button>
                     {isHorizontal && (
