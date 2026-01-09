@@ -64,7 +64,8 @@ function NavbarContent() {
     const isSearchPage = pathname.startsWith("/search");
     const isUserPage = pathname.startsWith("/user");
     const isHistoryPage = pathname.startsWith("/history");
-    const shouldHideOnMobile = isUserPage || isHistoryPage;
+    const isExplorePage = pathname.startsWith("/explore");
+    const shouldHideOnMobile = isUserPage || isHistoryPage || isExplorePage;
 
     const navItems = [
         { label: "For You", href: "/", isActive: pathname === "/" },

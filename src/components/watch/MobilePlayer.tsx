@@ -103,6 +103,29 @@ export function MobilePlayer({
     const touchStartY = useRef<number>(0);
     const drawerRef = useRef<HTMLDivElement>(null);
     const contentRef = useRef<HTMLDivElement>(null);
+    const activeEpisodeRef = useRef<HTMLButtonElement>(null);
+
+    // Auto-scroll to active episode when drawer opens
+    useEffect(() => {
+        if (isSheetOpen && activeTab === 'episodes' && activeEpisodeRef.current && contentRef.current) {
+            setTimeout(() => {
+                if (activeEpisodeRef.current && contentRef.current) {
+                    const container = contentRef.current;
+                    const element = activeEpisodeRef.current;
+
+                    // Manual scroll calculation to avoid layout trashing
+                    const top = element.offsetTop;
+                    const containerHeight = container.clientHeight;
+                    const elementHeight = element.clientHeight;
+
+                    container.scrollTo({
+                        top: top - (containerHeight / 2) + (elementHeight / 2),
+                        behavior: 'smooth'
+                    });
+                }
+            }, 300);
+        }
+    }, [isSheetOpen, activeTab, currentEpisodeNum]);
 
     // Video Swipe References (for episode navigation)
     const videoTouchStartY = useRef<number>(0);
@@ -763,7 +786,7 @@ export function MobilePlayer({
                 {/* Tab Content */}
                 <div
                     ref={contentRef}
-                    className="flex-1 overflow-y-auto p-4 custom-scrollbar bg-[#121212] pb-20 overscroll-y-contain" // Added overscroll-y-contain
+                    className="flex-1 overflow-y-auto p-4 custom-scrollbar bg-[#121212] pb-6 overscroll-y-contain" // Reduced padding
                 >
                     {activeTab === 'episodes' ? (
                         <div className="">
@@ -771,6 +794,7 @@ export function MobilePlayer({
                                 {Array.from({ length: totalEpisodes }).map((_, i) => (
                                     <button
                                         key={i}
+                                        ref={i + 1 === currentEpisodeNum ? activeEpisodeRef : null}
                                         onClick={() => goToEpisode(i + 1)}
                                         className={cn(
                                             "aspect-square rounded.md flex flex-col items-center justify-center text-sm font-medium border transition-colors relative overflow-hidden bg-[#1f2126]",

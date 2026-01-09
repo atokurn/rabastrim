@@ -17,7 +17,7 @@ function ExploreContent() {
     return (
         <div className="min-h-screen bg-[#0d0f14] pb-20">
             {/* Header (Mobile) */}
-            <div className="sticky top-0 z-50 bg-[#0d0f14] px-4 py-3 flex items-center justify-between md:hidden border-b border-[#1f2126]">
+            <div className="bg-[#0d0f14] px-4 py-3 flex items-center justify-between md:hidden border-b border-[#1f2126]">
                 <h1 className="text-lg font-bold text-white">Koleksi Video</h1>
                 <Link href="/search">
                     <svg
@@ -39,9 +39,7 @@ function ExploreContent() {
             </div>
 
             {/* Provider Tabs (Mobile only) */}
-            <div className="md:hidden">
-                <ExploreTabs className="top-[53px] md:top-[64px]" />
-            </div>
+            <ExploreTabs className="top-0 md:hidden" />
 
             {/* Sections */}
             <div className="mt-4 md:mt-24">
