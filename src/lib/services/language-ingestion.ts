@@ -19,6 +19,7 @@ export const DEFAULT_PROVIDER_LANG: Record<ContentProvider, { code: string; type
     melolo: { code: "id", type: "subtitle" },
     dramaqueen: { code: "zh", type: "subtitle" }, // CN original content
     netshort: { code: "id", type: "subtitle" },
+    donghua: { code: "zh", type: "subtitle" },
 };
 
 export type LanguageInput = {

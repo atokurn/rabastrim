@@ -195,9 +195,9 @@ export function useVideoPlayer({
                 videoRef.current.src = url;
                 videoRef.current.load();
 
-                // Update URL without reload
+                // Update URL without reload - use replaceState to keep history clean
                 const newUrl = `/watch/${dramaId}?ep=${episodeNum}&provider=${provider}`;
-                window.history.pushState({ episode: episodeNum }, '', newUrl);
+                window.history.replaceState({ episode: episodeNum }, '', newUrl);
 
                 // Update document title
                 if (title) {

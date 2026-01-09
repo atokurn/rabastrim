@@ -140,7 +140,7 @@ export function DesktopPlayer({
     };
 
     const goToEpisode = (epNum: number) => {
-        router.push(`/watch/${dramaId}?ep=${epNum}&provider=${provider}`);
+        router.replace(`/watch/${dramaId}?ep=${epNum}&provider=${provider}`);
     };
 
     // Keyboard shortcuts

@@ -9,6 +9,7 @@ import { DramaQueenApi } from "@/lib/api/dramaqueen";
 import Link from "next/link";
 import { VideoPlayer } from "@/components/watch/VideoPlayer";
 import { FavoriteButton } from "@/components/watch/FavoriteButton";
+import { EpisodeList } from "@/components/watch/EpisodeList";
 
 /**
  * Proxy video URLs with embedded credentials (user:pass@host) through /api/video-proxy
@@ -370,29 +371,14 @@ export default async function WatchPage({ params, searchParams }: WatchPageProps
                             <span className="text-xs text-gray-400">Total {totalEps}</span>
                         </div>
 
-                        <div className="grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 gap-2 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
-                            {totalEps > 0 ? (
-                                Array.from({ length: totalEps }, (_, i) => i + 1).map(epNum => (
-                                    <Link
-                                        key={epNum}
-                                        href={`/watch/${id}?ep=${epNum}&provider=${provider}`}
-                                        className={cn(
-                                            "aspect-square rounded flex items-center justify-center text-sm font-medium transition-colors border",
-                                            currentEp === epNum
-                                                ? "bg-[#00cc55] text-black border-[#00cc55] font-bold"
-                                                : "bg-[#2e3036] text-gray-300 border-transparent hover:border-gray-500"
-                                        )}
-                                    >
-                                        {epNum}
-                                    </Link>
-                                ))
-                            ) : (
-                                <div className="col-span-full text-center text-gray-400 py-4">
-                                    <Loader2 className="w-6 h-6 animate-spin mx-auto mb-2" />
-                                    Loading episodes...
-                                </div>
-                            )}
-                        </div>
+                        <EpisodeList
+                            totalEpisodes={totalEps}
+                            currentEpisode={currentEp}
+                            dramaId={id}
+                            provider={provider}
+                            gridClassName="grid-cols-5 sm:grid-cols-8 md:grid-cols-10"
+                            maxHeightClassName="max-h-[300px]"
+                        />
                     </div>
 
                     {drama?.description && (
@@ -421,29 +407,14 @@ export default async function WatchPage({ params, searchParams }: WatchPageProps
                             <span className="text-xs text-gray-400">Total {totalEps}</span>
                         </div>
 
-                        <div className="grid grid-cols-5 gap-2 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
-                            {totalEps > 0 ? (
-                                Array.from({ length: totalEps }, (_, i) => i + 1).map(epNum => (
-                                    <Link
-                                        key={epNum}
-                                        href={`/watch/${id}?ep=${epNum}&provider=${provider}`}
-                                        className={cn(
-                                            "aspect-square rounded flex items-center justify-center text-sm font-medium transition-colors border",
-                                            currentEp === epNum
-                                                ? "bg-[#00cc55] text-black border-[#00cc55] font-bold"
-                                                : "bg-[#2e3036] text-gray-300 border-transparent hover:border-gray-500"
-                                        )}
-                                    >
-                                        {epNum}
-                                    </Link>
-                                ))
-                            ) : (
-                                <div className="col-span-5 text-center text-gray-400 py-4">
-                                    <Loader2 className="w-6 h-6 animate-spin mx-auto mb-2" />
-                                    Loading episodes...
-                                </div>
-                            )}
-                        </div>
+                        <EpisodeList
+                            totalEpisodes={totalEps}
+                            currentEpisode={currentEp}
+                            dramaId={id}
+                            provider={provider}
+                            gridClassName="grid-cols-5"
+                            maxHeightClassName="max-h-[500px]"
+                        />
                     </div>
                 </div>
             </div>
