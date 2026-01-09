@@ -32,13 +32,14 @@ export function EpisodeList({
                 const container = containerRef.current;
                 const element = activeEpRef.current;
 
-                // Manual scroll calculation to align center
-                const top = element.offsetTop;
-                const containerHeight = container.clientHeight;
-                const elementHeight = element.clientHeight;
+                // Robust scroll calculation using viewports coordinates
+                const containerRect = container.getBoundingClientRect();
+                const elementRect = element.getBoundingClientRect();
+                const currentScroll = container.scrollTop;
+                const relativeTop = elementRect.top - containerRect.top;
 
                 container.scrollTo({
-                    top: top - (containerHeight / 2) + (elementHeight / 2),
+                    top: currentScroll + relativeTop - (container.clientHeight / 2) + (element.clientHeight / 2),
                     behavior: 'smooth'
                 });
             }

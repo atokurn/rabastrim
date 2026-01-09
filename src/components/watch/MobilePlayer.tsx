@@ -113,13 +113,15 @@ export function MobilePlayer({
                     const container = contentRef.current;
                     const element = activeEpisodeRef.current;
 
-                    // Manual scroll calculation to avoid layout trashing
-                    const top = element.offsetTop;
-                    const containerHeight = container.clientHeight;
-                    const elementHeight = element.clientHeight;
+                    // Robust scroll calculation using viewports coordinates
+                    // This handles cases where offsetTop is relative to a parent outside the scroll container
+                    const containerRect = container.getBoundingClientRect();
+                    const elementRect = element.getBoundingClientRect();
+                    const currentScroll = container.scrollTop;
+                    const relativeTop = elementRect.top - containerRect.top;
 
                     container.scrollTo({
-                        top: top - (containerHeight / 2) + (elementHeight / 2),
+                        top: currentScroll + relativeTop - (container.clientHeight / 2) + (element.clientHeight / 2),
                         behavior: 'smooth'
                     });
                 }
