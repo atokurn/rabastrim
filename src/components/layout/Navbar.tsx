@@ -9,6 +9,7 @@ import { HistoryPopup } from "./HistoryPopup";
 import { ProfilePopup } from "./ProfilePopup";
 import { AuthDialog } from "@/components/user/AuthDialog";
 import { useUserStore } from "@/lib/auth/store";
+import { ResponsiveNav } from "./ResponsiveNav";
 
 function NavbarContent() {
     const pathname = usePathname();
@@ -92,27 +93,11 @@ function NavbarContent() {
                     Rabastrim
                 </Link>
 
-                {/* Scrollable Menu */}
-                <div className="flex-1 overflow-hidden mx-2">
-                    <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-300 overflow-x-auto scrollbar-hide [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] mask-linear-fade">
-                        {navItems.map((item) => (
-                            <Link
-                                key={item.label}
-                                href={item.href}
-                                className={cn(
-                                    "transition-colors whitespace-nowrap relative px-1 py-1",
-                                    item.isActive
-                                        ? "text-[#00cc55] font-bold"
-                                        : "text-gray-300 hover:text-white"
-                                )}
-                            >
-                                {item.label}
-                                {item.isActive && (
-                                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#00cc55] rounded-full" />
-                                )}
-                            </Link>
-                        ))}
-                    </nav>
+                {/* Responsive Menu */}
+                <div className="flex-1 mx-2 h-full min-w-0">
+                    <div className="hidden md:block h-full">
+                        <ResponsiveNav items={navItems} />
+                    </div>
                 </div>
 
                 {/* Right Actions */}
