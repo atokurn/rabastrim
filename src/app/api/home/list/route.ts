@@ -116,7 +116,15 @@ export async function GET(request: Request) {
         }
         else if (category === "Anime") {
             const data = await DramaQueenApi.getDonghuaList(page);
-            items = data.map(normalizeDramaQueen);
+            // Use provider "donghua" so watch page calls correct API endpoint
+            items = data.map(item => ({
+                id: item.id,
+                title: item.title,
+                image: item.cover || "",
+                episodes: item.episodes ? `${item.episodes} Eps` : undefined,
+                provider: "donghua", // Important: use "donghua" not "dramaqueen"
+                isVip: false,
+            }));
         }
         else {
             // "Semua" or unknown

@@ -91,8 +91,8 @@ export async function GET(request: Request) {
             conditions.push(eq(contents.provider, "dramaqueen"));
             conditions.push(eq(contents.region, "TH"));
         } else if (category === "Anime") {
-            // Anime/Donghua - now stored with provider='donghua'
-            conditions.push(eq(contents.provider, "donghua"));
+            // Anime/Donghua - filter by content_type since they can be provider=dramaqueen or donghua
+            conditions.push(eq(contents.contentType, "anime"));
         }
 
         // Query database - composite sort with id tiebreaker
@@ -103,6 +103,7 @@ export async function GET(request: Request) {
             image: contents.posterUrl,
             episodes: contents.episodeCount,
             provider: contents.provider,
+            contentType: contents.contentType, // Need this to determine correct provider for watch page
             releaseDate: contents.releaseDate,
             releaseStatus: contents.releaseStatus,
             createdAt: contents.createdAt,
@@ -126,12 +127,14 @@ export async function GET(request: Request) {
             : null;
 
         // Normalize response with release info
+        // For anime/donghua content, use provider="donghua" so watch page calls correct endpoint
         const data: NormalizedItem[] = resultItems.map(item => ({
             id: item.id,
             title: item.title,
             image: item.image || "",
             episodes: item.episodes ? `${item.episodes} Eps` : undefined,
-            provider: item.provider,
+            // Use "donghua" provider for anime content so watch page calls getDonghuaDetail
+            provider: item.contentType === "anime" ? "donghua" : item.provider,
             releaseDate: item.releaseDate || undefined,
             releaseStatus: item.releaseStatus || undefined,
             createdAt: item.createdAt?.toISOString(),

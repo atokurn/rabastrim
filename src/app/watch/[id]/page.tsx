@@ -94,7 +94,7 @@ async function fetchProviderData(id: string, provider: string, episodeNum: numbe
     }
 
     if (provider === "dramawave") {
-        // DramaWave: Use getDetail for drama info (includes currentEpisode with videoUrl)
+        // DramaWave: Use getDetail for drama info and getStream for episode video
         const detail = await DramaWaveApi.getDetail(id);
 
         if (!detail) return { drama: null, episodes: [], currentVideoUrl: null };
@@ -111,8 +111,15 @@ async function fetchProviderData(id: string, provider: string, episodeNum: numbe
             });
         }
 
-        // Get video URL for current episode from currentEpisode
-        const currentVideoUrl = detail.currentEpisode?.videoUrl || null;
+        // Get video URL for requested episode number using play endpoint
+        let currentVideoUrl: string | null = null;
+        if (episodeNum === 1 && detail.currentEpisode?.videoUrl) {
+            // For episode 1, use detail.currentEpisode if available
+            currentVideoUrl = detail.currentEpisode.videoUrl;
+        } else {
+            // For other episodes, fetch via getStream
+            currentVideoUrl = await DramaWaveApi.getStream(id, episodeNum);
+        }
 
         return {
             drama: {
