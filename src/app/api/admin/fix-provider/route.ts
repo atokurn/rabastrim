@@ -5,7 +5,7 @@ import { eq, and, sql, inArray } from "drizzle-orm";
 export const dynamic = "force-dynamic";
 
 /**
- * POST /api/fix-provider
+ * POST /api/admin/fix-provider
  * 
  * Fix provider tagging issue where FlickReels content was incorrectly labeled as "netshort".
  * This endpoint identifies FlickReels content (by providerContentId pattern) and updates the provider field.
@@ -103,7 +103,7 @@ export async function POST(request: NextRequest) {
 }
 
 /**
- * GET /api/fix-provider
+ * GET /api/admin/fix-provider
  * 
  * Check current provider distribution
  */

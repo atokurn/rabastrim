@@ -1,5 +1,5 @@
-import { Hero } from "@/components/ui/Hero";
-import { Section } from "@/components/ui/Section";
+import { Hero } from "@/components/home/Hero";
+import { Section } from "@/components/shared/Section";
 import { DramaBoxApi } from "@/lib/api/dramabox";
 import { HeroService } from "@/lib/services/hero";
 import { HomeFeed } from "@/components/home/HomeFeed";
@@ -41,7 +41,7 @@ export default async function Home() {
         {popularItems.length > 0 && (
           <div className="pt-0"> {/* Remove padding to let margin control position precisely */}
             <Section
-              title="Rekomendasi populer"
+              title="Rekomendasi"
               items={popularItems}
               variant="portrait"
             />

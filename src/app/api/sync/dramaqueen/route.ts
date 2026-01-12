@@ -48,7 +48,7 @@ function normalizeDramaQueen(item: any, contentType: "drama" | "anime" = "drama"
 }
 
 /**
- * POST/GET /api/sync-dramaqueen?full=true
+ * POST/GET /api/sync/dramaqueen?full=true
  * 
  * Sync ALL dramas and donghua from DramaQueen API
  * - Paginates through /drama/list to get all dramas

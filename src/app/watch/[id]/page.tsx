@@ -1,5 +1,5 @@
 import { Play, Share2, Download, Loader2 } from "lucide-react";
-import { Section } from "@/components/ui/Section";
+import { Section } from "@/components/shared/Section";
 import { cn } from "@/lib/utils";
 import { DramaBoxApi } from "@/lib/api/dramabox";
 import { FlickReelsApi } from "@/lib/api/flickreels";
