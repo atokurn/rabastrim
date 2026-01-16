@@ -6,7 +6,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { UserSyncProvider } from "@/components/auth/UserSync";
 
 export const metadata: Metadata = {
-  title: "Rabastrim - Stream Your Favorite Asian Dramas",
+  title: "PromHUB - Stream Your Favorite Asian Dramas",
   description: "Watch the latest Asian dramas and movies in HD.",
 };
 

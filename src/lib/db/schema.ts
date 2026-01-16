@@ -285,3 +285,29 @@ export type SyncLog = typeof syncLogs.$inferSelect;
 export type NewSyncLog = typeof syncLogs.$inferInsert;
 export type ContentLanguage = typeof contentLanguages.$inferSelect;
 export type NewContentLanguage = typeof contentLanguages.$inferInsert;
+
+// ============================================
+// TELEGRAM NOTIFICATION TRACKING
+// ============================================
+
+/**
+ * Telegram Notifications - Tracks which dramas have been notified to channel
+ */
+export const telegramNotifications = pgTable("telegram_notifications", {
+    id: uuid("id").defaultRandom().primaryKey(),
+    contentId: uuid("content_id").references(() => contents.id, { onDelete: "cascade" }).notNull(),
+    provider: varchar("provider", { length: 50 }).notNull(),
+    providerContentId: varchar("provider_content_id", { length: 100 }).notNull(),
+    messageId: integer("message_id"), // Telegram message ID
+    sentAt: timestamp("sent_at").defaultNow(),
+    status: varchar("status", { length: 20 }).default("sent"), // sent, failed, pending
+    error: text("error"),
+    createdAt: timestamp("created_at").defaultNow(),
+}, (table) => [
+    uniqueIndex("notif_content_idx").on(table.contentId),
+    index("notif_provider_idx").on(table.provider),
+    index("notif_status_idx").on(table.status),
+]);
+
+export type TelegramNotification = typeof telegramNotifications.$inferSelect;
+export type NewTelegramNotification = typeof telegramNotifications.$inferInsert;

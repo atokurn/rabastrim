@@ -1,51 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ContentIngestionService, type ContentInput } from "@/lib/services/content-ingestion";
 import { DramaQueenApi } from "@/lib/api/dramaqueen";
+import { adaptDramaQueen } from "@/lib/services/provider-adapters";
+import { validateApiKey } from "@/lib/auth/api-utils";
 import type { ContentProvider } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 300; // 5 minutes for full sync
-
-// API Key validation
-function validateApiKey(request: NextRequest): boolean {
-    const cronSecret = process.env.CRON_SECRET;
-    if (!cronSecret) return true;
-    const keyParam = request.nextUrl.searchParams.get("key");
-    return keyParam === cronSecret;
-}
-
-// Normalize country names to standard codes
-function normalizeCountry(country?: string | null): string | null {
-    if (!country) return null;
-    const lower = country.toLowerCase();
-    if (lower.includes("china") || lower === "tiongkok") return "CN";
-    if (lower.includes("korea")) return "KR";
-    if (lower.includes("japan") || lower === "jepang") return "JP";
-    if (lower.includes("thailand")) return "TH";
-    if (lower.includes("taiwan")) return "TW";
-    return country;
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function normalizeDramaQueen(item: any, contentType: "drama" | "anime" = "drama"): ContentInput {
-    const tahunRilis = item.tahun_rilis;
-    const year = tahunRilis ? parseInt(String(tahunRilis).slice(0, 4)) : undefined;
-
-    return {
-        bookId: String(item.bookId || item.id || ""),
-        title: item.title || item.name || "Untitled",
-        description: item.description || item.desc || undefined,
-        poster: item.cover || item.landscapeCover || undefined,
-        episodeCount: item.episodes || item.episodeCount || undefined,
-        region: item.region || normalizeCountry(item.country) || undefined,
-        contentType,
-        tags: item.type ? [item.type] : undefined,
-        year,
-        tahun_rilis: tahunRilis,
-        is_finish: item.is_finish,
-        is_coming: item.is_coming,
-    };
-}
 
 /**
  * POST/GET /api/sync/dramaqueen?full=true
@@ -91,20 +52,7 @@ export async function POST(request: NextRequest) {
                     break;
                 }
 
-                const normalized = data.map(item => normalizeDramaQueen({
-                    bookId: item.id,
-                    title: item.title,
-                    description: item.description,
-                    cover: item.cover,
-                    region: normalizeCountry(item.country),
-                    contentType: "drama",
-                    tags: item.type ? [item.type] : undefined,
-                    year: item.tahun_rilis ? parseInt(String(item.tahun_rilis).slice(0, 4)) : undefined,
-                    tahun_rilis: item.tahun_rilis,
-                    is_finish: item.is_finish,
-                    is_coming: item.is_coming,
-                    episodeCount: item.episodes,
-                }, "drama"));
+                const normalized = data.map(item => adaptDramaQueen(item, "drama"));
 
                 allDramas.push(...normalized);
 
@@ -114,6 +62,7 @@ export async function POST(request: NextRequest) {
                 }
                 page++;
             }
+
 
             console.log(`[Sync DramaQueen] Total dramas fetched: ${allDramas.length}`);
 
@@ -141,19 +90,7 @@ export async function POST(request: NextRequest) {
                 }
 
                 // getDonghuaList already normalizes data (name→title, image→cover)
-                const normalized = data.map(item => normalizeDramaQueen({
-                    bookId: String(item.id),
-                    title: item.title,  // Already normalized from 'name'
-                    description: item.description,
-                    cover: item.cover,  // Already normalized from 'image'
-                    region: "CN", // Donghua is Chinese animation
-                    contentType: "anime",
-                    tags: ["donghua"],
-                    year: item.year ? parseInt(String(item.year)) : undefined,
-                    is_finish: item.status === "Completed",
-                    is_coming: false,
-                    episodeCount: item.episodes || item.totalEpisodes,
-                }, "anime"));
+                const normalized = data.map(item => adaptDramaQueen(item, "anime"));
 
                 allDonghua.push(...normalized);
 

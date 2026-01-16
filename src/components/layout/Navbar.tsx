@@ -90,7 +90,7 @@ function NavbarContent() {
             <div className="container mx-auto px-4 h-16 flex items-center justify-between">
                 {/* Logo */}
                 <Link href="/" className="text-2xl font-bold text-[#00cc55] shrink-0 mr-4">
-                    Rabastrim
+                    PormHUB
                 </Link>
 
                 {/* Responsive Menu */}
