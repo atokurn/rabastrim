@@ -1,12 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getFavorites, toggleFavorite } from "@/lib/actions/favorites";
+import {
+    ToggleFavoriteSchema,
+    PaginationSchema,
+    parseBody,
+    parseQueryParams
+} from "@/lib/validations/api-schemas";
 
 export async function GET(request: NextRequest) {
     try {
         const { searchParams } = new URL(request.url);
-        const limit = parseInt(searchParams.get("limit") || "50", 10);
-        const offset = parseInt(searchParams.get("offset") || "0", 10);
 
+        // Validate pagination params
+        const parsed = parseQueryParams(PaginationSchema, searchParams);
+        if (!parsed.success) {
+            return NextResponse.json({ error: parsed.error }, { status: 400 });
+        }
+
+        const { limit, offset } = parsed.data;
         const totalLimit = limit + offset;
         const allFavorites = await getFavorites(totalLimit);
 
@@ -40,14 +51,13 @@ export async function POST(request: NextRequest) {
     try {
         const body = await request.json();
 
-        const { dramaId, dramaTitle, dramaCover, provider } = body;
-
-        if (!dramaId || !provider) {
-            return NextResponse.json(
-                { error: "dramaId and provider are required" },
-                { status: 400 }
-            );
+        // Validate request body with Zod
+        const parsed = parseBody(ToggleFavoriteSchema, body);
+        if (!parsed.success) {
+            return NextResponse.json({ error: parsed.error }, { status: 400 });
         }
+
+        const { dramaId, dramaTitle, dramaCover, provider } = parsed.data;
 
         const result = await toggleFavorite({
             dramaId,

@@ -1,10 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { updateWatchHistory } from "@/lib/actions/history";
-import { getNextEpisode, shouldMarkComplete } from "@/lib/services/progress";
+import { getNextEpisode } from "@/lib/services/progress";
+import { UpdateProgressSchema, parseBody } from "@/lib/validations/api-schemas";
 
 export async function POST(request: NextRequest) {
     try {
         const body = await request.json();
+
+        // Validate request body with Zod
+        const parsed = parseBody(UpdateProgressSchema, body);
+        if (!parsed.success) {
+            return NextResponse.json({ error: parsed.error }, { status: 400 });
+        }
 
         const {
             dramaId,
@@ -15,14 +22,7 @@ export async function POST(request: NextRequest) {
             episodeNumber,
             position,
             duration,
-        } = body;
-
-        if (!dramaId || !provider) {
-            return NextResponse.json(
-                { error: "dramaId and provider are required" },
-                { status: 400 }
-            );
-        }
+        } = parsed.data;
 
         // Update watch history
         const { isCompleted, progress } = await updateWatchHistory({

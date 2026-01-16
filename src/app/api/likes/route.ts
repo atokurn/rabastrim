@@ -1,12 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getLikes, toggleLike } from "@/lib/actions/likes";
+import {
+    ToggleLikeSchema,
+    PaginationSchema,
+    parseBody,
+    parseQueryParams
+} from "@/lib/validations/api-schemas";
 
 export async function GET(request: NextRequest) {
     try {
         const { searchParams } = new URL(request.url);
-        const limit = parseInt(searchParams.get("limit") || "50", 10);
-        const offset = parseInt(searchParams.get("offset") || "0", 10);
 
+        // Validate pagination params
+        const parsed = parseQueryParams(PaginationSchema, searchParams);
+        if (!parsed.success) {
+            return NextResponse.json({ error: parsed.error }, { status: 400 });
+        }
+
+        const { limit, offset } = parsed.data;
         const totalLimit = limit + offset;
         const allLikes = await getLikes(totalLimit);
 
@@ -41,14 +52,13 @@ export async function POST(request: NextRequest) {
     try {
         const body = await request.json();
 
-        const { dramaId, dramaTitle, dramaCover, provider, episodeNumber } = body;
-
-        if (!dramaId || !provider || episodeNumber === undefined) {
-            return NextResponse.json(
-                { error: "dramaId, provider, and episodeNumber are required" },
-                { status: 400 }
-            );
+        // Validate request body with Zod
+        const parsed = parseBody(ToggleLikeSchema, body);
+        if (!parsed.success) {
+            return NextResponse.json({ error: parsed.error }, { status: 400 });
         }
+
+        const { dramaId, dramaTitle, dramaCover, provider, episodeNumber } = parsed.data;
 
         const result = await toggleLike({
             dramaId,

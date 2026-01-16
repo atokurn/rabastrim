@@ -12,7 +12,13 @@
  */
 
 const BASE_URL = "https://drama-queen-api.vercel.app/api";
-const API_KEY = "7a56ed7a117d0b58f841f827314fa95d927kdjn0okdkndjaebdndwkamvnfjdltdk";
+
+// Security: API key loaded from environment variable
+const API_KEY = process.env.DRAMAQUEEN_API_KEY;
+
+if (!API_KEY) {
+    console.warn("[DramaQueen] DRAMAQUEEN_API_KEY not set in environment variables");
+}
 
 // Types for normalized output
 export interface DramaQueenDrama {
@@ -62,10 +68,13 @@ export interface DramaQueenDetail extends DramaQueenDrama {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function fetchApi<T>(endpoint: string): Promise<T | null> {
     try {
+        const headers: HeadersInit = {};
+        if (API_KEY) {
+            headers["x-api-key"] = API_KEY;
+        }
+
         const res = await fetch(`${BASE_URL}${endpoint}`, {
-            headers: {
-                "x-api-key": API_KEY,
-            },
+            headers,
             next: { revalidate: 300 },
         });
         if (!res.ok) {

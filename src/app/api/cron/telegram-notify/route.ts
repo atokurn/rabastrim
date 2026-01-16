@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { db, contents, telegramNotifications, type Content } from "@/lib/db";
 import { sendDramaNotification } from "@/lib/services/telegram-service";
 import { eq, and, notInArray } from "drizzle-orm";
+import { validateApiKey, authErrorResponse } from "@/lib/auth/api-utils";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 60; // 1 minute max
@@ -21,35 +22,10 @@ export const maxDuration = 60; // 1 minute max
  * - Schedule: Every 15 minutes or as needed
  */
 
-// Validate CRON_SECRET
-function validateApiKey(request: NextRequest): boolean {
-    const cronSecret = process.env.CRON_SECRET;
-    if (!cronSecret) {
-        console.warn("[Telegram Cron] CRON_SECRET not set, allowing in dev mode");
-        return process.env.NODE_ENV === "development";
-    }
-
-    // Check Vercel Cron header
-    const vercelCron = request.headers.get("x-vercel-cron");
-    if (vercelCron === "1") return true;
-
-    // Check Authorization header (Bearer token)
-    const authHeader = request.headers.get("authorization");
-    if (authHeader?.startsWith("Bearer ") && authHeader.substring(7) === cronSecret) {
-        return true;
-    }
-
-    // Check query parameter (for cron-job.org)
-    const keyParam = request.nextUrl.searchParams.get("key");
-    if (keyParam === cronSecret) return true;
-
-    return false;
-}
-
 export async function GET(request: NextRequest) {
-    // Validate auth
+    // Validate auth using centralized function
     if (!validateApiKey(request)) {
-        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        return NextResponse.json(authErrorResponse(), { status: 401 });
     }
 
     const startTime = Date.now();
