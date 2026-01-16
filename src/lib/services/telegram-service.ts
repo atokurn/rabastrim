@@ -139,7 +139,7 @@ export function formatDramaCaption(drama: DramaNotificationData): string {
 
         const episodeLinks: string[] = [];
         for (let i = 1; i <= episodesToShow; i++) {
-            const url = `${baseUrl}/watch/${drama.provider}/${drama.providerContentId}?ep=${i}`;
+            const url = `${baseUrl}/watch/${drama.providerContentId}?ep=${i}&provider=${drama.provider}`;
             episodeLinks.push(`<a href="${url}">EP-${i}</a>`);
         }
 
