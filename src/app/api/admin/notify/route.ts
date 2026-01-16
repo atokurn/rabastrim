@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { db, contents, telegramNotifications } from "@/lib/db";
 import { sendDramaNotification } from "@/lib/services/telegram-service";
 import { eq, and } from "drizzle-orm";
+import { validateApiKey, authErrorResponse } from "@/lib/auth/api-utils";
 
 export const dynamic = "force-dynamic";
 
@@ -14,25 +15,9 @@ export const dynamic = "force-dynamic";
  * Sends a notification for a specific drama (for testing purposes)
  */
 
-// Validate admin access
-function validateApiKey(request: NextRequest): boolean {
-    const cronSecret = process.env.CRON_SECRET;
-    if (!cronSecret) {
-        return process.env.NODE_ENV === "development";
-    }
-
-    // Check Authorization header
-    const authHeader = request.headers.get("authorization");
-    if (authHeader?.startsWith("Bearer ") && authHeader.substring(7) === cronSecret) {
-        return true;
-    }
-
-    return false;
-}
-
 export async function POST(request: NextRequest) {
     if (!validateApiKey(request)) {
-        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        return NextResponse.json(authErrorResponse(), { status: 401 });
     }
 
     try {
@@ -130,7 +115,7 @@ export async function POST(request: NextRequest) {
 // GET: Preview notification without sending
 export async function GET(request: NextRequest) {
     if (!validateApiKey(request)) {
-        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        return NextResponse.json(authErrorResponse(), { status: 401 });
     }
 
     const provider = request.nextUrl.searchParams.get("provider");

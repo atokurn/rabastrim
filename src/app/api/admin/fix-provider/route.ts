@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db, contents } from "@/lib/db";
-import { eq, and, sql, inArray } from "drizzle-orm";
+import { eq, sql, inArray } from "drizzle-orm";
+import { validateApiKey, authErrorResponse } from "@/lib/auth/api-utils";
 
 export const dynamic = "force-dynamic";
 
@@ -12,16 +13,9 @@ export const dynamic = "force-dynamic";
  * Handles unique constraint by deleting duplicates first.
  */
 export async function POST(request: NextRequest) {
-    // Validate API key
-    const cronSecret = process.env.CRON_SECRET;
-    if (cronSecret) {
-        const authHeader = request.headers.get("authorization");
-        const keyParam = request.nextUrl.searchParams.get("key");
-        const token = authHeader?.startsWith("Bearer ") ? authHeader.substring(7) : null;
-
-        if (token !== cronSecret && keyParam !== cronSecret) {
-            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-        }
+    // Validate API key using centralized auth
+    if (!validateApiKey(request)) {
+        return NextResponse.json(authErrorResponse(), { status: 401 });
     }
 
     try {
@@ -105,9 +99,14 @@ export async function POST(request: NextRequest) {
 /**
  * GET /api/admin/fix-provider
  * 
- * Check current provider distribution
+ * Check current provider distribution (admin only)
  */
-export async function GET() {
+export async function GET(request: NextRequest) {
+    // Security: Validate API key for stats endpoint
+    if (!validateApiKey(request)) {
+        return NextResponse.json(authErrorResponse(), { status: 401 });
+    }
+
     try {
         const stats = await db
             .select({
