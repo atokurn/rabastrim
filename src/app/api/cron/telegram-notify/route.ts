@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db, contents, telegramNotifications, type Content } from "@/lib/db";
 import { sendDramaNotification } from "@/lib/services/telegram-service";
-import { eq, isNull, notInArray } from "drizzle-orm";
+import { eq, and, notInArray } from "drizzle-orm";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 60; // 1 minute max
@@ -85,51 +85,40 @@ export async function GET(request: NextRequest) {
 
         const notifiedIdSet = notifiedIds.map(n => n.contentId);
 
-        // Find dramas that haven't been notified yet
-        let query = db
-            .select()
-            .from(contents)
-            .where(eq(contents.status, "active"))
-            .limit(limit);
+        console.log(`[Telegram Cron] Already notified: ${notifiedIdSet.length} dramas`);
 
-        // Exclude already notified
+        // Find dramas that haven't been notified yet
+        let dramasToNotify: Content[];
+
         if (notifiedIdSet.length > 0) {
-            query = db
+            // Use notInArray to exclude already notified dramas at SQL level
+            dramasToNotify = await db
+                .select()
+                .from(contents)
+                .where(
+                    and(
+                        eq(contents.status, "active"),
+                        notInArray(contents.id, notifiedIdSet)
+                    )
+                )
+                .limit(limit);
+        } else {
+            // No notifications sent yet, get first batch
+            dramasToNotify = await db
                 .select()
                 .from(contents)
                 .where(eq(contents.status, "active"))
                 .limit(limit);
+        }
 
-            // Filter in query
-            const unnotifiedDramas = await db
-                .select()
-                .from(contents)
-                .where(eq(contents.status, "active"))
-                .limit(limit * 2); // Get more to filter
+        results.found = dramasToNotify.length;
+        console.log(`[Telegram Cron] Found ${results.found} dramas to notify`);
 
-            // Filter out already notified
-            const dramasToNotify = unnotifiedDramas.filter(
-                d => !notifiedIdSet.includes(d.id)
-            ).slice(0, limit);
-
-            results.found = dramasToNotify.length;
-
-            // Send notifications
-            for (const drama of dramasToNotify) {
-                await sendNotificationForDrama(drama, results);
-
-                // Small delay to avoid rate limiting
-                await new Promise(resolve => setTimeout(resolve, 500));
-            }
-        } else {
-            // No notifications sent yet, get first batch
-            const dramasToNotify = await query;
-            results.found = dramasToNotify.length;
-
-            for (const drama of dramasToNotify) {
-                await sendNotificationForDrama(drama, results);
-                await new Promise(resolve => setTimeout(resolve, 500));
-            }
+        // Send notifications
+        for (const drama of dramasToNotify) {
+            await sendNotificationForDrama(drama, results);
+            // Small delay to avoid rate limiting
+            await new Promise(resolve => setTimeout(resolve, 500));
         }
 
         const duration = Date.now() - startTime;
