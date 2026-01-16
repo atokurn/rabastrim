@@ -166,9 +166,15 @@ export function SearchResults({
                     {(featured.episodes || featured.tags) && (
                         <div className="text-gray-400 text-xs mt-2">
                             {featured.episodes && <span>Full {featured.episodes} Episode</span>}
-                            {featured.tags && featured.tags.length > 0 && (
-                                <span> | {featured.tags.slice(0, 2).join(" | ")}</span>
-                            )}
+                            {featured.tags && (() => {
+                                // Handle both JSON string and array
+                                const tagsArray = typeof featured.tags === 'string'
+                                    ? (() => { try { return JSON.parse(featured.tags); } catch { return []; } })()
+                                    : featured.tags;
+                                return Array.isArray(tagsArray) && tagsArray.length > 0
+                                    ? <span> | {tagsArray.slice(0, 2).join(" | ")}</span>
+                                    : null;
+                            })()}
                         </div>
                     )}
 

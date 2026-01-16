@@ -119,6 +119,7 @@ export async function sendDramaNotification(drama: DramaNotificationData): Promi
 
 /**
  * Format drama data into Telegram caption
+ * Note: Telegram has 1024 character limit for captions
  */
 export function formatDramaCaption(drama: DramaNotificationData): string {
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://rabastrim.vercel.app";
@@ -129,11 +130,15 @@ export function formatDramaCaption(drama: DramaNotificationData): string {
     lines.push("");
 
     // Episode list with links
+    // Limit to 30 episodes due to Telegram's 1024 char caption limit
     if (drama.episodeCount && drama.episodeCount > 0) {
         lines.push("Episode :");
 
+        const maxEpisodesToShow = 30;
+        const episodesToShow = Math.min(drama.episodeCount, maxEpisodesToShow);
+
         const episodeLinks: string[] = [];
-        for (let i = 1; i <= drama.episodeCount; i++) {
+        for (let i = 1; i <= episodesToShow; i++) {
             const url = `${baseUrl}/watch/${drama.provider}/${drama.providerContentId}?ep=${i}`;
             episodeLinks.push(`<a href="${url}">EP-${i}</a>`);
         }
@@ -144,6 +149,12 @@ export function formatDramaCaption(drama: DramaNotificationData): string {
             chunks.push(episodeLinks.slice(i, i + 7).join(" | "));
         }
         lines.push(chunks.join("\n| "));
+
+        // Show "dan X lainnya" if there are more episodes
+        if (drama.episodeCount > maxEpisodesToShow) {
+            const remaining = drama.episodeCount - maxEpisodesToShow;
+            lines.push(`... dan ${remaining} episode lainnya`);
+        }
         lines.push("");
     }
 
