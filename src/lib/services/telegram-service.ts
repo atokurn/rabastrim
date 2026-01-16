@@ -40,7 +40,14 @@ export async function sendPhoto(options: SendPhotoOptions): Promise<TelegramResp
 
     const url = `${TELEGRAM_API_BASE}${botToken}/sendPhoto`;
 
+    console.log(`[Telegram] Sending photo to ${options.chatId}`);
+    console.log(`[Telegram] Photo URL: ${options.photoUrl?.substring(0, 80)}...`);
+
     try {
+        // Add timeout for Vercel edge functions
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 25000); // 25 second timeout
+
         const response = await fetch(url, {
             method: "POST",
             headers: {
@@ -52,20 +59,26 @@ export async function sendPhoto(options: SendPhotoOptions): Promise<TelegramResp
                 caption: options.caption,
                 parse_mode: options.parseMode || "HTML",
             }),
+            signal: controller.signal,
         });
+
+        clearTimeout(timeoutId);
 
         const data: TelegramResponse = await response.json();
 
         if (!data.ok) {
-            console.error("[Telegram] API Error:", data.description);
+            console.error("[Telegram] API Error:", data.description, data.error_code);
+        } else {
+            console.log("[Telegram] Success, message_id:", data.result?.message_id);
         }
 
         return data;
     } catch (error) {
-        console.error("[Telegram] Request failed:", error);
+        const errorMsg = error instanceof Error ? error.message : "Request failed";
+        console.error("[Telegram] Request failed:", errorMsg);
         return {
             ok: false,
-            description: error instanceof Error ? error.message : "Request failed"
+            description: errorMsg
         };
     }
 }
@@ -122,20 +135,21 @@ export async function sendDramaNotification(drama: DramaNotificationData): Promi
  * Note: Telegram has 1024 character limit for captions
  */
 export function formatDramaCaption(drama: DramaNotificationData): string {
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://rabastrim.vercel.app";
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://flysel.fun";
     const lines: string[] = [];
 
-    // Title
+    // Title with link to drama page
+    const dramaUrl = `${baseUrl}/watch/${drama.providerContentId}?provider=${drama.provider}`;
     lines.push(`<b>${escapeHtml(drama.title)}</b>`);
     lines.push("");
 
-    // Episode list with links
-    // Limit to 30 episodes due to Telegram's 1024 char caption limit
+    // Episode info - simplified to fit 1024 char limit
     if (drama.episodeCount && drama.episodeCount > 0) {
-        lines.push("Episode :");
-
-        const maxEpisodesToShow = 30;
+        // Show first few episodes as links, then link to full list
+        const maxEpisodesToShow = 10;
         const episodesToShow = Math.min(drama.episodeCount, maxEpisodesToShow);
+
+        lines.push("Episode :");
 
         const episodeLinks: string[] = [];
         for (let i = 1; i <= episodesToShow; i++) {
@@ -143,17 +157,13 @@ export function formatDramaCaption(drama: DramaNotificationData): string {
             episodeLinks.push(`<a href="${url}">EP-${i}</a>`);
         }
 
-        // Join with pipe separator, breaking lines every 7 episodes for readability
-        const chunks: string[] = [];
-        for (let i = 0; i < episodeLinks.length; i += 7) {
-            chunks.push(episodeLinks.slice(i, i + 7).join(" | "));
-        }
-        lines.push(chunks.join("\n| "));
+        // Join with pipe separator
+        lines.push(episodeLinks.join(" | "));
 
-        // Show "dan X lainnya" if there are more episodes
+        // Show remaining count with link to drama page
         if (drama.episodeCount > maxEpisodesToShow) {
             const remaining = drama.episodeCount - maxEpisodesToShow;
-            lines.push(`... dan ${remaining} episode lainnya`);
+            lines.push(`<a href="${dramaUrl}">... dan ${remaining} episode lainnya</a>`);
         }
         lines.push("");
     }
