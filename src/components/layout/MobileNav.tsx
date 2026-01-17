@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 export function MobileNav() {
     const pathname = usePathname();
 
-    if (pathname.startsWith("/watch") || pathname.startsWith("/search")) return null;
+    if (pathname.startsWith("/watch") || pathname.startsWith("/search") || pathname.startsWith("/support")) return null;
 
     const navs = [
         { name: "Home", href: "/", icon: Home },
