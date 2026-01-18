@@ -261,6 +261,19 @@ export default function ExploreSection({ section }: ExploreSectionProps) {
             // Pass language to fetcher - DramaBox sections will use it, others ignore
             const items = await section.fetcher(language);
             if (!Array.isArray(items)) return [];
+
+            // Auto-sync: Save fetched items to database in background
+            // Only for multi-language providers (dramabox, flickreels, melolo)
+            const isMultiLangProvider = ["dramabox", "flickreels", "melolo"].includes(section.source);
+            if (isMultiLangProvider && items.length > 0) {
+                // Trigger background sync - fire and forget
+                import("@/lib/services/auto-sync").then(({ triggerBackgroundSync }) => {
+                    triggerBackgroundSync(section.source, language, items);
+                }).catch(err => {
+                    console.error("[ExploreSection] Failed to load auto-sync:", err);
+                });
+            }
+
             return items.map(section.normalizer);
         },
         {

@@ -23,11 +23,15 @@ interface SectionProps {
     title: string;
     items: VideoItem[];
     variant?: "portrait" | "landscape"; // Portrait for dramas, landscape for continue watching usually
+    useTranslation?: boolean; // If true, title is treated as a translation key
 }
 
-export function Section({ title, items, variant = "portrait" }: SectionProps) {
+export function Section({ title, items, variant = "portrait", useTranslation: shouldTranslate = false }: SectionProps) {
     const scrollContainerRef = useRef<HTMLDivElement>(null);
     const { t } = useTranslation();
+
+    // Translate title if it looks like a translation key (contains '.')
+    const displayTitle = shouldTranslate || title.includes('.') ? t(title) : title;
 
     const scroll = (direction: 'left' | 'right') => {
         if (scrollContainerRef.current) {
@@ -41,7 +45,7 @@ export function Section({ title, items, variant = "portrait" }: SectionProps) {
         <section className="py-6 space-y-4 group/section">
             <div className="container mx-auto px-4 flex items-center justify-between">
                 <h2 className="text-xl md:text-2xl font-bold text-white flex items-center gap-2">
-                    {title}
+                    {displayTitle}
                     <span className="text-gray-500 text-sm font-normal cursor-pointer hover:text-white transition-colors ml-2">{t("common.more")} &gt;</span>
                 </h2>
             </div>

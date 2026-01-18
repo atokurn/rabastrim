@@ -55,8 +55,11 @@
         "total_episodes": "Tổng",
         "select_episode": "Chọn tập",
         "synopsis": "Tóm tắt",
+        "description": "Mô tả",
         "recommendations": "Đề xuất",
+        "you_may_like": "Bạn có thể thích",
         "share": "Chia sẻ",
+        "download": "Tải xuống",
         "fullscreen": "Toàn màn hình",
         "video_error": "Không thể phát video",
         "reload": "Tải lại",
@@ -65,7 +68,10 @@
         "added_to_collection": "Đã thêm vào bộ sưu tập",
         "quality": "Chất lượng",
         "playback_speed": "Tốc độ phát",
-        "cancel": "Hủy"
+        "cancel": "Hủy",
+        "like": "Thích",
+        "liked": "Đã thích",
+        "collection": "Bộ sưu tập"
     },
     "user": {
         "guest": "Khách",
@@ -83,7 +89,10 @@
         "settings": "Cài đặt",
         "no_history": "Chưa có lịch sử xem.",
         "no_collection": "Chưa có bộ sưu tập.",
-        "no_likes": "Chưa có phim thích."
+        "no_likes": "Chưa có phim thích.",
+        "guest_title": "Bạn đang đăng nhập với tư cách Khách",
+        "guest_description": "Lịch sử xem và danh sách yêu thích được lưu trữ trong trình duyệt này. Nếu bạn xóa bộ nhớ cache hoặc đổi thiết bị, dữ liệu sẽ bị mất.",
+        "guest_login_prompt": "Đăng nhập để lưu vĩnh viễn"
     },
     "buttons": {
         "settings": "Cài đặt",

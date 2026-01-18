@@ -1,6 +1,7 @@
 "use client";
 
 import { useUserStore } from "@/lib/auth/store";
+import { useTranslation } from "@/lib/i18n/use-translation";
 import { Heart } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -24,6 +25,7 @@ export function LikeButton({
     className = ''
 }: LikeButtonProps) {
     const { addToLikes, removeFromLikes, likes } = useUserStore();
+    const { t } = useTranslation();
     const [isLiked, setIsLiked] = useState(false);
 
     useEffect(() => {
@@ -51,7 +53,7 @@ export function LikeButton({
                 <div className="p-1.5 rounded-full bg-black/20 backdrop-blur-sm group-active:scale-90 transition-transform">
                     <Heart className={`w-7 h-7 stroke-[1.5px] ${isLiked ? 'text-red-500 fill-red-500' : 'text-white'}`} />
                 </div>
-                <span className="text-white text-xs font-medium text-shadow">{isLiked ? 'Disukai' : 'Suka'}</span>
+                <span className="text-white text-xs font-medium text-shadow">{isLiked ? t('buttons.liked') : t('buttons.like')}</span>
             </button>
         );
     }
@@ -78,7 +80,7 @@ export function LikeButton({
             className={`flex flex-col items-center gap-1 text-gray-400 hover:text-white transition-colors ${className}`}
         >
             <Heart className={`w-5 h-5 ${isLiked ? 'text-red-500 fill-red-500' : ''}`} />
-            <span className="text-xs">{isLiked ? 'Disukai' : 'Suka'}</span>
+            <span className="text-xs">{isLiked ? t('buttons.liked') : t('buttons.like')}</span>
         </button>
     );
 }

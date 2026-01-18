@@ -55,8 +55,11 @@
         "total_episodes": "Total",
         "select_episode": "Select Episode",
         "synopsis": "Synopsis",
+        "description": "Description",
         "recommendations": "Recommendations",
+        "you_may_like": "You May Like",
         "share": "Share",
+        "download": "Download",
         "fullscreen": "Fullscreen",
         "video_error": "Failed to play video",
         "reload": "Reload",
@@ -65,7 +68,10 @@
         "added_to_collection": "Added to collection",
         "quality": "Quality",
         "playback_speed": "Playback Speed",
-        "cancel": "Cancel"
+        "cancel": "Cancel",
+        "like": "Like",
+        "liked": "Liked",
+        "collection": "Collection"
     },
     "user": {
         "guest": "Guest",
@@ -83,7 +89,10 @@
         "settings": "Settings",
         "no_history": "No watch history yet.",
         "no_collection": "No collection yet.",
-        "no_likes": "No likes yet."
+        "no_likes": "No likes yet.",
+        "guest_title": "You are logged in as Guest",
+        "guest_description": "Your watch history and favorites are stored in this browser. If you clear the cache or change devices, your data will be lost.",
+        "guest_login_prompt": "Login to save permanently"
     },
     "buttons": {
         "settings": "Settings",

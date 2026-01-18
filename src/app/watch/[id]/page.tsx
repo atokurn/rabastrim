@@ -9,7 +9,9 @@ import { DramaQueenApi } from "@/lib/api/dramaqueen";
 import Link from "next/link";
 import { VideoPlayer } from "@/components/watch/VideoPlayer";
 import { FavoriteButton } from "@/components/watch/FavoriteButton";
+import { LikeButton } from "@/components/watch/LikeButton";
 import { EpisodeList } from "@/components/watch/EpisodeList";
+import { ShareButton, DownloadButton, TranslatedTitle, TranslatedText } from "@/components/watch/ActionButtons";
 
 /**
  * Proxy video URLs with embedded credentials (user:pass@host) through /api/video-proxy
@@ -353,10 +355,14 @@ export default async function WatchPage({ params, searchParams }: WatchPageProps
                             </div>
                         </div>
                         <div className="flex gap-4">
-                            <button className="flex flex-col items-center gap-1 text-gray-400 hover:text-white">
-                                <Share2 className="w-5 h-5" />
-                                <span className="text-xs">Share</span>
-                            </button>
+                            <LikeButton
+                                bookId={id}
+                                provider={provider}
+                                episode={currentEp}
+                                title={displayTitle}
+                                cover={displayCover}
+                                variant="with-label"
+                            />
                             <FavoriteButton
                                 bookId={id}
                                 provider={provider}
@@ -364,18 +370,16 @@ export default async function WatchPage({ params, searchParams }: WatchPageProps
                                 cover={displayCover}
                                 variant="with-label"
                             />
-                            <button className="flex flex-col items-center gap-1 text-gray-400 hover:text-white">
-                                <Download className="w-5 h-5" />
-                                <span className="text-xs">Download</span>
-                            </button>
+                            <ShareButton />
+                            <DownloadButton />
                         </div>
                     </div>
 
                     {/* Mobile/Tablet Episode List (Hidden on Desktop) */}
                     <div className="lg:hidden bg-[#1f2126] p-4 rounded-lg">
                         <div className="flex justify-between items-center mb-4">
-                            <h3 className="font-bold text-lg text-white">Episodes</h3>
-                            <span className="text-xs text-gray-400">Total {totalEps}</span>
+                            <TranslatedTitle titleKey="player.episodes" className="font-bold text-lg text-white" />
+                            <span className="text-xs text-gray-400"><TranslatedText textKey="player.total_episodes" /> {totalEps}</span>
                         </div>
 
                         <EpisodeList
@@ -390,7 +394,7 @@ export default async function WatchPage({ params, searchParams }: WatchPageProps
 
                     {drama?.description && (
                         <div className="bg-[#1f2126] p-4 rounded-lg">
-                            <h3 className="font-bold text-lg mb-2 text-white">Deskripsi</h3>
+                            <TranslatedTitle titleKey="player.description" className="font-bold text-lg mb-2 text-white" />
                             <p className="text-gray-300 text-sm leading-relaxed">
                                 {drama.description}
                             </p>
@@ -400,8 +404,9 @@ export default async function WatchPage({ params, searchParams }: WatchPageProps
                     {/* Recommendations */}
                     {recommendations.length > 0 && (
                         <Section
-                            title="Kamu Mungkin Suka"
+                            title="player.you_may_like"
                             items={recommendations}
+                            useTranslation={true}
                         />
                     )}
                 </div>
@@ -410,8 +415,8 @@ export default async function WatchPage({ params, searchParams }: WatchPageProps
                 <div className="px-4 md:px-0 hidden lg:block">
                     <div className="bg-[#1f2126] rounded-lg p-4">
                         <div className="flex justify-between items-center mb-4">
-                            <h3 className="font-bold text-lg text-white">Episodes</h3>
-                            <span className="text-xs text-gray-400">Total {totalEps}</span>
+                            <TranslatedTitle titleKey="player.episodes" className="font-bold text-lg text-white" />
+                            <span className="text-xs text-gray-400"><TranslatedText textKey="player.total_episodes" /> {totalEps}</span>
                         </div>
 
                         <EpisodeList

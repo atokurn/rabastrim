@@ -5,6 +5,7 @@ import { Play, Pause, ChevronLeft, Loader2, Share2, Heart, MoreHorizontal, Chevr
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useVideoPlayer } from "@/hooks/use-video-player";
+import { useTranslation } from "@/lib/i18n/use-translation";
 import Image from "next/image";
 import Link from "next/link";
 import { Drawer } from "@/components/ui/Drawer";
@@ -41,6 +42,7 @@ export function MobilePlayer({
     recommendations = []
 }: MobilePlayerProps) {
     const router = useRouter();
+    const { t } = useTranslation();
 
     // Previous episode calculation
     const prevEpisode = currentEpisodeNumber > 1 ? { number: currentEpisodeNumber - 1 } : undefined;
@@ -524,7 +526,7 @@ export function MobilePlayer({
                             <div className="p-1.5 rounded-full bg-black/20 backdrop-blur-sm group-active:scale-90 transition-transform">
                                 <Share2 className="w-7 h-7 text-white stroke-[1.5px]" />
                             </div>
-                            <span className="text-white text-xs font-medium text-shadow">Bagikan</span>
+                            <span className="text-white text-xs font-medium text-shadow">{t("player.share")}</span>
                         </button>
                         <button onClick={toggleFullscreen} className="flex flex-col items-center gap-1 group">
                             <div className="p-1.5 rounded-full bg-black/20 backdrop-blur-sm group-active:scale-90 transition-transform">
@@ -534,7 +536,7 @@ export function MobilePlayer({
                                     <Maximize className="w-7 h-7 text-white stroke-[1.5px]" />
                                 )}
                             </div>
-                            <span className="text-white text-xs font-medium text-shadow">Layar Penuh</span>
+                            <span className="text-white text-xs font-medium text-shadow">{t("player.fullscreen")}</span>
                         </button>
                     </div>
 
@@ -703,10 +705,10 @@ export function MobilePlayer({
                 >
                     <div className="flex items-center gap-2 text-white/90 text-sm font-medium">
                         <Play className="w-4 h-4 fill-white text-white" />
-                        <span>Total {totalEpisodes} episode</span>
+                        <span>{t("player.total_episodes")} {totalEpisodes} {t("player.episode")}</span>
                     </div>
                     <div className="flex items-center gap-2 text-xs text-gray-400">
-                        <span>Pilih episode</span>
+                        <span>{t("player.select_episode")}</span>
                         <ChevronRight className="w-5 h-5" />
                     </div>
                 </button>
@@ -773,14 +775,14 @@ export function MobilePlayer({
                         onClick={() => setActiveTab('details')}
                         className={cn("mr-6 py-3 text-sm font-bold relative transition-colors", activeTab === 'details' ? "text-white" : "text-gray-500")}
                     >
-                        Sinopsis
+                        {t("player.synopsis")}
                         {activeTab === 'details' && <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-[#00cc55] rounded-full" />}
                     </button>
                     <button
                         onClick={() => setActiveTab('episodes')}
                         className={cn("mr-6 py-3 text-sm font-bold relative transition-colors", activeTab === 'episodes' ? "text-white" : "text-gray-500")}
                     >
-                        Pilih episode
+                        {t("player.select_episode")}
                         {activeTab === 'episodes' && <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-[#00cc55] rounded-full" />}
                     </button>
                 </div>
@@ -814,13 +816,13 @@ export function MobilePlayer({
                     ) : (
                         <div className="space-y-6">
                             <p className="text-sm text-gray-300 leading-relaxed">
-                                {drama?.description || "Tidak ada deskripsi."}
+                                {drama?.description || t("player.no_description")}
                             </p>
 
                             {/* Recommendations */}
                             {recommendations && recommendations.length > 0 && (
                                 <div>
-                                    <h3 className="text-white font-bold text-sm mb-3">Rekomendasi</h3>
+                                    <h3 className="text-white font-bold text-sm mb-3">{t("player.recommendations")}</h3>
                                     <div className="grid grid-cols-3 gap-3">
                                         {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                                         {recommendations.map((rec: any) => (

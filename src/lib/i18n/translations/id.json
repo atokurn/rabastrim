@@ -55,8 +55,11 @@
         "total_episodes": "Total",
         "select_episode": "Pilih Episode",
         "synopsis": "Sinopsis",
+        "description": "Deskripsi",
         "recommendations": "Rekomendasi",
+        "you_may_like": "Kamu Mungkin Suka",
         "share": "Bagikan",
+        "download": "Download",
         "fullscreen": "Layar Penuh",
         "video_error": "Gagal memutar video",
         "reload": "Muat Ulang",
@@ -65,7 +68,10 @@
         "added_to_collection": "Sudah ditambahkan",
         "quality": "Kualitas",
         "playback_speed": "Kelipatan Laju",
-        "cancel": "Batal"
+        "cancel": "Batal",
+        "like": "Suka",
+        "liked": "Disukai",
+        "collection": "Koleksi"
     },
     "user": {
         "guest": "Tamu",
@@ -83,7 +89,10 @@
         "settings": "Pengaturan",
         "no_history": "Belum ada histori tontonan.",
         "no_collection": "Belum ada koleksi drama.",
-        "no_likes": "Belum ada yang disukai."
+        "no_likes": "Belum ada yang disukai.",
+        "guest_title": "Kamu masuk sebagai Tamu",
+        "guest_description": "Riwayat tontonan dan daftar favoritmu disimpan di browser ini. Jika kamu menghapus cache atau mengganti perangkat, data akan hilang.",
+        "guest_login_prompt": "Masuk untuk menyimpan permanen"
     },
     "buttons": {
         "settings": "Pengaturan",
