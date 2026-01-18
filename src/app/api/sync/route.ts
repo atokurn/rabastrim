@@ -56,10 +56,10 @@ export async function POST(request: NextRequest) {
                 switch (p) {
                     case "dramabox": {
                         // DramaBox supports 16 languages
-                        // en, ja, ko, es, id, fr, pt, th, ar, de, pl, vi, it, tr, zh-TW, zh
+                        // IMPORTANT: "id" (Indonesian) is synced LAST to ensure Indonesian titles are preserved
                         const languages = [
-                            "en", "ja", "ko", "es", "id", "fr", "pt", "th",
-                            "ar", "de", "pl", "vi", "it", "tr", "zh-TW", "zh"
+                            "en", "ja", "ko", "es", "fr", "pt", "th",
+                            "ar", "de", "pl", "vi", "it", "tr", "zh-TW", "zh", "id"
                         ];
 
                         for (const lang of languages) {
@@ -95,10 +95,10 @@ export async function POST(request: NextRequest) {
 
                     case "flickreels": {
                         // FlickReels supports 11 languages
-                        // en, ja, ko, zh-TW, es, id, th, de, pt, fr, ar
+                        // IMPORTANT: "id" (Indonesian) is synced LAST to ensure Indonesian titles are preserved
                         const flickreelsLangs = [
-                            "en", "ja", "ko", "zh-TW", "es", "id", "th",
-                            "de", "pt", "fr", "ar"
+                            "en", "ja", "ko", "zh-TW", "es", "th",
+                            "de", "pt", "fr", "ar", "id"
                         ];
 
                         for (const lang of flickreelsLangs) {
@@ -263,9 +263,10 @@ export async function GET(request: NextRequest) {
                 switch (p) {
                     case "dramabox": {
                         // DramaBox supports 16 languages
+                        // IMPORTANT: "id" (Indonesian) is synced LAST to ensure Indonesian titles are preserved
                         const languages = [
-                            "en", "ja", "ko", "es", "id", "fr", "pt", "th",
-                            "ar", "de", "pl", "vi", "it", "tr", "zh-TW", "zh"
+                            "en", "ja", "ko", "es", "fr", "pt", "th",
+                            "ar", "de", "pl", "vi", "it", "tr", "zh-TW", "zh", "id"
                         ];
 
                         for (const lang of languages) {
@@ -298,9 +299,10 @@ export async function GET(request: NextRequest) {
 
                     case "flickreels": {
                         // FlickReels supports 11 languages
+                        // IMPORTANT: "id" (Indonesian) is synced LAST to ensure Indonesian titles are preserved
                         const flickreelsLangs = [
-                            "en", "ja", "ko", "zh-TW", "es", "id", "th",
-                            "de", "pt", "fr", "ar"
+                            "en", "ja", "ko", "zh-TW", "es", "th",
+                            "de", "pt", "fr", "ar", "id"
                         ];
 
                         for (const lang of flickreelsLangs) {

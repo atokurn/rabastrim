@@ -9,6 +9,7 @@ import { db, syncLogs, type ContentProvider, type FetchedFrom } from "@/lib/db";
 import { upsertContent } from "./content-repository";
 import { normalizeDramaBox, normalizeNetShort, normalizeFlickReels, normalizeMelolo, normalizeDramaQueen, normalizeDonghua } from "./provider-normalizers";
 import { setDefaultLanguageForContent, upsertContentLanguage } from "./language-ingestion";
+import { titleMatchesLanguage } from "@/lib/utils/title-language-detector";
 
 // ============================================
 // TTL CONFIGURATION
@@ -202,13 +203,27 @@ export const ContentIngestionService = {
                 const result = await upsertContent(normalized);
 
                 // Explicitly set language for this content
+                // BUT only if the title actually matches the target language
+                // This prevents adding "id" association to dramas with English titles
                 if (result && result.length > 0) {
-                    await upsertContentLanguage(result[0].id, provider, {
-                        languageCode,
-                        type: "subtitle",
-                        source: "api",
-                        isDefault: languageCode === "id", // Indonesian is default
-                    });
+                    const title = normalized.title || item.bookName || item.title || "";
+
+                    // For Indonesian, check if title is actually Indonesian
+                    // For other languages, always add (API is source of truth)
+                    const shouldAddLanguage = languageCode === "id"
+                        ? titleMatchesLanguage(title, "id")
+                        : true;
+
+                    if (shouldAddLanguage) {
+                        await upsertContentLanguage(result[0].id, provider, {
+                            languageCode,
+                            type: "subtitle",
+                            source: "api",
+                            isDefault: languageCode === "id",
+                        });
+                    } else {
+                        console.log(`[Ingestion] Skipped lang=${languageCode} for "${title}" (title doesn't match)`);
+                    }
                 }
 
                 updated++;

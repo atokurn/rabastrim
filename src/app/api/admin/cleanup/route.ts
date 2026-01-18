@@ -43,6 +43,42 @@ export async function DELETE(request: NextRequest) {
     }
 
     try {
+        // Type: all - Delete ALL content for a provider (for complete resync)
+        if (cleanupType === "all") {
+            const allContent = await db
+                .select({ id: contents.id })
+                .from(contents)
+                .where(eq(contents.provider, provider));
+
+            const allIds = allContent.map(c => c.id);
+
+            if (allIds.length === 0) {
+                return NextResponse.json({
+                    success: true,
+                    message: `No content found for provider: ${provider}`,
+                    deleted: 0
+                });
+            }
+
+            console.log(`[Cleanup] Deleting ALL ${allIds.length} items for ${provider}`);
+
+            // Delete language associations first
+            for (const id of allIds) {
+                await db.delete(contentLanguages).where(eq(contentLanguages.contentId, id));
+            }
+
+            // Delete the content
+            for (const id of allIds) {
+                await db.delete(contents).where(eq(contents.id, id));
+            }
+
+            return NextResponse.json({
+                success: true,
+                message: `Deleted ALL ${allIds.length} content items from ${provider}`,
+                deleted: allIds.length
+            });
+        }
+
         if (cleanupType === "unknown_title") {
             // Find and delete content with empty/unknown titles
             const badContent = await db
@@ -132,8 +168,51 @@ export async function DELETE(request: NextRequest) {
             });
         }
 
+        if (cleanupType === "no_language") {
+            // Find content WITHOUT any language associations (legacy content)
+            // These were synced before multi-language feature was implemented
+            const allProviderContent = await db
+                .select({ id: contents.id, title: contents.title, providerContentId: contents.providerContentId })
+                .from(contents)
+                .where(eq(contents.provider, provider));
+
+            // Get content IDs that HAVE language associations
+            const contentWithLanguages = await db
+                .select({ contentId: contentLanguages.contentId })
+                .from(contentLanguages)
+                .where(eq(contentLanguages.provider, provider));
+
+            const idsWithLanguage = new Set(contentWithLanguages.map(c => c.contentId));
+
+            // Filter to content WITHOUT language associations
+            const legacyContent = allProviderContent.filter(c => !idsWithLanguage.has(c.id));
+
+            if (legacyContent.length === 0) {
+                return NextResponse.json({
+                    success: true,
+                    message: `No legacy content (without language) found for provider: ${provider}`,
+                    deleted: 0
+                });
+            }
+
+            console.log(`[Cleanup] Found ${legacyContent.length} legacy items without language for ${provider}`);
+
+            // Delete the content (cascade will handle language associations if any)
+            const legacyIds = legacyContent.map(c => c.id);
+            for (const id of legacyIds) {
+                await db.delete(contents).where(eq(contents.id, id));
+            }
+
+            return NextResponse.json({
+                success: true,
+                message: `Deleted ${legacyIds.length} legacy content items (no language) from ${provider}`,
+                deleted: legacyIds.length,
+                sample: legacyContent.slice(0, 20).map(c => ({ id: c.providerContentId, title: c.title }))
+            });
+        }
+
         return NextResponse.json(
-            { success: false, error: `Unknown cleanup type: ${cleanupType}. Supported: unknown_title, no_cover` },
+            { success: false, error: `Unknown cleanup type: ${cleanupType}. Supported: unknown_title, no_cover, no_language` },
             { status: 400 }
         );
 
@@ -145,3 +224,4 @@ export async function DELETE(request: NextRequest) {
         );
     }
 }
+

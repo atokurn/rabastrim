@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { contents, contentLanguages } from "@/lib/db/schema";
 import { desc, lt, eq, and, or, sql, inArray } from "drizzle-orm";
+import { titleMatchesLanguage } from "@/lib/utils/title-language-detector";
 
 // Fallback imports for API-based data when DB is empty
 import { DramaBoxApi } from "@/lib/api/dramabox";
@@ -193,7 +194,7 @@ export async function GET(request: Request) {
             .limit(limit + 1); // Fetch one extra to check hasMore
 
         // Determine if there are more items
-        const hasMore = items.length > limit;
+        let hasMore = items.length > limit;
         const resultItems = hasMore ? items.slice(0, limit) : items;
 
         // Build composite next cursor: sortValue|uuid (sortValue = releaseDate as date or createdAt as full timestamp)
@@ -204,7 +205,7 @@ export async function GET(request: Request) {
 
         // Normalize response with release info
         // For anime/donghua content, use provider="donghua" so watch page calls correct endpoint
-        const data: NormalizedItem[] = resultItems.map(item => ({
+        let data: NormalizedItem[] = resultItems.map(item => ({
             id: item.id,
             title: item.title,
             image: item.image || "",
@@ -215,6 +216,38 @@ export async function GET(request: Request) {
             releaseStatus: item.releaseStatus || undefined,
             createdAt: item.createdAt?.toISOString(),
         }));
+
+        // POST-QUERY FILTER: Filter out titles that don't match the selected language
+        // This is a second layer of protection since DramaBox API returns English titles
+        // even when called with a different language parameter
+        // 
+        // Special handling:
+        // - DramaQueen/Donghua: Only show for Indonesian (id), filter out for other languages
+        // - Other providers: Use title language detection
+        if (lang && lang !== 'en') {
+            const originalCount = data.length;
+            data = data.filter(item => {
+                // DramaQueen and Donghua are Indonesian-only content
+                if (item.provider === 'dramaqueen' || item.provider === 'donghua') {
+                    return lang === 'id'; // Only show for Indonesian
+                }
+                // For other providers, check title language
+                return titleMatchesLanguage(item.title, lang);
+            });
+            const filtered = originalCount - data.length;
+            if (filtered > 0) {
+                console.log(`[all-dramas] Filtered ${filtered} non-${lang} titles`);
+            }
+
+            // IMPORTANT: If ALL items were filtered and we got a full page from DB,
+            // this means there are likely no matching items in remaining pages either.
+            // Set hasMore to false to prevent infinite scroll glitch.
+            // Note: This is conservative - we stop pagination when a full page is filtered.
+            if (data.length === 0 && originalCount === limit) {
+                hasMore = false;
+                console.log(`[all-dramas] All items filtered for lang=${lang}, stopping pagination`);
+            }
+        }
 
         // Fallback to API if database is empty
         if (data.length === 0 && !cursor) {
@@ -233,7 +266,7 @@ export async function GET(request: Request) {
             success: true,
             data,
             nextCursor: hasMore ? nextCursor : null,
-            hasMore,
+            hasMore: hasMore && data.length > 0, // Don't say hasMore if current page is empty
             source: "database"
         });
 
