@@ -149,7 +149,13 @@ export async function POST(request: NextRequest) {
                                 }
 
                                 const langItems = data.map(adaptMelolo);
-                                const validItems = langItems.filter(item => item.bookId);
+                                // Filter: must have bookId AND valid title (not Unknown/Untitled)
+                                const validItems = langItems.filter(item =>
+                                    item.bookId &&
+                                    item.title &&
+                                    item.title !== "Unknown Title" &&
+                                    item.title !== "Untitled"
+                                );
 
                                 if (validItems.length > 0) {
                                     await ContentIngestionService.syncContentWithLanguage(

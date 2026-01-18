@@ -2,15 +2,29 @@ import { db, contents, contentLanguages, Content, NewContent } from "@/lib/db";
 import { eq, ilike, desc, sql, and, notInArray, or, inArray } from "drizzle-orm";
 
 export async function upsertContent(data: NewContent) {
+    // Guard: Don't overwrite good data with empty or 'Unknown Title' values
+    const titleToUse = data.title && data.title !== "Unknown Title" && data.title !== "Untitled"
+        ? data.title
+        : null;
+    const posterToUse = data.posterUrl && data.posterUrl.length > 0
+        ? data.posterUrl
+        : null;
+
     return db
         .insert(contents)
         .values(data)
         .onConflictDoUpdate({
             target: [contents.provider, contents.providerContentId],
             set: {
-                title: data.title,
+                // Only update title if new value is valid, otherwise keep existing
+                title: titleToUse
+                    ? sql`${titleToUse}`
+                    : sql`COALESCE(${contents.title}, ${data.title || "Unknown Title"})`,
                 description: data.description,
-                posterUrl: data.posterUrl,
+                // Only update posterUrl if new value is valid, otherwise keep existing
+                posterUrl: posterToUse
+                    ? sql`${posterToUse}`
+                    : sql`COALESCE(${contents.posterUrl}, '')`,
                 episodeCount: data.episodeCount,
                 region: data.region,
                 contentType: data.contentType,

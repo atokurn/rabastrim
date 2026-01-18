@@ -15,6 +15,8 @@ export function UserMenu({ desktopOnly, mobileOnly }: UserMenuProps) {
     const { t } = useTranslation();
 
     const menuItems = [
+        { label: "Langganan VIP", href: "/vip" },
+        { label: "Top Up Credit", href: "/topup" },
         { label: t("menu.downloads"), href: "/downloads" },
         { label: t("menu.language"), href: "/settings/language" },
         { label: t("menu.settings"), href: "/settings" },

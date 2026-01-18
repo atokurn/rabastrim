@@ -311,3 +311,116 @@ export const telegramNotifications = pgTable("telegram_notifications", {
 
 export type TelegramNotification = typeof telegramNotifications.$inferSelect;
 export type NewTelegramNotification = typeof telegramNotifications.$inferInsert;
+
+// ============================================
+// SUBSCRIPTION & CREDIT SYSTEM
+// ============================================
+
+/**
+ * Subscription Plans - Dynamic pricing configuration
+ */
+export const subscriptionPlans = pgTable("subscription_plans", {
+    id: uuid("id").defaultRandom().primaryKey(),
+    slug: varchar("slug", { length: 20 }).unique().notNull(),
+    name: varchar("name", { length: 50 }).notNull(),
+    price: integer("price").notNull(),
+    durationDays: integer("duration_days").notNull(),
+    bonusCredit: integer("bonus_credit").default(0),
+    isActive: boolean("is_active").default(true),
+    createdAt: timestamp("created_at").defaultNow(),
+});
+
+/**
+ * Subscriptions - User subscription records
+ */
+export const subscriptions = pgTable("subscriptions", {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: uuid("user_id").references(() => users.id, { onDelete: "cascade" }).notNull(),
+    planId: uuid("plan_id").references(() => subscriptionPlans.id),
+    status: varchar("status", { length: 20 }).notNull().default("pending"), // pending, active, expired, canceled
+    startDate: timestamp("start_date").notNull(),
+    endDate: timestamp("end_date").notNull(),
+    paymentReference: varchar("payment_reference", { length: 255 }),
+    paymentMethod: varchar("payment_method", { length: 30 }),
+    createdAt: timestamp("created_at").defaultNow(),
+    updatedAt: timestamp("updated_at").defaultNow(),
+}, (table) => [
+    index("subs_user_idx").on(table.userId),
+    index("subs_status_idx").on(table.status),
+]);
+
+/**
+ * Credits - User credit balance (1 row per user)
+ */
+export const credits = pgTable("credits", {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: uuid("user_id").references(() => users.id, { onDelete: "cascade" }).notNull().unique(),
+    balance: integer("balance").notNull().default(0),
+    updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+/**
+ * Credit Transactions - Audit log for all credit changes
+ */
+export const creditTransactions = pgTable("credit_transactions", {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: uuid("user_id").references(() => users.id, { onDelete: "cascade" }).notNull(),
+    type: varchar("type", { length: 30 }).notNull(), // bonus, purchase, use, refund
+    amount: integer("amount").notNull(),
+    balanceAfter: integer("balance_after").notNull(),
+    reference: text("reference"),
+    createdAt: timestamp("created_at").defaultNow(),
+}, (table) => [
+    index("credit_tx_user_idx").on(table.userId),
+]);
+
+/**
+ * Unlocked Episodes - Track per-episode unlock via credits
+ */
+export const unlockedEpisodes = pgTable("unlocked_episodes", {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: uuid("user_id").references(() => users.id, { onDelete: "cascade" }).notNull(),
+    contentId: uuid("content_id").references(() => contents.id, { onDelete: "cascade" }).notNull(),
+    episodeNumber: integer("episode_number").notNull(),
+    unlockedAt: timestamp("unlocked_at").defaultNow(),
+}, (table) => [
+    uniqueIndex("unlocked_user_content_ep_idx").on(table.userId, table.contentId, table.episodeNumber),
+    index("unlocked_user_idx").on(table.userId),
+]);
+
+/**
+ * Payment Orders - Track Pakasir payment transactions
+ */
+export const paymentOrders = pgTable("payment_orders", {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: uuid("user_id").references(() => users.id, { onDelete: "cascade" }).notNull(),
+    orderId: varchar("order_id", { length: 50 }).unique().notNull(),
+    orderType: varchar("order_type", { length: 30 }).notNull(), // subscription, credit_topup
+    referenceId: uuid("reference_id"),
+    amount: integer("amount").notNull(),
+    fee: integer("fee").default(0),
+    totalPayment: integer("total_payment").notNull(),
+    paymentMethod: varchar("payment_method", { length: 30 }),
+    paymentNumber: text("payment_number"),
+    status: varchar("status", { length: 20 }).notNull().default("pending"), // pending, completed, expired, canceled
+    expiredAt: timestamp("expired_at"),
+    completedAt: timestamp("completed_at"),
+    createdAt: timestamp("created_at").defaultNow(),
+}, (table) => [
+    index("payment_user_idx").on(table.userId),
+    index("payment_status_idx").on(table.status),
+]);
+
+// Type exports for subscription & credit system
+export type SubscriptionPlan = typeof subscriptionPlans.$inferSelect;
+export type NewSubscriptionPlan = typeof subscriptionPlans.$inferInsert;
+export type Subscription = typeof subscriptions.$inferSelect;
+export type NewSubscription = typeof subscriptions.$inferInsert;
+export type Credit = typeof credits.$inferSelect;
+export type NewCredit = typeof credits.$inferInsert;
+export type CreditTransaction = typeof creditTransactions.$inferSelect;
+export type NewCreditTransaction = typeof creditTransactions.$inferInsert;
+export type UnlockedEpisode = typeof unlockedEpisodes.$inferSelect;
+export type NewUnlockedEpisode = typeof unlockedEpisodes.$inferInsert;
+export type PaymentOrder = typeof paymentOrders.$inferSelect;
+export type NewPaymentOrder = typeof paymentOrders.$inferInsert;

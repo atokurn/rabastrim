@@ -199,6 +199,15 @@ export const ContentIngestionService = {
                 normalized.status = "active";
                 normalized.popularityScore = 20;
 
+                // Skip items with invalid titles or missing posters
+                if (!normalized.title ||
+                    normalized.title === "Unknown Title" ||
+                    normalized.title === "Untitled" ||
+                    !normalized.posterUrl) {
+                    console.log(`[Ingestion] Skipped invalid item: title="${normalized.title}", poster=${normalized.posterUrl ? 'yes' : 'no'}`);
+                    continue;
+                }
+
                 // Upsert content
                 const result = await upsertContent(normalized);
 

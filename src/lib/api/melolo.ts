@@ -101,10 +101,11 @@ function extractDramas(data: any): MeloloDrama[] {
         return books;
     };
 
-    // Deeply nested Melolo structure: data.data.book_tab_infos[].cells[]
-    if (data.data?.data?.book_tab_infos && Array.isArray(data.data.data.book_tab_infos)) {
+    // Helper to extract from book_tab_infos
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const extractFromTabInfos = (tabInfos: any[]): MeloloDrama[] => {
         const allBooks: MeloloDrama[] = [];
-        for (const tabInfo of data.data.data.book_tab_infos) {
+        for (const tabInfo of tabInfos) {
             if (tabInfo.cells && Array.isArray(tabInfo.cells)) {
                 for (const cell of tabInfo.cells) {
                     allBooks.push(...extractBooksFromCell(cell));
@@ -112,23 +113,41 @@ function extractDramas(data: any): MeloloDrama[] {
             }
         }
         return allBooks;
+    };
+
+    // Structure 1: data.data.data.book_tab_infos (triple nested - from wrapper + API)
+    if (data.data?.data?.book_tab_infos && Array.isArray(data.data.data.book_tab_infos)) {
+        const books = extractFromTabInfos(data.data.data.book_tab_infos);
+        if (books.length > 0) {
+            console.log(`[Melolo] Extracted ${books.length} books from data.data.data.book_tab_infos`);
+            return books;
+        }
     }
 
-    // Alternative structure: data.data.book_tab_infos (without extra data wrapper)
+    // Structure 2: data.data.book_tab_infos (double nested)
     if (data.data?.book_tab_infos && Array.isArray(data.data.book_tab_infos)) {
-        const allBooks: MeloloDrama[] = [];
-        for (const tabInfo of data.data.book_tab_infos) {
-            if (tabInfo.cells && Array.isArray(tabInfo.cells)) {
-                for (const cell of tabInfo.cells) {
-                    allBooks.push(...extractBooksFromCell(cell));
-                }
-            }
+        const books = extractFromTabInfos(data.data.book_tab_infos);
+        if (books.length > 0) {
+            console.log(`[Melolo] Extracted ${books.length} books from data.data.book_tab_infos`);
+            return books;
         }
-        return allBooks;
+    }
+
+    // Structure 3: data.book_tab_infos (single nested)
+    if (data.book_tab_infos && Array.isArray(data.book_tab_infos)) {
+        const books = extractFromTabInfos(data.book_tab_infos);
+        if (books.length > 0) {
+            console.log(`[Melolo] Extracted ${books.length} books from data.book_tab_infos`);
+            return books;
+        }
     }
 
     // Nested in data.data (simple array)
     if (data.data && Array.isArray(data.data)) return data.data;
+
+    // Log warning if no books found
+    console.warn(`[Melolo] Could not extract dramas. Keys:`, Object.keys(data || {}));
+    if (data.data) console.warn(`[Melolo] data.data keys:`, Object.keys(data.data || {}));
 
     return [];
 }

@@ -87,7 +87,8 @@ function NavbarContent() {
     const isHistoryPage = pathname.startsWith("/history");
     const isExplorePage = pathname.startsWith("/explore");
     const isSupportPage = pathname.startsWith("/support");
-    const shouldHideOnMobile = isUserPage || isHistoryPage || isExplorePage || isSupportPage;
+    const isVipPage = pathname.startsWith("/vip");
+    const shouldHideOnMobile = isUserPage || isHistoryPage || isExplorePage || isSupportPage || isVipPage;
 
     const navItems = [
         { label: "For You", href: "/", isActive: pathname === "/" },
