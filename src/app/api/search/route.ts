@@ -124,9 +124,21 @@ export async function GET(request: NextRequest) {
             });
         });
 
+        // Get user's preferred language from query param (or default to "id")
+        const lang = searchParams.get("lang") || "id";
+
         const ingestionPromises = Object.entries(byProvider).map(([provider, items]) => {
             // Basic validation if provider is valid enum
             if (['dramabox', 'netshort', 'melolo', 'flickreels'].includes(provider)) {
+                // For DramaBox, use language-aware sync to save language association
+                if (provider === 'dramabox') {
+                    return ContentIngestionService.syncContentWithLanguage(
+                        provider as ContentProvider,
+                        items,
+                        lang,
+                        "search"
+                    );
+                }
                 return ContentIngestionService.ingestFromSearch(provider as ContentProvider, items);
             }
             return Promise.resolve();

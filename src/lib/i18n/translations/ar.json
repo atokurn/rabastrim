@@ -1,0 +1,145 @@
+{
+    "common": {
+        "loading": "جاري التحميل...",
+        "error": "حدث خطأ",
+        "retry": "حاول مرة أخرى",
+        "cancel": "إلغاء",
+        "save": "حفظ",
+        "back": "رجوع",
+        "next": "التالي",
+        "previous": "السابق",
+        "see_all": "عرض الكل",
+        "more": "المزيد",
+        "today": "اليوم",
+        "yesterday": "أمس",
+        "progress": "التقدم"
+    },
+    "navbar": {
+        "search_placeholder": "البحث عن دراما...",
+        "vip": "VIP",
+        "for_you": "لك",
+        "home": "الرئيسية",
+        "explore": "استكشف",
+        "me": "أنا"
+    },
+    "menu": {
+        "downloads": "تنزيلاتي",
+        "language": "اللغة",
+        "settings": "الحساب والإعدادات",
+        "support": "المساعدة والملاحظات"
+    },
+    "home": {
+        "recommendations": "التوصيات",
+        "continue_watching": "متابعة المشاهدة",
+        "trending": "الأكثر رواجاً",
+        "new_releases": "إصدارات جديدة",
+        "for_you": "لك",
+        "recent_history": "شوهد مؤخراً"
+    },
+    "categories": {
+        "all": "الكل",
+        "short_drama": "دراما قصيرة",
+        "drama_china": "دراما صينية",
+        "drama_korea": "دراما كورية",
+        "drama_japan": "دراما يابانية",
+        "drama_thailand": "دراما تايلاندية",
+        "anime": "أنمي"
+    },
+    "player": {
+        "episode": "الحلقة",
+        "episodes": "الحلقات",
+        "autoplay": "تشغيل تلقائي",
+        "next_episode": "الحلقة التالية",
+        "previous_episode": "الحلقة السابقة",
+        "continue_episode": "متابعة الحلقة",
+        "total_episodes": "Total",
+        "select_episode": "Select Episode",
+        "synopsis": "Synopsis",
+        "recommendations": "Recommendations",
+        "share": "Share",
+        "fullscreen": "Fullscreen",
+        "video_error": "Failed to play video",
+        "reload": "Reload",
+        "connection_error": "Connection error. Please try again.",
+        "no_description": "No description available.",
+        "added_to_collection": "Added to collection",
+        "quality": "Quality",
+        "playback_speed": "Playback Speed",
+        "cancel": "Cancel"
+    },
+    "user": {
+        "guest": "ضيف",
+        "login": "تسجيل الدخول",
+        "logout": "تسجيل الخروج",
+        "profile": "الملف الشخصي",
+        "my_profile": "ملفي الشخصي",
+        "history": "السجل",
+        "collection": "المجموعة",
+        "likes": "الإعجابات",
+        "favorites": "المفضلة",
+        "recent_history": "شوهد مؤخراً",
+        "watched": "تمت المشاهدة",
+        "watched_up_to": "شوهد حتى الحلقة",
+        "settings": "الإعدادات",
+        "no_history": "لا يوجد سجل مشاهدة بعد.",
+        "no_collection": "لا توجد مجموعة بعد.",
+        "no_likes": "لا توجد إعجابات بعد."
+    },
+    "buttons": {
+        "settings": "الإعدادات",
+        "logout": "خروج",
+        "collection_add": "إضافة",
+        "collection_saved": "تم الحفظ",
+        "like": "إعجاب",
+        "liked": "أُعجب"
+    },
+    "stats": {
+        "watched": "مشاهد",
+        "favorites": "المفضلة"
+    },
+    "settings": {
+        "language_title": "اختر اللغة",
+        "language_description": "اختر لغة عرض الموقع ومحتوى الفيديو",
+        "current_language": "اللغة الحالية"
+    },
+    "explore": {
+        "view_all": "عرض الكل",
+        "no_content": "لا يوجد محتوى",
+        "end_of_list": "نهاية القائمة",
+        "video_collection": "Video Collection"
+    },
+    "sections": {
+        "trending": "Trending",
+        "recommend": "Recommendations",
+        "latest": "Latest",
+        "ranking": "Popular",
+        "vip": "VIP",
+        "foryou": "لك"
+    },
+    "support": {
+        "title": "المساعدة والتعليقات",
+        "need_help": "هل تحتاج مساعدة سريعة؟",
+        "help_description": "إذا كنت تواجه مشاكل في تشغيل مقاطع الفيديو أو مشاكل تقنية أخرى، فإن فريق الدعم لدينا جاهز لمساعدتك.",
+        "chat_telegram": "الدردشة عبر Telegram",
+        "faq_title": "الأسئلة الشائعة",
+        "faq_download_q": "كيف يمكنني تحميل مقاطع الفيديو؟",
+        "faq_download_a": "انقر على زر التحميل أسفل مشغل الفيديو. سيتم حفظ الفيديو في قائمة تنزيلاتي.",
+        "faq_playback_q": "الفيديو لا يعمل؟",
+        "faq_playback_a": "حاول تحديث الصفحة أو استخدم متصفحًا مختلفًا (يوصى بـ Chrome/Safari). إذا استمرت المشكلة، اتصل بنا.",
+        "faq_free_q": "هل هذه الخدمة مجانية؟",
+        "faq_free_a": "نعم، يمكنك مشاهدة معظم المحتوى مجانًا. قد تتطلب بعض المحتويات المميزة وصول VIP.",
+        "feedback_title": "إرسال تعليقات",
+        "feedback_description": "ساعدنا في تحسين جودة الخدمة عن طريق إرسال اقتراحات أو تقارير المشاكل.",
+        "subject": "الموضوع",
+        "select_topic": "اختر الموضوع",
+        "message": "الرسالة",
+        "message_placeholder": "صف المشكلة أو اقتراحك بالتفصيل...",
+        "submit": "إرسال التعليقات",
+        "sending": "جاري الإرسال...",
+        "sent": "تم الإرسال!",
+        "topic_bug": "الإبلاغ عن خطأ",
+        "topic_feature": "طلب ميزة",
+        "topic_content": "مشكلة في المحتوى",
+        "topic_other": "أخرى"
+    }
+}

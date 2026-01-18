@@ -63,7 +63,9 @@ async function fetchApi<T>(endpoint: string): Promise<T | null> {
 }
 
 // Helper to extract dramas from various response structures
-// The Melolo API has a deeply nested structure: data.data.book_tab_infos[].cells[].books[]
+// The Melolo API has multiple nested structures:
+// - data.data.book_tab_infos[].cells[].books[]
+// - data.data.book_tab_infos[].cells[].cell_data[].books[] (newer API format)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function extractDramas(data: any): MeloloDrama[] {
     if (!data) return [];
@@ -77,15 +79,35 @@ function extractDramas(data: any): MeloloDrama[] {
     // Nested in data.data.books
     if (data.data?.books && Array.isArray(data.data.books)) return data.data.books;
 
-    // Deeply nested Melolo structure: data.data.book_tab_infos[].cells[].books[]
+    // Helper to extract books from a cell (handles both old and new API formats)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const extractBooksFromCell = (cell: any): MeloloDrama[] => {
+        const books: MeloloDrama[] = [];
+
+        // Old format: cell.books[]
+        if (cell.books && Array.isArray(cell.books)) {
+            books.push(...cell.books);
+        }
+
+        // New format: cell.cell_data[].books[]
+        if (cell.cell_data && Array.isArray(cell.cell_data)) {
+            for (const cellData of cell.cell_data) {
+                if (cellData.books && Array.isArray(cellData.books)) {
+                    books.push(...cellData.books);
+                }
+            }
+        }
+
+        return books;
+    };
+
+    // Deeply nested Melolo structure: data.data.book_tab_infos[].cells[]
     if (data.data?.data?.book_tab_infos && Array.isArray(data.data.data.book_tab_infos)) {
         const allBooks: MeloloDrama[] = [];
         for (const tabInfo of data.data.data.book_tab_infos) {
             if (tabInfo.cells && Array.isArray(tabInfo.cells)) {
                 for (const cell of tabInfo.cells) {
-                    if (cell.books && Array.isArray(cell.books)) {
-                        allBooks.push(...cell.books);
-                    }
+                    allBooks.push(...extractBooksFromCell(cell));
                 }
             }
         }
@@ -98,9 +120,7 @@ function extractDramas(data: any): MeloloDrama[] {
         for (const tabInfo of data.data.book_tab_infos) {
             if (tabInfo.cells && Array.isArray(tabInfo.cells)) {
                 for (const cell of tabInfo.cells) {
-                    if (cell.books && Array.isArray(cell.books)) {
-                        allBooks.push(...cell.books);
-                    }
+                    allBooks.push(...extractBooksFromCell(cell));
                 }
             }
         }
@@ -140,17 +160,19 @@ export const MeloloApi = {
 
     /**
      * Get trending dramas
+     * @param lang Language code (default: 'id')
      */
-    getTrending: async (): Promise<MeloloDrama[]> => {
-        const data = await fetchApi<{ success: boolean; data?: MeloloDrama[] }>("/api/melolo/trending");
+    getTrending: async (lang: string = "id"): Promise<MeloloDrama[]> => {
+        const data = await fetchApi<{ success: boolean; data?: MeloloDrama[] }>(`/api/melolo/trending?lang=${lang}`);
         return extractDramas(data);
     },
 
     /**
      * Get latest releases
+     * @param lang Language code (default: 'id')
      */
-    getLatest: async (): Promise<MeloloDrama[]> => {
-        const data = await fetchApi<{ success: boolean; data?: MeloloDrama[] }>("/api/melolo/latest");
+    getLatest: async (lang: string = "id"): Promise<MeloloDrama[]> => {
+        const data = await fetchApi<{ success: boolean; data?: MeloloDrama[] }>(`/api/melolo/latest?lang=${lang}`);
         return extractDramas(data);
     },
 

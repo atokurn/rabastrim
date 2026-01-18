@@ -1,18 +1,20 @@
 "use client";
 
 import { useUserStore } from "@/lib/auth/store";
+import { useTranslation } from "@/lib/i18n/use-translation";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { MovieCard } from "./MovieCard";
 
 export function RecentHistory() {
     const { history } = useUserStore();
+    const { t } = useTranslation();
     const recentItems = history.slice(0, 10); // Show max 10 items
 
     return (
         <div className="flex flex-col gap-4">
             <Link href="/history" className="flex items-center justify-between px-1 group cursor-pointer">
-                <h2 className="text-lg font-bold text-white group-hover:text-green-500 transition-colors">Bacaan Terakhir</h2>
+                <h2 className="text-lg font-bold text-white group-hover:text-green-500 transition-colors">{t("home.recent_history")}</h2>
                 <div className="text-gray-400 group-hover:text-white transition-colors">
                     <ChevronRight className="w-5 h-5" />
                 </div>
@@ -38,9 +40,10 @@ export function RecentHistory() {
                 </div>
             ) : (
                 <div className="bg-[#1f2126] p-8 rounded-xl text-center">
-                    <p className="text-gray-500 text-sm">Belum ada riwayat tontonan</p>
+                    <p className="text-gray-500 text-sm">{t("user.no_history")}</p>
                 </div>
             )}
         </div>
     );
 }
+

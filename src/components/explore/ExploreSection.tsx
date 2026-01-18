@@ -7,6 +7,7 @@ import useSWR from "swr";
 import { SectionConfig } from "@/lib/explore/sections";
 import { ExploreItem } from "@/lib/explore";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/lib/i18n/use-translation";
 
 interface ExploreSectionProps {
     section: SectionConfig;
@@ -232,6 +233,7 @@ function SectionSkeleton({ variant, layout }: { variant?: string; layout?: strin
 export default function ExploreSection({ section }: ExploreSectionProps) {
     const scrollRef = useRef<HTMLDivElement>(null);
     const [isVisible, setIsVisible] = useState(false);
+    const { t, language, isHydrated } = useTranslation();
 
     // Intersection Observer for lazy loading
     useEffect(() => {
@@ -252,11 +254,12 @@ export default function ExploreSection({ section }: ExploreSectionProps) {
         return () => observer.disconnect();
     }, []);
 
-    // Fetch data with SWR (only when visible)
+    // Fetch data with SWR (only when visible AND hydrated) - ensures correct language
     const { data: rawItems, isLoading } = useSWR(
-        isVisible ? `section-${section.source}-${section.id}` : null,
+        isVisible && isHydrated ? `section-${section.source}-${section.id}-${language}` : null,
         async () => {
-            const items = await section.fetcher();
+            // Pass language to fetcher - DramaBox sections will use it, others ignore
+            const items = await section.fetcher(language);
             if (!Array.isArray(items)) return [];
             return items.map(section.normalizer);
         },
@@ -276,11 +279,11 @@ export default function ExploreSection({ section }: ExploreSectionProps) {
             <div className="flex items-center justify-between px-4 mb-4">
                 <h2 className="text-white text-lg font-bold flex items-center gap-2">
                     {section.icon && <span className="text-xl">{section.icon}</span>}
-                    <span className="capitalize">{section.title}</span>
+                    <span className="capitalize">{t(`sections.${section.id}`, section.title)}</span>
                 </h2>
                 {/* Optional: See All Link - only if it's a carousel */}
                 {layout === "carousel" && (
-                    <Link href="#" className="text-xs text-purple-400 hover:text-purple-300">Lihat Semua</Link>
+                    <Link href="#" className="text-xs text-purple-400 hover:text-purple-300">{t("common.see_all")}</Link>
                 )}
             </div>
 

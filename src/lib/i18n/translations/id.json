@@ -1,0 +1,145 @@
+{
+    "common": {
+        "loading": "Memuat...",
+        "error": "Terjadi kesalahan",
+        "retry": "Coba lagi",
+        "cancel": "Batal",
+        "save": "Simpan",
+        "back": "Kembali",
+        "next": "Selanjutnya",
+        "previous": "Sebelumnya",
+        "see_all": "Lihat Semua",
+        "more": "Lainnya",
+        "today": "Hari Ini",
+        "yesterday": "Kemarin",
+        "progress": "Progres"
+    },
+    "navbar": {
+        "search_placeholder": "Cari drama...",
+        "vip": "VIP",
+        "for_you": "Untuk Kamu",
+        "home": "Beranda",
+        "explore": "Jelajahi",
+        "me": "Saya"
+    },
+    "menu": {
+        "downloads": "Unduhan Saya",
+        "language": "Bahasa",
+        "settings": "Akun & Pengaturan",
+        "support": "Bantuan & Masukan"
+    },
+    "home": {
+        "recommendations": "Rekomendasi",
+        "continue_watching": "Lanjutkan Menonton",
+        "trending": "Trending",
+        "new_releases": "Baru Rilis",
+        "for_you": "Untuk Kamu",
+        "recent_history": "Bacaan Terakhir"
+    },
+    "categories": {
+        "all": "Semua",
+        "short_drama": "Drama Pendek",
+        "drama_china": "Drama China",
+        "drama_korea": "Drama Korea",
+        "drama_japan": "Drama Jepang",
+        "drama_thailand": "Drama Thailand",
+        "anime": "Anime"
+    },
+    "player": {
+        "episode": "Episode",
+        "episodes": "Episode",
+        "autoplay": "Putar Otomatis",
+        "next_episode": "Episode Selanjutnya",
+        "previous_episode": "Episode Sebelumnya",
+        "continue_episode": "Melanjutkan Episode",
+        "total_episodes": "Total",
+        "select_episode": "Pilih Episode",
+        "synopsis": "Sinopsis",
+        "recommendations": "Rekomendasi",
+        "share": "Bagikan",
+        "fullscreen": "Layar Penuh",
+        "video_error": "Gagal memutar video",
+        "reload": "Muat Ulang",
+        "connection_error": "Terjadi kesalahan koneksi. Silakan coba lagi.",
+        "no_description": "Tidak ada deskripsi.",
+        "added_to_collection": "Sudah ditambahkan",
+        "quality": "Kualitas",
+        "playback_speed": "Kelipatan Laju",
+        "cancel": "Batal"
+    },
+    "user": {
+        "guest": "Tamu",
+        "login": "Masuk",
+        "logout": "Keluar",
+        "profile": "Profil",
+        "my_profile": "Profil Saya",
+        "history": "Histori",
+        "collection": "Koleksi",
+        "likes": "Suka",
+        "favorites": "Favorit",
+        "recent_history": "Histori Terbaru",
+        "watched": "Ditonton",
+        "watched_up_to": "Ditonton sampai Ep",
+        "settings": "Pengaturan",
+        "no_history": "Belum ada histori tontonan.",
+        "no_collection": "Belum ada koleksi drama.",
+        "no_likes": "Belum ada yang disukai."
+    },
+    "buttons": {
+        "settings": "Pengaturan",
+        "logout": "Keluar",
+        "collection_add": "Koleksi",
+        "collection_saved": "Disimpan",
+        "like": "Suka",
+        "liked": "Disukai"
+    },
+    "stats": {
+        "watched": "Ditonton",
+        "favorites": "Favorit"
+    },
+    "settings": {
+        "language_title": "Pilih Bahasa",
+        "language_description": "Pilih bahasa untuk tampilan website dan konten video",
+        "current_language": "Bahasa saat ini"
+    },
+    "explore": {
+        "view_all": "Lihat Semua",
+        "no_content": "Tidak ada konten tersedia",
+        "end_of_list": "Sudah di akhir daftar",
+        "video_collection": "Koleksi Video"
+    },
+    "sections": {
+        "trending": "Trending",
+        "recommend": "Rekomendasi",
+        "latest": "Terbaru",
+        "ranking": "Populer",
+        "vip": "VIP",
+        "foryou": "Untuk Kamu"
+    },
+    "support": {
+        "title": "Bantuan & Umpan Balik",
+        "need_help": "Butuh Bantuan Cepat?",
+        "help_description": "Jika Anda mengalami kendala saat memutar video atau masalah teknis lainnya, tim support kami siap membantu anda.",
+        "chat_telegram": "Chat via Telegram",
+        "faq_title": "Pertanyaan Umum",
+        "faq_download_q": "Bagaimana cara mengunduh video?",
+        "faq_download_a": "Klik tombol download di bawah player video. Video akan tersimpan di menu Unduhan Saya.",
+        "faq_playback_q": "Video tidak bisa diputar?",
+        "faq_playback_a": "Coba refresh halaman atau gunakan browser lain (Chrome/Safari disarankan). Jika masih bermasalah, silakan hubungi kami.",
+        "faq_free_q": "Apakah layanan ini gratis?",
+        "faq_free_a": "Ya, Anda dapat menonton sebagian besar konten secara gratis. Beberapa konten premium mungkin memerlukan akses VIP.",
+        "feedback_title": "Kirim Masukan",
+        "feedback_description": "Bantu kami meningkatkan kualitas layanan dengan mengirimkan saran atau laporan masalah.",
+        "subject": "Subjek",
+        "select_topic": "Pilih Topik",
+        "message": "Pesan",
+        "message_placeholder": "Jelaskan detail masalah atau saran Anda...",
+        "submit": "Kirim Masukan",
+        "sending": "Mengirim...",
+        "sent": "Terkirim!",
+        "topic_bug": "Lapor Bug",
+        "topic_feature": "Saran Fitur",
+        "topic_content": "Masalah Konten",
+        "topic_other": "Lainnya"
+    }
+}

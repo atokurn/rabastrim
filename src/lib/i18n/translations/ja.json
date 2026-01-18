@@ -1,0 +1,145 @@
+{
+    "common": {
+        "loading": "読み込み中...",
+        "error": "エラーが発生しました",
+        "retry": "再試行",
+        "cancel": "キャンセル",
+        "save": "保存",
+        "back": "戻る",
+        "next": "次へ",
+        "previous": "前へ",
+        "see_all": "すべて見る",
+        "more": "もっと見る",
+        "today": "今日",
+        "yesterday": "昨日",
+        "progress": "進行状況"
+    },
+    "navbar": {
+        "search_placeholder": "ドラマを検索...",
+        "vip": "VIP",
+        "for_you": "おすすめ",
+        "home": "ホーム",
+        "explore": "探索",
+        "me": "マイページ"
+    },
+    "menu": {
+        "downloads": "ダウンロード",
+        "language": "言語",
+        "settings": "アカウントと設定",
+        "support": "ヘルプとフィードバック"
+    },
+    "home": {
+        "recommendations": "おすすめ",
+        "continue_watching": "視聴を続ける",
+        "trending": "人気",
+        "new_releases": "新作",
+        "for_you": "あなたへ",
+        "recent_history": "最近の視聴"
+    },
+    "categories": {
+        "all": "すべて",
+        "short_drama": "ショートドラマ",
+        "drama_china": "中国ドラマ",
+        "drama_korea": "韓国ドラマ",
+        "drama_japan": "日本ドラマ",
+        "drama_thailand": "タイドラマ",
+        "anime": "アニメ"
+    },
+    "player": {
+        "episode": "エピソード",
+        "episodes": "エピソード",
+        "autoplay": "自動再生",
+        "next_episode": "次のエピソード",
+        "previous_episode": "前のエピソード",
+        "continue_episode": "エピソードを続ける",
+        "total_episodes": "Total",
+        "select_episode": "Select Episode",
+        "synopsis": "Synopsis",
+        "recommendations": "Recommendations",
+        "share": "Share",
+        "fullscreen": "Fullscreen",
+        "video_error": "Failed to play video",
+        "reload": "Reload",
+        "connection_error": "Connection error. Please try again.",
+        "no_description": "No description available.",
+        "added_to_collection": "Added to collection",
+        "quality": "Quality",
+        "playback_speed": "Playback Speed",
+        "cancel": "Cancel"
+    },
+    "user": {
+        "guest": "ゲスト",
+        "login": "ログイン",
+        "logout": "ログアウト",
+        "profile": "プロフィール",
+        "my_profile": "マイプロフィール",
+        "history": "履歴",
+        "collection": "コレクション",
+        "likes": "いいね",
+        "favorites": "お気に入り",
+        "recent_history": "最近の視聴",
+        "watched": "視聴済み",
+        "watched_up_to": "視聴済みエピソード",
+        "settings": "設定",
+        "no_history": "まだ視聴履歴がありません。",
+        "no_collection": "まだコレクションがありません。",
+        "no_likes": "まだいいねがありません。"
+    },
+    "buttons": {
+        "settings": "設定",
+        "logout": "ログアウト",
+        "collection_add": "追加",
+        "collection_saved": "保存済み",
+        "like": "いいね",
+        "liked": "いいね済み"
+    },
+    "stats": {
+        "watched": "視聴済み",
+        "favorites": "お気に入り"
+    },
+    "settings": {
+        "language_title": "言語を選択",
+        "language_description": "ウェブサイトの表示と動画のコンテンツ言語を選択",
+        "current_language": "現在の言語"
+    },
+    "explore": {
+        "view_all": "すべて見る",
+        "no_content": "コンテンツがありません",
+        "end_of_list": "リストの終わり",
+        "video_collection": "Video Collection"
+    },
+    "sections": {
+        "trending": "Trending",
+        "recommend": "Recommendations",
+        "latest": "Latest",
+        "ranking": "Popular",
+        "vip": "VIP",
+        "foryou": "For You"
+    },
+    "support": {
+        "title": "ヘルプ＆フィードバック",
+        "need_help": "早急なヘルプが必要ですか？",
+        "help_description": "動画再生やその他の技術的な問題が発生した場合は、サポートチームがお手伝いします。",
+        "chat_telegram": "Telegramでチャット",
+        "faq_title": "よくある質問",
+        "faq_download_q": "動画をダウンロードするには？",
+        "faq_download_a": "動画プレーヤーの下にあるダウンロードボタンをクリックしてください。動画はマイダウンロードメニューに保存されます。",
+        "faq_playback_q": "動画が再生できない？",
+        "faq_playback_a": "ページを更新するか、別のブラウザを使用してください（Chrome/Safariを推奨）。問題が解決しない場合は、お問い合わせください。",
+        "faq_free_q": "このサービスは無料ですか？",
+        "faq_free_a": "はい、ほとんどのコンテンツを無料で視聴できます。一部のプレミアムコンテンツにはVIPアクセスが必要な場合があります。",
+        "feedback_title": "フィードバックを送信",
+        "feedback_description": "提案や問題報告を送信して、サービス品質の向上にご協力ください。",
+        "subject": "件名",
+        "select_topic": "トピックを選択",
+        "message": "メッセージ",
+        "message_placeholder": "問題や提案の詳細を記入してください...",
+        "submit": "フィードバックを送信",
+        "sending": "送信中...",
+        "sent": "送信完了！",
+        "topic_bug": "バグ報告",
+        "topic_feature": "機能リクエスト",
+        "topic_content": "コンテンツの問題",
+        "topic_other": "その他"
+    }
+}

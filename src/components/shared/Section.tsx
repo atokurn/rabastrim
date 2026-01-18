@@ -5,6 +5,7 @@ import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/lib/i18n/use-translation";
 
 interface VideoItem {
     id: string;
@@ -26,6 +27,7 @@ interface SectionProps {
 
 export function Section({ title, items, variant = "portrait" }: SectionProps) {
     const scrollContainerRef = useRef<HTMLDivElement>(null);
+    const { t } = useTranslation();
 
     const scroll = (direction: 'left' | 'right') => {
         if (scrollContainerRef.current) {
@@ -40,7 +42,7 @@ export function Section({ title, items, variant = "portrait" }: SectionProps) {
             <div className="container mx-auto px-4 flex items-center justify-between">
                 <h2 className="text-xl md:text-2xl font-bold text-white flex items-center gap-2">
                     {title}
-                    <span className="text-gray-500 text-sm font-normal cursor-pointer hover:text-white transition-colors ml-2">More &gt;</span>
+                    <span className="text-gray-500 text-sm font-normal cursor-pointer hover:text-white transition-colors ml-2">{t("common.more")} &gt;</span>
                 </h2>
             </div>
 

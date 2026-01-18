@@ -1,0 +1,145 @@
+{
+    "common": {
+        "loading": "Yükleniyor...",
+        "error": "Bir hata oluştu",
+        "retry": "Tekrar dene",
+        "cancel": "İptal",
+        "save": "Kaydet",
+        "back": "Geri",
+        "next": "İleri",
+        "previous": "Önceki",
+        "see_all": "Tümünü gör",
+        "more": "Daha fazla",
+        "today": "Bugün",
+        "yesterday": "Dün",
+        "progress": "İlerleme"
+    },
+    "navbar": {
+        "search_placeholder": "Dizi ara...",
+        "vip": "VIP",
+        "for_you": "Senin için",
+        "home": "Ana Sayfa",
+        "explore": "Keşfet",
+        "me": "Ben"
+    },
+    "menu": {
+        "downloads": "İndirmelerim",
+        "language": "Dil",
+        "settings": "Hesap ve Ayarlar",
+        "support": "Yardım ve Geri Bildirim"
+    },
+    "home": {
+        "recommendations": "Öneriler",
+        "continue_watching": "İzlemeye devam et",
+        "trending": "Trend",
+        "new_releases": "Yeni çıkanlar",
+        "for_you": "Senin için",
+        "recent_history": "Son izlenenler"
+    },
+    "categories": {
+        "all": "Tümü",
+        "short_drama": "Kısa dizi",
+        "drama_china": "Çin dizisi",
+        "drama_korea": "Kore dizisi",
+        "drama_japan": "Japon dizisi",
+        "drama_thailand": "Tayland dizisi",
+        "anime": "Anime"
+    },
+    "player": {
+        "episode": "Bölüm",
+        "episodes": "Bölümler",
+        "autoplay": "Otomatik oynat",
+        "next_episode": "Sonraki bölüm",
+        "previous_episode": "Önceki bölüm",
+        "continue_episode": "Bölüme devam et",
+        "total_episodes": "Total",
+        "select_episode": "Select Episode",
+        "synopsis": "Synopsis",
+        "recommendations": "Recommendations",
+        "share": "Share",
+        "fullscreen": "Fullscreen",
+        "video_error": "Failed to play video",
+        "reload": "Reload",
+        "connection_error": "Connection error. Please try again.",
+        "no_description": "No description available.",
+        "added_to_collection": "Added to collection",
+        "quality": "Quality",
+        "playback_speed": "Playback Speed",
+        "cancel": "Cancel"
+    },
+    "user": {
+        "guest": "Misafir",
+        "login": "Giriş yap",
+        "logout": "Çıkış yap",
+        "profile": "Profil",
+        "my_profile": "Profilim",
+        "history": "Geçmiş",
+        "collection": "Koleksiyon",
+        "likes": "Beğeniler",
+        "favorites": "Favoriler",
+        "recent_history": "Son izlenenler",
+        "watched": "İzlendi",
+        "watched_up_to": "İzlenen bölüm",
+        "settings": "Ayarlar",
+        "no_history": "Henüz izleme geçmişi yok.",
+        "no_collection": "Henüz koleksiyon yok.",
+        "no_likes": "Henüz beğeni yok."
+    },
+    "buttons": {
+        "settings": "Ayarlar",
+        "logout": "Çıkış",
+        "collection_add": "Ekle",
+        "collection_saved": "Kaydedildi",
+        "like": "Beğen",
+        "liked": "Beğenildi"
+    },
+    "stats": {
+        "watched": "İzlendi",
+        "favorites": "Favoriler"
+    },
+    "settings": {
+        "language_title": "Dil seçin",
+        "language_description": "Web sitesi görünümü ve video içeriği için dil seçin",
+        "current_language": "Mevcut dil"
+    },
+    "explore": {
+        "view_all": "Tümünü gör",
+        "no_content": "İçerik yok",
+        "end_of_list": "Liste sonu",
+        "video_collection": "Video Collection"
+    },
+    "sections": {
+        "trending": "Trending",
+        "recommend": "Recommendations",
+        "latest": "Latest",
+        "ranking": "Popular",
+        "vip": "VIP",
+        "foryou": "For You"
+    },
+    "support": {
+        "title": "Yardım ve Geri Bildirim",
+        "need_help": "Hızlı yardıma mı ihtiyacınız var?",
+        "help_description": "Video oynatma veya diğer teknik sorunlar yaşıyorsanız, destek ekibimiz size yardımcı olmaya hazır.",
+        "chat_telegram": "Telegram ile Sohbet",
+        "faq_title": "Sık Sorulan Sorular",
+        "faq_download_q": "Video nasıl indirilir?",
+        "faq_download_a": "Video oynatıcının altındaki indirme düğmesine tıklayın. Video, İndirmelerim menüsüne kaydedilecektir.",
+        "faq_playback_q": "Video oynatılmıyor mu?",
+        "faq_playback_a": "Sayfayı yenilemeyi veya farklı bir tarayıcı kullanmayı deneyin (Chrome/Safari önerilir). Sorun devam ederse bizimle iletişime geçin.",
+        "faq_free_q": "Bu hizmet ücretsiz mi?",
+        "faq_free_a": "Evet, içeriklerin çoğunu ücretsiz izleyebilirsiniz. Bazı premium içerikler VIP erişimi gerektirebilir.",
+        "feedback_title": "Geri Bildirim Gönder",
+        "feedback_description": "Öneri veya sorun bildirimi göndererek hizmet kalitesini iyileştirmemize yardımcı olun.",
+        "subject": "Konu",
+        "select_topic": "Konu Seç",
+        "message": "Mesaj",
+        "message_placeholder": "Sorunu veya önerinizi ayrıntılı olarak açıklayın...",
+        "submit": "Geri Bildirim Gönder",
+        "sending": "Gönderiliyor...",
+        "sent": "Gönderildi!",
+        "topic_bug": "Hata Bildir",
+        "topic_feature": "Özellik İsteği",
+        "topic_content": "İçerik Sorunu",
+        "topic_other": "Diğer"
+    }
+}

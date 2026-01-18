@@ -1,10 +1,11 @@
 "use client";
 
 import { useUserStore, WatchedItem } from "@/lib/auth/store";
+import { useTranslation } from "@/lib/i18n/use-translation";
 import { ArrowLeft, MoreHorizontal, Bookmark, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 // Helper to group items by date
 function groupByDate(items: WatchedItem[]): Record<string, WatchedItem[]> {
@@ -42,6 +43,7 @@ function groupByDate(items: WatchedItem[]): Record<string, WatchedItem[]> {
 export default function HistoryPage() {
     const router = useRouter();
     const { history, favorites, likes, isSyncing, syncHistoryFromServer, syncFavoritesFromServer } = useUserStore();
+    const { t } = useTranslation();
     const [activeTab, setActiveTab] = useState<'history' | 'collection' | 'likes'>('history');
     const [hasSynced, setHasSynced] = useState(false);
 
@@ -55,7 +57,43 @@ export default function HistoryPage() {
         }
     }, [hasSynced, syncHistoryFromServer, syncFavoritesFromServer]);
 
-    const groupedHistory = groupByDate(history);
+    // Group items by date with translated labels
+    const groupedHistory = useMemo(() => {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const yesterday = new Date(today);
+        yesterday.setDate(yesterday.getDate() - 1);
+
+        const todayLabel = t("common.today");
+        const yesterdayLabel = t("common.yesterday");
+        const thisWeekLabel = "This Week";
+        const earlierLabel = "Earlier";
+
+        const groups: Record<string, WatchedItem[]> = {
+            [todayLabel]: [],
+            [yesterdayLabel]: [],
+            [thisWeekLabel]: [],
+            [earlierLabel]: [],
+        };
+
+        history.forEach(item => {
+            const timestamp = item.updatedAt || 0;
+            const itemDate = new Date(timestamp);
+            itemDate.setHours(0, 0, 0, 0);
+
+            if (itemDate.getTime() === today.getTime()) {
+                groups[todayLabel].push(item);
+            } else if (itemDate.getTime() === yesterday.getTime()) {
+                groups[yesterdayLabel].push(item);
+            } else if (today.getTime() - itemDate.getTime() <= 7 * 24 * 60 * 60 * 1000) {
+                groups[thisWeekLabel].push(item);
+            } else {
+                groups[earlierLabel].push(item);
+            }
+        });
+
+        return groups;
+    }, [history, t]);
 
     return (
         <div className="min-h-screen bg-black text-white pb-20 md:pt-20">
@@ -71,19 +109,19 @@ export default function HistoryPage() {
                                 onClick={() => setActiveTab('history')}
                                 className={`${activeTab === 'history' ? 'text-[#ffcc00]' : 'text-gray-400'}`}
                             >
-                                Histori
+                                {t("user.history")}
                             </button>
                             <button
                                 onClick={() => setActiveTab('collection')}
                                 className={`${activeTab === 'collection' ? 'text-[#ffcc00]' : 'text-gray-400'}`}
                             >
-                                Koleksi
+                                {t("user.collection")}
                             </button>
                             <button
                                 onClick={() => setActiveTab('likes')}
                                 className={`${activeTab === 'likes' ? 'text-[#ffcc00]' : 'text-gray-400'}`}
                             >
-                                Suka
+                                {t("user.likes")}
                             </button>
                         </div>
                     </div>
@@ -126,8 +164,8 @@ export default function HistoryPage() {
                                                 <div className="flex flex-col justify-center flex-1 min-w-0">
                                                     <h4 className="text-white text-base font-medium truncate mb-1">{item.title}</h4>
                                                     <div className="flex flex-col gap-0.5 text-xs text-gray-400">
-                                                        <span>Episode {item.episode || 1}</span>
-                                                        <span>Progress: {item.progress || 0}%</span>
+                                                        <span>{t("player.episode")} {item.episode || 1}</span>
+                                                        <span>{t("common.progress")}: {item.progress || 0}%</span>
                                                     </div>
                                                 </div>
                                             </Link>
@@ -137,7 +175,7 @@ export default function HistoryPage() {
                             )
                         ))}
                         {history.length === 0 && (
-                            <div className="text-center text-gray-500 mt-10">Belum ada histori tontonan.</div>
+                            <div className="text-center text-gray-500 mt-10">{t("user.no_history")}</div>
                         )}
                     </div>
                 )}
@@ -145,7 +183,7 @@ export default function HistoryPage() {
                 {activeTab === 'collection' && (
                     <div className="grid grid-cols-3 gap-3">
                         {favorites.length === 0 ? (
-                            <div className="col-span-3 text-center text-gray-500 mt-10">Belum ada koleksi drama.</div>
+                            <div className="col-span-3 text-center text-gray-500 mt-10">{t("user.no_collection")}</div>
                         ) : (
                             favorites.map((item) => (
                                 <Link key={item.id} href={`/watch/${item.bookId}?provider=${item.provider}&title=${encodeURIComponent(item.title)}&cover=${encodeURIComponent(item.cover)}`} className="block group">
@@ -165,7 +203,7 @@ export default function HistoryPage() {
                 {activeTab === 'likes' && (
                     <div className="space-y-4">
                         {likes.length === 0 ? (
-                            <div className="text-center text-gray-500 mt-10">Belum ada episode yang disukai.</div>
+                            <div className="text-center text-gray-500 mt-10">{t("user.no_likes")}</div>
                         ) : (
                             <div>
                                 <h3 className="text-gray-500 text-sm font-medium mb-3">Episode yang Disukai</h3>

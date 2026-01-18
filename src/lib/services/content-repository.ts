@@ -1,5 +1,5 @@
-import { db, contents, Content, NewContent } from "@/lib/db";
-import { eq, ilike, desc, sql, and, notInArray } from "drizzle-orm";
+import { db, contents, contentLanguages, Content, NewContent } from "@/lib/db";
+import { eq, ilike, desc, sql, and, notInArray, or, inArray } from "drizzle-orm";
 
 export async function upsertContent(data: NewContent) {
     return db
@@ -28,20 +28,54 @@ export async function upsertContent(data: NewContent) {
 
 const PAGE_SIZE = 20;
 
-export async function getContent(cursor?: number, limit: number = PAGE_SIZE) {
-    let query = db
-        .select()
-        .from(contents)
-        .where(eq(contents.status, "active"))
-        // Composite score: viewCount * 2 + popularityScore (ingest signal)
-        .orderBy(desc(sql`(${contents.viewCount} * 2 + ${contents.popularityScore})`), desc(contents.updatedAt))
-        .limit(limit);
-
-    if (cursor) {
-        query.offset(cursor);
+/**
+ * Get content with optional language filtering
+ * @param cursor - Offset for pagination
+ * @param limit - Number of items to fetch
+ * @param language - Optional language code (ISO 639-1). If provided, filters content by language.
+ *                   DramaQueen provider is always included regardless of language filter.
+ */
+export async function getContent(cursor?: number, limit: number = PAGE_SIZE, language?: string) {
+    // If no language filter, use simple query
+    if (!language) {
+        const offset = cursor || 0;
+        return await db
+            .select()
+            .from(contents)
+            .where(eq(contents.status, "active"))
+            .orderBy(desc(sql`(${contents.viewCount} * 2 + ${contents.popularityScore})`), desc(contents.updatedAt))
+            .limit(limit)
+            .offset(offset);
     }
 
-    return await query;
+    // With language filter:
+    // 1. Get content IDs that have the requested language
+    const contentWithLanguage = await db
+        .select({ contentId: contentLanguages.contentId })
+        .from(contentLanguages)
+        .where(eq(contentLanguages.languageCode, language));
+
+    const contentIdsWithLang = contentWithLanguage.map(c => c.contentId);
+
+    // 2. Build query that includes:
+    //    - Content with matching language
+    //    - DramaQueen content (always shown regardless of language)
+    const offset = cursor || 0;
+    return await db
+        .select()
+        .from(contents)
+        .where(
+            and(
+                eq(contents.status, "active"),
+                or(
+                    contentIdsWithLang.length > 0 ? inArray(contents.id, contentIdsWithLang) : sql`false`,
+                    eq(contents.provider, "dramaqueen") // Always include DramaQueen
+                )
+            )
+        )
+        .orderBy(desc(sql`(${contents.viewCount} * 2 + ${contents.popularityScore})`), desc(contents.updatedAt))
+        .limit(limit)
+        .offset(offset);
 }
 
 export async function searchContent(query: string, limit: number = 8) {

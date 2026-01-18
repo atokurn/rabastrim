@@ -1,9 +1,9 @@
 import { FlickReelsApi } from "@/lib/api/flickreels";
 import { HeroItem } from "./types";
 
-export async function getFlickReelsHero(limit: number = 3): Promise<HeroItem[]> {
+export async function getFlickReelsHero(limit: number = 3, lang: string = "id"): Promise<HeroItem[]> {
     try {
-        const data = await FlickReelsApi.getForYou();
+        const data = await FlickReelsApi.getForYou(lang);
 
         return data.slice(0, limit).map(item => ({
             id: String(item.playlet_id),
@@ -22,3 +22,4 @@ export async function getFlickReelsHero(limit: number = 3): Promise<HeroItem[]> 
         return [];
     }
 }
+

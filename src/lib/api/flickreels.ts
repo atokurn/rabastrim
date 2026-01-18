@@ -104,17 +104,19 @@ async function fetchApi<T>(endpoint: string): Promise<T | null> {
 export const FlickReelsApi = {
     /**
      * Get home page content
+     * @param lang Language code (default: 'id')
      */
-    getHome: async (): Promise<FlickReelsDrama[]> => {
-        const data = await fetchApi<ListApiResponse>("/api/flickreels/home");
+    getHome: async (lang: string = "id"): Promise<FlickReelsDrama[]> => {
+        const data = await fetchApi<ListApiResponse>(`/api/flickreels/home?lang=${lang}`);
         return data?.data?.data?.list || [];
     },
 
     /**
      * Get "For You" recommendations
+     * @param lang Language code (default: 'id')
      */
-    getForYou: async (): Promise<FlickReelsDrama[]> => {
-        const data = await fetchApi<ListApiResponse>("/api/flickreels/foryou");
+    getForYou: async (lang: string = "id"): Promise<FlickReelsDrama[]> => {
+        const data = await fetchApi<ListApiResponse>(`/api/flickreels/foryou?lang=${lang}`);
         return data?.data?.data?.list || [];
     },
 
@@ -122,8 +124,9 @@ export const FlickReelsApi = {
      * Get ranking list
      * Note: Ranking returns grouped arrays with data[].data[] structure
      * Drama objects use 'title' instead of 'playlet_title'
+     * @param lang Language code (default: 'id')
      */
-    getRanking: async (): Promise<FlickReelsDrama[]> => {
+    getRanking: async (lang: string = "id"): Promise<FlickReelsDrama[]> => {
         const data = await fetchApi<{
             success: boolean;
             data?: {
@@ -142,7 +145,7 @@ export const FlickReelsApi = {
                     }>;
                 }>;
             };
-        }>("/api/flickreels/ranking");
+        }>(`/api/flickreels/ranking?lang=${lang}`);
 
         // Flatten the grouped ranking structure - take first few from each category
         const groups = data?.data?.data || [];
@@ -168,10 +171,11 @@ export const FlickReelsApi = {
     /**
      * Get recommendations
      * Note: /recommend returns a single object, not a list. Use ForYou instead.
+     * @param lang Language code (default: 'id')
      */
-    getRecommend: async (): Promise<FlickReelsDrama[]> => {
+    getRecommend: async (lang: string = "id"): Promise<FlickReelsDrama[]> => {
         // Recommend endpoint returns single object, fallback to ForYou for lists
-        const data = await fetchApi<ListApiResponse>("/api/flickreels/foryou");
+        const data = await fetchApi<ListApiResponse>(`/api/flickreels/foryou?lang=${lang}`);
         return data?.data?.data?.list || [];
     },
 

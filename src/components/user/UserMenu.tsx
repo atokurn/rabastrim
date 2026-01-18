@@ -3,6 +3,7 @@
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTranslation } from "@/lib/i18n";
 
 interface UserMenuProps {
     desktopOnly?: boolean;
@@ -11,12 +12,13 @@ interface UserMenuProps {
 
 export function UserMenu({ desktopOnly, mobileOnly }: UserMenuProps) {
     const pathname = usePathname();
+    const { t } = useTranslation();
 
     const menuItems = [
-        { label: "Unduhan Saya", href: "/downloads" },
-        { label: "Bahasa", href: "/settings/language" },
-        { label: "Akun & Pengaturan", href: "/settings" },
-        { label: "Bantuan & Umpan Balik", href: "/support" },
+        { label: t("menu.downloads"), href: "/downloads" },
+        { label: t("menu.language"), href: "/settings/language" },
+        { label: t("menu.settings"), href: "/settings" },
+        { label: t("menu.support"), href: "/support" },
     ];
 
     const isActive = (href: string) => pathname === href;

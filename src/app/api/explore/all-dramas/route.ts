@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { contents } from "@/lib/db/schema";
-import { desc, lt, eq, and, or, sql } from "drizzle-orm";
+import { contents, contentLanguages } from "@/lib/db/schema";
+import { desc, lt, eq, and, or, sql, inArray } from "drizzle-orm";
 
 // Fallback imports for API-based data when DB is empty
 import { DramaBoxApi } from "@/lib/api/dramabox";
@@ -29,6 +29,7 @@ export async function GET(request: Request) {
     const limit = Math.min(parseInt(searchParams.get("limit") || "24"), 40); // Max 40
     const provider = searchParams.get("provider") || "all";
     const category = searchParams.get("category"); // Optional category filter
+    const lang = searchParams.get("lang"); // Optional language filter
 
     try {
         // Build WHERE conditions
@@ -56,44 +57,119 @@ export async function GET(request: Request) {
         }
 
 
-        // Provider filter
+        // Provider filter - ALWAYS applied if specified
         if (provider && provider !== "all") {
             conditions.push(eq(contents.provider, provider));
         }
 
-        // Category-based filtering
-        if (category === "Short Drama") {
-            // Only short drama providers or contentType
+        // Language filter - only for short drama providers (dramabox, flickreels, melolo)
+        // DramaQueen is always shown regardless of language (scraped content, fixed lang)
+        if (lang) {
+            const isShortDramaProvider = ["dramabox", "flickreels", "melolo"].includes(provider);
+
+            if (isShortDramaProvider) {
+                // For specific provider: check if THIS provider has content with the language
+                const providerContentWithLang = await db
+                    .select({ contentId: contentLanguages.contentId })
+                    .from(contentLanguages)
+                    .innerJoin(contents, eq(contentLanguages.contentId, contents.id))
+                    .where(
+                        and(
+                            eq(contentLanguages.languageCode, lang),
+                            eq(contents.provider, provider)
+                        )
+                    );
+
+                const providerContentIds = providerContentWithLang.map(c => c.contentId);
+
+                // Debug logging
+                console.log(`[all-dramas] Provider: ${provider}, Lang: ${lang}, Content count: ${providerContentIds.length}`);
+
+                // STRICT: Only show content that matches the language
+                // If no content exists for this language, return empty result immediately
+                if (providerContentIds.length > 0) {
+                    conditions.push(inArray(contents.id, providerContentIds));
+                } else {
+                    // No content for this language - return empty immediately
+                    return NextResponse.json({
+                        success: true,
+                        data: [],
+                        nextCursor: null,
+                        hasMore: false,
+                        source: "database",
+                        message: `No ${provider} content available for language: ${lang}`
+                    });
+                }
+            } else if (provider === "all") {
+                // For "all" providers: get content with matching language from short drama providers
+                const contentWithLanguage = await db
+                    .select({ contentId: contentLanguages.contentId })
+                    .from(contentLanguages)
+                    .where(eq(contentLanguages.languageCode, lang));
+
+                const contentIdsWithLang = contentWithLanguage.map(c => c.contentId);
+
+                // Include content with matching language OR DramaQueen (always shown)
+                if (contentIdsWithLang.length > 0) {
+                    conditions.push(
+                        or(
+                            inArray(contents.id, contentIdsWithLang),
+                            eq(contents.provider, "dramaqueen"),
+                            eq(contents.provider, "donghua")
+                        )!
+                    );
+                } else {
+                    // No content with this language, only show DramaQueen/donghua
+                    conditions.push(
+                        or(
+                            eq(contents.provider, "dramaqueen"),
+                            eq(contents.provider, "donghua")
+                        )!
+                    );
+                }
+            }
+            // DramaQueen/donghua provider: no language filter needed
+        }
+
+        // Category-based filtering (support both keys like 'short_drama' and display names like 'Short Drama')
+        const categoryLower = category?.toLowerCase().replace(/\s+/g, '_');
+
+        if (categoryLower === "short_drama") {
+            // Short drama: ONLY dramabox, flickreels, melolo - explicitly EXCLUDE dramaqueen and donghua
             conditions.push(
                 or(
-                    eq(contents.contentType, "short_drama"),
                     eq(contents.provider, "dramabox"),
                     eq(contents.provider, "flickreels"),
                     eq(contents.provider, "melolo")
                 )!
             );
-        } else if (category === "Drama China") {
+        } else if (categoryLower === "drama_china") {
             // Chinese dramas from DramaQueen only (exclude donghua/anime)
             conditions.push(eq(contents.provider, "dramaqueen"));
             conditions.push(eq(contents.region, "CN"));
-            // Exclude donghua by checking tags and poster URL
-            conditions.push(sql`NOT (${contents.posterUrl}::text ILIKE '%donghua%')`);
-        } else if (category === "Drama Korea") {
+            conditions.push(sql`${contents.contentType} != 'anime'`);
+        } else if (categoryLower === "drama_korea") {
             // Korean dramas from DramaQueen only
             conditions.push(eq(contents.provider, "dramaqueen"));
             conditions.push(eq(contents.region, "KR"));
-        } else if (category === "Drama Jepang") {
+        } else if (categoryLower === "drama_japan") {
             // Japanese dramas from DramaQueen only
             conditions.push(eq(contents.provider, "dramaqueen"));
             conditions.push(eq(contents.region, "JP"));
-        } else if (category === "Drama Thailand") {
+        } else if (categoryLower === "drama_thailand") {
             // Thai dramas from DramaQueen only
             conditions.push(eq(contents.provider, "dramaqueen"));
             conditions.push(eq(contents.region, "TH"));
-        } else if (category === "Anime") {
-            // Anime/Donghua - filter by content_type since they can be provider=dramaqueen or donghua
-            conditions.push(eq(contents.contentType, "anime"));
+        } else if (categoryLower === "anime") {
+            // Anime/Donghua - filter by content_type or provider
+            conditions.push(
+                or(
+                    eq(contents.contentType, "anime"),
+                    eq(contents.provider, "donghua")
+                )!
+            );
         }
+        // If category is 'all' or undefined, no additional filtering (show all)
 
         // Query database - composite sort with id tiebreaker
         const items = await db.select({

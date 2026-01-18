@@ -1,5 +1,5 @@
 import { Hero } from "@/components/home/Hero";
-import { Section } from "@/components/shared/Section";
+import { HomeRecommendations } from "@/components/home/HomeRecommendations";
 import { DramaBoxApi } from "@/lib/api/dramabox";
 import { HeroService } from "@/lib/services/hero";
 import { HomeFeed } from "@/components/home/HomeFeed";
@@ -37,16 +37,8 @@ export default async function Home() {
       <Hero initialData={heroData} />
 
       <div className="relative z-10 space-y-6 -mt-20">
-        {/* 2. Rekomendasi Populer */}
-        {popularItems.length > 0 && (
-          <div className="pt-0"> {/* Remove padding to let margin control position precisely */}
-            <Section
-              title="Rekomendasi"
-              items={popularItems}
-              variant="portrait"
-            />
-          </div>
-        )}
+        {/* 2. Rekomendasi Populer - uses client component for translated title */}
+        <HomeRecommendations items={popularItems} />
 
         {/* 3. Category Tabs & 4. Filtered Grid (Infinite Scroll) */}
         <HomeFeed />
@@ -54,4 +46,3 @@ export default async function Home() {
     </div>
   );
 }
-

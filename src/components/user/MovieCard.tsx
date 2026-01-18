@@ -1,6 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import { Play } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/lib/i18n/use-translation";
 
 interface MovieCardProps {
     id: string; // The book ID
@@ -21,6 +24,8 @@ export function MovieCard({
     progress,
     type = 'default'
 }: MovieCardProps) {
+    const { t } = useTranslation();
+
     // Build href with optional episode for history resume
     const baseHref = `/watch/${id}?provider=${provider}&title=${encodeURIComponent(title)}&cover=${encodeURIComponent(cover)}`;
     const href = episode ? `${baseHref}&ep=${episode}` : baseHref;
@@ -104,7 +109,7 @@ export function MovieCard({
                 </h3>
                 {type === 'history' && episode && (
                     <p className="text-xs text-gray-500">
-                        Melanjutkan Episode {episode}
+                        {t("player.continue_episode")} {episode}
                     </p>
                 )}
             </div>

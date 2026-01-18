@@ -1,9 +1,9 @@
 import { DramaBoxApi } from "@/lib/api/dramabox";
 import { HeroItem } from "./types";
 
-export async function getDramaBoxHero(limit: number = 3): Promise<HeroItem[]> {
+export async function getDramaBoxHero(limit: number = 3, lang: string = "id"): Promise<HeroItem[]> {
     try {
-        const data = await DramaBoxApi.getHome();
+        const data = await DramaBoxApi.getHome(lang);
 
         // Take top items from homepage (usually banners)
         // DramaBox data often mixes portrait and landscape, we try to prefer landscape or high quality
@@ -23,3 +23,4 @@ export async function getDramaBoxHero(limit: number = 3): Promise<HeroItem[]> {
         return [];
     }
 }
+

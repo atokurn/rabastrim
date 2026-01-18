@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { MovieCard } from "@/components/user/MovieCard";
 import { MovieCardSkeleton } from "@/components/user/MovieCardSkeleton";
 import { Loader2 } from "lucide-react";
+import { useTranslation } from "@/lib/i18n/use-translation";
 
 interface HomeContentProps {
     category: string;
@@ -27,6 +28,7 @@ interface APIResponse {
 
 export function HomeContent({ category }: HomeContentProps) {
     const observerRef = useRef<HTMLDivElement | null>(null);
+    const { language, isHydrated } = useTranslation();
 
     // Cursor-based state
     const [items, setItems] = useState<ContentItem[]>([]);
@@ -44,6 +46,7 @@ export function HomeContent({ category }: HomeContentProps) {
             const params = new URLSearchParams({
                 limit: "24",
                 category: category,
+                lang: language, // Pass user's language preference
             });
             if (cursorValue) {
                 params.set("cursor", cursorValue);
@@ -67,16 +70,18 @@ export function HomeContent({ category }: HomeContentProps) {
             setIsLoading(false);
             setIsInitialLoad(false);
         }
-    }, [category, isLoading]);
+    }, [category, language, isLoading]);
 
-    // Reset when category changes
+    // Reset when category or language changes - only fetch after hydration
     useEffect(() => {
+        if (!isHydrated) return; // Wait for hydration to get correct language
+
         setItems([]);
         setCursor(null);
         setHasMore(true);
         setIsInitialLoad(true);
         fetchData(null, true);
-    }, [category]); // Don't include fetchData to avoid loop
+    }, [category, language, isHydrated]); // Reset when category, language changes, or hydration completes
 
     // Intersection Observer for Infinite Scroll
     useEffect(() => {

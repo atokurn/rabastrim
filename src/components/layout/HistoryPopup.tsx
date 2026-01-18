@@ -1,6 +1,7 @@
 "use client";
 
 import { useUserStore } from "@/lib/auth/store";
+import { useTranslation } from "@/lib/i18n/use-translation";
 import Link from "next/link";
 import Image from "next/image";
 import { ChevronRight, History } from "lucide-react";
@@ -14,6 +15,7 @@ interface HistoryPopupProps {
 
 export function HistoryPopup({ isVisible, onMouseEnter, onMouseLeave }: HistoryPopupProps) {
     const { history } = useUserStore();
+    const { t } = useTranslation();
     const recentHistory = history.slice(0, 4); // Show top 4 items
 
     if (!isVisible) return null;
@@ -34,7 +36,7 @@ export function HistoryPopup({ isVisible, onMouseEnter, onMouseLeave }: HistoryP
                 {recentHistory.length === 0 ? (
                     <div className="flex flex-col items-center justify-center py-8 text-center bg-[#1a1c22]">
                         <History className="w-8 h-8 text-gray-600 mb-2" />
-                        <p className="text-gray-400 text-sm">No history yet</p>
+                        <p className="text-gray-400 text-sm">{t("user.no_history")}</p>
                     </div>
                 ) : (
                     <div className="space-y-4">
@@ -58,7 +60,7 @@ export function HistoryPopup({ isVisible, onMouseEnter, onMouseLeave }: HistoryP
                                     </h4>
                                     <div className="mt-1">
                                         <p className="text-gray-400 text-xs mb-1">
-                                            Watched Up to Ep {item.episode || 1}
+                                            {t("user.watched_up_to")} {item.episode || 1}
                                         </p>
                                         <div className="w-full h-0.5 bg-gray-700 rounded-full overflow-hidden">
                                             <div
@@ -79,7 +81,7 @@ export function HistoryPopup({ isVisible, onMouseEnter, onMouseLeave }: HistoryP
                 className="block w-full py-3 text-center bg-[#23252b] text-gray-400 hover:text-white hover:bg-[#2a2d35] transition-colors text-sm font-medium border-t border-gray-800"
             >
                 <span className="flex items-center justify-center gap-1">
-                    More <ChevronRight className="w-4 h-4" />
+                    {t("common.more")} <ChevronRight className="w-4 h-4" />
                 </span>
             </Link>
         </div>

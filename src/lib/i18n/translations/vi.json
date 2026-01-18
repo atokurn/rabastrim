@@ -1,0 +1,145 @@
+{
+    "common": {
+        "loading": "Đang tải...",
+        "error": "Đã xảy ra lỗi",
+        "retry": "Thử lại",
+        "cancel": "Hủy",
+        "save": "Lưu",
+        "back": "Quay lại",
+        "next": "Tiếp theo",
+        "previous": "Trước đó",
+        "see_all": "Xem tất cả",
+        "more": "Thêm",
+        "today": "Hôm nay",
+        "yesterday": "Hôm qua",
+        "progress": "Tiến độ"
+    },
+    "navbar": {
+        "search_placeholder": "Tìm kiếm phim...",
+        "vip": "VIP",
+        "for_you": "Dành cho bạn",
+        "home": "Trang chủ",
+        "explore": "Khám phá",
+        "me": "Tôi"
+    },
+    "menu": {
+        "downloads": "Tải xuống của tôi",
+        "language": "Ngôn ngữ",
+        "settings": "Tài khoản và Cài đặt",
+        "support": "Trợ giúp và Phản hồi"
+    },
+    "home": {
+        "recommendations": "Đề xuất",
+        "continue_watching": "Tiếp tục xem",
+        "trending": "Thịnh hành",
+        "new_releases": "Mới phát hành",
+        "for_you": "Dành cho bạn",
+        "recent_history": "Xem gần đây"
+    },
+    "categories": {
+        "all": "Tất cả",
+        "short_drama": "Phim ngắn",
+        "drama_china": "Phim Trung Quốc",
+        "drama_korea": "Phim Hàn Quốc",
+        "drama_japan": "Phim Nhật Bản",
+        "drama_thailand": "Phim Thái Lan",
+        "anime": "Anime"
+    },
+    "player": {
+        "episode": "Tập",
+        "episodes": "Tập",
+        "autoplay": "Phát tự động",
+        "next_episode": "Tập tiếp theo",
+        "previous_episode": "Tập trước",
+        "continue_episode": "Tiếp tục tập",
+        "total_episodes": "Tổng",
+        "select_episode": "Chọn tập",
+        "synopsis": "Tóm tắt",
+        "recommendations": "Đề xuất",
+        "share": "Chia sẻ",
+        "fullscreen": "Toàn màn hình",
+        "video_error": "Không thể phát video",
+        "reload": "Tải lại",
+        "connection_error": "Lỗi kết nối. Vui lòng thử lại.",
+        "no_description": "Không có mô tả.",
+        "added_to_collection": "Đã thêm vào bộ sưu tập",
+        "quality": "Chất lượng",
+        "playback_speed": "Tốc độ phát",
+        "cancel": "Hủy"
+    },
+    "user": {
+        "guest": "Khách",
+        "login": "Đăng nhập",
+        "logout": "Đăng xuất",
+        "profile": "Hồ sơ",
+        "my_profile": "Hồ sơ của tôi",
+        "history": "Lịch sử",
+        "collection": "Bộ sưu tập",
+        "likes": "Thích",
+        "favorites": "Yêu thích",
+        "recent_history": "Xem gần đây",
+        "watched": "Đã xem",
+        "watched_up_to": "Đã xem đến tập",
+        "settings": "Cài đặt",
+        "no_history": "Chưa có lịch sử xem.",
+        "no_collection": "Chưa có bộ sưu tập.",
+        "no_likes": "Chưa có phim thích."
+    },
+    "buttons": {
+        "settings": "Cài đặt",
+        "logout": "Đăng xuất",
+        "collection_add": "Thêm",
+        "collection_saved": "Đã lưu",
+        "like": "Thích",
+        "liked": "Đã thích"
+    },
+    "stats": {
+        "watched": "Đã xem",
+        "favorites": "Yêu thích"
+    },
+    "settings": {
+        "language_title": "Chọn Ngôn ngữ",
+        "language_description": "Chọn ngôn ngữ hiển thị trang web và nội dung video",
+        "current_language": "Ngôn ngữ hiện tại"
+    },
+    "explore": {
+        "view_all": "Xem tất cả",
+        "no_content": "Không có nội dung",
+        "end_of_list": "Hết danh sách",
+        "video_collection": "Bộ sưu tập video"
+    },
+    "sections": {
+        "trending": "Thịnh hành",
+        "recommend": "Đề xuất",
+        "latest": "Mới nhất",
+        "ranking": "Phổ biến",
+        "vip": "VIP",
+        "foryou": "Dành cho bạn"
+    },
+    "support": {
+        "title": "Trợ giúp & Phản hồi",
+        "need_help": "Cần trợ giúp nhanh?",
+        "help_description": "Nếu bạn gặp vấn đề khi phát video hoặc các vấn đề kỹ thuật khác, đội ngũ hỗ trợ của chúng tôi sẵn sàng giúp đỡ bạn.",
+        "chat_telegram": "Chat qua Telegram",
+        "faq_title": "Câu hỏi thường gặp",
+        "faq_download_q": "Làm thế nào để tải video?",
+        "faq_download_a": "Nhấn nút tải xuống bên dưới trình phát video. Video sẽ được lưu trong menu Tải xuống của tôi.",
+        "faq_playback_q": "Video không phát được?",
+        "faq_playback_a": "Thử làm mới trang hoặc sử dụng trình duyệt khác (Chrome/Safari được khuyến nghị). Nếu vẫn gặp vấn đề, vui lòng liên hệ chúng tôi.",
+        "faq_free_q": "Dịch vụ này có miễn phí không?",
+        "faq_free_a": "Có, bạn có thể xem hầu hết nội dung miễn phí. Một số nội dung premium có thể yêu cầu quyền truy cập VIP.",
+        "feedback_title": "Gửi phản hồi",
+        "feedback_description": "Giúp chúng tôi cải thiện chất lượng dịch vụ bằng cách gửi đề xuất hoặc báo cáo vấn đề.",
+        "subject": "Chủ đề",
+        "select_topic": "Chọn chủ đề",
+        "message": "Tin nhắn",
+        "message_placeholder": "Mô tả chi tiết vấn đề hoặc đề xuất của bạn...",
+        "submit": "Gửi phản hồi",
+        "sending": "Đang gửi...",
+        "sent": "Đã gửi!",
+        "topic_bug": "Báo lỗi",
+        "topic_feature": "Đề xuất tính năng",
+        "topic_content": "Vấn đề nội dung",
+        "topic_other": "Khác"
+    }
+}

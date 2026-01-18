@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { MovieCard } from "@/components/user/MovieCard";
 import { MovieCardSkeleton } from "@/components/user/MovieCardSkeleton";
 import { Loader2, RefreshCw } from "lucide-react";
+import { useTranslation } from "@/lib/i18n/use-translation";
 
 interface ExploreFeedSectionProps {
     provider: string;
@@ -29,7 +30,7 @@ interface APIResponse {
 /**
  * Custom hook for fetching explore feed data with cursor-based pagination
  */
-function useExploreFeed(provider: string) {
+function useExploreFeed(provider: string, language: string) {
     const [items, setItems] = useState<ContentItem[]>([]);
     const [cursor, setCursor] = useState<string | null>(null);
     const [hasMore, setHasMore] = useState(true);
@@ -47,6 +48,7 @@ function useExploreFeed(provider: string) {
             const params = new URLSearchParams({
                 limit: "24",
                 provider: provider,
+                lang: language, // Pass user's language preference
             });
             if (cursorValue) {
                 params.set("cursor", cursorValue);
@@ -73,7 +75,7 @@ function useExploreFeed(provider: string) {
             setIsLoading(false);
             setIsInitialLoad(false);
         }
-    }, [provider, isLoading]);
+    }, [provider, language, isLoading]);
 
     const reset = useCallback(() => {
         setItems([]);
@@ -107,6 +109,7 @@ function useExploreFeed(provider: string) {
 
 export function ExploreFeedSection({ provider }: ExploreFeedSectionProps) {
     const observerRef = useRef<HTMLDivElement | null>(null);
+    const { t, language, isHydrated } = useTranslation();
     const {
         items,
         cursor,
@@ -117,13 +120,15 @@ export function ExploreFeedSection({ provider }: ExploreFeedSectionProps) {
         fetchData,
         reset,
         retry,
-    } = useExploreFeed(provider);
+    } = useExploreFeed(provider, language);
 
-    // Reset and fetch when provider changes
+    // Reset and fetch when provider or language changes - only after hydration
     useEffect(() => {
+        if (!isHydrated) return; // Wait for hydration to get correct language
+
         reset();
         fetchData(null, true);
-    }, [provider]); // eslint-disable-line react-hooks/exhaustive-deps
+    }, [provider, language, isHydrated]); // eslint-disable-line react-hooks/exhaustive-deps
 
     // Intersection Observer for Infinite Scroll
     useEffect(() => {
@@ -168,7 +173,7 @@ export function ExploreFeedSection({ provider }: ExploreFeedSectionProps) {
             <div className="flex items-center gap-2 mb-4">
                 <span className="text-xl">📺</span>
                 <h2 className="text-lg font-bold text-white">
-                    Lihat Semua {getProviderName(provider)}
+                    {t("explore.view_all")} {getProviderName(provider)}
                 </h2>
             </div>
 
@@ -190,7 +195,7 @@ export function ExploreFeedSection({ provider }: ExploreFeedSectionProps) {
                         className="flex items-center gap-2 px-4 py-2 bg-[#00cc55] text-black font-medium rounded-lg hover:bg-[#00aa44] transition-colors"
                     >
                         <RefreshCw className="w-4 h-4" />
-                        Coba Lagi
+                        {t("common.retry")}
                     </button>
                 </div>
             )}
@@ -198,7 +203,7 @@ export function ExploreFeedSection({ provider }: ExploreFeedSectionProps) {
             {/* Empty State */}
             {!isInitialLoad && !error && items.length === 0 && (
                 <div className="text-center py-12 text-gray-500">
-                    Belum ada drama untuk provider ini.
+                    {t("explore.no_content")}
                 </div>
             )}
 
@@ -223,7 +228,7 @@ export function ExploreFeedSection({ provider }: ExploreFeedSectionProps) {
                 {isLoading && items.length > 0 ? (
                     <Loader2 className="w-6 h-6 animate-spin text-gray-500" />
                 ) : !hasMore && items.length > 0 ? (
-                    <span className="text-gray-600 text-sm">Tidak ada lagi drama</span>
+                    <span className="text-gray-600 text-sm">{t("explore.end_of_list")}</span>
                 ) : null}
             </div>
         </section>

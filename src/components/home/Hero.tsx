@@ -5,6 +5,7 @@ import useSWR from "swr";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { HeroItem } from "@/lib/services/hero/types";
+import { useTranslation, useCurrentLanguage } from "@/lib/i18n/use-translation";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -13,9 +14,12 @@ interface HeroProps {
 }
 
 export function Hero({ initialData = [] }: HeroProps) {
-    // Use SWR with fallbackData for background refresh
+    const language = useCurrentLanguage();
+    const { t } = useTranslation();
+
+    // Use SWR with fallbackData for background refresh - include language in key
     const { data: fullResponse } = useSWR<{ success: boolean; data: HeroItem[] }>(
-        '/api/home/hero',
+        `/api/home/hero?lang=${language}`,
         fetcher,
         {
             revalidateOnFocus: false,
@@ -120,7 +124,7 @@ export function Hero({ initialData = [] }: HeroProps) {
 
                     {/* Description */}
                     <p className="text-gray-300 text-sm md:text-base line-clamp-2 max-w-xl drop-shadow-md">
-                        {displayItem.description || "No description available."}
+                        {displayItem.description || t("player.no_description")}
                     </p>
 
                     {/* Buttons */}

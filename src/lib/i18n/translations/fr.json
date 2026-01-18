@@ -1,0 +1,145 @@
+{
+    "common": {
+        "loading": "Chargement...",
+        "error": "Une erreur s'est produite",
+        "retry": "Réessayer",
+        "cancel": "Annuler",
+        "save": "Enregistrer",
+        "back": "Retour",
+        "next": "Suivant",
+        "previous": "Précédent",
+        "see_all": "Voir tout",
+        "more": "Plus",
+        "today": "Aujourd'hui",
+        "yesterday": "Hier",
+        "progress": "Progression"
+    },
+    "navbar": {
+        "search_placeholder": "Rechercher un drama...",
+        "vip": "VIP",
+        "for_you": "Pour vous",
+        "home": "Accueil",
+        "explore": "Explorer",
+        "me": "Moi"
+    },
+    "menu": {
+        "downloads": "Mes téléchargements",
+        "language": "Langue",
+        "settings": "Compte et Paramètres",
+        "support": "Aide et Commentaires"
+    },
+    "home": {
+        "recommendations": "Recommandations",
+        "continue_watching": "Continuer à regarder",
+        "trending": "Tendances",
+        "new_releases": "Nouveautés",
+        "for_you": "Pour vous",
+        "recent_history": "Historique récent"
+    },
+    "categories": {
+        "all": "Tout",
+        "short_drama": "Drama court",
+        "drama_china": "Drama chinois",
+        "drama_korea": "Drama coréen",
+        "drama_japan": "Drama japonais",
+        "drama_thailand": "Drama thaïlandais",
+        "anime": "Anime"
+    },
+    "player": {
+        "episode": "Épisode",
+        "episodes": "Épisodes",
+        "autoplay": "Lecture automatique",
+        "next_episode": "Épisode suivant",
+        "previous_episode": "Épisode précédent",
+        "continue_episode": "Continuer l'épisode",
+        "total_episodes": "Total",
+        "select_episode": "Select Episode",
+        "synopsis": "Synopsis",
+        "recommendations": "Recommendations",
+        "share": "Share",
+        "fullscreen": "Fullscreen",
+        "video_error": "Failed to play video",
+        "reload": "Reload",
+        "connection_error": "Connection error. Please try again.",
+        "no_description": "No description available.",
+        "added_to_collection": "Added to collection",
+        "quality": "Quality",
+        "playback_speed": "Playback Speed",
+        "cancel": "Cancel"
+    },
+    "user": {
+        "guest": "Invité",
+        "login": "Se connecter",
+        "logout": "Se déconnecter",
+        "profile": "Profil",
+        "my_profile": "Mon Profil",
+        "history": "Historique",
+        "collection": "Collection",
+        "likes": "J'aime",
+        "favorites": "Favoris",
+        "recent_history": "Historique récent",
+        "watched": "Regardé",
+        "watched_up_to": "Regardé jusqu'à Ep",
+        "settings": "Paramètres",
+        "no_history": "Pas encore d'historique de visionnage.",
+        "no_collection": "Pas encore de collection.",
+        "no_likes": "Pas encore de j'aime."
+    },
+    "buttons": {
+        "settings": "Paramètres",
+        "logout": "Déconnexion",
+        "collection_add": "Ajouter",
+        "collection_saved": "Enregistré",
+        "like": "J'aime",
+        "liked": "Aimé"
+    },
+    "stats": {
+        "watched": "Regardé",
+        "favorites": "Favoris"
+    },
+    "settings": {
+        "language_title": "Sélectionner la langue",
+        "language_description": "Choisissez la langue d'affichage du site et du contenu vidéo",
+        "current_language": "Langue actuelle"
+    },
+    "explore": {
+        "view_all": "Voir tout",
+        "no_content": "Aucun contenu disponible",
+        "end_of_list": "Fin de la liste",
+        "video_collection": "Video Collection"
+    },
+    "sections": {
+        "trending": "Trending",
+        "recommend": "Recommendations",
+        "latest": "Latest",
+        "ranking": "Popular",
+        "vip": "VIP",
+        "foryou": "For You"
+    },
+    "support": {
+        "title": "Aide et Commentaires",
+        "need_help": "Besoin d'aide rapide?",
+        "help_description": "Si vous rencontrez des problèmes de lecture vidéo ou d'autres problèmes techniques, notre équipe d'assistance est prête à vous aider.",
+        "chat_telegram": "Chat via Telegram",
+        "faq_title": "Questions Fréquentes",
+        "faq_download_q": "Comment télécharger des vidéos?",
+        "faq_download_a": "Cliquez sur le bouton de téléchargement sous le lecteur vidéo. La vidéo sera enregistrée dans le menu Mes Téléchargements.",
+        "faq_playback_q": "La vidéo ne fonctionne pas?",
+        "faq_playback_a": "Essayez de rafraîchir la page ou utilisez un autre navigateur (Chrome/Safari recommandé). Si le problème persiste, contactez-nous.",
+        "faq_free_q": "Ce service est-il gratuit?",
+        "faq_free_a": "Oui, vous pouvez regarder la plupart du contenu gratuitement. Certains contenus premium peuvent nécessiter un accès VIP.",
+        "feedback_title": "Envoyer des Commentaires",
+        "feedback_description": "Aidez-nous à améliorer la qualité du service en envoyant des suggestions ou des rapports de problèmes.",
+        "subject": "Sujet",
+        "select_topic": "Sélectionner un Sujet",
+        "message": "Message",
+        "message_placeholder": "Décrivez le problème ou votre suggestion en détail...",
+        "submit": "Envoyer des Commentaires",
+        "sending": "Envoi en cours...",
+        "sent": "Envoyé!",
+        "topic_bug": "Signaler un Bug",
+        "topic_feature": "Demande de Fonctionnalité",
+        "topic_content": "Problème de Contenu",
+        "topic_other": "Autre"
+    }
+}

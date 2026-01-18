@@ -4,17 +4,19 @@ import { Home, Compass, PlayCircle, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/lib/i18n/use-translation";
 
 export function MobileNav() {
     const pathname = usePathname();
+    const { t } = useTranslation();
 
-    if (pathname.startsWith("/watch") || pathname.startsWith("/search") || pathname.startsWith("/support")) return null;
+    if (pathname.startsWith("/watch") || pathname.startsWith("/search")) return null;
 
     const navs = [
-        { name: "Home", href: "/", icon: Home },
-        { name: "Explore", href: "/explore", icon: Compass },
-        { name: "VIP", href: "/vip", icon: PlayCircle }, // Reusing PlayCircle for VIP/Shorts feel
-        { name: "Me", href: "/user", icon: User },
+        { name: t("navbar.home"), href: "/", icon: Home },
+        { name: t("navbar.explore"), href: "/explore", icon: Compass },
+        { name: t("navbar.vip"), href: "/vip", icon: PlayCircle },
+        { name: t("navbar.me"), href: "/user", icon: User },
     ];
 
     return (
@@ -25,7 +27,7 @@ export function MobileNav() {
                     const Icon = nav.icon;
                     return (
                         <Link
-                            key={nav.name}
+                            key={nav.href}
                             href={nav.href}
                             className={cn(
                                 "flex flex-col items-center gap-1 text-xs",
@@ -41,3 +43,4 @@ export function MobileNav() {
         </div>
     );
 }
+

@@ -3,11 +3,19 @@
 import { useState, useEffect, useRef } from "react";
 import { HomeCategories } from "./HomeCategories";
 import { HomeContent } from "./HomeContent";
+import { useTranslation } from "@/lib/i18n/use-translation";
 
-const CATEGORIES = ["Semua", "Short Drama", "Drama China", "Drama Korea", "Drama Jepang", "Drama Thailand", "Anime"];
+// Category keys for translation
+const CATEGORY_KEYS = ["all", "short_drama", "drama_china", "drama_korea", "drama_japan", "drama_thailand", "anime"];
 
 export function HomeFeed() {
-    const [activeCategory, setActiveCategory] = useState("Semua");
+    const { t } = useTranslation();
+
+    // Translate categories dynamically
+    const categories = CATEGORY_KEYS.map(key => t(`categories.${key}`));
+
+    const [activeCategoryIndex, setActiveCategoryIndex] = useState(0);
+    const activeCategory = categories[activeCategoryIndex];
 
     const containerRef = useRef<HTMLDivElement>(null);
 
@@ -25,18 +33,19 @@ export function HomeFeed() {
                 behavior: "smooth"
             });
         }
-    }, [activeCategory]);
+    }, [activeCategoryIndex]);
 
     return (
         <div className="min-h-screen" ref={containerRef}>
             <HomeCategories
-                categories={CATEGORIES}
+                categories={categories}
                 activeCategory={activeCategory}
-                onSelect={setActiveCategory}
+                onSelect={(cat) => setActiveCategoryIndex(categories.indexOf(cat))}
             />
             <div className="pt-4">
-                <HomeContent category={activeCategory} />
+                <HomeContent category={CATEGORY_KEYS[activeCategoryIndex]} />
             </div>
         </div>
     );
 }
+

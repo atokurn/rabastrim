@@ -1,6 +1,7 @@
 "use client";
 
 import { useUserStore } from "@/lib/auth/store";
+import { useTranslation } from "@/lib/i18n/use-translation";
 import Link from "next/link";
 import { User, LogOut, Settings, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -14,6 +15,7 @@ interface ProfilePopupProps {
 
 export function ProfilePopup({ isVisible, onMouseEnter, onMouseLeave, onLoginClick }: ProfilePopupProps) {
     const { user, logout } = useUserStore();
+    const { t } = useTranslation();
 
     if (!isVisible) return null;
 
@@ -42,7 +44,7 @@ export function ProfilePopup({ isVisible, onMouseEnter, onMouseLeave, onLoginCli
                             className="flex items-center gap-3 px-3 py-2.5 text-sm text-gray-300 hover:text-white hover:bg-[#23252b] rounded-md transition-colors"
                         >
                             <User className="w-4 h-4" />
-                            <span>My Profile</span>
+                            <span>{t("user.my_profile")}</span>
                         </Link>
 
                         <button
@@ -50,7 +52,7 @@ export function ProfilePopup({ isVisible, onMouseEnter, onMouseLeave, onLoginCli
                             className="w-full flex items-center gap-3 px-3 py-2.5 text-sm text-red-400 hover:text-red-300 hover:bg-[#23252b] rounded-md transition-colors text-left"
                         >
                             <LogOut className="w-4 h-4" />
-                            <span>Logout</span>
+                            <span>{t("buttons.logout")}</span>
                         </button>
                     </>
                 ) : (

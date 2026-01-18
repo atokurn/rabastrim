@@ -5,6 +5,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { usePathname, useSearchParams } from "next/navigation";
 import { ChevronDown } from "lucide-react";
+import { useTranslation } from "@/lib/i18n/use-translation";
 
 interface NavItem {
     label: string;
@@ -21,6 +22,7 @@ export function ResponsiveNav({ items, className }: ResponsiveNavProps) {
     const containerRef = useRef<HTMLDivElement>(null);
     const [visibleCount, setVisibleCount] = useState(items.length);
     const [isMeasuring, setIsMeasuring] = useState(true);
+    const { t } = useTranslation();
 
     // We need to measure widths. 
     // Strategy: Render all items invisible first to get their natural widths.
@@ -196,7 +198,7 @@ export function ResponsiveNav({ items, className }: ResponsiveNavProps) {
                             "flex items-center gap-1 cursor-pointer hover:text-white px-1 py-1 transition-colors",
                             isMoreActive ? "text-[#00cc55] font-bold" : "text-gray-300"
                         )}>
-                            <span>Lainnya</span>
+                            <span>{t("common.more")}</span>
                             <ChevronDown className="w-4 h-4" />
                             {isMoreActive && (
                                 <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#00cc55] rounded-full" />

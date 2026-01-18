@@ -6,14 +6,15 @@ import { HeroItem } from "./types";
 export const HeroService = {
     /**
      * Aggregates hero content from multiple providers
+     * @param lang - Language code for content (default: "id")
      */
-    getHeroContent: async (): Promise<HeroItem[]> => {
+    getHeroContent: async (lang: string = "id"): Promise<HeroItem[]> => {
         // Fetch from all providers in parallel
         // We fetching slightly more than needed to ensure we have enough good quality items
         const results = await Promise.allSettled([
-            getDramaBoxHero(3),
-            getFlickReelsHero(3),
-            getMeloloHero(3),
+            getDramaBoxHero(3, lang),
+            getFlickReelsHero(3, lang),
+            getMeloloHero(3, lang),
         ]);
 
         let allItems: HeroItem[] = [];

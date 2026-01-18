@@ -1,0 +1,145 @@
+{
+    "common": {
+        "loading": "Ładowanie...",
+        "error": "Wystąpił błąd",
+        "retry": "Spróbuj ponownie",
+        "cancel": "Anuluj",
+        "save": "Zapisz",
+        "back": "Wstecz",
+        "next": "Dalej",
+        "previous": "Poprzedni",
+        "see_all": "Zobacz wszystko",
+        "more": "Więcej",
+        "today": "Dzisiaj",
+        "yesterday": "Wczoraj",
+        "progress": "Postęp"
+    },
+    "navbar": {
+        "search_placeholder": "Szukaj dramatu...",
+        "vip": "VIP",
+        "for_you": "Dla Ciebie",
+        "home": "Strona główna",
+        "explore": "Odkrywaj",
+        "me": "Ja"
+    },
+    "menu": {
+        "downloads": "Moje pobrania",
+        "language": "Język",
+        "settings": "Konto i Ustawienia",
+        "support": "Pomoc i Opinie"
+    },
+    "home": {
+        "recommendations": "Rekomendacje",
+        "continue_watching": "Kontynuuj oglądanie",
+        "trending": "Popularne",
+        "new_releases": "Nowości",
+        "for_you": "Dla Ciebie",
+        "recent_history": "Ostatnio oglądane"
+    },
+    "categories": {
+        "all": "Wszystko",
+        "short_drama": "Krótkometrażowy dramat",
+        "drama_china": "Dramat chiński",
+        "drama_korea": "Dramat koreański",
+        "drama_japan": "Dramat japoński",
+        "drama_thailand": "Dramat tajski",
+        "anime": "Anime"
+    },
+    "player": {
+        "episode": "Odcinek",
+        "episodes": "Odcinki",
+        "autoplay": "Automatyczne odtwarzanie",
+        "next_episode": "Następny odcinek",
+        "previous_episode": "Poprzedni odcinek",
+        "continue_episode": "Kontynuuj odcinek",
+        "total_episodes": "Total",
+        "select_episode": "Select Episode",
+        "synopsis": "Synopsis",
+        "recommendations": "Recommendations",
+        "share": "Share",
+        "fullscreen": "Fullscreen",
+        "video_error": "Failed to play video",
+        "reload": "Reload",
+        "connection_error": "Connection error. Please try again.",
+        "no_description": "No description available.",
+        "added_to_collection": "Added to collection",
+        "quality": "Quality",
+        "playback_speed": "Playback Speed",
+        "cancel": "Cancel"
+    },
+    "user": {
+        "guest": "Gość",
+        "login": "Zaloguj się",
+        "logout": "Wyloguj się",
+        "profile": "Profil",
+        "my_profile": "Mój Profil",
+        "history": "Historia",
+        "collection": "Kolekcja",
+        "likes": "Polubienia",
+        "favorites": "Ulubione",
+        "recent_history": "Ostatnio oglądane",
+        "watched": "Obejrzane",
+        "watched_up_to": "Obejrzane do odc",
+        "settings": "Ustawienia",
+        "no_history": "Jeszcze brak historii oglądania.",
+        "no_collection": "Jeszcze brak kolekcji.",
+        "no_likes": "Jeszcze brak polubień."
+    },
+    "buttons": {
+        "settings": "Ustawienia",
+        "logout": "Wyloguj",
+        "collection_add": "Dodaj",
+        "collection_saved": "Zapisano",
+        "like": "Lubię",
+        "liked": "Polubiono"
+    },
+    "stats": {
+        "watched": "Obejrzane",
+        "favorites": "Ulubione"
+    },
+    "settings": {
+        "language_title": "Wybierz język",
+        "language_description": "Wybierz język wyświetlania strony i treści wideo",
+        "current_language": "Aktualny język"
+    },
+    "explore": {
+        "view_all": "Zobacz wszystko",
+        "no_content": "Brak dostępnych treści",
+        "end_of_list": "Koniec listy",
+        "video_collection": "Video Collection"
+    },
+    "sections": {
+        "trending": "Trending",
+        "recommend": "Recommendations",
+        "latest": "Latest",
+        "ranking": "Popular",
+        "vip": "VIP",
+        "foryou": "For You"
+    },
+    "support": {
+        "title": "Pomoc i Opinie",
+        "need_help": "Potrzebujesz szybkiej pomocy?",
+        "help_description": "Jeśli masz problemy z odtwarzaniem filmów lub inne problemy techniczne, nasz zespół wsparcia jest gotowy, aby Ci pomóc.",
+        "chat_telegram": "Czat przez Telegram",
+        "faq_title": "Często Zadawane Pytania",
+        "faq_download_q": "Jak pobrać filmy?",
+        "faq_download_a": "Kliknij przycisk pobierania pod odtwarzaczem wideo. Film zostanie zapisany w menu Moje Pobrane.",
+        "faq_playback_q": "Film się nie odtwarza?",
+        "faq_playback_a": "Spróbuj odświeżyć stronę lub użyj innej przeglądarki (zalecamy Chrome/Safari). Jeśli problem będzie się powtarzał, skontaktuj się z nami.",
+        "faq_free_q": "Czy ta usługa jest bezpłatna?",
+        "faq_free_a": "Tak, możesz oglądać większość treści za darmo. Niektóre treści premium mogą wymagać dostępu VIP.",
+        "feedback_title": "Wyślij Opinię",
+        "feedback_description": "Pomóż nam poprawić jakość usługi, wysyłając sugestie lub zgłoszenia problemów.",
+        "subject": "Temat",
+        "select_topic": "Wybierz Temat",
+        "message": "Wiadomość",
+        "message_placeholder": "Opisz szczegółowo problem lub swoją sugestię...",
+        "submit": "Wyślij Opinię",
+        "sending": "Wysyłanie...",
+        "sent": "Wysłano!",
+        "topic_bug": "Zgłoś Błąd",
+        "topic_feature": "Prośba o Funkcję",
+        "topic_content": "Problem z Treścią",
+        "topic_other": "Inne"
+    }
+}

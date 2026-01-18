@@ -54,38 +54,120 @@ export async function POST(request: NextRequest) {
                 let items: ContentInput[] = [];
 
                 switch (p) {
-                    case "dramabox":
-                        if (syncType === "trending") {
-                            const data = await DramaBoxApi.getTrending();
-                            items = data.map(adaptDramaBox);
-                        } else if (syncType === "home") {
-                            const data = await DramaBoxApi.getHome();
-                            items = data.map(adaptDramaBox);
-                        } else {
-                            const data = await DramaBoxApi.getForYou();
-                            items = data.map(adaptDramaBox);
-                        }
-                        break;
+                    case "dramabox": {
+                        // DramaBox supports 16 languages
+                        // en, ja, ko, es, id, fr, pt, th, ar, de, pl, vi, it, tr, zh-TW, zh
+                        const languages = [
+                            "en", "ja", "ko", "es", "id", "fr", "pt", "th",
+                            "ar", "de", "pl", "vi", "it", "tr", "zh-TW", "zh"
+                        ];
 
-                    case "flickreels":
-                        if (syncType === "trending" || syncType === "home") {
-                            const data = await FlickReelsApi.getHome();
-                            items = data.map(adaptFlickReels);
-                        } else {
-                            const data = await FlickReelsApi.getForYou();
-                            items = data.map(adaptFlickReels);
-                        }
-                        break;
+                        for (const lang of languages) {
+                            try {
+                                let data;
+                                if (syncType === "trending" || syncType === "home") {
+                                    data = await DramaBoxApi.getHome(lang);
+                                } else {
+                                    data = await DramaBoxApi.getRecommend(lang);
+                                }
 
-                    case "melolo":
-                        if (syncType === "trending") {
-                            const data = await MeloloApi.getTrending();
-                            items = data.map(adaptMelolo);
-                        } else {
-                            const data = await MeloloApi.getLatest();
-                            items = data.map(adaptMelolo);
+                                const langItems = data.map(adaptDramaBox);
+                                const validItems = langItems.filter(item => item.bookId);
+
+                                if (validItems.length > 0) {
+                                    // Use language-aware sync to save language association
+                                    await ContentIngestionService.syncContentWithLanguage(
+                                        "dramabox",
+                                        validItems,
+                                        lang,
+                                        syncType === "foryou" ? "foryou" : "home"
+                                    );
+                                    console.log(`[Sync] DramaBox lang=${lang}: synced ${validItems.length} items`);
+                                }
+                            } catch (error) {
+                                console.error(`[Sync] DramaBox lang=${lang} failed:`, error);
+                            }
                         }
+                        // Skip normal processing since we handled it above
+                        items = [];
                         break;
+                    }
+
+                    case "flickreels": {
+                        // FlickReels supports 11 languages
+                        // en, ja, ko, zh-TW, es, id, th, de, pt, fr, ar
+                        const flickreelsLangs = [
+                            "en", "ja", "ko", "zh-TW", "es", "id", "th",
+                            "de", "pt", "fr", "ar"
+                        ];
+
+                        for (const lang of flickreelsLangs) {
+                            try {
+                                let data;
+                                if (syncType === "trending" || syncType === "home") {
+                                    data = await FlickReelsApi.getHome(lang);
+                                } else {
+                                    data = await FlickReelsApi.getForYou(lang);
+                                }
+
+                                const langItems = data.map(adaptFlickReels);
+                                const validItems = langItems.filter(item => item.bookId);
+
+                                if (validItems.length > 0) {
+                                    await ContentIngestionService.syncContentWithLanguage(
+                                        "flickreels",
+                                        validItems,
+                                        lang,
+                                        syncType === "foryou" ? "foryou" : "home"
+                                    );
+                                    console.log(`[Sync] FlickReels lang=${lang}: synced ${validItems.length} items`);
+                                }
+                            } catch (error) {
+                                console.error(`[Sync] FlickReels lang=${lang} failed:`, error);
+                            }
+                        }
+                        // Skip normal processing since we handled it above
+                        items = [];
+                        break;
+                    }
+
+                    case "melolo": {
+                        // Melolo supports 14 languages
+                        // en, id, th, pt, es, vi, my (Burmese), km (Khmer), ms (Malay), ja, ko, fr, de, it
+                        const meloloLangs = [
+                            "en", "id", "th", "pt", "es", "vi", "my", "km",
+                            "ms", "ja", "ko", "fr", "de", "it"
+                        ];
+
+                        for (const lang of meloloLangs) {
+                            try {
+                                let data;
+                                if (syncType === "trending") {
+                                    data = await MeloloApi.getTrending(lang);
+                                } else {
+                                    data = await MeloloApi.getLatest(lang);
+                                }
+
+                                const langItems = data.map(adaptMelolo);
+                                const validItems = langItems.filter(item => item.bookId);
+
+                                if (validItems.length > 0) {
+                                    await ContentIngestionService.syncContentWithLanguage(
+                                        "melolo",
+                                        validItems,
+                                        lang,
+                                        syncType === "trending" ? "home" : "foryou"
+                                    );
+                                    console.log(`[Sync] Melolo lang=${lang}: synced ${validItems.length} items`);
+                                }
+                            } catch (error) {
+                                console.error(`[Sync] Melolo lang=${lang} failed:`, error);
+                            }
+                        }
+                        // Skip normal processing since we handled it above
+                        items = [];
+                        break;
+                    }
 
                     case "dramaqueen":
                         // Use getList which returns complete data including negara/tahun_rilis
@@ -179,38 +261,110 @@ export async function GET(request: NextRequest) {
                 let items: ContentInput[] = [];
 
                 switch (p) {
-                    case "dramabox":
-                        if (syncType === "trending") {
-                            const data = await DramaBoxApi.getTrending();
-                            items = data.map(adaptDramaBox);
-                        } else if (syncType === "home") {
-                            const data = await DramaBoxApi.getHome();
-                            items = data.map(adaptDramaBox);
-                        } else {
-                            const data = await DramaBoxApi.getForYou();
-                            items = data.map(adaptDramaBox);
-                        }
-                        break;
+                    case "dramabox": {
+                        // DramaBox supports 16 languages
+                        const languages = [
+                            "en", "ja", "ko", "es", "id", "fr", "pt", "th",
+                            "ar", "de", "pl", "vi", "it", "tr", "zh-TW", "zh"
+                        ];
 
-                    case "flickreels":
-                        if (syncType === "trending" || syncType === "home") {
-                            const data = await FlickReelsApi.getHome();
-                            items = data.map(adaptFlickReels);
-                        } else {
-                            const data = await FlickReelsApi.getForYou();
-                            items = data.map(adaptFlickReels);
-                        }
-                        break;
+                        for (const lang of languages) {
+                            try {
+                                let data;
+                                if (syncType === "trending" || syncType === "home") {
+                                    data = await DramaBoxApi.getHome(lang);
+                                } else {
+                                    data = await DramaBoxApi.getRecommend(lang);
+                                }
 
-                    case "melolo":
-                        if (syncType === "trending") {
-                            const data = await MeloloApi.getTrending();
-                            items = data.map(adaptMelolo);
-                        } else {
-                            const data = await MeloloApi.getLatest();
-                            items = data.map(adaptMelolo);
+                                const langItems = data.map(adaptDramaBox);
+                                const validItems = langItems.filter(item => item.bookId);
+
+                                if (validItems.length > 0) {
+                                    await ContentIngestionService.syncContentWithLanguage(
+                                        "dramabox",
+                                        validItems,
+                                        lang,
+                                        syncType === "foryou" ? "foryou" : "home"
+                                    );
+                                }
+                            } catch (error) {
+                                console.error(`[Sync GET] DramaBox lang=${lang} failed:`, error);
+                            }
                         }
+                        items = [];
                         break;
+                    }
+
+                    case "flickreels": {
+                        // FlickReels supports 11 languages
+                        const flickreelsLangs = [
+                            "en", "ja", "ko", "zh-TW", "es", "id", "th",
+                            "de", "pt", "fr", "ar"
+                        ];
+
+                        for (const lang of flickreelsLangs) {
+                            try {
+                                let data;
+                                if (syncType === "trending" || syncType === "home") {
+                                    data = await FlickReelsApi.getHome(lang);
+                                } else {
+                                    data = await FlickReelsApi.getForYou(lang);
+                                }
+
+                                const langItems = data.map(adaptFlickReels);
+                                const validItems = langItems.filter(item => item.bookId);
+
+                                if (validItems.length > 0) {
+                                    await ContentIngestionService.syncContentWithLanguage(
+                                        "flickreels",
+                                        validItems,
+                                        lang,
+                                        syncType === "foryou" ? "foryou" : "home"
+                                    );
+                                }
+                            } catch (error) {
+                                console.error(`[Sync GET] FlickReels lang=${lang} failed:`, error);
+                            }
+                        }
+                        items = [];
+                        break;
+                    }
+
+                    case "melolo": {
+                        // Melolo supports 14 languages
+                        const meloloLangs = [
+                            "en", "id", "th", "pt", "es", "vi", "my", "km",
+                            "ms", "ja", "ko", "fr", "de", "it"
+                        ];
+
+                        for (const lang of meloloLangs) {
+                            try {
+                                let data;
+                                if (syncType === "trending") {
+                                    data = await MeloloApi.getTrending(lang);
+                                } else {
+                                    data = await MeloloApi.getLatest(lang);
+                                }
+
+                                const langItems = data.map(adaptMelolo);
+                                const validItems = langItems.filter(item => item.bookId);
+
+                                if (validItems.length > 0) {
+                                    await ContentIngestionService.syncContentWithLanguage(
+                                        "melolo",
+                                        validItems,
+                                        lang,
+                                        syncType === "trending" ? "home" : "foryou"
+                                    );
+                                }
+                            } catch (error) {
+                                console.error(`[Sync GET] Melolo lang=${lang} failed:`, error);
+                            }
+                        }
+                        items = [];
+                        break;
+                    }
 
                     case "dramaqueen":
                         if (syncType === "trending") {

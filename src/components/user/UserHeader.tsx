@@ -1,6 +1,7 @@
 "use client";
 
 import { useUserStore } from "@/lib/auth/store";
+import { useTranslation } from "@/lib/i18n/use-translation";
 import { User, LogOut, Settings } from "lucide-react";
 import { useEffect, useState } from "react";
 import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
@@ -9,6 +10,7 @@ import { TelegramLoginButton } from "@/components/auth/TelegramLoginButton";
 export function UserHeader() {
     const { user: clerkUser, isSignedIn, isLoaded } = useUser();
     const { user, syncWithClerkUser, loginWithTelegram, initGuest, logout, history, favorites } = useUserStore();
+    const { t } = useTranslation();
     const [showTelegramLogin, setShowTelegramLogin] = useState(false);
     const [isLoadingTelegram, setIsLoadingTelegram] = useState(false);
 
@@ -107,7 +109,7 @@ export function UserHeader() {
                     {/* Info */}
                     <div className="flex-1 text-center md:text-left">
                         <h1 className="text-2xl font-bold text-white mb-1">
-                            {isLoggedIn ? displayUser?.name : 'Pengunjung Tamu'}
+                            {isLoggedIn ? displayUser?.name : t("user.guest")}
                         </h1>
                         <p className="text-gray-400 text-sm mb-4">
                             ID: <span className="font-mono text-gray-500">{displayUser?.id?.substring(0, 16) || 'Generating...'}</span>
@@ -156,13 +158,13 @@ export function UserHeader() {
                                 <>
                                     <button className="px-4 py-2 bg-gray-800 text-white font-medium rounded-lg hover:bg-gray-700 transition-colors flex items-center gap-2">
                                         <Settings className="w-4 h-4" />
-                                        Pengaturan
+                                        {t("buttons.settings")}
                                     </button>
                                     {isSignedIn ? (
                                         <SignOutButton>
                                             <button className="px-4 py-2 bg-red-500/10 text-red-400 font-medium rounded-lg hover:bg-red-500/20 transition-colors flex items-center gap-2">
                                                 <LogOut className="w-4 h-4" />
-                                                Keluar
+                                                {t("buttons.logout")}
                                             </button>
                                         </SignOutButton>
                                     ) : (
@@ -183,11 +185,11 @@ export function UserHeader() {
                     <div className="flex gap-8 border-t md:border-t-0 md:border-l border-gray-800 pt-6 md:pt-0 md:pl-8 mt-4 md:mt-0">
                         <div className="text-center">
                             <div className="text-2xl font-bold text-white">{history.length}</div>
-                            <div className="text-xs text-gray-500 uppercase tracking-wider">Ditonton</div>
+                            <div className="text-xs text-gray-500 uppercase tracking-wider">{t("stats.watched")}</div>
                         </div>
                         <div className="text-center">
                             <div className="text-2xl font-bold text-white">{favorites.length}</div>
-                            <div className="text-xs text-gray-500 uppercase tracking-wider">Favorit</div>
+                            <div className="text-xs text-gray-500 uppercase tracking-wider">{t("stats.favorites")}</div>
                         </div>
                     </div>
                 </div>

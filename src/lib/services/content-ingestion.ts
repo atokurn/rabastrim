@@ -8,7 +8,7 @@
 import { db, syncLogs, type ContentProvider, type FetchedFrom } from "@/lib/db";
 import { upsertContent } from "./content-repository";
 import { normalizeDramaBox, normalizeNetShort, normalizeFlickReels, normalizeMelolo, normalizeDramaQueen, normalizeDonghua } from "./provider-normalizers";
-import { setDefaultLanguageForContent } from "./language-ingestion";
+import { setDefaultLanguageForContent, upsertContentLanguage } from "./language-ingestion";
 
 // ============================================
 // TTL CONFIGURATION
@@ -155,6 +155,72 @@ export const ContentIngestionService = {
      */
     async ingestFromSearch(provider: ContentProvider, items: ScraperItem[]): Promise<IngestionResult> {
         return this.syncContent(provider, items, "search", "active");
+    },
+
+    /**
+     * Sync content with explicit language association
+     * Used when fetching from APIs that support language parameter (e.g. DramaBox ?lang=id)
+     * 
+     * @param provider - Content provider
+     * @param items - Items to sync
+     * @param languageCode - ISO 639-1 language code (e.g. "id", "en")
+     * @param fetchedFrom - Source type (trending, home, foryou)
+     */
+    async syncContentWithLanguage(
+        provider: ContentProvider,
+        items: ScraperItem[],
+        languageCode: string,
+        fetchedFrom: FetchedFrom = "home"
+    ): Promise<IngestionResult> {
+        const startTime = Date.now();
+        let updated = 0;
+
+        for (const item of items) {
+            try {
+                // Normalize based on provider
+                let normalized;
+                const baseData = { ...item };
+
+                switch (provider) {
+                    case "dramabox":
+                        normalized = normalizeDramaBox(baseData, fetchedFrom);
+                        break;
+                    case "flickreels":
+                        normalized = normalizeFlickReels(baseData, fetchedFrom);
+                        break;
+                    case "melolo":
+                        normalized = normalizeMelolo(baseData, fetchedFrom);
+                        break;
+                    default:
+                        normalized = normalizeDramaBox(baseData, fetchedFrom);
+                }
+
+                normalized.status = "active";
+                normalized.popularityScore = 20;
+
+                // Upsert content
+                const result = await upsertContent(normalized);
+
+                // Explicitly set language for this content
+                if (result && result.length > 0) {
+                    await upsertContentLanguage(result[0].id, provider, {
+                        languageCode,
+                        type: "subtitle",
+                        source: "api",
+                        isDefault: languageCode === "id", // Indonesian is default
+                    });
+                }
+
+                updated++;
+            } catch (error) {
+                console.error(`[Ingestion] Failed to process ${item.bookId} with lang ${languageCode}:`, error);
+            }
+        }
+
+        const durationMs = Date.now() - startTime;
+        console.log(`[Ingestion] Synced ${updated} items with language=${languageCode} in ${durationMs}ms`);
+
+        return { processed: items.length, created: 0, updated };
     },
 
     async logSync(

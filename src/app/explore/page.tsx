@@ -6,9 +6,11 @@ import { ExploreTabs, ExploreSection, ExploreFeedSection } from "@/components/ex
 import { ProviderSource } from "@/lib/explore";
 import { getProviderSections } from "@/lib/explore/sections";
 import { Suspense } from "react";
+import { useTranslation } from "@/lib/i18n/use-translation";
 
 function ExploreContent() {
     const searchParams = useSearchParams();
+    const { t } = useTranslation();
     const source = (searchParams.get("source") || "dramabox") as ProviderSource;
 
     // Get sections for current provider
@@ -18,7 +20,7 @@ function ExploreContent() {
         <div className="min-h-screen bg-[#0d0f14] pb-20">
             {/* Header (Mobile) */}
             <div className="bg-[#0d0f14] px-4 py-3 flex items-center justify-between md:hidden border-b border-[#1f2126]">
-                <h1 className="text-lg font-bold text-white">Koleksi Video</h1>
+                <h1 className="text-lg font-bold text-white">{t("explore.video_collection")}</h1>
                 <Link href="/search">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"

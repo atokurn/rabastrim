@@ -73,12 +73,46 @@ async function fetchApi<T>(endpoint: string): Promise<T | null> {
     }
 }
 
+/**
+ * Map frontend language codes to DramaBox API language codes
+ * DramaBox API uses specific codes that may differ from ISO 639-1
+ */
+const DRAMABOX_LANG_MAP: Record<string, string> = {
+    // Primary languages
+    "id": "id",           // Bahasa Indonesia
+    "en": "en",           // English
+    "zh": "zh",           // 简体中文 (Simplified Chinese)
+    "zh-TW": "zh-TW",     // 繁体中文 (Traditional Chinese)
+    "ja": "ja",           // 日本語
+    "ko": "ko",           // 한국어
+    // Additional languages
+    "th": "th",           // ภาษาไทย
+    "vi": "vi",           // Tiếng Việt
+    "es": "es",           // Español
+    "pt": "pt",           // Português
+    "fr": "fr",           // Français
+    "de": "de",           // Deutsch
+    "it": "it",           // Italiano
+    "pl": "pl",           // Polski
+    "tr": "tr",           // Türkçe
+    "ar": "ar",           // العربية
+};
+
+/**
+ * Convert frontend language code to DramaBox API code
+ * Falls back to "id" if not mapped
+ */
+function toDramaBoxLang(lang: string): string {
+    return DRAMABOX_LANG_MAP[lang] || "id";
+}
+
 export const DramaBoxApi = {
     /**
      * Get home page content (banners, featured, columns)
      */
-    getHome: async (): Promise<Drama[]> => {
-        const data = await fetchApi<HomeResponse>("/api/dramabox/home");
+    getHome: async (lang: string = "id"): Promise<Drama[]> => {
+        const apiLang = toDramaBoxLang(lang);
+        const data = await fetchApi<HomeResponse>(`/api/dramabox/home?lang=${apiLang}`);
         if (!data?.data) return [];
         const dramas: Drama[] = [];
         if (data.data.bannerList) dramas.push(...data.data.bannerList);
@@ -93,10 +127,11 @@ export const DramaBoxApi = {
     },
 
     /**
-     * Get recommendations
+     * Get recommendations with language parameter
      */
-    getRecommend: async (): Promise<Drama[]> => {
-        const data = await fetchApi<{ success: boolean; data?: Drama[] }>("/api/dramabox/recommend");
+    getRecommend: async (lang: string = "id"): Promise<Drama[]> => {
+        const apiLang = toDramaBoxLang(lang);
+        const data = await fetchApi<{ success: boolean; data?: Drama[] }>(`/api/dramabox/recommend?lang=${apiLang}`);
         return data?.data || [];
     },
 

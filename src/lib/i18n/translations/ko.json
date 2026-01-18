@@ -1,0 +1,145 @@
+{
+    "common": {
+        "loading": "로딩 중...",
+        "error": "오류가 발생했습니다",
+        "retry": "다시 시도",
+        "cancel": "취소",
+        "save": "저장",
+        "back": "뒤로",
+        "next": "다음",
+        "previous": "이전",
+        "see_all": "모두 보기",
+        "more": "더보기",
+        "today": "오늘",
+        "yesterday": "어제",
+        "progress": "진행률"
+    },
+    "navbar": {
+        "search_placeholder": "드라마 검색...",
+        "vip": "VIP",
+        "for_you": "추천",
+        "home": "홈",
+        "explore": "탐색",
+        "me": "나"
+    },
+    "menu": {
+        "downloads": "내 다운로드",
+        "language": "언어",
+        "settings": "계정 및 설정",
+        "support": "도움말 및 피드백"
+    },
+    "home": {
+        "recommendations": "추천",
+        "continue_watching": "계속 시청",
+        "trending": "인기",
+        "new_releases": "신작",
+        "for_you": "추천",
+        "recent_history": "최근 시청"
+    },
+    "categories": {
+        "all": "전체",
+        "short_drama": "숏드라마",
+        "drama_china": "중국 드라마",
+        "drama_korea": "한국 드라마",
+        "drama_japan": "일본 드라마",
+        "drama_thailand": "태국 드라마",
+        "anime": "애니메이션"
+    },
+    "player": {
+        "episode": "에피소드",
+        "episodes": "에피소드",
+        "autoplay": "자동 재생",
+        "next_episode": "다음 에피소드",
+        "previous_episode": "이전 에피소드",
+        "continue_episode": "에피소드 계속",
+        "total_episodes": "Total",
+        "select_episode": "Select Episode",
+        "synopsis": "Synopsis",
+        "recommendations": "Recommendations",
+        "share": "Share",
+        "fullscreen": "Fullscreen",
+        "video_error": "Failed to play video",
+        "reload": "Reload",
+        "connection_error": "Connection error. Please try again.",
+        "no_description": "No description available.",
+        "added_to_collection": "Added to collection",
+        "quality": "Quality",
+        "playback_speed": "Playback Speed",
+        "cancel": "Cancel"
+    },
+    "user": {
+        "guest": "게스트",
+        "login": "로그인",
+        "logout": "로그아웃",
+        "profile": "프로필",
+        "my_profile": "내 프로필",
+        "history": "기록",
+        "collection": "컬렉션",
+        "likes": "좋아요",
+        "favorites": "즐겨찾기",
+        "recent_history": "최근 시청",
+        "watched": "시청함",
+        "watched_up_to": "시청한 에피소드",
+        "settings": "설정",
+        "no_history": "아직 시청 기록이 없습니다.",
+        "no_collection": "아직 컬렉션이 없습니다.",
+        "no_likes": "아직 좋아요가 없습니다."
+    },
+    "buttons": {
+        "settings": "설정",
+        "logout": "로그아웃",
+        "collection_add": "추가",
+        "collection_saved": "저장됨",
+        "like": "좋아요",
+        "liked": "좋아요 함"
+    },
+    "stats": {
+        "watched": "시청함",
+        "favorites": "즐겨찾기"
+    },
+    "settings": {
+        "language_title": "언어 선택",
+        "language_description": "웹사이트 표시 및 비디오 콘텐츠 언어 선택",
+        "current_language": "현재 언어"
+    },
+    "explore": {
+        "view_all": "모두 보기",
+        "no_content": "콘텐츠 없음",
+        "end_of_list": "목록 끝",
+        "video_collection": "Video Collection"
+    },
+    "sections": {
+        "trending": "Trending",
+        "recommend": "Recommendations",
+        "latest": "Latest",
+        "ranking": "Popular",
+        "vip": "VIP",
+        "foryou": "For You"
+    },
+    "support": {
+        "title": "도움말 및 피드백",
+        "need_help": "빠른 도움이 필요하신가요?",
+        "help_description": "동영상 재생 또는 기타 기술적 문제가 발생하면 지원팀이 도와드리겠습니다.",
+        "chat_telegram": "Telegram으로 채팅",
+        "faq_title": "자주 묻는 질문",
+        "faq_download_q": "동영상을 어떻게 다운로드하나요?",
+        "faq_download_a": "동영상 플레이어 아래에 있는 다운로드 버튼을 클릭하세요. 동영상은 내 다운로드 메뉴에 저장됩니다.",
+        "faq_playback_q": "동영상이 재생되지 않나요?",
+        "faq_playback_a": "페이지를 새로고침하거나 다른 브라우저를 사용해 보세요(Chrome/Safari 권장). 문제가 계속되면 문의하세요.",
+        "faq_free_q": "이 서비스는 무료인가요?",
+        "faq_free_a": "예, 대부분의 콘텐츠를 무료로 시청할 수 있습니다. 일부 프리미엄 콘텐츠는 VIP 액세스가 필요할 수 있습니다.",
+        "feedback_title": "피드백 보내기",
+        "feedback_description": "제안이나 문제 보고를 보내 서비스 품질 향상에 도움을 주세요.",
+        "subject": "제목",
+        "select_topic": "주제 선택",
+        "message": "메시지",
+        "message_placeholder": "문제 또는 제안 사항을 자세히 설명해 주세요...",
+        "submit": "피드백 보내기",
+        "sending": "전송 중...",
+        "sent": "전송됨!",
+        "topic_bug": "버그 신고",
+        "topic_feature": "기능 요청",
+        "topic_content": "콘텐츠 문제",
+        "topic_other": "기타"
+    }
+}

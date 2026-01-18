@@ -1,9 +1,9 @@
 import { MeloloApi } from "@/lib/api/melolo";
 import { HeroItem } from "./types";
 
-export async function getMeloloHero(limit: number = 2): Promise<HeroItem[]> {
+export async function getMeloloHero(limit: number = 2, lang: string = "id"): Promise<HeroItem[]> {
     try {
-        const data = await MeloloApi.getTrending();
+        const data = await MeloloApi.getTrending(lang);
 
         return data.slice(0, limit).map((item: any) => {
             const rawImage = item.thumb_url || item.cover || "";
@@ -28,3 +28,4 @@ export async function getMeloloHero(limit: number = 2): Promise<HeroItem[]> {
         return [];
     }
 }
+

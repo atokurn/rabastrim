@@ -22,7 +22,7 @@ export interface SectionConfig {
     layout?: "carousel" | "grid" | "ranking-list";    // Section layout
     imageType?: "portrait" | "landscape";           // Preferred image orientation
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    fetcher: () => Promise<any[]>;
+    fetcher: (lang?: string) => Promise<any[]>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     normalizer: (item: any) => ExploreItem;
 }
@@ -108,26 +108,26 @@ function normalizeDonghua(item: any): ExploreItem {
     };
 }
 
-// DramaBox sections
+// DramaBox sections - fetchers accept language parameter
 const DRAMABOX_SECTIONS: SectionConfig[] = [
-    { id: "trending", source: "dramabox", title: "Trending", icon: "🔥", variant: "portrait", layout: "carousel", fetcher: DramaBoxApi.getTrending, normalizer: normalizeDramaBox },
-    { id: "recommend", source: "dramabox", title: "Rekomendasi", icon: "🎯", variant: "portrait", layout: "grid", fetcher: DramaBoxApi.getRecommend, normalizer: normalizeDramaBox },
-    { id: "latest", source: "dramabox", title: "Terbaru", icon: "🆕", variant: "portrait", layout: "carousel", fetcher: DramaBoxApi.getLatest, normalizer: normalizeDramaBox },
-    { id: "ranking", source: "dramabox", title: "Populer", icon: "⭐", variant: "ranking", layout: "ranking-list", fetcher: DramaBoxApi.getRanking, normalizer: normalizeDramaBox },
+    { id: "trending", source: "dramabox", title: "Trending", icon: "🔥", variant: "portrait", layout: "carousel", fetcher: (lang) => DramaBoxApi.getHome(lang || "id"), normalizer: normalizeDramaBox },
+    { id: "recommend", source: "dramabox", title: "Rekomendasi", icon: "🎯", variant: "portrait", layout: "grid", fetcher: (lang) => DramaBoxApi.getRecommend(lang || "id"), normalizer: normalizeDramaBox },
+    { id: "latest", source: "dramabox", title: "Terbaru", icon: "🆕", variant: "portrait", layout: "carousel", fetcher: (lang) => DramaBoxApi.getHome(lang || "id"), normalizer: normalizeDramaBox },
+    { id: "ranking", source: "dramabox", title: "Populer", icon: "⭐", variant: "ranking", layout: "ranking-list", fetcher: (lang) => DramaBoxApi.getHome(lang || "id"), normalizer: normalizeDramaBox },
     { id: "vip", source: "dramabox", title: "VIP", icon: "👑", variant: "portrait", layout: "carousel", fetcher: DramaBoxApi.getVip, normalizer: normalizeDramaBox },
 ];
 
-// FlickReels sections
+// FlickReels sections - fetchers accept language parameter
 const FLICKREELS_SECTIONS: SectionConfig[] = [
-    { id: "foryou", source: "flickreels", title: "Untuk Kamu", icon: "💝", variant: "portrait", layout: "carousel", fetcher: FlickReelsApi.getForYou, normalizer: normalizeFlickReels },
-    { id: "ranking", source: "flickreels", title: "Ranking", icon: "📊", variant: "ranking", layout: "ranking-list", fetcher: FlickReelsApi.getRanking, normalizer: normalizeFlickReels },
-    { id: "recommend", source: "flickreels", title: "Rekomendasi", icon: "✨", variant: "portrait", layout: "grid", fetcher: FlickReelsApi.getRecommend, normalizer: normalizeFlickReels },
+    { id: "foryou", source: "flickreels", title: "Untuk Kamu", icon: "💝", variant: "portrait", layout: "carousel", fetcher: (lang) => FlickReelsApi.getForYou(lang), normalizer: normalizeFlickReels },
+    { id: "ranking", source: "flickreels", title: "Ranking", icon: "📊", variant: "ranking", layout: "ranking-list", fetcher: (lang) => FlickReelsApi.getRanking(lang), normalizer: normalizeFlickReels },
+    { id: "recommend", source: "flickreels", title: "Rekomendasi", icon: "✨", variant: "portrait", layout: "grid", fetcher: (lang) => FlickReelsApi.getRecommend(lang), normalizer: normalizeFlickReels },
 ];
 
-// Melolo sections
+// Melolo sections - fetchers accept language parameter
 const MELOLO_SECTIONS: SectionConfig[] = [
-    { id: "trending", source: "melolo", title: "Trending", icon: "🔥", variant: "ranking", fetcher: MeloloApi.getTrending, normalizer: normalizeMelolo },
-    { id: "latest", source: "melolo", title: "Terbaru", icon: "🆕", variant: "portrait", fetcher: MeloloApi.getLatest, normalizer: normalizeMelolo },
+    { id: "trending", source: "melolo", title: "Trending", icon: "🔥", variant: "ranking", fetcher: (lang) => MeloloApi.getTrending(lang), normalizer: normalizeMelolo },
+    { id: "latest", source: "melolo", title: "Terbaru", icon: "🆕", variant: "portrait", fetcher: (lang) => MeloloApi.getLatest(lang), normalizer: normalizeMelolo },
 ];
 
 // Normalize DramaWave item
@@ -153,10 +153,10 @@ const DRAMAWAVE_SECTIONS: SectionConfig[] = [
 
 // Drama Queen sections
 const DRAMAQUEEN_SECTIONS: SectionConfig[] = [
-    { id: "popular", source: "dramaqueen", title: "Drama Populer", icon: "⭐", variant: "portrait", layout: "carousel", fetcher: DramaQueenApi.getPopular, normalizer: normalizeDramaQueen },
+    { id: "popular", source: "dramaqueen", title: "Drama Populer", icon: "⭐", variant: "portrait", layout: "carousel", fetcher: () => DramaQueenApi.getPopular(), normalizer: normalizeDramaQueen },
     { id: "korea", source: "dramaqueen", title: "Drama Korea", icon: "🇰🇷", variant: "portrait", layout: "carousel", fetcher: () => DramaQueenApi.getKoreanDramas(20), normalizer: normalizeDramaQueen },
     { id: "china", source: "dramaqueen", title: "Drama China", icon: "🇨🇳", variant: "portrait", layout: "carousel", fetcher: () => DramaQueenApi.getChineseDramas(20), normalizer: normalizeDramaQueen },
-    { id: "latest", source: "dramaqueen", title: "Terbaru", icon: "🆕", variant: "portrait", layout: "carousel", fetcher: DramaQueenApi.getLatest, normalizer: normalizeDramaQueen },
+    { id: "latest", source: "dramaqueen", title: "Terbaru", icon: "🆕", variant: "portrait", layout: "carousel", fetcher: () => DramaQueenApi.getLatest(), normalizer: normalizeDramaQueen },
 ];
 
 // Anime sections (Donghua)

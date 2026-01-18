@@ -1,0 +1,145 @@
+{
+    "common": {
+        "loading": "載入中...",
+        "error": "發生錯誤",
+        "retry": "重試",
+        "cancel": "取消",
+        "save": "儲存",
+        "back": "返回",
+        "next": "下一個",
+        "previous": "上一個",
+        "see_all": "查看全部",
+        "more": "更多",
+        "today": "今天",
+        "yesterday": "昨天",
+        "progress": "進度"
+    },
+    "navbar": {
+        "search_placeholder": "搜尋劇集...",
+        "vip": "VIP",
+        "for_you": "為你推薦",
+        "home": "首頁",
+        "explore": "探索",
+        "me": "我"
+    },
+    "menu": {
+        "downloads": "我的下載",
+        "language": "語言",
+        "settings": "帳戶和設定",
+        "support": "幫助和反饋"
+    },
+    "home": {
+        "recommendations": "推薦",
+        "continue_watching": "繼續觀看",
+        "trending": "熱門",
+        "new_releases": "新上線",
+        "for_you": "為你推薦",
+        "recent_history": "最近觀看"
+    },
+    "categories": {
+        "all": "全部",
+        "short_drama": "短劇",
+        "drama_china": "中國劇",
+        "drama_korea": "韓劇",
+        "drama_japan": "日劇",
+        "drama_thailand": "泰劇",
+        "anime": "動漫"
+    },
+    "player": {
+        "episode": "第",
+        "episodes": "集",
+        "autoplay": "自動播放",
+        "next_episode": "下一集",
+        "previous_episode": "上一集",
+        "continue_episode": "繼續觀看第",
+        "total_episodes": "Total",
+        "select_episode": "Select Episode",
+        "synopsis": "Synopsis",
+        "recommendations": "Recommendations",
+        "share": "Share",
+        "fullscreen": "Fullscreen",
+        "video_error": "Failed to play video",
+        "reload": "Reload",
+        "connection_error": "Connection error. Please try again.",
+        "no_description": "No description available.",
+        "added_to_collection": "Added to collection",
+        "quality": "Quality",
+        "playback_speed": "Playback Speed",
+        "cancel": "Cancel"
+    },
+    "user": {
+        "guest": "訪客",
+        "login": "登入",
+        "logout": "登出",
+        "profile": "個人資料",
+        "my_profile": "我的資料",
+        "history": "歷史",
+        "collection": "收藏",
+        "likes": "喜歡",
+        "favorites": "收藏",
+        "recent_history": "最近觀看",
+        "watched": "已觀看",
+        "watched_up_to": "已看到第",
+        "settings": "設定",
+        "no_history": "還沒有觀看記錄。",
+        "no_collection": "還沒有收藏。",
+        "no_likes": "還沒有喜歡的內容。"
+    },
+    "buttons": {
+        "settings": "設定",
+        "logout": "登出",
+        "collection_add": "收藏",
+        "collection_saved": "已收藏",
+        "like": "喜歡",
+        "liked": "已喜歡"
+    },
+    "stats": {
+        "watched": "已看",
+        "favorites": "收藏"
+    },
+    "settings": {
+        "language_title": "選擇語言",
+        "language_description": "選擇網站顯示和影片內容的語言",
+        "current_language": "目前語言"
+    },
+    "explore": {
+        "view_all": "查看全部",
+        "no_content": "暫無內容",
+        "end_of_list": "已經到底了",
+        "video_collection": "Video Collection"
+    },
+    "sections": {
+        "trending": "Trending",
+        "recommend": "Recommendations",
+        "latest": "Latest",
+        "ranking": "Popular",
+        "vip": "VIP",
+        "foryou": "For You"
+    },
+    "support": {
+        "title": "幫助與回饋",
+        "need_help": "需要快速幫助？",
+        "help_description": "如果您在播放影片或其他技術問題時遇到困難，我們的支援團隊隨時為您提供幫助。",
+        "chat_telegram": "透過 Telegram 聊天",
+        "faq_title": "常見問題",
+        "faq_download_q": "如何下載影片？",
+        "faq_download_a": "點擊影片播放器下方的下載按鈕。影片將儲存在我的下載選單中。",
+        "faq_playback_q": "影片無法播放？",
+        "faq_playback_a": "嘗試重新整理頁面或使用其他瀏覽器（建議 Chrome/Safari）。如果問題仍然存在，請聯繫我們。",
+        "faq_free_q": "這項服務免費嗎？",
+        "faq_free_a": "是的，您可以免費觀看大部分內容。一些進階內容可能需要 VIP 存取權限。",
+        "feedback_title": "傳送回饋",
+        "feedback_description": "透過傳送建議或問題報告來幫助我們提高服務品質。",
+        "subject": "主題",
+        "select_topic": "選擇主題",
+        "message": "訊息",
+        "message_placeholder": "詳細描述問題或您的建議...",
+        "submit": "傳送回饋",
+        "sending": "傳送中...",
+        "sent": "已傳送！",
+        "topic_bug": "回報Bug",
+        "topic_feature": "功能建議",
+        "topic_content": "內容問題",
+        "topic_other": "其他"
+    }
+}

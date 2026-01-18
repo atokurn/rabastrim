@@ -1,0 +1,145 @@
+{
+    "common": {
+        "loading": "กำลังโหลด...",
+        "error": "เกิดข้อผิดพลาด",
+        "retry": "ลองอีกครั้ง",
+        "cancel": "ยกเลิก",
+        "save": "บันทึก",
+        "back": "ย้อนกลับ",
+        "next": "ถัดไป",
+        "previous": "ก่อนหน้า",
+        "see_all": "ดูทั้งหมด",
+        "more": "เพิ่มเติม",
+        "today": "วันนี้",
+        "yesterday": "เมื่อวาน",
+        "progress": "ความคืบหน้า"
+    },
+    "navbar": {
+        "search_placeholder": "ค้นหาละคร...",
+        "vip": "VIP",
+        "for_you": "สำหรับคุณ",
+        "home": "หน้าแรก",
+        "explore": "สำรวจ",
+        "me": "ฉัน"
+    },
+    "menu": {
+        "downloads": "ดาวน์โหลดของฉัน",
+        "language": "ภาษา",
+        "settings": "บัญชีและการตั้งค่า",
+        "support": "ช่วยเหลือและข้อเสนอแนะ"
+    },
+    "home": {
+        "recommendations": "แนะนำ",
+        "continue_watching": "ดูต่อ",
+        "trending": "กำลังนิยม",
+        "new_releases": "ใหม่ล่าสุด",
+        "for_you": "สำหรับคุณ",
+        "recent_history": "ดูล่าสุด"
+    },
+    "categories": {
+        "all": "ทั้งหมด",
+        "short_drama": "ละครสั้น",
+        "drama_china": "ละครจีน",
+        "drama_korea": "ละครเกาหลี",
+        "drama_japan": "ละครญี่ปุ่น",
+        "drama_thailand": "ละครไทย",
+        "anime": "อนิเมะ"
+    },
+    "player": {
+        "episode": "ตอน",
+        "episodes": "ตอน",
+        "autoplay": "เล่นอัตโนมัติ",
+        "next_episode": "ตอนถัดไป",
+        "previous_episode": "ตอนก่อนหน้า",
+        "continue_episode": "ดูต่อตอนที่",
+        "total_episodes": "Total",
+        "select_episode": "Select Episode",
+        "synopsis": "Synopsis",
+        "recommendations": "Recommendations",
+        "share": "Share",
+        "fullscreen": "Fullscreen",
+        "video_error": "Failed to play video",
+        "reload": "Reload",
+        "connection_error": "Connection error. Please try again.",
+        "no_description": "No description available.",
+        "added_to_collection": "Added to collection",
+        "quality": "Quality",
+        "playback_speed": "Playback Speed",
+        "cancel": "Cancel"
+    },
+    "user": {
+        "guest": "ผู้เยี่ยมชม",
+        "login": "เข้าสู่ระบบ",
+        "logout": "ออกจากระบบ",
+        "profile": "โปรไฟล์",
+        "my_profile": "โปรไฟล์ของฉัน",
+        "history": "ประวัติ",
+        "collection": "คอลเลกชัน",
+        "likes": "ถูกใจ",
+        "favorites": "รายการโปรด",
+        "recent_history": "ดูล่าสุด",
+        "watched": "ดูแล้ว",
+        "watched_up_to": "ดูถึงตอน",
+        "settings": "ตั้งค่า",
+        "no_history": "ยังไม่มีประวัติการดู",
+        "no_collection": "ยังไม่มีคอลเลกชัน",
+        "no_likes": "ยังไม่มีรายการที่ถูกใจ"
+    },
+    "buttons": {
+        "settings": "ตั้งค่า",
+        "logout": "ออกจากระบบ",
+        "collection_add": "เพิ่ม",
+        "collection_saved": "บันทึกแล้ว",
+        "like": "ถูกใจ",
+        "liked": "ถูกใจแล้ว"
+    },
+    "stats": {
+        "watched": "ดูแล้ว",
+        "favorites": "รายการโปรด"
+    },
+    "settings": {
+        "language_title": "เลือกภาษา",
+        "language_description": "เลือกภาษาสำหรับการแสดงเว็บไซต์และเนื้อหาวิดีโอ",
+        "current_language": "ภาษาปัจจุบัน"
+    },
+    "explore": {
+        "view_all": "ดูทั้งหมด",
+        "no_content": "ไม่มีเนื้อหา",
+        "end_of_list": "สิ้นสุดรายการ",
+        "video_collection": "คลังวิดีโอ"
+    },
+    "sections": {
+        "trending": "กำลังนิยม",
+        "recommend": "แนะนำ",
+        "latest": "ใหม่ล่าสุด",
+        "ranking": "ยอดนิยม",
+        "vip": "VIP",
+        "foryou": "สำหรับคุณ"
+    },
+    "support": {
+        "title": "ความช่วยเหลือและคำแนะนำ",
+        "need_help": "ต้องการความช่วยเหลือด่วน?",
+        "help_description": "หากคุณประสบปัญหาในการเล่นวิดีโอหรือปัญหาทางเทคนิคอื่นๆ ทีมสนับสนุนของเราพร้อมช่วยเหลือคุณ",
+        "chat_telegram": "แชทผ่าน Telegram",
+        "faq_title": "คำถามที่พบบ่อย",
+        "faq_download_q": "ดาวน์โหลดวิดีโออย่างไร?",
+        "faq_download_a": "คลิกปุ่มดาวน์โหลดด้านล่างเครื่องเล่นวิดีโอ วิดีโอจะถูกบันทึกในเมนู 'ดาวน์โหลดของฉัน'",
+        "faq_playback_q": "วิดีโอเล่นไม่ได้?",
+        "faq_playback_a": "ลองรีเฟรชหน้าเว็บหรือใช้เบราว์เซอร์อื่น (แนะนำ Chrome/Safari) หากยังมีปัญหา โปรดติดต่อเรา",
+        "faq_free_q": "บริการนี้ฟรีหรือไม่?",
+        "faq_free_a": "ใช่ คุณสามารถรับชมเนื้อหาส่วนใหญ่ได้ฟรี เนื้อหาพรีเมียมบางส่วนอาจต้องใช้สิทธิ์ VIP",
+        "feedback_title": "ส่งข้อเสนอแนะ",
+        "feedback_description": "ช่วยเราปรับปรุงคุณภาพบริการด้วยการส่งข้อเสนอแนะหรือรายงานปัญหา",
+        "subject": "หัวข้อ",
+        "select_topic": "เลือกหัวข้อ",
+        "message": "ข้อความ",
+        "message_placeholder": "อธิบายรายละเอียดปัญหาหรือข้อเสนอแนะของคุณ...",
+        "submit": "ส่งข้อเสนอแนะ",
+        "sending": "กำลังส่ง...",
+        "sent": "ส่งแล้ว!",
+        "topic_bug": "รายงานบัก",
+        "topic_feature": "เสนอฟีเจอร์",
+        "topic_content": "ปัญหาเนื้อหา",
+        "topic_other": "อื่นๆ"
+    }
+}

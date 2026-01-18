@@ -7,9 +7,11 @@ import { cn } from "@/lib/utils";
 import { useState, useEffect, Suspense, useRef } from "react";
 import { HistoryPopup } from "./HistoryPopup";
 import { ProfilePopup } from "./ProfilePopup";
+import { LanguagePopup } from "./LanguagePopup";
 import { AuthDialog } from "@/components/user/AuthDialog";
 import { useUserStore } from "@/lib/auth/store";
 import { ResponsiveNav } from "./ResponsiveNav";
+import { useTranslation } from "@/lib/i18n";
 
 function NavbarContent() {
     const pathname = usePathname();
@@ -17,6 +19,7 @@ function NavbarContent() {
     const source = searchParams.get("source");
     const [scrolled, setScrolled] = useState(false);
     const { login } = useUserStore();
+    const { t } = useTranslation();
 
     // History Popup State
     const [isHistoryOpen, setIsHistoryOpen] = useState(false);
@@ -50,6 +53,23 @@ function NavbarContent() {
     const handleProfileLeave = () => {
         profileTimeoutRef.current = setTimeout(() => {
             setIsProfileOpen(false);
+        }, 300);
+    };
+
+    // Language Popup State
+    const [isLanguageOpen, setIsLanguageOpen] = useState(false);
+    const languageTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+    const handleLanguageEnter = () => {
+        if (languageTimeoutRef.current) {
+            clearTimeout(languageTimeoutRef.current);
+        }
+        setIsLanguageOpen(true);
+    };
+
+    const handleLanguageLeave = () => {
+        languageTimeoutRef.current = setTimeout(() => {
+            setIsLanguageOpen(false);
         }, 300);
     };
 
@@ -109,7 +129,7 @@ function NavbarContent() {
                             href="/search"
                             className="hidden md:flex items-center bg-[#1f2126] rounded-full px-3 py-1.5 w-64 border border-transparent hover:border-gray-600 cursor-pointer"
                         >
-                            <span className="text-sm text-gray-500 w-full">Cari drama...</span>
+                            <span className="text-sm text-gray-500 w-full">{t("navbar.search_placeholder")}</span>
                             <Search className="w-4 h-4 text-gray-400" />
                         </Link>
                     )}
@@ -136,9 +156,23 @@ function NavbarContent() {
                                 onMouseLeave={handleHistoryLeave}
                             />
                         </div>
-                        <button className="hover:text-white">
-                            <Globe className="w-5 h-5" />
-                        </button>
+                        <div
+                            className="relative"
+                            onMouseEnter={handleLanguageEnter}
+                            onMouseLeave={handleLanguageLeave}
+                        >
+                            <button className={cn(
+                                "hover:text-white transition-colors flex items-center justify-center p-1 rounded-full",
+                                isLanguageOpen ? "text-white bg-gray-800" : ""
+                            )}>
+                                <Globe className="w-5 h-5" />
+                            </button>
+                            <LanguagePopup
+                                isVisible={isLanguageOpen}
+                                onMouseEnter={handleLanguageEnter}
+                                onMouseLeave={handleLanguageLeave}
+                            />
+                        </div>
                         <div
                             className="relative"
                             onMouseEnter={handleProfileEnter}

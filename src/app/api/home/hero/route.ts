@@ -1,11 +1,14 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { HeroService } from "@/lib/services/hero";
 
 export const revalidate = 600; // Cache for 10 minutes
 
-export async function GET() {
+export async function GET(request: NextRequest) {
     try {
-        const heroItems = await HeroService.getHeroContent();
+        const searchParams = request.nextUrl.searchParams;
+        const lang = searchParams.get("lang") || "id";
+
+        const heroItems = await HeroService.getHeroContent(lang);
 
         return NextResponse.json({
             success: true,
@@ -19,3 +22,4 @@ export async function GET() {
         );
     }
 }
+
